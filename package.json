@@ -10,6 +10,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "baseline:text": "node scripts/extract-text.mjs site > baseline/content.json",
+    "baseline:shots": "node scripts/shoot.mjs http://localhost:8765/site/ baseline/screens/old index.html tentang.html berita.html berita-detail.html event-detail.html donasi.html merch.html checkout.html program-forest.html program-urban.html program-ocean.html",
     "serve:old": "node tools/serve.mjs 8765"
   },
   "dependencies": {
@@ -22,6 +23,8 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.18",

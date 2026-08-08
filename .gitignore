@@ -19,6 +19,12 @@ playwright-report/
 blob-report/
 .playwright/
 
+# Visual baseline: 33 MB of full-page PNGs, regenerable from site/ with
+#   npm run baseline:shots
+# for as long as the old site is still there. Capture them once more and
+# archive them OUTSIDE the repo before site/ is deleted at cutover.
+baseline/screens/
+
 # env
 .env
 .env*.local
