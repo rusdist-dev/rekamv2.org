@@ -1,0 +1,154 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   REKAM Nusantara — design tokens
+   ==========================================================================
+
+   Ported from rekam.css:6-36, whose values were sampled directly off the
+   exported Canva artwork. The hexes are copied verbatim; nothing here is a
+   Tailwind default. Getting this file right is the whole reason it is written
+   before any component — a generic palette would make the rest of the work
+   look like every other Tailwind site.
+
+   Three things were rationalised on the way across (the "boleh dirapikan"
+   part of the brief), all of them additive rather than a change of look:
+
+   1. Type scale. The source had 51 font-size clamp() calls across 38 distinct
+      values, several within 0.05rem of each other — clamp(1rem,1.5vw,1.15rem),
+      (…,1.125rem), (1.02rem,…,1.12rem), (…,1.1rem) and (…,1.08rem) are five
+      spellings of one size. They collapse into 17 named steps below.
+   2. Colour. 81 distinct rgba() values turned out to be two base colours at
+      varying alpha, so they become --color-green-ink and --color-night, used
+      with Tailwind's /opacity modifier.
+   3. Breakpoints. The source used bare 560/640/720/1000px literals; they are
+      named here. The values are unchanged, so layout is unaffected.
+   ========================================================================== */
+
+@theme {
+  /* ---- Colour: the sixteen sampled tokens, verbatim ---- */
+  --color-green-900: #2c7a56; /* brand green: headings, footer, card bars */
+  --color-green-700: #006838; /* filled buttons */
+  --color-green-500: #5cb885;
+  --color-paper: #f5f4f4; /* default page background */
+  --color-cream: #f4f2eb; /* quote section */
+  --color-band: #f4f3ef; /* priorities band */
+  --color-mauve: #efebed; /* gallery rail */
+  --color-sage: #b7ccc7; /* form panel */
+  --color-sage-deep: #a3bdb6; /* option rows inside the form */
+  --color-blue: #6f8abe;
+  --color-rust: #aa5109;
+  --color-olive: #a3b18a;
+  --color-yellow: #fec901; /* card arrows */
+  --color-white: #ffffff;
+  --color-ink: #1d2a22;
+  --color-ink-soft: #4a5a50;
+
+  /* ---- Colour: values that leaked past the token set in the source ----
+     Named here so they stop being magic numbers. */
+  --color-green-ink: #0e5436; /* the rgba(14,84,54,a) borders and shadows */
+  --color-night: #08140e; /* the rgba(8,20,14,a) scrims */
+  --color-green-800: #00522c; /* .btn--green:hover, rekam.css:158 */
+  --color-blue-deep: #5f77a3;
+  --color-rust-deep: #7a3a06;
+  --color-olive-deep: #707a5f;
+  --color-yellow-light: #ffd733;
+  --color-bronze: #241d00;
+  --color-bronze-soft: #4a3a06;
+  --color-forest-black: #0b1712;
+  --color-forest-black-deep: #0a1410;
+
+  /* ---- Type families ---- Playfair sets display copy; DM Sans stands in for
+     the document's proprietary Canva Sans; Raleway sets letterspaced labels.
+     Values come from next/font in layout.tsx, so the files are self-hosted and
+     the two Google Fonts preconnects on all 11 pages go away. */
+  --font-display: var(--font-playfair), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-label: var(--font-raleway), var(--font-dm-sans), sans-serif;
+
+  /* ---- Type scale ---- 17 steps replacing 38 ad-hoc values.
+     Each notes which source rule it came from. */
+  --text-2xs: clamp(0.72rem, 1vw, 0.8rem); /* eyebrows, meta lines */
+  --text-xs: clamp(0.82rem, 1.2vw, 0.98rem); /* .numcard__label, .stat__label */
+  --text-sm: clamp(0.96rem, 1.4vw, 1.05rem); /* .sthink__panel p */
+  --text-base: 17px; /* body, rekam.css:51 */
+  --text-lede: clamp(1rem, 1.5vw, 1.15rem); /* absorbs 5 near-identical values */
+  --text-lede-lg: clamp(1.05rem, 1.8vw, 1.3rem); /* .card__body, .page-hero__lede */
+  --text-title-sm: clamp(1.15rem, 1.8vw, 1.4rem); /* .post__title */
+  --text-title: clamp(1.4rem, 3vw, 1.9rem); /* .sv__title */
+  --text-title-lg: clamp(1.5rem, 3.5vw, 2.1rem); /* .bio__name */
+  --text-quote: clamp(1.6rem, 3.2vw, 2.9rem); /* .quote__text, .lead-post__title */
+  --text-stat: clamp(1.9rem, 3.4vw, 2.7rem); /* .bn__value */
+  --text-display: clamp(1.9rem, 4vw, 3rem); /* THE section title — 10 uses */
+  --text-display-lg: clamp(2.1rem, 5vw, 3.5rem); /* .article__title, .shop__title */
+  --text-stat-lg: clamp(2.2rem, 5vw, 3.75rem); /* .stat__value */
+  --text-hero-sm: clamp(2.5rem, 6vw, 4.5rem); /* .display */
+  --text-hero: clamp(2.6rem, 7vw, 5rem); /* .page-hero__title */
+  --text-hero-lg: clamp(2.6rem, 7.5vw, 5.5rem); /* .hero__title */
+
+  /* ---- Layout ---- */
+  --container-wrap: 1180px; /* --wrap */
+  --spacing-gutter: clamp(1.25rem, 4vw, 3.5rem); /* --gutter */
+
+  /* ---- Breakpoints ---- the source's bare literals, named. Values unchanged
+     so nothing reflows; note these are max-width breaks in the original, used
+     here as Tailwind's min-width steps. */
+  --breakpoint-xs: 560px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 720px;
+  --breakpoint-lg: 1000px;
+}
+
+/* ==========================================================================
+   Base — the only global element rules, mirroring rekam.css:38-105
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  /* :where() keeps this at zero specificity so any component can override the
+     ring without an !important — same reasoning as rekam.css:101. */
+  :where(a, button, input, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-green-700);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* The source honoured this in four CSS blocks and again in cursor.js:16.
+     Kept global so no component has to remember it. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
