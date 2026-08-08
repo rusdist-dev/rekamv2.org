@@ -1,0 +1,261 @@
+/* ==========================================================================
+   NAV VARIANT — floating card
+   Pinned to the top-left corner rather than spanning the page: logo + toggle,
+   inline search, grouped links revealed on expand, and a standing CTA at the
+   foot of the card. On hero pages the card is invisible and only the centred
+   mark shows until the hero scrolls past.
+
+   Swap variants with:  node tools/switch-nav.mjs card|bar
+   ========================================================================== */
+
+:root {
+  --nav-w: 300px;
+  --nav-inset: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Navigation — a floating card pinned to the top-left corner rather than a
+   full-width bar: logo + toggle, inline search, grouped links revealed on
+   expand, and a standing call to action at the foot of the card.
+   -------------------------------------------------------------------------- */
+
+.sidenav {
+  position: fixed;
+  top: var(--nav-inset);
+  left: var(--nav-inset);
+  z-index: 100;
+  width: var(--nav-w);
+  max-width: 100%;
+}
+
+/* White rather than the page cream: every content section on this site is an
+   off-white within a few points of it, and the card has to stay legible as it
+   floats over them. */
+/* Reveal-on-scroll (home page): while the hero fills the screen the card
+   itself is invisible and only the logo sits over the artwork. Everything
+   fades in once the hero has scrolled past. */
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__card {
+  background: transparent;
+  box-shadow: none;
+  pointer-events: none;
+}
+.sidenav[data-reveal]:not(.is-revealed) .brand { pointer-events: auto; color: var(--white); }
+
+/* With the card invisible the mark is free to sit centred at the top of the
+   hero, the way the source document places it. It returns to the corner as
+   soon as the card reveals — by which point the hero has scrolled away. */
+.sidenav[data-reveal]:not(.is-revealed) {
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__card {
+  align-items: center;
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__top { justify-content: center; }
+
+/* Only visible while the hero is actually at rest at the top. */
+.sidenav[data-reveal] .brand { transition: opacity 0.3s ease; }
+.sidenav[data-reveal]:not(.is-revealed).is-scrolled .brand {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Nothing to clear on these pages either, so the headline centres on the
+   page proper instead of in the space beside the card. */
+.sidenav[data-reveal] ~ main .hero__inner { padding-left: var(--gutter); }
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__toggle,
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__search,
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__panel,
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__cta { display: none; }
+
+.sidenav[data-reveal] .sidenav__card {
+  transition: background-color 0.35s ease, box-shadow 0.35s ease;
+}
+.sidenav[data-reveal].is-revealed .sidenav__toggle,
+.sidenav[data-reveal].is-revealed .sidenav__search,
+.sidenav[data-reveal].is-revealed .sidenav__cta {
+  animation: nav-in 0.35s ease both;
+}
+@keyframes nav-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.sidenav__card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  padding: 1.4rem 1.75rem 1.75rem;
+  box-shadow: 0 16px 40px rgba(9, 40, 26, 0.16);
+  max-height: calc(100svh - var(--nav-inset) * 2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+
+
+/* Two bars that cross into an X when the panel opens */
+.sidenav__toggle {
+  flex: none;
+  width: 40px; height: 40px;
+  margin-right: -8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--green-900);
+  cursor: pointer;
+}
+.sidenav__toggle span {
+  display: block;
+  width: 22px; height: 2px;
+  margin: 5px auto;
+  background: currentColor;
+  transition: transform 0.25s ease;
+}
+.sidenav__toggle[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+.sidenav__toggle[aria-expanded="true"] span:last-child  { transform: translateY(-3.5px) rotate(-45deg); }
+
+.sidenav__search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(14, 84, 54, 0.45);
+}
+.sidenav__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.98rem;
+  color: var(--green-900);
+}
+.sidenav__search input::placeholder { color: rgba(14, 84, 54, 0.55); }
+.sidenav__search input:focus { outline: none; }
+.sidenav__search:focus-within { border-bottom-color: var(--green-900); }
+.sidenav__search button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px; height: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--green-900);
+  cursor: pointer;
+}
+.sidenav__search svg { width: 17px; height: 17px; }
+
+.sidenav__panel { padding-block: 1.5rem 0.25rem; }
+.sidenav__panel[hidden] { display: none; }
+
+.sidenav__group {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(14, 84, 54, 0.6);
+}
+.sidenav__group + ul { margin: 0 0 1.6rem; padding: 0; list-style: none; }
+.sidenav__panel li + li { margin-top: 0.15rem; }
+.sidenav__panel a {
+  display: block;
+  padding: 0.28rem 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  text-decoration: none;
+  color: var(--ink-soft);
+  transition: color 0.18s ease;
+}
+.sidenav__panel a:hover { color: var(--green-900); }
+.sidenav__panel a[aria-current="page"] {
+  color: var(--green-900);
+  font-weight: 700;
+}
+
+/* Squared and chunky, the way the reference treats its standing CTA —
+   deliberately distinct from the pill buttons used in page content. */
+.sidenav__cta {
+  margin-top: 1.5rem;
+  padding: 0.95rem 1rem;
+  border-radius: 4px;
+  background: var(--green-700);
+  color: var(--cream);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+.sidenav__cta:hover { background: #00522c; }
+
+/* --------------------------------------------------------------------------
+   Narrow screens — the card becomes a full-width strip across the top
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  :root { --nav-w: 100%; --nav-inset: 0px; }
+  .sidenav__card { padding: 1rem var(--gutter) 1.25rem; }
+  .brand__mark { width: 118px; }
+
+  /* Collapsed, the card is just the logo and the toggle. */
+  .sidenav__search, .sidenav__cta { display: none; }
+  .sidenav__card.is-open .sidenav__search { display: flex; }
+  .sidenav__card.is-open .sidenav__cta { display: block; }
+  .sidenav__card.is-open { padding-bottom: 1.75rem; }
+  .sidenav__panel { padding-top: 1.25rem; }
+  .hero__inner { padding-top: 7rem; }
+  .page-hero { padding-top: 8rem; }
+}
+
+/* --------------------------------------------------------------------------
+   Content offsets this variant requires
+   The card floats over the page, so hero copy and the article header have to
+   step around it rather than sit underneath.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 721px) {
+  .hero__inner { padding-left: calc(var(--nav-w) + 2rem); }
+  .page-hero__inner { padding-left: calc(var(--nav-w) + 1rem); }
+  /* berita-detail has no hero: indent the crumbs, date and title instead. */
+  .article__head .wrap { padding-left: calc(var(--nav-w) + 1.5rem); }
+}
+
+/* Centre the hero copy again where the card is invisible. */
+.sidenav[data-reveal] ~ main .hero__inner { padding-left: var(--gutter); }
+
+@media (max-width: 720px) {
+  .hero__inner { padding-top: 7rem; }
+  .page-hero { padding-top: 8rem; }
+  /* Nothing to shift right past here — the card is a full-width bar, so the
+     header takes vertical clearance instead. */
+  .article__head { padding-top: 7rem; }
+}
+
+/* --------------------------------------------------------------------------
+   Programme shortcuts in the hero state
+   -------------------------------------------------------------------------- */
+
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__card {
+  flex-direction: column;
+  align-items: center;
+}
+.sidenav[data-reveal]:not(.is-revealed) .hero-nav {
+  display: flex;
+  pointer-events: auto;
+}
+/* Goes with the mark: both share the hero's centre line, so both step aside
+   as soon as the headline starts moving past. */
+.sidenav[data-reveal] .hero-nav { transition: opacity 0.3s ease; }
+.sidenav[data-reveal]:not(.is-revealed).is-scrolled .hero-nav {
+  opacity: 0;
+  pointer-events: none;
+}

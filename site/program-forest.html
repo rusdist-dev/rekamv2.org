@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Program Forest — REKAM Nusantara Foundation</title>
+<meta name="description" content="Pemantauan tutupan hutan, riset rangkong, dan patroli bersama masyarakat adat di seluruh Indonesia.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;500;600&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rekam.css">
+<link rel="stylesheet" href="nav-station.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.169.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#utama">Lewati ke konten utama</a>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="i-arrow" viewBox="0 0 32 32">
+    <path d="M5 5 L26 26 M26 11 L26 26 L11 26"
+          fill="none" stroke="currentColor" stroke-width="4"
+          stroke-linecap="square" stroke-linejoin="miter"/>
+  </symbol>
+
+  <!-- Statistic icons. Stroke and fill come from CSS on .bn__icon. -->
+  <symbol id="i-binocs" viewBox="0 0 24 24"><rect x="3.5" y="8" width="6" height="11" rx="3"/><rect x="14.5" y="8" width="6" height="11" rx="3"/><path d="M9.5 12.5h5"/><path d="M6.5 8V6.2a1.5 1.5 0 0 1 3 0V8M14.5 8V6.2a1.5 1.5 0 0 1 3 0V8"/></symbol>
+  <symbol id="i-bird" viewBox="0 0 24 24"><path d="M2 13c1.6-3 3.4-4.5 5.4-4.5 2 0 3.6 1.5 4.6 4.5"/><path d="M12 13c1-3 2.6-4.5 4.6-4.5 2 0 3.8 1.5 5.4 4.5"/></symbol>
+  <symbol id="i-board" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="11.5" rx="1.6"/><path d="M12 15.5V20"/><path d="M8.5 20h7"/><path d="M7.5 12l2.5-3 2.5 2.2 3-3.7"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h11a2 2 0 0 1 2 2v13H7a2 2 0 0 0-2 2V4Z"/><path d="M5 19a2 2 0 0 1 2-2h11"/></symbol>
+  <symbol id="i-helmet" viewBox="0 0 24 24"><path d="M3.5 17.5h17"/><path d="M5.5 17.5v-2.2a6.5 6.5 0 0 1 13 0v2.2"/><path d="M10.2 4.9a6.6 6.6 0 0 0-1.4 6"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6.2v14L9 18l6 2.2 6-2.2v-14L15 6.2 9 4Z"/><path d="M9 4v14M15 6.2v14"/></symbol>
+  <symbol id="i-nest" viewBox="0 0 24 24"><path d="M3.5 14.8c0 3.5 3.8 5.4 8.5 5.4s8.5-1.9 8.5-5.4c0-1.6-2-2.4-4-2.4H7.5c-2 0-4 .8-4 2.4Z"/><circle cx="9.6" cy="11" r="2"/><circle cx="14.4" cy="11" r="2"/></symbol>
+  <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="6.8" cy="10.2" r="2"/><circle cx="12" cy="7.6" r="2"/><circle cx="17.2" cy="10.2" r="2"/><path d="M12 12.6c3 0 5 1.9 5 4.1s-2.2 3-5 3-5-.8-5-3 2-4.1 5-4.1Z"/></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.2 6-5.2s6 1.9 6 5.2"/><path d="M16 5.6a3.2 3.2 0 0 1 0 6.4"/><path d="M17.5 14.4c2.2.6 3.5 2.2 3.5 4.6"/></symbol>
+  <symbol id="i-post" viewBox="0 0 24 24"><path d="M12 21V5"/><path d="M12 5h8l-2 3 2 3h-8"/><path d="M8.5 21h7"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><path d="M5 19c3.5 0 3.5-6 7-6s3.5-6 8-6" stroke-dasharray="3 2.6"/><circle cx="4.2" cy="19" r="1.6"/><circle cx="20" cy="7" r="1.6"/></symbol>
+  <symbol id="i-station" viewBox="0 0 24 24"><path d="M12 21v-7"/><circle cx="12" cy="11" r="2.2"/><path d="M7.8 6.8a6 6 0 0 0 0 8.4M16.2 6.8a6 6 0 0 1 0 8.4"/><path d="M9 21h6"/></symbol>
+  <symbol id="i-tree" viewBox="0 0 24 24"><circle cx="12" cy="9.2" r="5.6"/><path d="M12 14.8V21"/><path d="M9 21h6"/></symbol>
+</svg>
+
+<header class="sidenav" id="site-header" data-reveal="#hero">
+  <div class="sidenav__card">
+    <div class="sidenav__top">
+      <a class="brand" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <button class="sidenav__toggle" id="nav-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Buka menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <nav class="hero-nav" aria-label="Program utama">
+      <a href="program-forest.html" aria-current="page">Forest</a>
+      <a href="program-urban.html">Urban</a>
+      <a href="program-ocean.html">Ocean</a>
+    </nav>
+
+    <form class="sidenav__search" role="search" id="nav-search">
+      <label class="u-visually-hidden" for="nav-q">Cari di situs REKAM</label>
+      <input id="nav-q" name="q" type="search" placeholder="Cari" autocomplete="off">
+      <button type="submit" aria-label="Cari">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+          <path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <div class="sidenav__lang" role="group" aria-label="Pilih bahasa">
+      <span class="sidenav__lang-current" aria-current="true">ID</span>
+      <a class="sidenav__lang-alt" href="#" data-lang="en" lang="en">EN</a>
+    </div>
+
+    <nav class="sidenav__panel" id="nav-panel" aria-label="Navigasi utama" hidden>
+      <p class="sidenav__group">Program</p>
+      <ul>
+        <li><a href="program-forest.html" aria-current="page">Forest</a></li>
+        <li><a href="program-urban.html">Urban</a></li>
+        <li><a href="program-ocean.html">Ocean</a></li>
+      </ul>
+
+      <p class="sidenav__group">Jelajahi</p>
+      <ul>
+        <li><a href="tentang.html">Tentang</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li class="sidenav__has-sub">
+          <a href="event-detail.html">Event</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-event" aria-label="Buka submenu Event"></button>
+          <ul class="sidenav__sub" id="sub-event">
+            <li><a href="event-detail.html">Cerita Laut Nusantara</a></li>
+            <li><a href="event-detail.html">Bangga Papua</a></li>
+          </ul>
+        </li>
+        <li class="sidenav__has-sub">
+          <a href="donasi.html">Donasi</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-donasi" aria-label="Buka submenu Donasi"></button>
+          <ul class="sidenav__sub" id="sub-donasi">
+            <li><a href="donasi.html#adopsi">Adopsi Pohon Pakan</a></li>
+            <li><a href="merch.html">Fundraising Product</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+
+  </div>
+</header>
+
+<main id="utama">
+
+<section class="hero hero--program" id="hero">
+  <div class="hero__stage" id="stage" data-scene="forest" aria-hidden="true"></div>
+
+  <video id="pano-video" class="u-visually-hidden"
+         loop muted playsinline preload="none" crossorigin="anonymous" disablepictureinpicture>
+    <source src="assets/pano-forest.mp4" type="video/mp4">
+    <source src="assets/pano-forest.webm" type="video/webm">
+  </video>
+
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <p class="eyebrow eyebrow--light">Program Forest</p>
+    <h1 class="hero__title">What is still standing,<br>and what still has no name.</h1>
+    <p class="hero__lede" hidden>Pemantauan tutupan hutan dan patroli bersama masyarakat adat, dari Leuser hingga Kapuas Hulu.</p>
+    <a class="scroll-cue" href="#ikhtisar" aria-label="Gulir ke bawah">
+      <span class="scroll-cue__line" aria-hidden="true"></span>
+      <span class="scroll-cue__dot" aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="hero__hud">
+    <p class="hero__hint" id="hint">
+      <span class="hero__hint-dot" aria-hidden="true"></span>
+      Seret untuk melihat sekeliling
+    </p>
+    <div class="hero__controls">
+      <button class="ctrl" id="btn-play" type="button" aria-pressed="true" aria-label="Jeda">
+        <span class="ctrl__icon" data-icon="pause" aria-hidden="true"></span>
+        <span class="ctrl__label">Jeda</span>
+      </button>
+      <button class="ctrl" id="btn-sound" type="button" aria-pressed="false" aria-label="Nyalakan suara">
+        <span class="ctrl__icon" data-icon="muted" aria-hidden="true"></span>
+        <span class="ctrl__label">Suara</span>
+      </button>
+      <button class="ctrl" id="btn-recenter" type="button" aria-label="Kembalikan sudut pandang">
+        <span class="ctrl__icon" data-icon="recenter" aria-hidden="true"></span>
+        <span class="ctrl__label">Pusatkan</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hero__loader" id="loader">
+    <div class="hero__spinner" aria-hidden="true"></div>
+    <p class="hero__loader-text" id="loader-text">Menyiapkan panorama…</p>
+  </div>
+</section>
+
+<section class="overview" id="ikhtisar">
+  <div class="wrap overview__grid">
+    <div>
+      <p class="eyebrow">Overview</p>
+      <p>Indonesia holds some of the largest tropical forests left on earth, and no complete account of what lives in them.</p>
+      <p>A few species carry the attention: the tiger, the orangutan, the rafflesia. Behind them are thousands that keep the forest running and have never been studied, many of them named by the people living alongside them long before any scientist arrived. The pressure does not wait for the science. Forest is cleared for what it returns this season, and what goes with it was never written down.</p>
+      <p>Forest works on both gaps at once. We survey the species nobody has funded, train young researchers to keep surveying after us, and build the records with the communities whose knowledge of these forests is older than ours. Camera traps, acoustic monitoring, and field survey, run by people who will still be here in twenty years.</p>
+      <p>A forest that is documented can be argued for. One that is not simply disappears quietly, and the argument is over before it starts.</p>
+    </div>
+    <img class="overview__art" src="assets/card-forest.jpg" alt="Ilustrasi ukir lembah hutan dengan sungai berkelok" loading="lazy" decoding="async">
+  </div>
+</section>
+
+<section class="numbers" id="dampak">
+  <div class="wrap">
+    <p class="eyebrow" hidden>Dampak dalam angka</p>
+    <h2 class="display numbers__title">By the numbers</h2>
+    <p class="numbers__lede">
+      Konservasi hutan adat berbasis masyarakat di Kalimantan Barat —
+      capaian sepanjang 2025.
+    </p>
+
+    <div class="bn">
+      <section class="bn__group">
+        <h3 class="bn__heading">Pengakuan hak masyarakat adat</h3>
+        <div class="bn__stats">
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-people"/></svg>
+            <p class="bn__value">242</p>
+            <p class="bn__label">Warga masyarakat adat terlibat dalam pemetaan partisipatif dan pengakuan wilayah adat</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-map"/></svg>
+            <p class="bn__value">5</p>
+            <p class="bn__label">Tapak menyelesaikan peta zonasi adat semi-detail</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bn__group">
+        <h3 class="bn__heading">Pemasangan patok batas</h3>
+        <div class="bn__stats">
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-post"/></svg>
+            <p class="bn__value">20<small>km</small></p>
+            <p class="bn__label">Patok batas terpasang</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-route"/></svg>
+            <p class="bn__value">35<small>km</small></p>
+            <p class="bn__label">Batas adat terdelineasi antara Menua Ungak dan Menua Apan</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-people"/></svg>
+            <p class="bn__value">18</p>
+            <p class="bn__label">Perwakilan masyarakat dari Lauk Rugun dan Tamlambaloh Apalin Lauk dalam penetapan batas</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-helmet"/></svg>
+            <p class="bn__value">11</p>
+            <p class="bn__label">Anggota tim teknis yang terlibat</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bn__group">
+        <h3 class="bn__heading">Pengelolaan hutan adat</h3>
+        <div class="bn__stats">
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-board"/></svg>
+            <p class="bn__value">166</p>
+            <p class="bn__label">Peserta seminar dan lokakarya pengelolaan hutan pasca-pengakuan</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-station"/></svg>
+            <p class="bn__value">4</p>
+            <p class="bn__label">Stasiun pemantauan keanekaragaman hayati di Hutan Adat Kulan</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-book"/></svg>
+            <p class="bn__value">1</p>
+            <p class="bn__label">Revisi buku hukum adat Ketemenggukan Iban Jalai Lintang diselesaikan</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-binocs"/></svg>
+            <p class="bn__value">1</p>
+            <p class="bn__label">Kelompok pemantau rangkong yang dipimpin perempuan terbentuk</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="bn__group">
+        <h3 class="bn__heading">Pemantauan akustik pasif</h3>
+        <div class="bn__stats">
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-bird"/></svg>
+            <p class="bn__value">52</p>
+            <p class="bn__label"><b>Jenis burung</b> terdokumentasi</p>
+            <ul class="bn__chips">
+              <li>Helmeted Hornbill</li>
+              <li>Rhinoceros Hornbill</li>
+              <li>Wreathed Hornbill</li>
+              <li>Black Hornbill</li>
+              <li>Bushy-crested Hornbill</li>
+            </ul>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-paw"/></svg>
+            <p class="bn__value">3</p>
+            <p class="bn__label"><b>Jenis satwa kunci</b> lainnya</p>
+            <ul class="bn__chips">
+              <li>Bornean Clouded Leopard</li>
+              <li>Bornean Yellow Muntjac</li>
+              <li>Great Argus</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="bn__group">
+        <h3 class="bn__heading">Pemantauan sarang &amp; adopsi pohon</h3>
+        <div class="bn__stats">
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-nest"/></svg>
+            <p class="bn__value">27</p>
+            <p class="bn__label">Sarang rangkong dipantau setiap bulan</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-nest"/></svg>
+            <p class="bn__value">13</p>
+            <p class="bn__label">Sarang aktif teridentifikasi</p>
+          </div>
+          <div>
+            <svg class="bn__icon" aria-hidden="true"><use href="#i-tree"/></svg>
+            <p class="bn__value">1</p>
+            <p class="bn__label">Pohon sarang dilindungi melalui inisiatif adopsi pohon berbasis masyarakat</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p class="numbers__note">
+      Sumber: REKAM by the Numbers — Impact Highlights 2025. Nama jenis burung dan
+      satwa ditulis sesuai dokumen aslinya.
+    </p>
+  </div>
+</section>
+
+<section class="posts" id="berita">
+  <div class="wrap">
+    <p class="eyebrow" hidden>Berita terkait</p>
+    <h2 class="display posts__title">From Forest</h2>
+    <div class="posts__grid">
+      <article class="post">
+        <a class="post__link" href="berita-detail.html">
+          <span class="post__media">
+            <img src="assets/berita/bangga-papua-hutan-papua-yang-dibangun-oleh-burung.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+          </span>
+          <span class="post__date">10 July 2026</span>
+          <span class="post__title">Papua Pride: Papua’s Forests, Built by Birds</span>
+          <span class="post__more">Baca selengkapnya <svg class="post__arrow" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+      </article>
+      <article class="post">
+        <a class="post__link" href="berita-detail.html">
+          <span class="post__media">
+            <img src="assets/berita/mencari-kasuari-ketika-hutan-papua-dibangun-oleh-burung.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+          </span>
+          <span class="post__date">13 June 2026</span>
+          <span class="post__title">In Search of the Northern Cassowary: When Papua’s Forests Are Built by Birds</span>
+          <span class="post__more">Baca selengkapnya <svg class="post__arrow" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+      </article>
+      <article class="post">
+        <a class="post__link" href="berita-detail.html">
+          <span class="post__media">
+            <img src="assets/berita/ketika-hutan-bercerita-film-manusia-dan-masa-depan-kehidupan.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async">
+          </span>
+          <span class="post__date">30 January 2026</span>
+          <span class="post__title">When the Forest Speaks: Film, Humanity, and the Future of Life</span>
+          <span class="post__more">Baca selengkapnya <svg class="post__arrow" aria-hidden="true"><use href="#i-arrow"/></svg></span>
+        </a>
+      </article>
+    </div>
+    <a class="btn btn--ghost-green posts__all" href="berita.html">Lihat semua berita</a>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <h2 class="display closing__title">Be Part of the Story</h2>
+    <div class="volunteer__actions">
+      <a class="btn btn--green" href="donasi.html#adopsi">Adopt</a>
+      <a class="btn btn--green" href="donasi.html">Give</a>
+      <a class="btn btn--ghost-green" href="merch.html">Shop</a>
+    </div>
+  </div>
+  <img class="closing__art" src="assets/canopy.jpg" alt=""
+       width="3072" height="630" loading="lazy" decoding="async">
+</section>
+
+</main>
+
+<footer class="site-footer" id="kontak">
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__brand">
+      <a class="brand brand--footer" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <p class="site-footer__blurb">
+        Documenting knowledge. Preserving life.
+      </p>
+      <p class="site-footer__copy">
+        © 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.
+      </p>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Unit dan kanal REKAM">
+      <p class="site-footer__heading">Links</p>
+      <ul>
+        <li><a href="https://rangkong.org">rangkong.org</a></li>
+        <li><a href="https://inaturefilms.org">inaturefilms.org</a></li>
+        <li><a href="https://perikanan.org">perikanan.org</a></li>
+        <li><a href="https://rekamdiveacademy.id">rekamdiveacademy.id</a></li>
+      </ul>
+    </nav>
+
+    <nav class="site-footer__links" aria-label="Media sosial">
+      <p class="site-footer__heading">Follow Us</p>
+      <ul>
+        <li><a href="https://www.instagram.com/rekamnusantara/">Instagram</a></li>
+        <li><a href="https://www.facebook.com/RekamNusantara">Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UCTDq1RHGEF4p_gxLOJtOIuA">YouTube</a></li>
+        <li><a href="https://www.linkedin.com/company/rekamnusantarafoundation/">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script type="module" src="../hero-360.js"></script>
+<script src="rekam.js" defer></script>
+<script src="cursor.js" defer></script>
+</body>
+</html>

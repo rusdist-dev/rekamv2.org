@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "rekam-site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["/Users/mwijaya/Documents/Hello/Hello-World/tools/serve.mjs", "8765"],
+      "port": 8765
+    }
+  ]
+}

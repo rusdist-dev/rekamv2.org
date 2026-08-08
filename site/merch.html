@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Merchandise — REKAM Nusantara Foundation</title>
+<meta name="description" content="Katalog merchandise dan produk cetak REKAM Nusantara. Seluruh margin penjualan masuk ke kas program konservasi.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;500;600&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rekam.css">
+<link rel="stylesheet" href="nav-station.css">
+</head>
+<body>
+
+<a class="skip-link" href="#utama">Lewati ke konten utama</a>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="i-arrow" viewBox="0 0 32 32">
+    <path d="M5 5 L26 26 M26 11 L26 26 L11 26"
+          fill="none" stroke="currentColor" stroke-width="4"
+          stroke-linecap="square" stroke-linejoin="miter"/>
+  </symbol>
+
+  <!-- Product marks. Line drawings rather than photographs: an honest
+       placeholder that still reads as the object, and it keeps the catalogue
+       from pretending to show goods nobody has photographed yet.
+
+       Stroke and fill are set in CSS on .mc__icon, not here. <use> clones a
+       symbol into a shadow tree parented by the <use> element, so presentation
+       attributes on any wrapper around the symbols never reach the clone —
+       putting them here paints every mark solid black instead. -->
+  <g>
+    <symbol id="p-shirt" viewBox="0 0 48 48">
+      <path d="M17 7 L11.5 10.5 L8.5 20 L13.5 22 L15 18.5 L15 41 L33 41 L33 18.5 L34.5 22 L39.5 20 L36.5 10.5 L31 7"/>
+      <path d="M17 7 C18.5 11.5 21 13 24 13 C27 13 29.5 11.5 31 7"/>
+    </symbol>
+    <symbol id="p-cap" viewBox="0 0 48 48">
+      <path d="M10 30 C10 19.5 16.3 12.5 24 12.5 C31.7 12.5 38 19.5 38 30"/>
+      <path d="M38 30 L42.5 30.5 C44 33 42 35 39 35 L10 35 C9 35 9 30 10 30 Z"/>
+      <path d="M24 12.5 L24 30"/>
+      <circle cx="24" cy="11" r="1.6"/>
+    </symbol>
+    <symbol id="p-tote" viewBox="0 0 48 48">
+      <path d="M12.5 16 L14.5 41 L33.5 41 L35.5 16 Z"/>
+      <path d="M19 16 C19 10 21 7.5 24 7.5 C27 7.5 29 10 29 16"/>
+      <path d="M18 24 L30 24"/>
+    </symbol>
+    <symbol id="p-pin" viewBox="0 0 48 48">
+      <circle cx="24" cy="19" r="10.5"/>
+      <circle cx="24" cy="19" r="4.5"/>
+      <path d="M24 29.5 L24 42"/>
+      <path d="M21 39.5 L27 39.5"/>
+    </symbol>
+    <symbol id="p-bandana" viewBox="0 0 48 48">
+      <path d="M7.5 13.5 L40.5 13.5 L24 38 Z"/>
+      <path d="M14 20 L34 20"/>
+      <path d="M18 26.5 L30 26.5"/>
+    </symbol>
+    <symbol id="p-tumbler" viewBox="0 0 48 48">
+      <path d="M17.5 11 L30.5 11 L29.5 39 C29.5 40.7 28.4 41.5 27 41.5 L21 41.5 C19.6 41.5 18.5 40.7 18.5 39 Z"/>
+      <path d="M16 11 C16 8 18 6.5 24 6.5 C30 6.5 32 8 32 11"/>
+      <path d="M18 20.5 L30 20.5"/>
+      <path d="M18.3 27.5 L29.7 27.5"/>
+    </symbol>
+    <symbol id="p-print" viewBox="0 0 48 48">
+      <rect x="9.5" y="8.5" width="29" height="31"/>
+      <rect x="14.5" y="13.5" width="19" height="21"/>
+      <path d="M15.5 31 L20.5 24.5 L24.5 28.5 L29 22 L32.5 27 L32.5 33.5 L15.5 33.5 Z"/>
+      <circle cx="19" cy="18.5" r="1.8"/>
+    </symbol>
+    <symbol id="p-poster" viewBox="0 0 48 48">
+      <path d="M12 7.5 L36 7.5 L36 36 C36 39.5 33.5 41 30.5 41 L12 41 Z"/>
+      <path d="M36 36 C36 38.2 33.8 39.5 31 39.5"/>
+      <path d="M17.5 15 L30.5 15"/>
+      <path d="M17.5 21 L30.5 21"/>
+      <path d="M17.5 27 L25.5 27"/>
+    </symbol>
+    <symbol id="p-book" viewBox="0 0 48 48">
+      <path d="M11.5 9.5 L11.5 37.5 L24 34 L36.5 37.5 L36.5 9.5 L24 13 Z"/>
+      <path d="M24 13 L24 34"/>
+      <path d="M15.5 17.5 L20.5 16.2"/>
+      <path d="M27.5 16.2 L32.5 17.5"/>
+    </symbol>
+    <symbol id="p-note" viewBox="0 0 48 48">
+      <path d="M16 8.5 L35 8.5 L35 39.5 L16 39.5 Z"/>
+      <path d="M13 13 A3 3 0 0 1 13 19"/>
+      <path d="M13 21 A3 3 0 0 1 13 27"/>
+      <path d="M13 29 A3 3 0 0 1 13 35"/>
+      <path d="M21 18 L30 18"/>
+      <path d="M21 24 L30 24"/>
+      <path d="M21 30 L27 30"/>
+    </symbol>
+    <symbol id="p-sticker" viewBox="0 0 48 48">
+      <rect x="8.5" y="13.5" width="19" height="19" rx="3"/>
+      <circle cx="31" cy="27" r="10.5"/>
+      <path d="M31 22.5 L31 31.5 M26.5 27 L35.5 27"/>
+    </symbol>
+  </g>
+</svg>
+
+<header class="sidenav" id="site-header">
+  <div class="sidenav__card">
+    <div class="sidenav__top">
+      <a class="brand" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <button class="sidenav__toggle" id="nav-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Buka menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <form class="sidenav__search" role="search" id="nav-search">
+      <label class="u-visually-hidden" for="nav-q">Cari di situs REKAM</label>
+      <input id="nav-q" name="q" type="search" placeholder="Cari" autocomplete="off">
+      <button type="submit" aria-label="Cari">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+          <path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <div class="sidenav__lang" role="group" aria-label="Pilih bahasa">
+      <span class="sidenav__lang-current" aria-current="true">ID</span>
+      <a class="sidenav__lang-alt" href="#" data-lang="en" lang="en">EN</a>
+    </div>
+
+    <nav class="sidenav__panel" id="nav-panel" aria-label="Navigasi utama" hidden>
+      <p class="sidenav__group">Program</p>
+      <ul>
+        <li><a href="program-forest.html">Forest</a></li>
+        <li><a href="program-urban.html">Urban</a></li>
+        <li><a href="program-ocean.html">Ocean</a></li>
+      </ul>
+
+      <p class="sidenav__group">Jelajahi</p>
+      <ul>
+        <li><a href="tentang.html">Tentang</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li class="sidenav__has-sub">
+          <a href="event-detail.html">Event</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-event" aria-label="Buka submenu Event"></button>
+          <ul class="sidenav__sub" id="sub-event">
+            <li><a href="event-detail.html">Cerita Laut Nusantara</a></li>
+            <li><a href="event-detail.html">Bangga Papua</a></li>
+          </ul>
+        </li>
+        <li class="sidenav__has-sub">
+          <a href="donasi.html">Donasi</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-donasi" aria-label="Buka submenu Donasi"></button>
+          <ul class="sidenav__sub" id="sub-donasi">
+            <li><a href="donasi.html#adopsi">Adopsi Pohon Pakan</a></li>
+            <li><a href="merch.html" aria-current="page">Fundraising Product</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+
+  </div>
+</header>
+
+<main id="utama">
+
+<section class="page-hero page-hero--short page-hero--dim">
+  <img class="page-hero__bg" src="assets/canopy.jpg" alt="" width="3072" height="630" fetchpriority="high" decoding="async">
+  <div class="page-hero__scrim" aria-hidden="true"></div>
+  <div class="wrap page-hero__inner">
+    <p class="eyebrow eyebrow--light">Fundraising Product</p>
+    <h1 class="page-hero__title">Merchandise</h1>
+    <p class="page-hero__lede">
+      Produk bertema keanekaragaman hayati Nusantara. Seluruh margin penjualan
+      masuk ke kas program konservasi.
+    </p>
+  </div>
+</section>
+
+<p class="ev-notice">
+  Katalog contoh — nama produk, harga, dan tarif kirim masih dummy, dan kanal
+  pembayaran belum diisi. Lihat <code>shop-config.js</code> sebelum dipublikasikan.
+</p>
+
+<section class="shop">
+  <div class="wrap">
+    <div class="shop__head">
+      <div>
+        <p class="eyebrow">Katalog</p>
+        <h2 class="display shop__title">Pilih dukunganmu</h2>
+      </div>
+      <p class="shop__note">
+        Harga sudah termasuk pajak. Pengiriman dari Bogor, 1–3 hari kerja
+        setelah pembayaran terverifikasi.
+      </p>
+    </div>
+
+    <div class="shop__filters" role="group" aria-label="Saring kategori">
+      <button class="chip is-on" type="button" data-filter="all" aria-pressed="true">Semua</button>
+      <button class="chip" type="button" data-filter="apparel" aria-pressed="false">Apparel</button>
+      <button class="chip" type="button" data-filter="aksesori" aria-pressed="false">Aksesori</button>
+      <button class="chip" type="button" data-filter="cetak" aria-pressed="false">Cetak</button>
+      <button class="chip" type="button" data-filter="publikasi" aria-pressed="false">Publikasi</button>
+    </div>
+
+    <p class="shop__count" id="shop-count" role="status"></p>
+
+    <div class="shop__grid" id="shop-grid">
+
+      <article class="mc" data-cat="apparel" data-id="kaos-merekam" data-name="Kaos #MerekamNusantara" data-price="165000">
+        <div class="mc__art mc__art--a">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-shirt"/></svg>
+          <span class="mc__tag">Apparel</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Kaos #MerekamNusantara</h3>
+          <p class="mc__desc">Cotton combed 24s, sablon plastisol satu warna di bagian depan.</p>
+          <p class="mc__price">Rp 165.000</p>
+          <label class="mc__opt">
+            <span>Ukuran</span>
+            <select data-opt="Ukuran">
+              <option>S</option><option>M</option><option selected>L</option>
+              <option>XL</option><option>XXL</option>
+            </select>
+          </label>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Kaos #MerekamNusantara">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="apparel" data-id="kaos-rangkong" data-name="Kaos Rangkong Gading" data-price="175000">
+        <div class="mc__art mc__art--b">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-shirt"/></svg>
+          <span class="mc__tag">Apparel</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Kaos Rangkong Gading</h3>
+          <p class="mc__desc">Ilustrasi ukir rangkong gading, cetak dua warna, jahitan rantai.</p>
+          <p class="mc__price">Rp 175.000</p>
+          <label class="mc__opt">
+            <span>Ukuran</span>
+            <select data-opt="Ukuran">
+              <option>S</option><option>M</option><option selected>L</option>
+              <option>XL</option><option>XXL</option>
+            </select>
+          </label>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Kaos Rangkong Gading">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="apparel" data-id="topi-lapangan" data-name="Topi Lapangan REKAM" data-price="145000">
+        <div class="mc__art mc__art--c">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-cap"/></svg>
+          <span class="mc__tag">Apparel</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Topi Lapangan REKAM</h3>
+          <p class="mc__desc">Ripstop cepat kering, tali dagu, bordir mark REKAM di sisi depan.</p>
+          <p class="mc__price">Rp 145.000</p>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Topi Lapangan REKAM">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="aksesori" data-id="tote-kanvas" data-name="Tote Bag Kanvas Nusantara" data-price="95000">
+        <div class="mc__art mc__art--d">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-tote"/></svg>
+          <span class="mc__tag">Aksesori</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Tote Bag Kanvas Nusantara</h3>
+          <p class="mc__desc">Kanvas 12 oz, kantong dalam, muat laptop 14 inci.</p>
+          <p class="mc__price">Rp 95.000</p>
+          <label class="mc__opt">
+            <span>Motif</span>
+            <select data-opt="Motif">
+              <option selected>Forest</option><option>Ocean</option><option>Urban</option>
+            </select>
+          </label>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Tote Bag Kanvas Nusantara">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="aksesori" data-id="pin-rangkong" data-name="Enamel Pin Seri Rangkong" data-price="55000">
+        <div class="mc__art mc__art--e">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-pin"/></svg>
+          <span class="mc__tag">Aksesori</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Enamel Pin Seri Rangkong</h3>
+          <p class="mc__desc">Hard enamel 30 mm, pengunci kupu-kupu, kartu keterangan spesies.</p>
+          <p class="mc__price">Rp 55.000</p>
+          <label class="mc__opt">
+            <span>Spesies</span>
+            <select data-opt="Spesies">
+              <option selected>Rangkong Gading</option>
+              <option>Julang Emas</option>
+              <option>Kangkareng Perut Putih</option>
+            </select>
+          </label>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Enamel Pin Seri Rangkong">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="aksesori" data-id="bandana" data-name="Bandana Multifungsi" data-price="65000">
+        <div class="mc__art mc__art--f">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-bandana"/></svg>
+          <span class="mc__tag">Aksesori</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Bandana Multifungsi</h3>
+          <p class="mc__desc">55 × 55 cm, peta sebaran rangkong Nusantara tercetak penuh.</p>
+          <p class="mc__price">Rp 65.000</p>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Bandana Multifungsi">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="aksesori" data-id="tumbler" data-name="Tumbler Stainless 500 ml" data-price="185000">
+        <div class="mc__art mc__art--g">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-tumbler"/></svg>
+          <span class="mc__tag">Aksesori</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Tumbler Stainless 500 ml</h3>
+          <p class="mc__desc">Dinding ganda, tahan panas 6 jam, ukiran laser mark REKAM.</p>
+          <p class="mc__price">Rp 185.000</p>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Tumbler Stainless 500 ml">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="aksesori" data-id="stiker-set" data-name="Set Stiker Nusantara (8 pcs)" data-price="35000">
+        <div class="mc__art mc__art--h">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-sticker"/></svg>
+          <span class="mc__tag">Aksesori</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Set Stiker Nusantara (8 pcs)</h3>
+          <p class="mc__desc">Vinil tahan air, potong khusus, cocok untuk laptop dan bidon.</p>
+          <p class="mc__price">Rp 35.000</p>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Set Stiker Nusantara">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="cetak" data-id="cetak-a3" data-name="Cetak Ilustrasi Ukir A3" data-price="120000">
+        <div class="mc__art mc__art--a">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-print"/></svg>
+          <span class="mc__tag">Cetak</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Cetak Ilustrasi Ukir A3</h3>
+          <p class="mc__desc">Giclée di kertas katun 300 gsm, bertanda tangan ilustrator, tanpa bingkai.</p>
+          <p class="mc__price">Rp 120.000</p>
+          <label class="mc__opt">
+            <span>Seri</span>
+            <select data-opt="Seri">
+              <option selected>Forest</option><option>Ocean</option><option>Urban</option>
+            </select>
+          </label>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Cetak Ilustrasi Ukir A3">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="cetak" data-id="poster-a2" data-name="Poster Kampanye A2" data-price="75000">
+        <div class="mc__art mc__art--b">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-poster"/></svg>
+          <span class="mc__tag">Cetak</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Poster Kampanye A2</h3>
+          <p class="mc__desc">Art paper 210 gsm, dikirim dalam tabung agar tidak terlipat.</p>
+          <p class="mc__price">Rp 75.000</p>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Poster Kampanye A2">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="publikasi" data-id="buku-merekam" data-name="Buku Merekam Nusantara" data-price="210000">
+        <div class="mc__art mc__art--c">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-book"/></svg>
+          <span class="mc__tag">Publikasi</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Buku Merekam Nusantara</h3>
+          <p class="mc__desc">228 halaman, catatan lapangan dan foto dari sepuluh tahun kerja REKAM.</p>
+          <p class="mc__price">Rp 210.000</p>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Buku Merekam Nusantara">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="mc" data-cat="publikasi" data-id="notebook" data-name="Notebook Lapangan" data-price="85000">
+        <div class="mc__art mc__art--d">
+          <svg class="mc__icon" aria-hidden="true"><use href="#p-note"/></svg>
+          <span class="mc__tag">Publikasi</span>
+        </div>
+        <div class="mc__body">
+          <h3 class="mc__name">Notebook Lapangan</h3>
+          <p class="mc__desc">A5, kertas tahan air, tabel pengamatan dan kunci identifikasi ringkas.</p>
+          <p class="mc__price">Rp 85.000</p>
+          <div class="mc__actions">
+            <div class="qty" role="group" aria-label="Jumlah Notebook Lapangan">
+              <button type="button" data-step="-1" aria-label="Kurangi jumlah">&minus;</button>
+              <input type="number" value="1" min="1" max="20" step="1" aria-label="Jumlah">
+              <button type="button" data-step="1" aria-label="Tambah jumlah">+</button>
+            </div>
+            <button class="btn btn--green mc__add" type="button">Tambah</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="shop-why">
+  <div class="wrap shop-why__grid">
+    <div>
+      <p class="eyebrow">Ke mana uangnya</p>
+      <h2 class="display shop-why__title">Margin masuk ke lapangan</h2>
+      <p class="lede">
+        Setelah biaya produksi dan kirim, sisa penjualan dialokasikan ke tiga
+        program: patroli dan pemantauan pohon pakan, riset perikanan skala kecil,
+        serta pendidikan lingkungan di sekolah.
+      </p>
+      <a class="btn btn--ghost-green" href="donasi.html">Cara dukungan lainnya</a>
+    </div>
+    <ul class="shop-why__list">
+      <li><strong>Produksi lokal</strong> Dikerjakan perajin dan penyablon di Bogor dan sekitarnya.</li>
+      <li><strong>Bahan bertanggung jawab</strong> Kanvas dan kertas bersertifikat daur ulang bila tersedia.</li>
+      <li><strong>Kemasan minim plastik</strong> Kertas kraft dan tali rami, tanpa bubble wrap.</li>
+      <li><strong>Laporan terbuka</strong> Rekap alokasi dana penjualan diterbitkan tiap semester.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<!-- Sits above the footer, appears only once something is in the cart. -->
+<div class="cartbar" id="cartbar" hidden>
+  <div class="wrap cartbar__inner">
+    <button class="cartbar__summary" type="button" id="cart-toggle"
+            aria-expanded="false" aria-controls="cart-list">
+      <span class="cartbar__badge" id="cart-count">0</span>
+      <span class="cartbar__label">Keranjang</span>
+      <span class="cartbar__total" id="cart-total">Rp 0</span>
+      <svg class="cartbar__chev" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 15 L12 9 L18 15" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <a class="btn btn--green cartbar__go" href="checkout.html">Lanjut ke pembayaran</a>
+  </div>
+  <div class="cartbar__panel" id="cart-list" hidden>
+    <ul class="wrap cartlines" id="cart-lines"></ul>
+  </div>
+</div>
+
+<p class="u-visually-hidden" role="status" aria-live="polite" id="cart-say"></p>
+
+<footer class="site-footer" id="kontak">
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__brand">
+      <a class="brand brand--footer" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <p class="site-footer__blurb">
+        Documenting knowledge. Preserving life.
+      </p>
+      <p class="site-footer__copy">
+        © 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.
+      </p>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Unit dan kanal REKAM">
+      <p class="site-footer__heading">Links</p>
+      <ul>
+        <li><a href="https://rangkong.org">rangkong.org</a></li>
+        <li><a href="https://inaturefilms.org">inaturefilms.org</a></li>
+        <li><a href="https://perikanan.org">perikanan.org</a></li>
+        <li><a href="https://rekamdiveacademy.id">rekamdiveacademy.id</a></li>
+      </ul>
+    </nav>
+
+    <nav class="site-footer__links" aria-label="Media sosial">
+      <p class="site-footer__heading">Follow Us</p>
+      <ul>
+        <li><a href="https://www.instagram.com/rekamnusantara/">Instagram</a></li>
+        <li><a href="https://www.facebook.com/RekamNusantara">Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UCTDq1RHGEF4p_gxLOJtOIuA">YouTube</a></li>
+        <li><a href="https://www.linkedin.com/company/rekamnusantarafoundation/">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script src="shop-config.js"></script>
+<script src="shop.js" defer></script>
+<script src="rekam.js" defer></script>
+<script src="cursor.js" defer></script>
+</body>
+</html>

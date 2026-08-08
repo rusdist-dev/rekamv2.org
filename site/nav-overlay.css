@@ -1,0 +1,348 @@
+/* ==========================================================================
+   NAV VARIANT — full-screen overlay
+   Adapted from the pattern at eatnaked.co: the closed state is only a mark and
+   a toggle, and opening it takes over the whole viewport with oversized links
+   resting dim and brightening on hover.
+
+   Translated into REKAM's own language rather than copied: brand green ground
+   instead of near-black, Playfair Display instead of a geometric sans, the
+   letterspaced Raleway captions this site already uses to group the links, and
+   the yellow card accent for the one featured item.
+
+   Swap variants with:  node tools/switch-nav.mjs card|bar|overlay
+   ========================================================================== */
+
+:root {
+  --nav-h: 76px;           /* the closed bar, and the content clearance */
+  --nav-w: 0px;            /* nothing floats beside the content */
+  --nav-ground: #0b3c27;   /* a step darker than --green-900 to sit under text */
+}
+
+.sidenav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  width: 100%;
+}
+
+/* ---- Closed: a mark and a toggle, nothing else ---- */
+
+.sidenav__card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: var(--wrap);
+  min-height: var(--nav-h);
+  margin-inline: auto;
+  padding: 0 var(--gutter);
+  background: transparent;
+  overflow: visible;
+}
+
+.sidenav__top {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sidenav .brand { color: var(--green-900); }
+.sidenav .brand__mark { width: 132px; }
+
+/* Everything else waits inside the overlay. */
+.sidenav__search,
+.sidenav__panel,
+.sidenav__cta { display: none; }
+
+/* A ground behind the closed bar so the mark stays readable over content. */
+.sidenav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(244, 243, 239, 0.94);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(14, 84, 54, 0.12);
+  transition: opacity 0.35s ease;
+}
+.sidenav__card { position: relative; }
+
+/* ---- Toggle ---- */
+
+.sidenav__toggle {
+  flex: none;
+  width: 44px; height: 44px;
+  margin-right: -10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--green-900);
+  cursor: pointer;
+}
+.sidenav__toggle span {
+  display: block;
+  width: 26px; height: 2px;
+  margin: 6px auto;
+  background: currentColor;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.sidenav__toggle[aria-expanded="true"] {
+  position: relative;
+  z-index: 2;
+  color: var(--white);
+}
+.sidenav__toggle[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
+.sidenav__toggle[aria-expanded="true"] span:last-child  { transform: translateY(-4px) rotate(-45deg); }
+
+/* --------------------------------------------------------------------------
+   Open: the card becomes the viewport
+   -------------------------------------------------------------------------- */
+
+.sidenav__card.is-open {
+  position: fixed;
+  inset: 0;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  padding: calc(var(--nav-h) + 2rem) var(--gutter) clamp(2rem, 5vh, 4rem);
+  background: var(--nav-ground);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  animation: nav-ground-in 0.4s ease both;
+}
+@keyframes nav-ground-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* The mark and the close control stay where they were in the closed bar. */
+.sidenav__card.is-open .sidenav__top {
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  max-width: var(--wrap);
+  margin-inline: auto;
+  min-height: var(--nav-h);
+  flex: none;
+}
+.sidenav__card.is-open .brand { color: var(--white); }
+
+.sidenav__card.is-open .sidenav__panel,
+.sidenav__card.is-open .sidenav__search,
+.sidenav__card.is-open .sidenav__cta {
+  display: block;
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+}
+
+/* ---- Oversized links, dim at rest ---- */
+
+.sidenav__card.is-open .sidenav__panel { padding: 0; }
+
+.sidenav__card.is-open .sidenav__group {
+  display: block;
+  margin: 0 0 0.6rem;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+.sidenav__card.is-open .sidenav__group + ul { margin: 0 0 clamp(1.5rem, 4vh, 2.75rem); }
+.sidenav__card.is-open .sidenav__panel ul {
+  display: block;
+  padding: 0;
+  list-style: none;
+}
+.sidenav__card.is-open .sidenav__panel li + li { margin: 0; }
+
+.sidenav__card.is-open .sidenav__panel a {
+  display: inline-block;
+  padding: 0.06em 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.9rem, 5.2vw, 3.5rem);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+  /* 0.55 rather than the reference's 0.3: on this ground anything dimmer
+     fails contrast even at display sizes. */
+  color: rgba(255, 255, 255, 0.55);
+  transition: color 0.25s ease, transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.sidenav__card.is-open .sidenav__panel a:hover,
+.sidenav__card.is-open .sidenav__panel a:focus-visible {
+  color: var(--white);
+  transform: translateX(0.35rem);
+}
+.sidenav__card.is-open .sidenav__panel a[aria-current="page"] {
+  color: var(--white);
+}
+/* The current page keeps a small yellow marker rather than a heavier weight. */
+.sidenav__card.is-open .sidenav__panel a[aria-current="page"]::after {
+  content: "";
+  display: inline-block;
+  width: 0.32em; height: 0.32em;
+  margin-left: 0.4em;
+  border-radius: 50%;
+  background: var(--yellow);
+  vertical-align: 0.35em;
+}
+
+/* ---- Search ---- */
+
+.sidenav__card.is-open .sidenav__search {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: min(var(--wrap), 26rem);
+  margin: clamp(0.5rem, 2vh, 1.25rem) auto clamp(1.5rem, 4vh, 2.5rem) 0;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+}
+.sidenav__card.is-open .sidenav__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--white);
+}
+.sidenav__card.is-open .sidenav__search input::placeholder { color: rgba(255, 255, 255, 0.5); }
+.sidenav__card.is-open .sidenav__search input:focus { outline: none; }
+.sidenav__card.is-open .sidenav__search:focus-within { border-bottom-color: var(--white); }
+.sidenav__card.is-open .sidenav__search button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px; height: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--white);
+  cursor: pointer;
+}
+.sidenav__card.is-open .sidenav__search svg { width: 18px; height: 18px; }
+
+/* ---- Featured CTA ---- */
+
+.sidenav__card.is-open .sidenav__cta {
+  width: auto;
+  margin: 0 auto 0 0;
+  padding: 0.95rem 2rem;
+  border-radius: 999px;
+  background: var(--yellow);
+  color: #241d00;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.sidenav__card.is-open .sidenav__cta:hover {
+  background: #ffd426;
+  transform: translateY(-2px);
+}
+
+/* Each row settles in just after the ground, top to bottom. */
+.sidenav__card.is-open .sidenav__group,
+.sidenav__card.is-open .sidenav__panel li,
+.sidenav__card.is-open .sidenav__search,
+.sidenav__card.is-open .sidenav__cta {
+  animation: nav-row-in 0.45s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.sidenav__card.is-open .sidenav__panel > :nth-child(1) { animation-delay: 0.04s; }
+.sidenav__card.is-open .sidenav__panel > :nth-child(2) li:nth-child(1) { animation-delay: 0.08s; }
+.sidenav__card.is-open .sidenav__panel > :nth-child(2) li:nth-child(2) { animation-delay: 0.12s; }
+.sidenav__card.is-open .sidenav__panel > :nth-child(2) li:nth-child(3) { animation-delay: 0.16s; }
+.sidenav__card.is-open .sidenav__panel > :nth-child(3) { animation-delay: 0.2s; }
+.sidenav__card.is-open .sidenav__panel > :nth-child(4) li:nth-child(1) { animation-delay: 0.24s; }
+.sidenav__card.is-open .sidenav__panel > :nth-child(4) li:nth-child(2) { animation-delay: 0.28s; }
+.sidenav__card.is-open .sidenav__panel > :nth-child(4) li:nth-child(3) { animation-delay: 0.32s; }
+.sidenav__card.is-open .sidenav__panel > :nth-child(4) li:nth-child(4) { animation-delay: 0.36s; }
+.sidenav__card.is-open .sidenav__search { animation-delay: 0.4s; }
+.sidenav__card.is-open .sidenav__cta { animation-delay: 0.44s; }
+
+@keyframes nav-row-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Locking the page behind the overlay — rekam.js sets this on <body>. */
+body.nav-open { overflow: hidden; }
+
+/* --------------------------------------------------------------------------
+   Reveal-on-scroll (hero pages) — over the hero only the centred mark shows
+   -------------------------------------------------------------------------- */
+
+.sidenav[data-reveal]:not(.is-revealed)::before { opacity: 0; }
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__card {
+  justify-content: center;
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  pointer-events: none;
+}
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__top { flex: none; }
+.sidenav[data-reveal]:not(.is-revealed) .brand {
+  pointer-events: auto;
+  color: var(--white);
+}
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__toggle { display: none; }
+
+/* The mark shares the hero's horizontal centre, so retire it as soon as the
+   page leaves the top or the headline would slide straight through it. */
+.sidenav[data-reveal] .brand { transition: opacity 0.3s ease; }
+.sidenav[data-reveal]:not(.is-revealed).is-scrolled .brand {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Content offsets this variant requires
+   The closed bar spans the top, so content needs vertical clearance only.
+   -------------------------------------------------------------------------- */
+
+.page-hero { padding-top: calc(var(--nav-h) + clamp(3rem, 8vh, 6rem)); }
+.article__head { padding-top: calc(var(--nav-h) + clamp(2rem, 4vw, 3.5rem)); }
+.hero__inner { padding-top: calc(var(--nav-h) + 1rem); }
+
+@media (max-width: 720px) {
+  :root { --nav-h: 68px; }
+  .sidenav .brand__mark { width: 118px; }
+  .sidenav__card.is-open .sidenav__panel a { font-size: clamp(1.6rem, 8vw, 2.4rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidenav__card.is-open,
+  .sidenav__card.is-open .sidenav__group,
+  .sidenav__card.is-open .sidenav__panel li,
+  .sidenav__card.is-open .sidenav__search,
+  .sidenav__card.is-open .sidenav__cta { animation: none; }
+  .sidenav__card.is-open .sidenav__panel a:hover { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Programme shortcuts in the hero state
+   -------------------------------------------------------------------------- */
+
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__card {
+  flex-direction: column;
+  align-items: center;
+}
+.sidenav[data-reveal]:not(.is-revealed) .hero-nav {
+  display: flex;
+  pointer-events: auto;
+}
+/* Goes with the mark: both share the hero's centre line, so both step aside
+   as soon as the headline starts moving past. */
+.sidenav[data-reveal] .hero-nav { transition: opacity 0.3s ease; }
+.sidenav[data-reveal]:not(.is-revealed).is-scrolled .hero-nav {
+  opacity: 0;
+  pointer-events: none;
+}

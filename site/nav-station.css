@@ -1,0 +1,597 @@
+/* ==========================================================================
+   NAV VARIANT — centred mark, lowercase rail, custom cursor
+   Adapted from the pattern at stationabt.com: a quiet full-width bar with the
+   links set small and lowercase on the left, the mark centred, and the controls
+   on the right — plus that site's soft follower cursor, which reveals an arrow
+   over anything clickable.
+
+   Translated into REKAM's own language: brand green instead of their navy, DM
+   Sans at a small size for the rail, and the site's own mark in the middle.
+
+   Swap variants with:  node tools/switch-nav.mjs card|bar|overlay|station
+   ========================================================================== */
+
+:root {
+  /* Two rows now: the utility strip plus the rail beneath it. Measured, because
+     everything downstream sets its clearance from this. */
+  --nav-h: 101px;
+  --nav-w: 0px;            /* nothing floats beside the content */
+  --nav-cursor: on;        /* cursor.js only runs when a variant sets this */
+}
+
+.sidenav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  width: 100%;
+}
+
+.sidenav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Deliberately see-through: the blur, not the opacity, is what keeps the
+     rail readable over whatever scrolls beneath it. */
+  background: rgba(244, 243, 239, 0.58);
+  backdrop-filter: blur(20px) saturate(1.4);
+  box-shadow: 0 1px 0 rgba(14, 84, 54, 0.08);
+  transition: opacity 0.35s ease;
+}
+
+.sidenav__card {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  max-width: var(--wrap);
+  min-height: var(--nav-h);
+  margin-inline: auto;
+  padding: 0.6rem var(--gutter) 0.5rem;
+  background: transparent;
+  overflow: visible;
+}
+
+/* A zero-height full-width item forces the wrap, so search and the language
+   switch occupy a strip of their own above everything else. It doubles as the
+   hairline between the two rows — exactly where a divider belongs. */
+.sidenav__card::before {
+  content: "";
+  order: -1;
+  flex: 0 0 100%;
+  margin: 0.5rem 0;
+  border-top: 1px solid rgba(14, 84, 54, 0.1);
+}
+
+/* The wrapper steps out of the way so the mark and the toggle can be ordered
+   independently among the rail's other items. */
+.sidenav__top { display: contents; }
+
+/* Mark first, immediately ahead of the programme links. */
+.sidenav .brand { order: 0; margin-right: clamp(0.75rem, 1.6vw, 1.5rem); color: var(--green-900); }
+.sidenav .brand__mark { width: 118px; }
+
+/* ---- The lowercase rail ----
+   The panel steps out of the way so its two groups become flex items in their
+   own right: the programme group sits beside the mark on the left, and the rest
+   joins the controls on the right. */
+
+.sidenav__panel { display: contents; }
+.sidenav__group { display: none; }
+
+.sidenav__panel > ul {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.85rem, 1.8vw, 1.6rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sidenav__panel > ul:first-of-type { order: 1; margin-right: auto; }
+.sidenav__panel > ul:last-of-type { order: 2; }
+.sidenav__panel > ul > li + li { margin: 0; }
+.sidenav__panel > ul > li > a,
+.sidenav__panel > ul > li > .sidenav__has-sub > a {
+  display: block;
+  padding: 0.3rem 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-decoration: none;
+  color: var(--ink-soft);
+  transition: color 0.2s ease;
+}
+.sidenav__panel > ul > li a::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 3px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.sidenav__panel > ul > li > a:hover,
+.sidenav__panel .sidenav__has-sub > a:hover { color: var(--green-900); }
+.sidenav__panel > ul > li > a:hover::after,
+.sidenav__panel .sidenav__has-sub > a:hover::after { transform: scaleX(1); }
+.sidenav__panel > ul > li > a[aria-current="page"] { color: var(--green-900); }
+.sidenav__panel > ul > li > a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---- Right-hand controls ---- */
+
+.sidenav__search {
+  /* Negative orders put this ahead of the forced wrap, i.e. on the top strip;
+     the auto margin pushes the pair to the right-hand end of it. */
+  order: -3;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: clamp(4rem, 6.5vw, 5.75rem);
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(14, 84, 54, 0.35);
+}
+.sidenav__search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--green-900);
+}
+.sidenav__search input::placeholder {
+  color: rgba(14, 84, 54, 0.5);
+  text-transform: lowercase;
+}
+.sidenav__search input:focus { outline: none; }
+.sidenav__search:focus-within { border-bottom-color: var(--green-900); }
+.sidenav__search button {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px; height: 22px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--green-900);
+  cursor: pointer;
+}
+.sidenav__search svg { width: 15px; height: 15px; }
+
+.sidenav__cta {
+  margin: 0 0 0 clamp(0.85rem, 1.8vw, 1.6rem);
+  padding: 0;
+  background: none;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  color: var(--green-900);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.sidenav__cta:hover { opacity: 0.6; background: none; }
+
+/* ---- Language switch ---- */
+
+.sidenav__lang {
+  order: -2;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: clamp(0.7rem, 1.5vw, 1.3rem);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.sidenav__lang-current { color: var(--green-900); }
+.sidenav__lang-alt {
+  color: rgba(14, 84, 54, 0.45);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.sidenav__lang-alt:hover { color: var(--green-900); }
+.sidenav__lang-current + .sidenav__lang-alt::before {
+  content: "/";
+  margin-right: 0.3rem;
+  color: rgba(14, 84, 54, 0.3);
+}
+
+.sidenav__cta { order: 5; }
+
+/* Three bars, as in the reference. Narrow screens only. */
+.sidenav__toggle {
+  order: 6;
+  display: none;
+  margin-left: clamp(0.75rem, 2vw, 1.25rem);
+  width: 34px; height: 34px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--green-900);
+  cursor: pointer;
+}
+.sidenav__toggle span {
+  display: block;
+  width: 20px; height: 1.5px;
+  margin: 5px auto;
+  background: currentColor;
+  transition: transform 0.25s ease;
+}
+.sidenav__toggle[aria-expanded="true"] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+.sidenav__toggle[aria-expanded="true"] span:last-child  { transform: translateY(-3.25px) rotate(-45deg); }
+
+/* --------------------------------------------------------------------------
+   Reveal-on-scroll (hero pages) — over the hero only the centred mark shows
+   -------------------------------------------------------------------------- */
+
+.sidenav[data-reveal]:not(.is-revealed)::before { opacity: 0; }
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__card {
+  justify-content: center;
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  pointer-events: none;
+}
+.sidenav[data-reveal]:not(.is-revealed) .brand {
+  pointer-events: auto;
+  color: var(--white);
+}
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__panel,
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__search,
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__lang,
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__cta,
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__toggle { display: none; }
+
+/* The mark shares the hero's horizontal centre, so retire it as soon as the
+   page leaves the top or the headline would slide straight through it. */
+.sidenav[data-reveal] .brand { transition: opacity 0.3s ease; }
+.sidenav[data-reveal]:not(.is-revealed).is-scrolled .brand {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidenav[data-reveal].is-revealed .sidenav__panel ul,
+.sidenav[data-reveal].is-revealed .sidenav__search,
+.sidenav[data-reveal].is-revealed .sidenav__lang,
+.sidenav[data-reveal].is-revealed .sidenav__cta {
+  animation: nav-in 0.35s ease both;
+}
+@keyframes nav-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   The follower cursor
+   A soft disc that trails the pointer and shows an arrow over anything
+   clickable. Only ever built on devices that actually have a fine pointer.
+   -------------------------------------------------------------------------- */
+
+.cursor {
+  position: fixed;
+  /* cursor.js promotes this to the top layer as a popover so it paints above
+     modal dialogs. That brings the UA's [popover] defaults with it — solid
+     border, 0.25em padding, overflow: auto, inset: 0 — none of which belong on
+     a 56px disc. Reset them before the real styling. */
+  inset: auto;
+  border: 0;
+  padding: 0;
+  overflow: visible;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  width: 56px;
+  height: 56px;
+  margin: -28px 0 0 -28px;      /* centre on the pointer */
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  /* Only the scale is transitioned — position is driven per frame in JS, and
+     transitioning that would fight the easing. */
+  transition: opacity 0.25s ease, scale 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+  scale: 0.45;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.72) 55%, rgba(255, 255, 255, 0.5) 100%),
+    linear-gradient(140deg, rgba(14, 84, 54, 0.28), rgba(11, 60, 39, 0.16));
+  box-shadow: 0 6px 22px rgba(9, 40, 26, 0.18);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  color: var(--green-900);
+}
+.cursor.is-active { opacity: 1; }
+
+/* Belt and braces: cursor.js already refuses to build on coarse pointers, but
+   never let the disc render there even if it somehow exists. */
+@media (hover: none), (pointer: coarse) {
+  .cursor { display: none; }
+}
+.cursor.is-over-link { scale: 1; }
+
+.cursor svg {
+  width: 21px;
+  height: 21px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.cursor.is-over-link svg { opacity: 1; transform: none; }
+
+/* Native cursor is only suppressed where the follower is doing the work. */
+@media (hover: hover) and (pointer: fine) {
+  body.has-cursor,
+  body.has-cursor a,
+  body.has-cursor button { cursor: none; }
+  /* Give it back wherever the native shape carries meaning. */
+  body.has-cursor input,
+  body.has-cursor textarea,
+  body.has-cursor select { cursor: auto; }
+
+  /* Fallback where the disc cannot reach the top layer: hand the native cursor
+     back inside a modal dialog. Losing the custom disc there is much better
+     than having no visible pointer at all. */
+  @supports not selector(:popover-open) {
+    body.has-cursor dialog:modal,
+    body.has-cursor dialog:modal * { cursor: auto; }
+    body.has-cursor dialog:modal a,
+    body.has-cursor dialog:modal button,
+    body.has-cursor dialog:modal summary { cursor: pointer; }
+  }
+  body.has-cursor .hero__stage { cursor: grab; }
+  body.has-cursor .hero__stage:active { cursor: grabbing; }
+}
+
+/* --------------------------------------------------------------------------
+   Content offsets this variant requires
+   -------------------------------------------------------------------------- */
+
+.page-hero { padding-top: calc(var(--nav-h) + clamp(3rem, 8vh, 6rem)); }
+.article__head { padding-top: calc(var(--nav-h) + clamp(2rem, 4vw, 3.5rem)); }
+.hero__inner { padding-top: calc(var(--nav-h) + 1rem); }
+
+/* --------------------------------------------------------------------------
+   Narrow screens — the rail collapses into a drawer
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1000px) {
+  :root { --nav-h: 66px; }
+
+  .sidenav__toggle { display: block; }
+  .sidenav .brand { margin-right: auto; }
+  .sidenav .brand__mark { width: 112px; }
+
+  .sidenav__card { flex-wrap: wrap; }
+  .sidenav__panel,
+  .sidenav__search,
+  .sidenav__lang,
+  .sidenav__cta { display: none; }
+  /* No strip on narrow screens — search and language live in the drawer, so the
+     divider would only draw a stray hairline above the logo. */
+  .sidenav__card::before { display: none; }
+
+  .sidenav__card.is-open {
+    padding-bottom: 1.5rem;
+    background: rgba(244, 243, 239, 0.98);
+    box-shadow: 0 18px 40px rgba(14, 84, 54, 0.14);
+  }
+  /* Back to a single column in the drawer. */
+  .sidenav__panel { display: none; }
+  .sidenav__card.is-open .sidenav__panel {
+    order: 6;
+    flex: 1 0 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    display: flex;
+  }
+  .sidenav__card.is-open .sidenav__panel ul:first-of-type,
+  .sidenav__card.is-open .sidenav__panel ul:last-of-type {
+    order: 0;
+    margin-right: 0;
+  }
+  .sidenav__card.is-open .sidenav__panel ul {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin-bottom: 1rem;
+  }
+  .sidenav__card.is-open .sidenav__panel a {
+    padding: 0.7rem 0;
+    font-size: 0.98rem;
+    text-transform: none;
+    border-bottom: 1px solid rgba(14, 84, 54, 0.12);
+  }
+  .sidenav__card.is-open .sidenav__panel > ul > li a::after { display: none; }
+  .sidenav__card.is-open .sidenav__group {
+    display: block;
+    margin: 0.5rem 0 0.35rem;
+    font-family: var(--font-label);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(14, 84, 54, 0.6);
+  }
+  .sidenav__card.is-open .sidenav__search {
+    order: 7;
+    display: flex;
+    flex: 1 0 100%;
+    width: auto;
+    margin: 0.5rem 0 0;
+  }
+  .sidenav__card.is-open .sidenav__lang {
+    order: 8;
+    display: flex;
+    flex: 1 0 100%;
+    margin: 1rem 0 0;
+    font-size: 0.8rem;
+  }
+  .sidenav__card.is-open .sidenav__cta {
+    order: 9;
+    display: block;
+    flex: 1 0 100%;
+    margin: 1.1rem 0 0;
+    padding: 0.9rem 1rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--green-700);
+    color: var(--cream);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .sidenav__card.is-open .sidenav__cta:hover { opacity: 1; background: #00522c; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidenav[data-reveal].is-revealed .sidenav__panel ul,
+  .sidenav[data-reveal].is-revealed .sidenav__search,
+  .sidenav[data-reveal].is-revealed .sidenav__cta { animation: none; }
+  .sidenav__panel > ul > li a::after { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Dropdown submenus
+   The parent stays a real link; a small chevron beside it is the disclosure,
+   so keyboard and touch both have an unambiguous target. Click-driven rather
+   than hover-driven — hover-only menus are unreachable on touch.
+   -------------------------------------------------------------------------- */
+
+.sidenav__has-sub { position: relative; display: flex; align-items: center; gap: 0.25rem; }
+
+.sidenav__sub-toggle {
+  flex: none;
+  width: 16px; height: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+.sidenav__sub-toggle::before {
+  content: "";
+  display: block;
+  width: 5px; height: 5px;
+  margin: 0 auto;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-1px) rotate(45deg);
+  transition: transform 0.25s ease;
+}
+.sidenav__sub-toggle[aria-expanded="true"]::before {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+.sidenav__sub {
+  display: block;              /* not the flex row the rail's own uls use */
+  position: absolute;
+  top: calc(100% + 0.85rem);
+  left: -0.9rem;
+  z-index: 2;
+  min-width: 13rem;
+  margin: 0;
+  padding: 0.6rem 0;
+  list-style: none;
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 18px 40px rgba(9, 40, 26, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+.sidenav__has-sub.is-open .sidenav__sub {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.sidenav__sub a {
+  display: block;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.82rem;
+  text-transform: none;
+  white-space: nowrap;
+  color: var(--ink-soft);
+}
+.sidenav__sub a::after { display: none; }
+.sidenav__sub a:hover { color: var(--green-900); background: var(--band); }
+
+/* --------------------------------------------------------------------------
+   The standing CTA — a filled pill rather than a quiet underline, so the
+   primary action is unmistakably the loudest thing on the rail.
+   -------------------------------------------------------------------------- */
+
+.sidenav__cta {
+  padding: 0.6rem 1.15rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green-700);
+  color: var(--cream);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.sidenav__cta:hover {
+  opacity: 1;
+  background: #00522c;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1000px) {
+  /* In the drawer the submenus are simply always open and indented. */
+  .sidenav__card.is-open .sidenav__has-sub {
+    display: block;
+    border-bottom: 1px solid rgba(14, 84, 54, 0.12);
+  }
+  .sidenav__card.is-open .sidenav__has-sub > a { border-bottom: 0; }
+  .sidenav__card.is-open .sidenav__sub-toggle { display: none; }
+  .sidenav__card.is-open .sidenav__sub {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    min-width: 0;
+    padding: 0 0 0.6rem 1rem;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .sidenav__card.is-open .sidenav__sub a {
+    padding: 0.45rem 0;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  .sidenav__card.is-open .sidenav__sub a:hover { background: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Programme shortcuts in the hero state
+   -------------------------------------------------------------------------- */
+
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__card {
+  flex-direction: column;
+  align-items: center;
+}
+/* The row-break item would become a full-*height* one once the card turns into
+   a column, and there is no strip to divide here anyway. */
+.sidenav[data-reveal]:not(.is-revealed) .sidenav__card::before { display: none; }
+.sidenav[data-reveal]:not(.is-revealed) .hero-nav {
+  display: flex;
+  pointer-events: auto;
+}
+/* Goes with the mark: both share the hero's centre line, so both step aside
+   as soon as the headline starts moving past. */
+.sidenav[data-reveal] .hero-nav { transition: opacity 0.3s ease; }
+.sidenav[data-reveal]:not(.is-revealed).is-scrolled .hero-nav {
+  opacity: 0;
+  pointer-events: none;
+}

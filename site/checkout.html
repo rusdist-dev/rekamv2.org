@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pembayaran — REKAM Nusantara Foundation</title>
+<meta name="description" content="Selesaikan pesanan merchandise REKAM Nusantara: transfer bank atau QRIS untuk DANA, GoPay, OVO, dan ShopeePay.">
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;500;600&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rekam.css">
+<link rel="stylesheet" href="nav-station.css">
+</head>
+<body>
+
+<a class="skip-link" href="#utama">Lewati ke konten utama</a>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="i-arrow" viewBox="0 0 32 32">
+    <path d="M5 5 L26 26 M26 11 L26 26 L11 26"
+          fill="none" stroke="currentColor" stroke-width="4"
+          stroke-linecap="square" stroke-linejoin="miter"/>
+  </symbol>
+</svg>
+
+<header class="sidenav" id="site-header">
+  <div class="sidenav__card">
+    <div class="sidenav__top">
+      <a class="brand" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <button class="sidenav__toggle" id="nav-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Buka menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <form class="sidenav__search" role="search" id="nav-search">
+      <label class="u-visually-hidden" for="nav-q">Cari di situs REKAM</label>
+      <input id="nav-q" name="q" type="search" placeholder="Cari" autocomplete="off">
+      <button type="submit" aria-label="Cari">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+          <path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <div class="sidenav__lang" role="group" aria-label="Pilih bahasa">
+      <span class="sidenav__lang-current" aria-current="true">ID</span>
+      <a class="sidenav__lang-alt" href="#" data-lang="en" lang="en">EN</a>
+    </div>
+
+    <nav class="sidenav__panel" id="nav-panel" aria-label="Navigasi utama" hidden>
+      <p class="sidenav__group">Program</p>
+      <ul>
+        <li><a href="program-forest.html">Forest</a></li>
+        <li><a href="program-urban.html">Urban</a></li>
+        <li><a href="program-ocean.html">Ocean</a></li>
+      </ul>
+
+      <p class="sidenav__group">Jelajahi</p>
+      <ul>
+        <li><a href="tentang.html">Tentang</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li class="sidenav__has-sub">
+          <a href="event-detail.html">Event</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-event" aria-label="Buka submenu Event"></button>
+          <ul class="sidenav__sub" id="sub-event">
+            <li><a href="event-detail.html">Cerita Laut Nusantara</a></li>
+            <li><a href="event-detail.html">Bangga Papua</a></li>
+          </ul>
+        </li>
+        <li class="sidenav__has-sub">
+          <a href="donasi.html">Donasi</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-donasi" aria-label="Buka submenu Donasi"></button>
+          <ul class="sidenav__sub" id="sub-donasi">
+            <li><a href="donasi.html#adopsi">Adopsi Pohon Pakan</a></li>
+            <li><a href="merch.html">Fundraising Product</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+
+  </div>
+</header>
+
+<main id="utama">
+
+<section class="co-head">
+  <div class="wrap">
+    <p class="eyebrow">Merchandise</p>
+    <h1 class="display co-head__title">Selesaikan pesanan</h1>
+    <ol class="co-steps" id="co-steps">
+      <li class="is-on" data-step="1">Pesanan</li>
+      <li data-step="2">Data pembeli</li>
+      <li data-step="3">Pembayaran</li>
+    </ol>
+  </div>
+</section>
+
+<p class="ev-notice" id="co-notice">
+  Belum ada payment gateway di halaman ini. Transfer bank dan QRIS berjalan
+  manual: instruksi dibuat di sini, verifikasi dilakukan tim REKAM.
+</p>
+
+<!-- Shown when localStorage holds nothing -->
+<section class="co-empty" id="co-empty" hidden>
+  <div class="wrap">
+    <h2 class="display co-empty__title">Keranjang masih kosong</h2>
+    <p class="lede">Pilih dulu produknya, nanti kembali ke halaman ini.</p>
+    <a class="btn btn--green" href="merch.html">Buka katalog</a>
+  </div>
+</section>
+
+<section class="co" id="co-main" hidden>
+  <div class="wrap co__grid">
+
+    <div class="co__flow">
+
+      <!-- ---- 1. the order ---- -->
+      <section class="co-card" aria-labelledby="co-h1">
+        <h2 class="co-card__title" id="co-h1"><span>1</span> Pesanan</h2>
+        <ul class="colines" id="co-lines"></ul>
+        <p class="co-card__foot">
+          <a class="co-link" href="merch.html">&larr; Tambah produk lain</a>
+        </p>
+      </section>
+
+      <!-- ---- 2. the buyer ---- -->
+      <section class="co-card" aria-labelledby="co-h2">
+        <h2 class="co-card__title" id="co-h2"><span>2</span> Data pembeli &amp; pengiriman</h2>
+        <form class="co-form" id="co-form" novalidate>
+          <div class="co-field">
+            <label for="f-nama">Nama lengkap</label>
+            <input id="f-nama" name="nama" type="text" autocomplete="name" required>
+          </div>
+          <div class="co-field">
+            <label for="f-wa">Nomor WhatsApp</label>
+            <input id="f-wa" name="wa" type="tel" inputmode="tel" autocomplete="tel"
+                   placeholder="08xxxxxxxxxx" required>
+          </div>
+          <div class="co-field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+          </div>
+
+          <div class="co-field co-field--wide">
+            <label for="f-kirim">Pengiriman</label>
+            <select id="f-kirim" name="kirim" required></select>
+          </div>
+
+          <div class="co-field co-field--wide" id="f-alamat-wrap">
+            <label for="f-alamat">Alamat lengkap</label>
+            <textarea id="f-alamat" name="alamat" rows="3"
+                      placeholder="Jalan, nomor, RT/RW, kelurahan, kecamatan" required></textarea>
+          </div>
+          <div class="co-field co-addr">
+            <label for="f-kota">Kota / kabupaten</label>
+            <input id="f-kota" name="kota" type="text" autocomplete="address-level2" required>
+          </div>
+          <div class="co-field co-addr">
+            <label for="f-pos">Kode pos</label>
+            <input id="f-pos" name="pos" type="text" inputmode="numeric" pattern="[0-9]{5}"
+                   autocomplete="postal-code" maxlength="5" required>
+          </div>
+
+          <div class="co-field co-field--wide">
+            <label for="f-catatan">Catatan <span class="co-opt">(opsional)</span></label>
+            <textarea id="f-catatan" name="catatan" rows="2"
+                      placeholder="Patokan alamat, permintaan ukuran, dsb."></textarea>
+          </div>
+        </form>
+      </section>
+
+      <!-- ---- 3. how to pay ---- -->
+      <section class="co-card" aria-labelledby="co-h3">
+        <h2 class="co-card__title" id="co-h3"><span>3</span> Metode pembayaran</h2>
+
+        <fieldset class="co-pay" id="co-pay">
+          <legend class="u-visually-hidden">Pilih metode pembayaran</legend>
+
+          <label class="pay">
+            <input type="radio" name="metode" value="qris" checked>
+            <span class="pay__box">
+              <span class="pay__row">
+                <span class="pay__name">QRIS &mdash; e-wallet</span>
+                <span class="pay__badge">Paling cepat</span>
+              </span>
+              <span class="pay__desc">
+                Satu kode untuk semua dompet digital. Scan pakai
+                <strong>DANA</strong>, <strong>GoPay</strong>, <strong>OVO</strong>,
+                <strong>ShopeePay</strong>, <strong>LinkAja</strong>, atau aplikasi
+                m-banking apa pun.
+              </span>
+              <span class="pay__wallets" id="pay-wallets"></span>
+            </span>
+          </label>
+
+          <label class="pay">
+            <input type="radio" name="metode" value="bank">
+            <span class="pay__box">
+              <span class="pay__row">
+                <span class="pay__name">Transfer bank</span>
+                <span class="pay__badge pay__badge--quiet">Verifikasi manual</span>
+              </span>
+              <span class="pay__desc">
+                Transfer ke rekening yayasan, lalu kirim bukti. Nominal diberi
+                kode unik tiga angka supaya mudah dicocokkan.
+              </span>
+              <span class="pay__banks" id="pay-banks"></span>
+            </span>
+          </label>
+
+          <label class="pay is-off">
+            <input type="radio" name="metode" value="gpay" disabled>
+            <span class="pay__box">
+              <span class="pay__row">
+                <span class="pay__name">Google Pay</span>
+                <span class="pay__badge pay__badge--off">Belum tersedia</span>
+              </span>
+              <span class="pay__desc">
+                Google Pay hanya bisa jalan lewat payment gateway
+                (Midtrans, Xendit, atau Stripe) yang memverifikasi token
+                pembayaran di sisi server. Halaman statis tidak bisa
+                melakukannya sendiri.
+              </span>
+            </span>
+          </label>
+        </fieldset>
+
+        <p class="co-terms">
+          <label>
+            <input type="checkbox" id="f-setuju">
+            Saya paham pesanan diproses setelah pembayaran diverifikasi tim REKAM.
+          </label>
+        </p>
+
+        <button class="btn btn--green btn--block" type="button" id="co-submit">
+          Buat instruksi pembayaran
+        </button>
+        <p class="co-error" id="co-error" role="alert" hidden></p>
+      </section>
+
+      <!-- ---- 4. the instruction, built after submit ---- -->
+      <section class="co-card co-card--out" id="co-out" hidden aria-labelledby="co-h4">
+        <h2 class="co-card__title" id="co-h4"><span>&#10003;</span> Instruksi pembayaran</h2>
+        <div id="co-out-body"></div>
+      </section>
+
+    </div>
+
+    <!-- ---- running total ---- -->
+    <aside class="co-sum" aria-label="Ringkasan biaya">
+      <h2 class="co-sum__title">Ringkasan</h2>
+      <dl class="co-sum__list">
+        <div><dt>Subtotal</dt><dd id="s-sub">Rp 0</dd></div>
+        <div><dt>Pengiriman</dt><dd id="s-ship">Rp 0</dd></div>
+        <div class="co-sum__uniq" id="s-uniq-row" hidden><dt>Kode unik</dt><dd id="s-uniq">0</dd></div>
+        <div class="co-sum__total"><dt>Total</dt><dd id="s-total">Rp 0</dd></div>
+      </dl>
+      <p class="co-sum__note" id="s-note"></p>
+    </aside>
+
+  </div>
+</section>
+
+</main>
+
+<p class="u-visually-hidden" role="status" aria-live="polite" id="cart-say"></p>
+
+<footer class="site-footer" id="kontak">
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__brand">
+      <a class="brand brand--footer" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <p class="site-footer__blurb">
+        Documenting knowledge. Preserving life.
+      </p>
+      <p class="site-footer__copy">
+        © 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.
+      </p>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Unit dan kanal REKAM">
+      <p class="site-footer__heading">Links</p>
+      <ul>
+        <li><a href="https://rangkong.org">rangkong.org</a></li>
+        <li><a href="https://inaturefilms.org">inaturefilms.org</a></li>
+        <li><a href="https://perikanan.org">perikanan.org</a></li>
+        <li><a href="https://rekamdiveacademy.id">rekamdiveacademy.id</a></li>
+      </ul>
+    </nav>
+
+    <nav class="site-footer__links" aria-label="Media sosial">
+      <p class="site-footer__heading">Follow Us</p>
+      <ul>
+        <li><a href="https://www.instagram.com/rekamnusantara/">Instagram</a></li>
+        <li><a href="https://www.facebook.com/RekamNusantara">Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UCTDq1RHGEF4p_gxLOJtOIuA">YouTube</a></li>
+        <li><a href="https://www.linkedin.com/company/rekamnusantarafoundation/">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script src="shop-config.js"></script>
+<script src="shop.js" defer></script>
+<script src="rekam.js" defer></script>
+<script src="cursor.js" defer></script>
+</body>
+</html>

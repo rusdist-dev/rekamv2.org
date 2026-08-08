@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Donasi — REKAM Nusantara Foundation</title>
+<meta name="description" content="Dukung kerja konservasi REKAM Nusantara: adopsi pohon pakan rangkong dan produk penggalangan dana.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;500;600&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rekam.css">
+<link rel="stylesheet" href="nav-station.css">
+</head>
+<body>
+
+<a class="skip-link" href="#utama">Lewati ke konten utama</a>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="i-arrow" viewBox="0 0 32 32">
+    <path d="M5 5 L26 26 M26 11 L26 26 L11 26"
+          fill="none" stroke="currentColor" stroke-width="4"
+          stroke-linecap="square" stroke-linejoin="miter"/>
+  </symbol>
+</svg>
+
+<header class="sidenav" id="site-header">
+  <div class="sidenav__card">
+    <div class="sidenav__top">
+      <a class="brand" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <button class="sidenav__toggle" id="nav-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Buka menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <form class="sidenav__search" role="search" id="nav-search">
+      <label class="u-visually-hidden" for="nav-q">Cari di situs REKAM</label>
+      <input id="nav-q" name="q" type="search" placeholder="Cari" autocomplete="off">
+      <button type="submit" aria-label="Cari">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+          <path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <div class="sidenav__lang" role="group" aria-label="Pilih bahasa">
+      <span class="sidenav__lang-current" aria-current="true">ID</span>
+      <a class="sidenav__lang-alt" href="#" data-lang="en" lang="en">EN</a>
+    </div>
+
+    <nav class="sidenav__panel" id="nav-panel" aria-label="Navigasi utama" hidden>
+      <p class="sidenav__group">Program</p>
+      <ul>
+        <li><a href="program-forest.html">Forest</a></li>
+        <li><a href="program-urban.html">Urban</a></li>
+        <li><a href="program-ocean.html">Ocean</a></li>
+      </ul>
+
+      <p class="sidenav__group">Jelajahi</p>
+      <ul>
+        <li><a href="tentang.html">Tentang</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li class="sidenav__has-sub">
+          <a href="event-detail.html">Event</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-event" aria-label="Buka submenu Event"></button>
+          <ul class="sidenav__sub" id="sub-event">
+            <li><a href="event-detail.html">Cerita Laut Nusantara</a></li>
+            <li><a href="event-detail.html">Bangga Papua</a></li>
+          </ul>
+        </li>
+        <li class="sidenav__has-sub">
+          <a href="donasi.html" aria-current="page">Donasi</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-donasi" aria-label="Buka submenu Donasi"></button>
+          <ul class="sidenav__sub" id="sub-donasi">
+            <li><a href="donasi.html#adopsi">Adopsi Pohon Pakan</a></li>
+            <li><a href="merch.html">Fundraising Product</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+
+  </div>
+</header>
+
+<main id="utama">
+
+<section class="page-hero page-hero--short">
+  <img class="page-hero__bg" src="assets/card-forest.jpg" alt="" width="682" height="480" fetchpriority="high" decoding="async">
+  <div class="page-hero__scrim" aria-hidden="true"></div>
+  <div class="wrap page-hero__inner">
+    <p class="eyebrow eyebrow--light">Donasi</p>
+    <h1 class="page-hero__title">Dukung kami</h1>
+    <p class="page-hero__lede">
+      Setiap kontribusi menopang riset, patroli, dan dokumentasi di lanskap
+      yang kami dampingi.
+    </p>
+  </div>
+</section>
+
+<section class="give" id="adopsi">
+  <div class="wrap give__grid">
+    <div>
+      <p class="eyebrow">Cara pertama</p>
+      <h2 class="display give__title">Adopsi Pohon Pakan</h2>
+      <p class="lede">
+        Rangkong bergantung pada pohon berbuah tertentu sepanjang musim. Dengan
+        mengadopsi satu pohon pakan, Anda membiayai penandaan, pemantauan
+        berkala, dan perlindungannya bersama masyarakat adat di sekitar kawasan.
+      </p>
+      <ul class="give__list">
+        <li>Penandaan dan pendataan pohon di lokasi</li>
+        <li>Pemantauan berkala oleh tim patroli</li>
+        <li>Laporan kondisi pohon untuk setiap pengadopsi</li>
+      </ul>
+      <a class="btn btn--green" href="#form-donasi">Adopsi satu pohon</a>
+    </div>
+    <img class="give__art" src="assets/card-forest.jpg"
+         alt="Ilustrasi ukir lembah hutan dengan sungai berkelok"
+         width="682" height="480" loading="lazy" decoding="async">
+  </div>
+</section>
+
+<section class="give give--alt" id="produk">
+  <div class="wrap give__grid give__grid--flip">
+    <img class="give__art" src="assets/card-ocean.jpg"
+         alt="Ilustrasi ukir gerombolan ikan di laut"
+         width="652" height="480" loading="lazy" decoding="async">
+    <div>
+      <p class="eyebrow">Cara kedua</p>
+      <h2 class="display give__title">Fundraising Product</h2>
+      <p class="lede">
+        Produk cetak dan merchandise bertema keanekaragaman hayati Nusantara.
+        Seluruh margin penjualan masuk ke kas program konservasi.
+      </p>
+      <ul class="give__list">
+        <li>Cetak ilustrasi ukir seri Forest, Ocean, Urban</li>
+        <li>Buku dan publikasi hasil riset</li>
+        <li>Merchandise kampanye #MerekamNusantara</li>
+      </ul>
+      <a class="btn btn--ghost-green" href="merch.html">Lihat katalog</a>
+    </div>
+  </div>
+</section>
+
+<section class="numbers" id="form-donasi">
+  <div class="wrap">
+    <p class="eyebrow">Langkah berikutnya</p>
+    <h2 class="display numbers__title">Siap berdonasi?</h2>
+    <p class="lede">
+      Kanal pembayaran belum tersambung ke halaman ini. Untuk sementara,
+      hubungi kami lebih dulu dan tim akan memandu prosesnya.
+    </p>
+    <p class="numbers__note">
+      Catatan teknis: sambungkan tombol di atas ke payment gateway atau
+      halaman donasi resmi sebelum halaman ini dipublikasikan.
+    </p>
+    <a class="btn btn--green closing__cta" href="index.html#kontak">Hubungi kami</a>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer" id="kontak">
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__brand">
+      <a class="brand brand--footer" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <p class="site-footer__blurb">
+        Documenting knowledge. Preserving life.
+      </p>
+      <p class="site-footer__copy">
+        © 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.
+      </p>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Unit dan kanal REKAM">
+      <p class="site-footer__heading">Links</p>
+      <ul>
+        <li><a href="https://rangkong.org">rangkong.org</a></li>
+        <li><a href="https://inaturefilms.org">inaturefilms.org</a></li>
+        <li><a href="https://perikanan.org">perikanan.org</a></li>
+        <li><a href="https://rekamdiveacademy.id">rekamdiveacademy.id</a></li>
+      </ul>
+    </nav>
+
+    <nav class="site-footer__links" aria-label="Media sosial">
+      <p class="site-footer__heading">Follow Us</p>
+      <ul>
+        <li><a href="https://www.instagram.com/rekamnusantara/">Instagram</a></li>
+        <li><a href="https://www.facebook.com/RekamNusantara">Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UCTDq1RHGEF4p_gxLOJtOIuA">YouTube</a></li>
+        <li><a href="https://www.linkedin.com/company/rekamnusantarafoundation/">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script src="rekam.js" defer></script>
+<script src="cursor.js" defer></script>
+</body>
+</html>

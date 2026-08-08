@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>360° Video Hero — Three.js</title>
+<link rel="stylesheet" href="hero-360.css">
+
+<!-- Three.js is loaded as an ES module from a CDN. Swap for a local copy
+     (or a bundler) in production so the hero never depends on a third party. -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.169.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+
+<section class="hero" id="hero">
+  <!-- WebGL canvas is injected here by hero-360.js -->
+  <div class="hero__stage" id="stage" aria-hidden="true"></div>
+
+  <!-- Equirectangular source. muted + playsinline are required for autoplay.
+       Drop your own 2:1 equirectangular footage here and it replaces the
+       procedural forest; with no file present the forest is what renders. -->
+  <video id="pano-video" class="visually-hidden"
+         loop muted playsinline preload="auto" crossorigin="anonymous"
+         disablepictureinpicture>
+    <source src="assets/pano.mp4" type="video/mp4">
+    <source src="assets/pano.webm" type="video/webm">
+  </video>
+
+  <!-- Legibility scrim: sits between the sphere and the copy -->
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__overlay">
+    <div class="hero__content">
+      <p class="hero__eyebrow">Old-Growth Field Recordings</p>
+      <h1 class="hero__title">Step into<br>the standing forest.</h1>
+      <p class="hero__lede">
+        An equirectangular scene mapped onto a sphere with you at its centre —
+        drag anywhere to turn, look up through the canopy, or down at the
+        forest floor. No headset, no page reload.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#next">Walk the archive</a>
+        <a class="btn btn--ghost" href="#next">About the recordings</a>
+      </div>
+    </div>
+
+    <div class="hero__hud">
+      <p class="hero__hint" id="hint">
+        <span class="hero__hint-dot" aria-hidden="true"></span>
+        Drag to look around
+      </p>
+      <div class="hero__controls">
+        <!-- aria-label carries the name because .ctrl__label is hidden
+             on narrow viewports; both are kept in sync in hero-360.js. -->
+        <button class="ctrl" id="btn-play" type="button" aria-pressed="true" aria-label="Pause">
+          <span class="ctrl__icon" data-icon="pause" aria-hidden="true"></span>
+          <span class="ctrl__label">Pause</span>
+        </button>
+        <button class="ctrl" id="btn-sound" type="button" aria-pressed="false" aria-label="Unmute">
+          <span class="ctrl__icon" data-icon="muted" aria-hidden="true"></span>
+          <span class="ctrl__label">Unmute</span>
+        </button>
+        <button class="ctrl" id="btn-recenter" type="button" aria-label="Recenter the view">
+          <span class="ctrl__icon" data-icon="recenter" aria-hidden="true"></span>
+          <span class="ctrl__label">Recenter</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shown until the first video frame is decodable, and left in place
+       if WebGL is unavailable. -->
+  <div class="hero__loader" id="loader">
+    <div class="hero__spinner" aria-hidden="true"></div>
+    <p class="hero__loader-text" id="loader-text">Growing the forest…</p>
+  </div>
+</section>
+
+<section class="after" id="next">
+  <h2>Page content continues here</h2>
+  <p>
+    The hero is exactly <code>100svh</code> tall and the page scrolls normally —
+    the viewer only captures pointer drags inside the hero, never the wheel.
+  </p>
+</section>
+
+<script type="module" src="hero-360.js"></script>
+</body>
+</html>

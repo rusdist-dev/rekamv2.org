@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About Us — REKAM Nusantara Foundation</title>
+<meta name="description" content="Championing Indonesia biodiversity through research and conservation. Vision, mission, strategy, organisation structure and the team behind Rekam Nusantara Foundation.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;500;600&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rekam.css">
+<link rel="stylesheet" href="nav-station.css">
+</head>
+<body>
+
+<a class="skip-link" href="#utama">Lewati ke konten utama</a>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="i-arrow" viewBox="0 0 32 32">
+    <path d="M5 5 L26 26 M26 11 L26 26 L11 26"
+          fill="none" stroke="currentColor" stroke-width="4"
+          stroke-linecap="square" stroke-linejoin="miter"/>
+  </symbol>
+</svg>
+
+<header class="sidenav" id="site-header">
+  <div class="sidenav__card">
+    <div class="sidenav__top">
+      <a class="brand" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <button class="sidenav__toggle" id="nav-toggle" type="button"
+              aria-expanded="false" aria-controls="nav-panel" aria-label="Buka menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+
+    <form class="sidenav__search" role="search" id="nav-search">
+      <label class="u-visually-hidden" for="nav-q">Cari di situs REKAM</label>
+      <input id="nav-q" name="q" type="search" placeholder="Cari" autocomplete="off">
+      <button type="submit" aria-label="Cari">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+          <path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+
+    <div class="sidenav__lang" role="group" aria-label="Pilih bahasa">
+      <span class="sidenav__lang-current" aria-current="true">ID</span>
+      <a class="sidenav__lang-alt" href="#" data-lang="en" lang="en">EN</a>
+    </div>
+
+    <nav class="sidenav__panel" id="nav-panel" aria-label="Navigasi utama" hidden>
+      <p class="sidenav__group">Program</p>
+      <ul>
+        <li><a href="program-forest.html">Forest</a></li>
+        <li><a href="program-urban.html">Urban</a></li>
+        <li><a href="program-ocean.html">Ocean</a></li>
+      </ul>
+
+      <p class="sidenav__group">Jelajahi</p>
+      <ul>
+        <li><a href="tentang.html" aria-current="page">Tentang</a></li>
+        <li><a href="berita.html">Berita</a></li>
+        <li class="sidenav__has-sub">
+          <a href="event-detail.html">Event</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-event" aria-label="Buka submenu Event"></button>
+          <ul class="sidenav__sub" id="sub-event">
+            <li><a href="event-detail.html">Cerita Laut Nusantara</a></li>
+            <li><a href="event-detail.html">Bangga Papua</a></li>
+          </ul>
+        </li>
+        <li class="sidenav__has-sub">
+          <a href="donasi.html">Donasi</a>
+          <button class="sidenav__sub-toggle" type="button" aria-expanded="false"
+                  aria-controls="sub-donasi" aria-label="Buka submenu Donasi"></button>
+          <ul class="sidenav__sub" id="sub-donasi">
+            <li><a href="donasi.html#adopsi">Adopsi Pohon Pakan</a></li>
+            <li><a href="merch.html">Fundraising Product</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+
+  </div>
+</header>
+
+<main id="utama">
+
+<!-- ============================================================
+     Page head
+     ============================================================ -->
+<section class="page-hero">
+  <img class="page-hero__bg" src="assets/mountains2.png" alt="" width="1920" height="1080" fetchpriority="high" decoding="async">
+  <div class="page-hero__scrim" aria-hidden="true"></div>
+  <div class="wrap page-hero__inner">
+    <p class="eyebrow eyebrow--light">What we do</p>
+    <h1 class="page-hero__title">About Us</h1>
+    <p class="page-hero__lede">Championing Indonesia biodiversity through research and conservation.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     Vision &amp; Mission
+     ============================================================ -->
+<section class="vm" id="visi-misi">
+  <div class="vm__panel vm__panel--cream">
+    <h2 class="display vm__title">Vision</h2>
+    <p class="vm__text">
+      Capturing and preserving the extraordinary natural heritage of the archipelago
+      to inspire collective awareness and action for environmental sustainability and
+      a better future of Indonesia.
+    </p>
+  </div>
+  <div class="vm__panel vm__panel--sage">
+    <h2 class="display vm__title">Mission</h2>
+    <p class="vm__text">
+      Integrating art, science, technology and traditional wisdom to realize
+      environmental sustainability and human welfare throughout the Indonesian
+      archipelago.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     Strategic thinking
+     ============================================================ -->
+<section class="strategy" id="strategi" data-step="strategies">
+  <div class="wrap">
+    <p class="eyebrow">Strategic thinking</p>
+    <div class="strategy__grid">
+      <div>
+        <p class="strategy__lead">
+          Since our founding in 2013, we have utilized key strategies of networking,
+          collaboration and capacity building to underpin our core strengths of
+          science, technology, arts, media and communications.
+        </p>
+        <p class="strategy__body">
+          This has enabled us to take action, such as developing conservation
+          initiatives in ecologically and economically important locations, as well as
+          formulating policies and spearheading reforms in the management of Indonesia
+          natural resources — all leading to tangible conservation outcomes and
+          socio-economic impacts.
+        </p>
+      </div>
+      <!-- Rebuilt as inline SVG so the four stages can drive it. As a flat
+           image the diagram showed the layers but never said which was which;
+           selecting a stage now lights up the ring it refers to. -->
+      <div class="sthink__art">
+        <svg class="sthink__svg" viewBox="0 0 300 300" role="img"
+             aria-labelledby="sthink-title sthink-desc">
+          <title id="sthink-title">Diagram pemikiran strategis REKAM</title>
+          <desc id="sthink-desc">Tiga lapisan melingkar — jejaring, kolaborasi dan penguatan
+            kapasitas di lingkar luar; konservasi di tapak dan kebijakan di lingkar tengah;
+            sains, teknologi, seni, media dan komunikasi di pusat — mengarah ke capaian
+            konservasi dan dampak sosial-ekonomi.</desc>
+          <defs>
+            <path id="arc-out-top" d="M32,150 A118,118 0 0 1 268,150"/>
+            <path id="arc-out-bot" d="M28,150 A122,122 0 0 0 272,150"/>
+            <path id="arc-mid-top" d="M64,150 A86,86 0 0 1 236,150"/>
+            <path id="arc-mid-bot" d="M60,150 A90,90 0 0 0 240,150"/>
+          </defs>
+
+          <g class="layer layer--strategies">
+            <circle class="band band--outer" cx="150" cy="150" r="120"/>
+            <text class="ringtext"><textPath href="#arc-out-top" startOffset="50%">NETWORKING &#183; COLLABORATION</textPath></text>
+            <text class="ringtext"><textPath href="#arc-out-bot" startOffset="50%">&amp; CAPACITY DEVELOPMENT</textPath></text>
+          </g>
+
+          <g class="layer layer--actions">
+            <circle class="band band--mid" cx="150" cy="150" r="88"/>
+            <text class="ringtext ringtext--mid"><textPath href="#arc-mid-top" startOffset="50%">CONSERVATION AT SITES</textPath></text>
+            <text class="ringtext ringtext--mid"><textPath href="#arc-mid-bot" startOffset="50%">POLICY AND REFORM</textPath></text>
+          </g>
+
+          <g class="layer layer--strengths">
+            <circle class="core" cx="150" cy="150" r="62"/>
+            <text class="coretext" x="150" y="137">SCIENCE</text>
+            <text class="coretext" x="150" y="154">TECH &amp; ART</text>
+            <text class="coretext" x="150" y="171">MEDIA &amp; COMMS</text>
+          </g>
+        </svg>
+        <p class="sthink__caption layer layer--outcomes"><span aria-hidden="true">&darr;</span> Capaian konservasi &amp; dampak sosial-ekonomi</p>
+      </div>
+    </div>
+
+    <div class="sthink">
+      <div class="sthink__tabs" role="tablist" aria-label="Tahap pemikiran strategis">
+        <button class="sthink__tab" type="button" role="tab" id="tab-strategies"
+                aria-selected="true" aria-controls="panel-strategies" data-step="strategies">
+          <span class="sthink__num">1</span> Key strategies
+        </button>
+        <button class="sthink__tab" type="button" role="tab" id="tab-strengths"
+                aria-selected="false" aria-controls="panel-strengths" data-step="strengths" tabindex="-1">
+          <span class="sthink__num">2</span> Core strengths
+        </button>
+        <button class="sthink__tab" type="button" role="tab" id="tab-actions"
+                aria-selected="false" aria-controls="panel-actions" data-step="actions" tabindex="-1">
+          <span class="sthink__num">3</span> Actions
+        </button>
+        <button class="sthink__tab" type="button" role="tab" id="tab-outcomes"
+                aria-selected="false" aria-controls="panel-outcomes" data-step="outcomes" tabindex="-1">
+          <span class="sthink__num">4</span> Outcomes
+        </button>
+      </div>
+
+      <div class="sthink__panel" role="tabpanel" id="panel-strategies" aria-labelledby="tab-strategies" tabindex="0">
+        <p><strong>Jejaring, kolaborasi, dan penguatan kapasitas.</strong> Lingkar terluar —
+        tiga strategi kunci yang menopang seluruh kerja REKAM sejak 2013, dan alasan
+        program-programnya bisa berjalan bersama pemerintah dan mitra.</p>
+      </div>
+      <div class="sthink__panel" role="tabpanel" id="panel-strengths" aria-labelledby="tab-strengths" tabindex="0" hidden>
+        <p><strong>Sains, teknologi, seni, media, dan komunikasi.</strong> Pusat diagram —
+        kekuatan inti yang dipakai untuk membaca persoalan sekaligus menyampaikannya, dan
+        yang ditopang oleh strategi di lingkar luar.</p>
+      </div>
+      <div class="sthink__panel" role="tabpanel" id="panel-actions" aria-labelledby="tab-actions" tabindex="0" hidden>
+        <p><strong>Konservasi di tapak dan kebijakan.</strong> Lingkar tengah — inisiatif
+        konservasi di lokasi yang penting secara ekologis maupun ekonomis, berjalan
+        bersamaan dengan penyusunan kebijakan dan reformasi pengelolaan sumber daya alam.</p>
+      </div>
+      <div class="sthink__panel" role="tabpanel" id="panel-outcomes" aria-labelledby="tab-outcomes" tabindex="0" hidden>
+        <p><strong>Capaian konservasi dan dampak sosial-ekonomi.</strong> Ujung panah —
+        hasil yang dituju, dan yang angka-angkanya bisa dibaca di halaman
+        <a href="program-forest.html">Forest</a>, <a href="program-urban.html">Urban</a>,
+        dan <a href="program-ocean.html">Ocean</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Programme units
+     Narratives condensed from rekam.org/en/konservasi; logos taken from the
+     same page. Two units have no logo there and one has no narrative — see
+     the notes on those cards rather than inventing either.
+     ============================================================ -->
+<section class="units" id="unit">
+  <div class="wrap">
+    <p class="eyebrow">Our units</p>
+    <h2 class="display units__title">Unit program</h2>
+    <p class="lede units__lede">
+      Enam unit menjalankan kerja REKAM di lapangan — dari riset rangkong dan
+      perikanan sampai penceritaan, komunikasi, penegakan hukum sumber daya alam,
+      dan kota berkelanjutan.
+    </p>
+
+    <div class="units__grid">
+
+      <article class="unit">
+        <div class="unit__mark">
+          <img src="assets/unit/rangkong.png" alt="Logo Rangkong Indonesia"
+               width="319" height="167" loading="lazy" decoding="async">
+        </div>
+        <div class="unit__body">
+          <h3 class="unit__name">Rangkong Indonesia</h3>
+          <p class="unit__text">
+            Unit riset yang berangkat dari satu keprihatinan: ketiga belas jenis
+            rangkong di Indonesia harus tetap berada di hutan, menjaga sisa 98 juta
+            hektar hutan hujan tropis. Kerjanya melindungi jenis-jenis burung ini
+            beserta habitatnya, sekaligus mendampingi masyarakat yang hidupnya
+            bergantung pada kehadiran mereka.
+          </p>
+          <a class="unit__link" href="https://rangkong.org">rangkong.org</a>
+        </div>
+      </article>
+
+      <article class="unit">
+        <div class="unit__mark">
+          <img src="assets/unit/frci.png" alt="Logo Fisheries Resources Center of Indonesia"
+               width="327" height="139" loading="lazy" decoding="async">
+        </div>
+        <div class="unit__body">
+          <h3 class="unit__name">Fisheries Resources Center of Indonesia</h3>
+          <p class="unit__text">
+            Lahir dari diskusi antara akademisi perikanan dan organisasi
+            non-pemerintah, dengan misi &ldquo;Sustainability and Justice for
+            Fisheries in Indonesia&rdquo;. FRCI diharapkan menyumbang pada
+            persoalan perikanan nasional yang genting dan menawarkan terobosan
+            alternatif untuk tantangan ke depan.
+          </p>
+          <a class="unit__link" href="https://perikanan.org">perikanan.org</a>
+        </div>
+      </article>
+
+      <article class="unit">
+        <div class="unit__mark">
+          <img src="assets/unit/infis.png" alt="Logo Indonesia Nature Film Society"
+               width="376" height="110" loading="lazy" decoding="async">
+        </div>
+        <div class="unit__body">
+          <h3 class="unit__name">Story Telling</h3>
+          <p class="unit__former">Sebelumnya Indonesia Nature Film Society (INFIS)</p>
+          <p class="unit__text">
+            Unit produksi film REKAM di Bogor, Jawa Barat. Menjadi rumah bagi para
+            penggerak yang menekuni dokumenter dan ingin memperluas kesadaran
+            publik atas kekayaan alam dan budaya Indonesia.
+          </p>
+          <a class="unit__link" href="https://inaturefilms.org">inaturefilms.org</a>
+        </div>
+      </article>
+
+      <article class="unit">
+        <div class="unit__mark unit__mark--letters" aria-hidden="true"><span>CC</span></div>
+        <div class="unit__body">
+          <h3 class="unit__name">Creative Communication</h3>
+          <p class="unit__text">
+            Komitmen menyampaikan narasi kritis yang berpijak pada riset data dan
+            pemikiran yang kuat. Kerjanya menghasilkan informasi bermutu tinggi
+            yang tetap bertumpu pada data dan fakta.
+          </p>
+          <p class="unit__note">Belum ada logo unit ini di rekam.org.</p>
+        </div>
+      </article>
+
+      <article class="unit">
+        <div class="unit__mark unit__mark--letters" aria-hidden="true"><span>NRCU</span></div>
+        <div class="unit__body">
+          <h3 class="unit__name">Natural Resources Crime Unit</h3>
+          <p class="unit__note unit__note--only">
+            Narasi dan logo unit ini tidak ada di rekam.org, jadi tidak ada yang
+            bisa diambil. Kirimkan teksnya dan saya lengkapi.
+          </p>
+        </div>
+      </article>
+
+      <article class="unit">
+        <div class="unit__mark">
+          <img src="assets/unit/urban.png" alt="Logo Urban and Sustainability"
+               width="383" height="127" loading="lazy" decoding="async">
+        </div>
+        <div class="unit__body">
+          <h3 class="unit__name">Urban &amp; Sustainability</h3>
+          <p class="unit__text">
+            Direktorat yang dibentuk untuk mendampingi masyarakat dan pemerintah
+            daerah mencari jalan keluar atas persoalan lingkungan di perkotaan.
+            Dimulai di Kota Bogor bersama pemerintah kota, warga, dan pelaku usaha
+            untuk menata pengelolaan sampah di kawasan permukiman.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Organisation structure
+     ============================================================ -->
+<section class="org" id="struktur">
+  <div class="wrap">
+    <p class="eyebrow">Organization structure</p>
+    <h2 class="display org__title">How we are organised</h2>
+    <!-- Rebuilt from the org chart as a real tree: nested lists, so it is
+         navigable by keyboard and readable by a screen reader, and each unit
+         opens on demand instead of showing all 16 posts at once. Names that
+         have a profile in the team section below become buttons — that wiring
+         is done in JS by matching names, so this markup never goes stale. -->
+    <div class="orgchart" id="orgchart">
+      <div class="orgchart__tools">
+        <button class="chip" type="button" data-org="expand">Buka semua</button>
+        <button class="chip" type="button" data-org="collapse">Tutup semua</button>
+      </div>
+
+      <div class="orgnode orgnode--board">
+        <div>
+          <p class="orgnode__role">Advisory Board</p>
+          <p class="orgnode__people">Nanang Sujana &middot; Prof. Charlie D. Heatubun &middot; Prof. Mirza D. Kusrini</p>
+        </div>
+        <div>
+          <p class="orgnode__role">Supervisory Board</p>
+          <p class="orgnode__people">Ridzki R. Sigit &middot; Dian Agustine Nuriman &middot; Farwiza Farhan</p>
+        </div>
+      </div>
+
+      <div class="orgnode orgnode--chair">
+        <p class="orgnode__role">Chairperson of the Foundation</p>
+        <p class="orgnode__name" data-person="Irfan Yulianto">Irfan Yulianto</p>
+      </div>
+
+      <ul class="orgbranch">
+        <li class="orgunit">
+          <div class="orgunit__row">
+            <button class="orgunit__toggle" type="button" aria-expanded="false"
+                    aria-controls="unit-ops" aria-label="Manajer Director for Operations"></button>
+            <span class="orgunit__role">Director for Operations</span>
+            <span class="orgunit__name" data-person="Wahyu Mulyono">Wahyu Mulyono</span>
+            <span class="orgunit__meta"><span class="orgunit__count">1</span> manajer</span>
+          </div>
+          <ul class="orgunit__list" id="unit-ops" hidden>
+            <li><span class="orgm__role">Mgr. for Finance</span><span class="orgm__name" data-person="Nuraeni">Nuraeni</span></li>
+          </ul>
+        </li>
+
+        <li class="orgunit">
+          <div class="orgunit__row">
+            <button class="orgunit__toggle" type="button" aria-expanded="false"
+                    aria-controls="unit-ocean" aria-label="Manajer Director for Ocean Program"></button>
+            <span class="orgunit__role">Director for Ocean Program</span>
+            <span class="orgunit__name" data-person="Heidi Retnoningtyas">Heidi Retnoningtyas</span>
+            <span class="orgunit__meta"><span class="orgunit__count">6</span> manajer</span>
+          </div>
+          <ul class="orgunit__list" id="unit-ocean" hidden>
+            <li><span class="orgm__role">Mgr. for Species Conservation</span><span class="orgm__name" data-person="Efin Muttaqin">Efin Muttaqin</span></li>
+            <li><span class="orgm__role">Mgr. for Fisheries Management</span><span class="orgm__name" data-person="Intan Destianis Hartati">Intan Destianis Hartati</span></li>
+            <li><span class="orgm__role">Mgr. for Central Java</span><span class="orgm__name" data-person="Oktavianto Prastyo">Octavianto P. Darmono</span></li>
+            <li><span class="orgm__role">Mgr. for MPA Management</span><span class="orgm__name" data-person="Prayekti Ningtias">Prayekti Ningtias</span></li>
+            <li><span class="orgm__role">Mgr. for Blue Carbon</span><span class="orgm__name" data-person="Jessica Pingkan">Jessica Pingkan</span></li>
+            <li><span class="orgm__role">Mgr. for Ocean Accounts</span><span class="orgm__name" data-person="Annisya Rosdiana">Annisya Rosdiana</span></li>
+          </ul>
+        </li>
+
+        <li class="orgunit">
+          <div class="orgunit__row">
+            <button class="orgunit__toggle" type="button" aria-expanded="false"
+                    aria-controls="unit-forest" aria-label="Manajer Director for Forest Program"></button>
+            <span class="orgunit__role">Director for Forest Program</span>
+            <span class="orgunit__name" data-person="Yoki Hadiprakarsa">Yok Yok Hadiprakarsa</span>
+            <span class="orgunit__meta"><span class="orgunit__count">1</span> manajer</span>
+          </div>
+          <ul class="orgunit__list" id="unit-forest" hidden>
+            <li><span class="orgm__role">Mgr. for Rangkong Indonesia</span><span class="orgm__name" data-person="Riki Rahmansyah">Riki Rahmansyah</span></li>
+          </ul>
+        </li>
+
+        <li class="orgunit">
+          <div class="orgunit__row">
+            <button class="orgunit__toggle" type="button" aria-expanded="false"
+                    aria-controls="unit-urban" aria-label="Manajer Director for Urban and Sustainability Program"></button>
+            <span class="orgunit__role">Director for Urban and Sustainability Program</span>
+            <span class="orgunit__name" data-person="Een Irawan Putra">Een Irawan Putra</span>
+            <span class="orgunit__meta"><span class="orgunit__count">1</span> manajer</span>
+          </div>
+          <ul class="orgunit__list" id="unit-urban" hidden>
+            <li><span class="orgm__role">Mgr. for Urban and Sustainability</span><span class="orgm__name" data-person="Irfan Hawari">Irfan Hawari</span></li>
+          </ul>
+        </li>
+
+        <!-- Two managers report to the chairperson directly, with no directorate
+             between. They sit on the same spine as the directorates because that
+             is what they are — peers on it. They simply have nobody reporting to
+             them, so there is no toggle and no panel. -->
+        <li class="orgunit orgunit--solo">
+          <div class="orgunit__row">
+            <span class="orgunit__role">Mgr. for Creative Communication</span>
+            <span class="orgunit__name" data-person="Irwan Setiadi">Irwan Setiadi</span>
+          </div>
+        </li>
+
+        <li class="orgunit orgunit--solo">
+          <div class="orgunit__row">
+            <span class="orgunit__role">Mgr. for Story Telling</span>
+            <span class="orgunit__name" data-person="Dini Aristya Wulandari">Dini Aristya Wulandari</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Where we work
+     ============================================================ -->
+<section class="where" id="wilayah">
+  <div class="wrap">
+    <p class="eyebrow">Where we work</p>
+    <img class="where__map" src="assets/peta-kerja.svg"
+         alt="Peta wilayah kerja REKAM di Indonesia, mencakup Wilayah Pengelolaan Perikanan FMA 571 hingga FMA 718"
+         width="750" height="380" loading="lazy" decoding="async">
+    <img class="where__legend" src="assets/where-we-work.svg"
+         alt="Tabel cakupan kerja empat unit: Rangkong Indonesia, FRCI, Natural Resources Crime Unit, dan Urban &amp; Sustainability — pada tingkat nasional, provinsi/tapak, dan Wilayah Pengelolaan Perikanan"
+         width="1117" height="308" loading="lazy" decoding="async">
+
+    <!-- Street View sits under the illustrated map, not in place of it: the map
+         shows the fishery management areas, this shows what the ground looks
+         like. Nothing loads until the button is pressed. -->
+    <div class="sv" id="sv">
+      <div class="sv__head">
+        <h3 class="sv__title">Tampak dari jalan</h3>
+        <p class="sv__lede">
+          Kota tempat tim dan enumerator kami bekerja, dilihat lewat Google
+          Street View. Pilih lokasi, lalu seret untuk melihat sekeliling.
+        </p>
+      </div>
+
+      <div class="sv__places" role="group" aria-label="Pilih lokasi"></div>
+
+      <div class="sv__stage">
+        <div class="sv__pano" id="sv-pano"></div>
+        <div class="sv__cover sv__cover--idle">
+          <p class="sv__cover-text">
+            Street View dimuat hanya kalau Anda memintanya — membukanya
+            mengirimkan alamat IP Anda ke Google dan menggunakan kuota API
+            REKAM.
+          </p>
+          <button class="btn btn--green sv__load" type="button">Buka Street View</button>
+        </div>
+      </div>
+
+      <p class="sv__status" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Team
+     ============================================================ -->
+<section class="team" id="tim">
+  <div class="wrap">
+    <p class="eyebrow">Our team</p>
+    <h2 class="display team__title">The people behind the work</h2>
+    <p class="lede team__lede">
+      We are a group of dedicated environmentalists who conduct research, publish
+      scientific publications, and disseminate Indonesia natural and cultural
+      treasures through engaging audiovisual, text, visual, and graphic content to
+      educate and encourage public awareness.
+    </p>
+
+    <div class="team__grid">
+      <article class="person">
+        <img class="person__photo" src="assets/team/irfan-yulianto.jpg" alt="Potret Irfan Yulianto"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Irfan Yulianto</h3>
+          <p class="person__role">Chairperson of the Foundation</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Dr. Irfan Yulianto currently works at the REKAM Foundation and IPB University. As a member of FRCI Advisory Board, Irfan has a history of research in fisheries, marine biology, and environmental and conservation sciences for over 20 years. Irfan's vast research experiences includes community-based natural resource management, marine conservation area management and networking, species conservation, and sustainable fisheries, enriching the perspective and analysis of FRCI's research.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/wahyu-mulyono.jpg" alt="Potret Wahyu Mulyono"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Wahyu Mulyono</h3>
+          <p class="person__role">Director for Operations</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>With his expertise, this Yogyakarta-born man once led the documentary division in one of Indonesia’s national media. His documentary had been nominated and won awards, thanks to his hard work. He is now working on #DocuCamp filmmaking and programmes in Rekam Nusantara Foundation.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/yoki-hadiprakarsa.jpg" alt="Potret Yoki Hadiprakarsa"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Yoki Hadiprakarsa</h3>
+          <p class="person__role">Director for Forest Program</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Yokyok Hadiprakarsa, known as Yoki, boasts over two decades of experience in wildlife research and conservation locally and internationally. His primary areas of expertise are hornbill ecology and wildlife management in multifunctional landscapes supported by his tech savviness and quantitative mind. His passion for wildlife stems from his childhood, and he has established himself as a trailblazer in the field. Yoki is a founding member of Rekam Nusantara and the founder and leader of the Rangkong Indonesia team,  driving significant strides in hornbill conservation in Indonesia.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/een-irawan-putra.jpg" alt="Potret Een Irawan Putra"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Een Irawan Putra</h3>
+          <p class="person__role">Director for Urban and Sustainability Program</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Een Irawan Putra is one of the co-founders of the Rekam Nusantara Foundation. Born in North Bengkulu, he has long been passionate about environmental issues, forestry, Indigenous peoples’ rights, and sustainable natural resource management. His interest in conservation began during his studies at the Department of Forest Conservation and Ecotourism, Faculty of Forestry, IPB University, where he was also active in the outdoor student organization LAWALATA IPB.</p>
+            <p>After graduating from IPB University in 2004, he immediately chose to work with non-governmental organizations and engage directly in fieldwork. He traveled across Indonesia to conduct investigations into environmental and forestry crimes, carry out research, write, and produce documentary videos for educational and advocacy purposes focused on protecting Indonesia’s natural resources. His work also brought him to several countries in Asia, Europe, and the United States. For him, there can be no compromise when it comes to confronting environmental offenders and those who destroy Indonesia’s nature.</p>
+            <p>When Rekam Nusantara was established in 2013, he was entrusted by the founding members to lead the organization. He holds a Master’s degree in Natural Resource and Environmental Management (PSL) from IPB University.</p>
+            <p>Driven by his deep affection for rivers, since 2009 he has been actively involved in the Ciliwung River Care Community in Bogor City—a contribution he considers a tangible act for the environment. In 2018, together with Bogor Mayor Bima Arya Sugiarto, he co-founded the Ciliwung River Naturalization Task Force (SATGAS) of Bogor City.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/heidi-retnonigtyas.jpg" alt="Potret Heidi Retnoningtyas"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Heidi Retnoningtyas</h3>
+          <p class="person__role">Director for Ocean Program</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Heidi Retnoningtyas, or affectionately known as Tyas, has become a part of the Fisheries Resources Center of Indonesia (FRCI) program as the Project Leader for IKAN. IKAN is an initiative for the collection and management of data on catches from various groups of resources, namely demersal fish (snappers, groupers, and emperors), crabs, and sharks. Data collection is carried out through the IKAN application and involves enumerators scattered in fish landing locations, such as Pati (Central Java), North Lombok (NTB), and Pangkajene Kepulauan (South Sulawesi). In addition to her experience in fisheries management projects/initiatives, Tyas also has the capacity to network and establish relations with various parties, including the central government, local government, researchers, and academics. Through the IKAN program, various parties can actively engage in supporting the data collection of fisheries resources in Indonesia, both as contributors and users of the data. Tyas obtained a master's degree in Marine Science from IPB University and a doctoral degree from the University of Rostock, Germany, through the DAAD Research Grants - Doctoral Programmes in Germany scholarship scheme.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/nuraeni.jpg" alt="Potret Nuraeni"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Nuraeni</h3>
+          <p class="person__role">Finance Manager</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Neni is responsible for reviewing Rekam Nusantara’s financial statements. Prior to joining Rekam Nusantara Foundation, Neni also worked in various non-profit organisations, including Kaoem Telapak, Sajogyo Institute, and the Association of Indigenous Women of the Archipelago (PEREMPUAN AMAN). Neni hopes to make a significant contribution to Rekam Nusantara Foundation and witness the organisation’s bright future.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/riki-rahmansyah.jpg" alt="Potret Riki Rahmansyah"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Riki Rahmansyah</h3>
+          <p class="person__role">Kalimantan Hornbill Conservation Program Manager</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>One of the conservationists, a graduate of the Forestry Department at the University of Bengkulu, who enjoys observing wildlife. He completed his final project by researching large mammals in the former HPK Seblat, PLG HPKh. He began to develop an interest in observing birds in 2014 and became one of the contributors to the Asian Waterbird Census for the Bengkulu region until 2018. He has also been involved in bird research on Enggano Island with LIPI. He joined Rangkong Indonesia, one of the conservation units of Rekam Nusantara in the Kapuas Hulu Nature Reserve, West Kalimantan.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/irwan-setiadi.jpg" alt="Potret Irwan Setiadi"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Irwan Setiadi</h3>
+          <p class="person__role">Communication Manager</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Irwan admitted that he has an open personality and likes to network with many people. The man who enjoys adventure, is a graduate of Communication Management Science at the Institute of Social and Political Sciences (IISIP) Jakarta. His educational background also made him accustomed to thinking about various campaign ideas to make people aware of environmental issues.At Rekam, he is in charge of environmentally conscious campaign strategies through digital mediums including social media. He hopes that Rekam Nusantara can always grow and have many studies that are beneficial to the wider community.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/efin-muttaqin.jpg" alt="Potret Efin Muttaqin"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Efin Muttaqin</h3>
+          <p class="person__role">FRCI Manager</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Born in Garut on 31 August 1982, Efin completed his bachelor degree in the Department of Marine Science of the Faculty of Fisheries and Marine Science, IPB University. He continued his graduate degree in the Department of Coastal Resource and Small Island Management, IPB University. Efin has had over 15 years of experience in marine conservation, specifically in developing effective management for national parks, taking Karimunjawa and Taka Bonerate National Park as project implementation sites. He is a diver with a dive master certificate from the International Scuba School. Efin specializes in conducting monitoring for coral reef ecosystems, coral bleaching surveys, and was involved in several coral reef ecosystem surveys in many areas in Indonesia.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/annisya-rosdiana.jpg" alt="Potret Annisya Rosdiana"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Annisya Rosdiana</h3>
+          <p class="person__role">FRCI Manager</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Annisya Rosdiana, or Anyes, received her undergraduate and master degree in Marine Science from IPB University. She has been actively contributing in many initiatives related to marine and fisheries since 2013, including the development of marine debris action plan, studies on climate change vulnerability, and studies on socio-economic development in coastal regions. In 2019, Anyes joined an international NGO working on the designation and management of 29 conservation areas. She took part in supporting the development of pelagic protected areas, the development of evaluation tools for marine protected areas (MPAs), and conducted institutional assessment for conservation areas. She was promoted as a Fisheries Coordinator in the same organization in 2020 to manage fisheries management program, including to supervise the compilation and implementation of fisheries management planning and harvest strategy at national level and provincial level, as well as developing and implementing the Fisheries Improvement Project (FIP). Anyes joined FRCI in 2021 as a Project Leader in implementing Ocean Accounts Pilot in Indonesia to support the national program for sustainable fisheries and conservation areas.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/oktavianto-prastyo.jpg" alt="Potret Oktavianto Prastyo"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Oktavianto Prastyo</h3>
+          <p class="person__role">FRCI Manager</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Born in Madiun in 1990, Oktavianto completed his bachelor at the Faculty of Fisheries and Marine Science in 2012 and master degree in 2016 at the IPB University. He joined FRCI in March 2021 as a Project Leader in program implementation in Central Java. Prior to joining FRCI, Oktavianto has been involved in sustainable fisheries programs, conservation areas, and facilitation for the coastal community for over seven years. He developed fishery management programs and conservation for Wedgefish and Giant Guitarfish in the northern coast of Java, particularly in Central Java, through collaboration with the provincial government through the Department of Marine Affairs and Fisheries of Central the Faculty of Fisheries and Marine Science of Diponegoro University.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/intan-destianis-hartati.jpg" alt="Potret Intan Destianis Hartati"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Intan Destianis Hartati</h3>
+          <p class="person__role">FRCI Manager</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Intan Destianis Hartati has been working in the field of conservation since 2017 as a Fisheries Science and Database Officer. In her career, Intan is responsible for controlling and managing fisheries database systems and conducting analysis on fish stock conditions using statistical software such as RStudio. With her expertise in identifying coral reef and demersal fish species, Intan has also contributed to the writing of the book &quot;Kerapu di Indonesia / Groupers in Indonesia&quot;. In 2023, Intan joined the Fisheries Resource Center of Indonesia (FRCI) as a Senior Officer for Sustainable Fisheries and Conservation. In this role, Intan is responsible for managing sustainable fisheries and marine protected areas. Additionally, Intan is involved in supporting the implementation of the Pilot Projects of Ocean Accounts Indonesia.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/dewi-pudiawati.jpg" alt="Potret Dewi Pudiawati"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Dewi Pudiawati</h3>
+          <p class="person__role">Finance Staff</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Dewi Pudiawati was born in Bogor, 1st December 1986. She is a travel lover who joined Rekam Nusantara in 2013 as a finance staff. She is responsible for inputting data on the organisation’s finance and journal voucher on Accurate Online, as well as donor reports and others.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/bernita-sumardja.jpg" alt="Potret Bernita Sumardja"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Bernita Sumardja</h3>
+          <p class="person__role">Senior Financial Staff</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Bernita Sumardja joined Rekam Nusantara Foundation in January 2018. Graduated from Trisakti University’s Environmental Engineering programme, she has worked in the banking industry for many years. She works as an administrative staff at Rekam Nusantara Foundation, where she is in charge of various secretariat reports, projects, payroll, Employee Social Security (BPJS Ketenagakerjaan) programme, and monthly office expenses.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/aulia-nurahman.jpg" alt="Potret Aulia Nurahman"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Aulia Nurahman</h3>
+          <p class="person__role">Footage Curator</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Aulia joined Rekam Nusantara Foundation in 2015 and now works as a database and general affairs staff. He completed his high school and undergraduate education in Bandung. He values discipline and order, both at home and at work. He likes watching movies or series in his free time. This Geminian hopes he will always be able to deliver the best work for the foundation.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/rizki-rukyanti.jpg" alt="Potret Rizki Rukyanti"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Rizki Rukyanti</h3>
+          <p class="person__role">Communication Staff</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Kiki is now pursuing a degree in communication at Indonesia Open University. She formerly majored in Environmental Engineering and Management at IPB University Vocational School. As a Gemini girl, she enjoys not only traveling and capturing moments through photographs and videos, but also spicy foods and fried chicken.</p>
+            <p>Kiki loves her current role because it allows her to share her knowledge of hornbills with the community. She wants to connect with hornbill enthusiasts and even other conservationists.</p>
+            <p>Kiki hopes that Rekam Nusantara Foundation will maintain its spirit and continue to promote and raise awareness of the environment and humanity.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/pandu-wijaya.jpg" alt="Potret Pandu Wijaya"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Pandu Wijaya</h3>
+          <p class="person__role">Illustrator</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>Pandu is an accomplished illustrator who loves daydreaming and portraying his reveries through sketches or drawings, which has earned him the position of a senior illustrator and animator at Rekam Nusantara Foundation.</p>
+          </details>
+        </div>
+      </article>
+      <article class="person">
+        <img class="person__photo" src="assets/team/masud-wijaya.jpg" alt="Potret Masud Wijaya"
+             width="600" height="750" loading="lazy" decoding="async">
+        <div class="person__body">
+          <h3 class="person__name">Masud Wijaya</h3>
+          <p class="person__role">Graphic Designer</p>
+          <details class="person__bio">
+            <summary>Baca profil</summary>
+            <p>His previous work experience helps him see the nature from different perspectives. For example, while working at the Directorate of Use of Conservation Forest Environmental Services, he had an opportunity to visit half of all of Indonesia’s national parks which turned out to have high natural resources and biodiversity. He keeps this as a highly valuable experience.</p>
+          </details>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Closing
+     ============================================================ -->
+<section class="closing">
+  <div class="wrap">
+    <h2 class="display closing__title">Be Part of the Story</h2>
+    <p class="lede">
+      Ada gagasan, data, atau kolaborasi yang ingin dibawa bersama? Kami terbuka
+      untuk bekerja sama di seluruh lanskap kehidupan Indonesia.
+    </p>
+    <div class="volunteer__actions">
+      <a class="btn btn--green" href="donasi.html#adopsi">Adopt</a>
+      <a class="btn btn--green" href="donasi.html">Give</a>
+      <a class="btn btn--ghost-green" href="merch.html">Shop</a>
+    </div>
+  </div>
+  <img class="closing__art" src="assets/canopy.jpg" alt=""
+       width="3072" height="630" loading="lazy" decoding="async">
+</section>
+
+</main>
+
+<footer class="site-footer" id="kontak">
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__brand">
+      <a class="brand brand--footer" href="index.html" aria-label="REKAM Nusantara Foundation — beranda">
+        <span class="brand__mark" aria-hidden="true"></span>
+      </a>
+      <p class="site-footer__blurb">
+        Documenting knowledge. Preserving life.
+      </p>
+      <p class="site-footer__copy">
+        © 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.
+      </p>
+    </div>
+
+    <nav class="site-footer__links" aria-label="Unit dan kanal REKAM">
+      <p class="site-footer__heading">Links</p>
+      <ul>
+        <li><a href="https://rangkong.org">rangkong.org</a></li>
+        <li><a href="https://inaturefilms.org">inaturefilms.org</a></li>
+        <li><a href="https://perikanan.org">perikanan.org</a></li>
+        <li><a href="https://rekamdiveacademy.id">rekamdiveacademy.id</a></li>
+      </ul>
+    </nav>
+
+    <nav class="site-footer__links" aria-label="Media sosial">
+      <p class="site-footer__heading">Follow Us</p>
+      <ul>
+        <li><a href="https://www.instagram.com/rekamnusantara/">Instagram</a></li>
+        <li><a href="https://www.facebook.com/RekamNusantara">Facebook</a></li>
+        <li><a href="https://www.youtube.com/channel/UCTDq1RHGEF4p_gxLOJtOIuA">YouTube</a></li>
+        <li><a href="https://www.linkedin.com/company/rekamnusantarafoundation/">LinkedIn</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<script src="streetview-config.js"></script>
+<script src="streetview.js" defer></script>
+<script src="rekam.js" defer></script>
+<script src="cursor.js" defer></script>
+</body>
+</html>
