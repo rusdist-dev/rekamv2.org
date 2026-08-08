@@ -63,7 +63,9 @@ export function visibleText(html) {
     .filter(Boolean);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`.replace(/\\/g, '/') || process.argv[2]) {
+// Only run the CLI when this file IS the entry point. Comparing resolved paths
+// rather than URL-vs-argv strings, which differ on Windows.
+if (process.argv[1] && import.meta.filename === path.resolve(process.argv[1])) {
   const dir = process.argv[2];
   const out = {};
   for (const file of fs.readdirSync(dir).filter((f) => f.endsWith('.html')).sort()) {
