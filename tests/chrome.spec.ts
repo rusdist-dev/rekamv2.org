@@ -104,28 +104,24 @@ test.describe('drawer', () => {
   });
 });
 
-/* Contrast failures inherited from the source design, not introduced by the
- * rewrite. Verified by running the same axe rules against the old static site:
- * donasi.html and index.html each report color-contrast on exactly these
- * footer nodes, and tentang.html reports eight more of its own.
+/* Escape hatch for accessibility failures that are genuinely inherited and
+ * genuinely un-fixable, recorded per rule with the nodes they cover. Listing
+ * them beats deleting the assertion, which would blind the gate entirely.
  *
- * The cause is the palette, not the markup. Cream on --green-900 (#2C7A56)
- * measures 4.66:1 even at full opacity, so the footer's 0.78 blurb (3.51),
- * 0.55 copyright (2.52) and 0.7 heading (3.13) cannot pass AA without a
- * visible design change. Moving the footer to --green-800 (#00522C, already in
- * the palette as the button hover) would take those to 5.74 / 4.94 / 4.94.
- *
- * That is a brand decision, so it is not being made here. Allowing the known
- * set — rather than deleting the assertion — keeps the gate live: any NEW
- * violation, or any new node under these rules, still fails.
+ * It is currently empty, and that is the interesting part. The source design
+ * shipped four WCAG AA contrast failures — confirmed by running these same
+ * rules against the old static site, where donasi.html and index.html report
+ * color-contrast on the footer blurb, copyright and heading, plus the language
+ * toggle. The cause was the palette: cream on --green-900 (#2C7A56) is 4.66:1
+ * at FULL opacity, so text at 0.55-0.78 could not pass. They are fixed rather
+ * than tolerated — see SiteFooter.tsx.
  */
-const INHERITED = {
-  'color-contrast': [
-    'text-cream/78', // .site-footer__blurb
-    'text-cream/55', // .site-footer__copy
-    'opacity-70', // .site-footer__heading
-    'text-green-ink/45', // .sidenav__lang-alt
-  ],
+const INHERITED: Record<string, string[]> = {
+  /* Empty on purpose. The four contrast failures the source design shipped are
+     fixed rather than carried over: the footer sits on --green-800 and the
+     language toggle uses --ink-soft. Kept as a mechanism, not deleted, so a
+     genuinely un-fixable inherited issue can be recorded here with its reason
+     instead of the whole assertion being weakened. */
 };
 
 test.describe('accessibility', () => {
@@ -137,7 +133,7 @@ test.describe('accessibility', () => {
         .analyze();
 
       const unexpected = results.violations.flatMap((v) => {
-        const allowed = INHERITED[v.id as keyof typeof INHERITED];
+        const allowed = INHERITED[v.id];
         if (!allowed) return [{ rule: v.id, html: v.nodes[0]?.html }];
         return v.nodes
           .filter((n) => !allowed.some((cls) => n.html.includes(cls)))

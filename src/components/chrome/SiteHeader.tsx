@@ -150,7 +150,7 @@ function LangSwitch({ className }: { className?: string }) {
       <span aria-hidden="true" className="text-green-ink/30">
         /
       </span>
-      <span lang="en" className="text-green-ink/45">
+      <span lang="en" className="text-ink-soft">
         EN
       </span>
     </div>

@@ -5,7 +5,16 @@ import { FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
  *
  * This block was byte-identical across all eleven pages — 35 lines copied
  * verbatim, 385 lines in total. It is the single clearest case in the codebase
- * for a shared component. */
+ * for a shared component.
+ *
+ * One deliberate departure from the source: the ground is --green-800 rather
+ * than --green-900, and the copyright line sits at 0.7 rather than 0.55.
+ * Cream on --green-900 measures 4.66:1 at FULL opacity, so the original's
+ * 0.78 blurb (3.51), 0.55 copyright (2.52) and 0.7 heading (3.13) all failed
+ * WCAG AA — confirmed by running axe against the old static site, where
+ * donasi.html and index.html report exactly these nodes. --green-800 (#00522C)
+ * was already in the palette as the button hover colour, so this stays inside
+ * the brand while taking the three to 5.74 / 4.94 / 5.45. */
 
 function LinkColumn({ heading, links, label }: { heading: string; links: { href: string; label: string }[]; label: string }) {
   return (
@@ -26,7 +35,7 @@ function LinkColumn({ heading, links, label }: { heading: string; links: { href:
 
 export function SiteFooter() {
   return (
-    <footer id="kontak" className="bg-green-900 py-[clamp(2rem,4vw,3rem)] text-white">
+    <footer id="kontak" className="bg-green-800 py-[clamp(2rem,4vw,3rem)] text-white">
       <div
         className={
           'mx-auto grid w-full max-w-wrap items-start gap-x-[clamp(2rem,5vw,4.5rem)] gap-y-[clamp(1.5rem,4vw,3rem)] px-gutter ' +
@@ -40,7 +49,7 @@ export function SiteFooter() {
           <p className="m-0 max-w-[34ch] text-[0.92rem] leading-[1.65] text-cream/78">
             Documenting knowledge. Preserving life.
           </p>
-          <p className="mt-[0.9rem] mb-0 text-[0.8rem] leading-[1.6] text-cream/55">
+          <p className="mt-[0.9rem] mb-0 text-[0.8rem] leading-[1.6] text-cream/70">
             © 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.
           </p>
         </div>
