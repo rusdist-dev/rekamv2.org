@@ -99,10 +99,41 @@
 }
 
 /* ==========================================================================
+   Clearance under the fixed header
+   The three offsets nav-station.css:355-357 defined, named so no page has to
+   repeat the calc() or hardcode the bar height.
+   ========================================================================== */
+
+@utility page-top {
+  padding-top: calc(var(--nav-h) + clamp(3rem, 8vh, 6rem));
+}
+
+@utility article-top {
+  padding-top: calc(var(--nav-h) + clamp(2rem, 4vw, 3.5rem));
+}
+
+@utility hero-top {
+  padding-top: calc(var(--nav-h) + 1rem);
+}
+
+/* ==========================================================================
    Base — the only global element rules, mirroring rekam.css:38-105
    ========================================================================== */
 
 @layer base {
+  /* Height of the fixed bar. Not a @theme token because it changes at a
+     breakpoint, which @theme cannot express. Everything that has to clear the
+     header measures from this, exactly as nav-station.css:17 and :364 did. */
+  :root {
+    --nav-h: 101px; /* utility strip + rail */
+  }
+
+  @media (max-width: 1000px) {
+    :root {
+      --nav-h: 66px; /* single row: mark + toggle */
+    }
+  }
+
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 1.5rem;

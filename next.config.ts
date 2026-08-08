@@ -12,7 +12,17 @@ const nextConfig: NextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
 
-  typedRoutes: true,
+  /* typedRoutes is deliberately OFF.
+     It types a dynamic route as Route<T> where T must be the literal path, so
+     it cannot check links built from data — every news slug, every event slug,
+     every nav entry read from a config array. This migration is data-driven
+     throughout, so the guard would be fought constantly and eventually cast
+     away, which is worse than not having it.
+     Its job is done instead by scripts/check-links.mjs, which walks the built
+     HTML and fails on any href or src pointing at something that does not
+     exist. That catches strictly more: broken internal links AND missing
+     assets, of which the old site has 16. */
+  typedRoutes: false,
 };
 
 export default nextConfig;
