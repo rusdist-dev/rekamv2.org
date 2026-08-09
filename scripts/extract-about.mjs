@@ -20,6 +20,13 @@
  * The canonical name is the RENDERED one, not the data-person key: that is
  * what a reader sees today, so keeping it means the page does not change while
  * the link starts working.
+ *
+ * PROVENANCE. This reads site/, which was removed at cutover. To re-run it,
+ * restore the original first:
+ *
+ *     git checkout baseline -- site/
+ *
+ * The tag `baseline` is the untouched static site as imported.
  */
 
 import fs from 'node:fs';

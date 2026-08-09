@@ -13,6 +13,13 @@
  * Slug: the only identifier that exists anywhere today is the stem of the
  * article's image filename. All 34 detail links point at the bare string
  * "berita-detail.html", so there is nothing else to recover.
+ *
+ * PROVENANCE. This reads site/, which was removed at cutover. To re-run it,
+ * restore the original first:
+ *
+ *     git checkout baseline -- site/
+ *
+ * The tag `baseline` is the untouched static site as imported.
  */
 
 import fs from 'node:fs';

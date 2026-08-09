@@ -6,6 +6,13 @@
  * straight off each card's data-* attributes, which made the markup the
  * database — and meant the formatted price in .mc__price could silently
  * disagree with the data-price the cart actually charged.
+ *
+ * PROVENANCE. This reads site/, which was removed at cutover. To re-run it,
+ * restore the original first:
+ *
+ *     git checkout baseline -- site/
+ *
+ * The tag `baseline` is the untouched static site as imported.
  */
 
 import fs from 'node:fs';

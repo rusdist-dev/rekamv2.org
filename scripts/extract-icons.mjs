@@ -9,6 +9,13 @@
  * them to a single source.
  *
  *   node scripts/extract-icons.mjs
+ *
+ * PROVENANCE. This reads site/, which was removed at cutover. To re-run it,
+ * restore the original first:
+ *
+ *     git checkout baseline -- site/
+ *
+ * The tag `baseline` is the untouched static site as imported.
  */
 
 import fs from 'node:fs';

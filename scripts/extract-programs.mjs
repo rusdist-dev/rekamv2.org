@@ -6,6 +6,13 @@
  * 19 stat groups and 47 figures across three pages, plus the overview prose and
  * the closing copy. Typing those by hand is how digits get transposed, so they
  * are read out of the source instead.
+ *
+ * PROVENANCE. This reads site/, which was removed at cutover. To re-run it,
+ * restore the original first:
+ *
+ *     git checkout baseline -- site/
+ *
+ * The tag `baseline` is the untouched static site as imported.
  */
 
 import fs from 'node:fs';
