@@ -131,6 +131,8 @@ test.describe('accessibility', () => {
     '/design',
     '/berita',
     '/berita/rekam-di-icrs-2026-membawa-neraca-sumber-daya-laut-indonesia-ke-panggung-global',
+    '/event',
+    '/event/cerita-laut-nusantara',
   ]) {
     test(`${path} has no NEW axe violations`, async ({ page }) => {
       await page.goto(path);

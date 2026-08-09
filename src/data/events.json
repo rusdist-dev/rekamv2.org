@@ -1,0 +1,46 @@
+[
+  {
+    "slug": "cerita-laut-nusantara",
+    "title": "Cerita Laut Nusantara",
+    "lede": "Diskusi dan pemutaran film tentang masa depan laut Indonesia, bersama generasi muda yang akan menjaganya.",
+    "cover": "berita/cerita-laut-dan-masa-depannya-mendorong-peran-generasi-muda-dalam-menjaga-masa-depan-laut-indonesia.jpg",
+    "coverAlt": "",
+    "notice": "Tanggal, lokasi, dan rundown di halaman ini masih contoh — ganti dengan detail resmi sebelum dipublikasikan.",
+    "facts": [
+      { "label": "Tanggal", "value": "Menyusul" },
+      { "label": "Lokasi", "value": "Menyusul" },
+      { "label": "Biaya", "value": "Gratis" },
+      { "label": "Kuota", "value": "Terbatas" }
+    ],
+    "about": {
+      "eyebrow": "Tentang acara",
+      "title": "Laut yang diceritakan ulang",
+      "body": [
+        "Laut Indonesia menyimpan data yang belum banyak dibaca publik: stok perikanan, kondisi terumbu, dan kawasan konservasi yang terus berubah. Cerita Laut Nusantara mengambil temuan-temuan itu dan mengembalikannya dalam bentuk yang bisa dinikmati — film, percakapan, dan lokakarya.",
+        "Rangkaian ini dirancang untuk pelajar dan mahasiswa, komunitas pesisir, serta siapa pun yang ingin memahami mengapa neraca sumber daya laut penting bagi keputusan sehari-hari."
+      ]
+    },
+    "agenda": [
+      { "time": "08.30", "title": "Registrasi", "detail": "Peserta masuk dan mengambil materi." },
+      { "time": "09.00", "title": "Pemutaran film", "detail": "Dokumenter pendek tentang perikanan skala kecil." },
+      { "time": "10.15", "title": "Diskusi panel", "detail": "Membaca neraca sumber daya laut bersama tim program Ocean." },
+      { "time": "11.30", "title": "Lokakarya data", "detail": "Latihan membaca data tangkapan dari aplikasi IKAN." },
+      { "time": "13.00", "title": "Penutup", "detail": "Rencana tindak lanjut dan jejaring peserta." }
+    ],
+    "gains": [
+      "Cara membaca data perikanan tanpa latar belakang statistik",
+      "Akses ke publikasi dan materi lokakarya",
+      "Jejaring dengan komunitas dan peneliti kelautan"
+    ],
+    "documentation": [
+      "cerita-laut-dan-masa-depannya-mendorong-peran-generasi-muda-dalam-menjaga-masa-depan-laut-indonesia",
+      "rekam-di-icrs-2026-membawa-neraca-sumber-daya-laut-indonesia-ke-panggung-global",
+      "dari-perairan-lokal-ke-dialog-global-indonesia-di-sharks-international-2026"
+    ],
+    "cta": {
+      "title": "Ikut serta di Cerita Laut Nusantara",
+      "lede": "Pendaftaran dibuka mendekati tanggal acara. Tinggalkan minat Anda dan kami kabari lebih dulu.",
+      "note": "Formulir pendaftaran belum tersambung — hubungkan ke sistem pendaftaran acara sebelum dipublikasikan."
+    }
+  }
+]

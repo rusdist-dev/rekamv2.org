@@ -36,7 +36,12 @@ for (const p of paths) {
   for (const width of WIDTHS) {
     await page.setViewportSize({ width, height: 900 });
     const url = new URL(p, baseUrl).href;
-    await page.goto(url, { waitUntil: 'networkidle' }).catch(() => page.goto(url));
+    /* domcontentloaded, not networkidle: next/image generates each optimised
+       variant on first request, so a cold page can sit well past the default
+       navigation timeout while the loader works. Settling explicitly afterwards
+       is both faster and more predictable. */
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
+    await page.waitForLoadState('networkidle', { timeout: 30_000 }).catch(() => {});
     await page.waitForTimeout(SETTLE_MS);
 
     const stage = await page.locator('#stage').count();

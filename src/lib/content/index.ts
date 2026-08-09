@@ -1,7 +1,7 @@
 import type { StaticImageData } from 'next/image';
 import { COVERS } from '@/assets/berita/covers';
-import { newsSchema, type News, type Program } from './schema';
-import { rawNews } from './source';
+import { eventSchema, newsSchema, type EventRecord, type News, type Program } from './schema';
+import { rawEvents, rawNews } from './source';
 
 /* The data facade. Pages import from here and never touch source.ts or a
  * schema directly, so swapping local JSON for the CMS — or later promoting one
@@ -69,4 +69,34 @@ export function resolveCover(cover: string | undefined): StaticImageData | strin
   return COVERS[cover];
 }
 
-export type { News, Program };
+/* ---- events ---- */
+
+let eventCache: EventRecord[] | null = null;
+
+export async function listEvents(): Promise<EventRecord[]> {
+  if (eventCache) return eventCache;
+  const raw = await rawEvents();
+  eventCache = raw.map((row, i) => {
+    const result = eventSchema.safeParse(row);
+    if (!result.success) {
+      const where = (row as { slug?: string })?.slug ?? `index ${i}`;
+      throw new Error(
+        `event "${where}" tidak valid: ${result.error.issues.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')}`
+      );
+    }
+    return result.data;
+  });
+  return eventCache;
+}
+
+export async function getEvent(slug: string): Promise<EventRecord | undefined> {
+  return (await listEvents()).find((e) => e.slug === slug);
+}
+
+/** Resolve an event's curated documentation list to real articles, in order. */
+export async function eventDocumentation(slugs: string[]): Promise<News[]> {
+  const posts = await all();
+  return slugs.map((s) => posts.find((p) => p.slug === s)).filter((p): p is News => Boolean(p));
+}
+
+export type { News, Program, EventRecord };

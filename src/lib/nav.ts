@@ -1,3 +1,5 @@
+import events from '@/data/events.json';
+
 /* The nav, as data. This is what makes one drift structurally impossible:
  * index.html shipped English labels (Who We Are / Field Notes / Whats On /
  * Take Part) while the other ten pages shipped Indonesian (Tentang / Berita /
@@ -35,10 +37,12 @@ export const EXPLORE: NavItem[] = [
     key: 'event',
     label: 'Event',
     href: '/event',
-    children: [
-      { label: 'Cerita Laut Nusantara', href: '/event/cerita-laut-nusantara' },
-      { label: 'Bangga Papua', href: '/event/bangga-papua' },
-    ],
+    /* Derived, not typed. The old nav listed two events — "Cerita Laut
+       Nusantara" and "Bangga Papua" — and both hrefs pointed at the same
+       event-detail.html, so clicking the second showed you the first. Only one
+       event has ever had content. Reading the submenu off the collection makes
+       a link that names something nonexistent impossible to write. */
+    children: events.map((e) => ({ label: e.title, href: `/event/${e.slug}` })),
   },
   {
     key: 'donasi',

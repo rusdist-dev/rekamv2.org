@@ -1,3 +1,4 @@
+import eventsJson from '@/data/events.json';
 import newsJson from '@/data/news.json';
 
 /* THE SEAM.
@@ -35,4 +36,9 @@ async function fromApi(path: string, tag: string): Promise<unknown[]> {
 /** Raw, unvalidated news records. Validation happens one layer up. */
 export async function rawNews(): Promise<unknown[]> {
   return SOURCE === 'api' ? fromApi('/news', 'news') : newsJson;
+}
+
+/** Raw, unvalidated event records. */
+export async function rawEvents(): Promise<unknown[]> {
+  return SOURCE === 'api' ? fromApi('/events', 'events') : eventsJson;
 }

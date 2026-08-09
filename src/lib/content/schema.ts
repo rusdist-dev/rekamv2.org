@@ -59,3 +59,61 @@ export const newsSchema = z.object({
 });
 
 export type News = z.infer<typeof newsSchema>;
+
+/* Events.
+ *
+ * Only one event has any content. "Bangga Papua" existed solely as a second
+ * nav link that pointed at the SAME event-detail.html file as the first — a
+ * link that showed you a different event than it named. There is nothing to
+ * migrate for it, so it is not invented here; the nav is derived from this
+ * collection instead, which makes that class of lie impossible to reintroduce.
+ */
+export const eventSchema = z.object({
+  slug: z.string().min(1),
+  title: z.string().min(1),
+  lede: z.string(),
+  cover: z.string().optional(),
+  coverAlt: z.string().default(''),
+
+  /* The source shipped a yellow warning strip saying the details below are
+     placeholders. Keeping it as a field rather than hardcoding it means a real
+     event simply omits it. */
+  notice: z.string().optional(),
+
+  /* Tanggal / Lokasi / Biaya / Kuota. Free-form label+value pairs because two
+     of the four currently read "Menyusul" — typing them as a real date would
+     mean inventing one. */
+  facts: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
+
+  about: z
+    .object({
+      eyebrow: z.string(),
+      title: z.string(),
+      body: z.array(z.string()),
+    })
+    .optional(),
+
+  agenda: z
+    .array(z.object({ time: z.string(), title: z.string(), detail: z.string() }))
+    .default([]),
+
+  /* Rendered as the 01/02/03 cards. Capped at three because the source styles
+     colour them by position — .numbers__grid .numcard:nth-child(1|2|3) — so a
+     fourth would render unstyled. */
+  gains: z.array(z.string()).max(3).default([]),
+
+  /* Explicit article slugs, not a derived query. The source's rail mixed two
+     ocean-tagged articles with the event's own namesake piece, which no simple
+     rule reproduces — it was curated. */
+  documentation: z.array(z.string()).default([]),
+
+  cta: z
+    .object({
+      title: z.string(),
+      lede: z.string(),
+      note: z.string().optional(),
+    })
+    .optional(),
+});
+
+export type EventRecord = z.infer<typeof eventSchema>;
