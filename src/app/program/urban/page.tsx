@@ -3,6 +3,7 @@ import art from '@/assets/card-urban.jpg';
 import { ProgramPage } from '@/components/program/ProgramPage';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/program/urban' },
   title: 'Urban',
   description: 'Ketika kota memberi ruang bagi yang hidup di dalamnya.',
 };

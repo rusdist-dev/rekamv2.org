@@ -3,6 +3,7 @@ import art from '@/assets/card-forest.jpg';
 import { ProgramPage } from '@/components/program/ProgramPage';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/program/forest' },
   title: 'Forest',
   description:
     'Memetakan apa yang masih berdiri, bersama orang-orang yang menjaganya tetap berdiri.',

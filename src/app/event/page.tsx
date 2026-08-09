@@ -13,6 +13,7 @@ import { listEvents } from '@/lib/content';
  * first one's event. There was nowhere to see what was on. */
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/event' },
   title: 'Event',
   description: 'Diskusi, pemutaran film, dan lokakarya dari seluruh program REKAM.',
 };

@@ -9,6 +9,7 @@ import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { featuredNews, listNews, resolveCover } from '@/lib/content';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/berita' },
   title: 'Berita',
   description: 'Catatan lapangan, publikasi, dan kabar acara dari seluruh program REKAM.',
 };

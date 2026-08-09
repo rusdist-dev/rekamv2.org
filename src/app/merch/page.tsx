@@ -10,6 +10,7 @@ import type { IconId } from '@/icons';
 import catalogue from '@/data/products.json';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/merch' },
   title: 'Merchandise',
   description:
     'Produk bertema keanekaragaman hayati Nusantara. Seluruh margin penjualan masuk ke kas program konservasi.',

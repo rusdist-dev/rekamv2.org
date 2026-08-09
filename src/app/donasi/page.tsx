@@ -8,6 +8,7 @@ import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/donasi' },
   title: 'Donasi',
   description:
     'Setiap kontribusi menopang riset, patroli, dan dokumentasi di lanskap yang kami dampingi.',

@@ -20,7 +20,33 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = await getNews(slug);
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+
+  /* An article is the thing people actually share, so this is where the Open
+     Graph work earns its keep: the cover as the card image, the real headline,
+     and article:published_time. The cover is a StaticImageData when it comes
+     from disk, so .src is the built, hashed path. */
+  const cover = resolveCover(post.cover);
+  const image = typeof cover === 'string' ? cover : cover?.src;
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/berita/${post.slug}` },
+    openGraph: {
+      type: 'article',
+      title: post.title,
+      description: post.excerpt,
+      url: `/berita/${post.slug}`,
+      publishedTime: post.date.toISOString(),
+      ...(image ? { images: [{ url: image, width: 1200, height: 675 }] } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      ...(image ? { images: [image] } : {}),
+    },
+  };
 }
 
 /* The three channels berita-detail.html linked. Not the full footer set: the

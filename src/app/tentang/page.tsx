@@ -16,6 +16,7 @@ import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
 import { ABOUT } from '@/lib/about/types';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/tentang' },
   title: 'About Us',
   description:
     'Championing Indonesia biodiversity through research and conservation. Visi, misi, strategi, struktur organisasi, dan tim di balik Rekam Nusantara Foundation.',

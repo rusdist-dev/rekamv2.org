@@ -6,6 +6,7 @@ import cardOcean from '@/assets/card-ocean.jpg';
 import cardPhoto from '@/assets/card-photo.jpg';
 import cardUrban from '@/assets/card-urban.jpg';
 import newsIcrs from '@/assets/news-icrs.jpg';
+import panoramaLanskap from '@/assets/panorama-lanskap.jpg';
 import volunteer from '@/assets/volunteer-aerial.jpg';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { SiteShell } from '@/components/chrome/SiteShell';
@@ -72,10 +73,20 @@ export default async function Home() {
         scrollTo="#lanskap"
       />
 
-      <section id="lanskap" className="bg-cream py-[clamp(3.5rem,8vw,6.5rem)]">
+      {/* rekam.css:518-551. A panorama under a flat scrim, with the quote set
+          in white over it — not a plain cream band. */}
+      <section id="lanskap" className="relative isolate overflow-hidden py-[clamp(3.5rem,7vw,6rem)]">
+        <Image
+          src={panoramaLanskap}
+          alt=""
+          fill
+          sizes="100vw"
+          className="absolute inset-0 -z-10 size-full object-cover"
+        />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(13,42,26,0.45)]" />
         <Wrap>
-          <Eyebrow>Who we are</Eyebrow>
-          <p className="mt-6 mb-0 max-w-[26ch] font-display text-quote leading-[1.2] text-green-900">
+          <Eyebrow light>Who we are</Eyebrow>
+          <p className="mt-6 mb-0 max-w-[46ch] font-display text-quote leading-[1.28] text-white text-pretty">
             REKAM records the living Indonesia — in forests, in seas, in cities — and turns what we
             document into conservation that lasts.
           </p>

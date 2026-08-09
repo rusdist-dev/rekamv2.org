@@ -3,6 +3,7 @@ import art from '@/assets/card-ocean.jpg';
 import { ProgramPage } from '@/components/program/ProgramPage';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/program/ocean' },
   title: 'Ocean',
   description: 'Menghitung apa yang diberikan laut, dan kepada siapa ia memberikannya.',
 };
