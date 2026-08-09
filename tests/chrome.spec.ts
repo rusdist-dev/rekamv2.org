@@ -158,6 +158,7 @@ test.describe('accessibility', () => {
     '/program/ocean',
     '/merch',
     '/checkout',
+    '/tentang',
   ]) {
     test(`${path} has no NEW axe violations`, async ({ page }) => {
       await page.goto(path);
