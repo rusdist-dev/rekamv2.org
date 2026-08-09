@@ -27,8 +27,20 @@ export function SiteShell({
   current?: NavKey | null;
   icons?: IconId[];
 }) {
+  /* Single root element, deliberately.
+   *
+   * On navigation the App Router walks the route segment's top-level siblings
+   * and calls scrollIntoView on each candidate to reset the scroll position.
+   * Returning a fragment gave it five — skip link, sprite, header, main,
+   * footer — and with scroll-behavior: smooth those became competing
+   * animations rather than one instant jump. Whichever finished last won, so
+   * navigation sometimes landed at the bottom of the page instead of the top.
+   *
+   * It was height-dependent, which is why it looked random: /program/ocean
+   * (7139px) lost the race every time while the shorter programme pages never
+   * did. One root gives the router one candidate at top: 0. */
   return (
-    <>
+    <div>
       <a
         href="#utama"
         className="absolute left-1/2 top-[-100px] z-[200] -translate-x-1/2 rounded-b-[10px] bg-green-900 px-5 py-3 text-white no-underline transition-[top] duration-200 focus:top-0"
@@ -42,6 +54,6 @@ export function SiteShell({
       <main id="utama">{children}</main>
 
       <SiteFooter />
-    </>
+    </div>
   );
 }

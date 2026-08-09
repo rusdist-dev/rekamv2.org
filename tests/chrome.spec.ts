@@ -69,6 +69,28 @@ test.describe('rail', () => {
   });
 });
 
+test.describe('navigation scroll', () => {
+  test.beforeEach(({}, testInfo) => {
+    test.skip(testInfo.project.name !== DESKTOP_ONLY, 'hero pills are desktop-only');
+  });
+
+  /* Regression: clicking a programme pill used to land near the BOTTOM of the
+     destination page. SiteShell returned a fragment, so the App Router found
+     five top-level scroll candidates and called scrollIntoView on each; under
+     scroll-behavior: smooth they raced and the footer's animation sometimes
+     won. It was height-dependent, so /program/ocean (the tallest) failed every
+     time while the shorter pages never did — see SiteShell.tsx. */
+  for (const name of ['Forest', 'Urban', 'Ocean']) {
+    test(`${name} lands at the top of the page`, async ({ page }) => {
+      await page.goto('/');
+      await page.locator('header a').filter({ hasText: new RegExp(`^${name}$`) }).first().click();
+      await page.waitForURL(/\/program\//);
+      await page.waitForTimeout(1500); // let any smooth scroll finish
+      expect(await page.evaluate(() => Math.round(window.scrollY))).toBe(0);
+    });
+  }
+});
+
 test.describe('drawer', () => {
   test.beforeEach(({}, testInfo) => {
     test.skip(testInfo.project.name !== MOBILE_ONLY, 'drawer is narrow-screen only');
