@@ -7,6 +7,11 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
+  /* Four pages build a WebGL context and paint procedural canvases at up to
+     4096px. Unbounded workers contend for the GPU and for the browser cap on
+     live contexts, so the hero never settles and the audit times out — a flake
+     that reads exactly like a real failure. */
+  workers: 2,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? 'list' : [['list']],

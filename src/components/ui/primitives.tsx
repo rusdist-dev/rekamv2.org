@@ -44,14 +44,17 @@ export function Eyebrow({
 export function Display({
   className,
   children,
+  id,
   as: Tag = 'h2',
 }: {
   className?: string;
   children: React.ReactNode;
+  id?: string;
   as?: 'h1' | 'h2' | 'h3' | 'p';
 }) {
   return (
     <Tag
+      id={id}
       className={cn(
         'm-0 font-display text-hero-sm font-normal leading-[1.02] tracking-[-0.015em] text-green-900',
         className

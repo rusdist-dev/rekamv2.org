@@ -71,6 +71,22 @@ const INTENTIONAL = [
      has to be matched on the ellipsis rather than the prefix — the full version
      of that sentence is legitimately on the page. */
   { text: 'tourism, coastal...', why: 'scrape artefact in berita-detail.html:123; the full paragraph is present' },
+
+  /* Copy the source wrote but marked [hidden], so no reader has ever seen it.
+     rekam.css:69 made that stick with [hidden]{display:none!important}. */
+  { text: 'dukungan anda menopang riset', why: 'index.html volunteer lede, [hidden] in source' },
+  { text: 'dampak dalam angka', why: 'programme numbers eyebrow, [hidden] in source' },
+  { text: 'berita terkait', why: 'programme news eyebrow, [hidden] in source' },
+  { text: 'pemantauan tutupan hutan', why: 'program-forest hero lede, [hidden] in source' },
+  { text: 'edukasi publik dan dorongan kebijakan', why: 'program-urban hero lede, [hidden] in source' },
+  { text: 'kajian stok perikanan dan pengelolaan', why: 'program-ocean hero lede, [hidden] in source' },
+  { text: 'kami dampingi — dari puncak hutan', why: 'second line of index.html volunteer lede, [hidden] in source' },
+
+  /* Hero controls for footage that does not exist. The source shipped the
+     play and mute buttons on every hero and hid them at runtime when there was
+     no video; they are simply not rendered now. Same outcome, less DOM. */
+  { text: 'jeda', why: 'play control, only rendered when footage is in use' },
+  { text: 'suara', why: 'mute control, only rendered when footage is in use' },
 ];
 
 const baseline = JSON.parse(fs.readFileSync('baseline/content.json', 'utf8'));
@@ -99,7 +115,10 @@ for (let i = 0; i < pairs.length; i += 2) {
     const needle = norm(block);
     if (!needle || needle.length < 3) continue;
     if (haystack.includes(needle)) continue;
-    const excused = INTENTIONAL.find((x) => needle.includes(x.text));
+    // norm() on both sides. Without it any exemption containing an em-dash or
+    // curly quote silently never matches, because the page text has already
+    // had those folded away.
+    const excused = INTENTIONAL.find((x) => needle.includes(norm(x.text)));
     if (excused) continue;
     missing.push(block);
   }

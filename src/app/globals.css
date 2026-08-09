@@ -99,6 +99,36 @@
 }
 
 /* ==========================================================================
+   Hero animations — rekam.css:374-377 and :414-417
+   The scroll cue's bob and the drag hint's pulsing dot. Both are suppressed by
+   the global prefers-reduced-motion block below.
+   ========================================================================== */
+
+@keyframes cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 0.45;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+/* ==========================================================================
    Clearance under the fixed header
    The three offsets nav-station.css:355-357 defined, named so no page has to
    repeat the calc() or hardcode the bar height.

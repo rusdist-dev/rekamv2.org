@@ -229,9 +229,12 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
           drawer && 'bg-[rgba(244,243,239,0.98)] pb-6 shadow-[0_18px_40px_rgba(14,84,54,0.14)]'
         )}
       >
-        {heroState ? (
-          /* ---- Hero state: centred mark plus programme pills ---- */
-          <div className="flex flex-col items-center">
+        {/* Both states are always rendered and toggled with CSS, never
+            conditionally mounted. Mounting only one meant the nav links and the
+            search field were absent from the HTML of the four hero pages — the
+            old site had them in the DOM at all times and merely hid them, and
+            losing that costs crawlers and no-JS readers the whole navigation. */}
+        <div className={cn('flex flex-col items-center', !heroState && 'hidden')} aria-hidden={!heroState}>
             <Brand
               width={118}
               flat
@@ -260,9 +263,9 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
                 </Link>
               ))}
             </nav>
-          </div>
-        ) : (
-          <>
+        </div>
+
+        <div className={cn(heroState && 'hidden')} aria-hidden={heroState}>
             {/* ---- Top utility strip, desktop only, right-aligned ---- */}
             <div className="hidden items-center justify-end lg:flex">
               <SearchForm className="w-[clamp(4rem,6.5vw,5.75rem)]" />
@@ -320,8 +323,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
                 <LangSwitch className="mt-4 text-[0.8rem]" />
               </div>
             )}
-          </>
-        )}
+        </div>
       </div>
     </header>
   );

@@ -104,24 +104,23 @@ test.describe('drawer', () => {
   });
 });
 
-/* Escape hatch for accessibility failures that are genuinely inherited and
- * genuinely un-fixable, recorded per rule with the nodes they cover. Listing
- * them beats deleting the assertion, which would blind the gate entirely.
- *
- * It is currently empty, and that is the interesting part. The source design
- * shipped four WCAG AA contrast failures — confirmed by running these same
- * rules against the old static site, where donasi.html and index.html report
- * color-contrast on the footer blurb, copyright and heading, plus the language
- * toggle. The cause was the palette: cream on --green-900 (#2C7A56) is 4.66:1
- * at FULL opacity, so text at 0.55-0.78 could not pass. They are fixed rather
- * than tolerated — see SiteFooter.tsx.
- */
+/* Per-rule allowance, matched against the offending node's HTML. Listing an
+ * exception beats deleting the assertion, which would blind the gate. */
 const INHERITED: Record<string, string[]> = {
-  /* Empty on purpose. The four contrast failures the source design shipped are
-     fixed rather than carried over: the footer sits on --green-800 and the
-     language toggle uses --ink-soft. Kept as a mechanism, not deleted, so a
-     genuinely un-fixable inherited issue can be recorded here with its reason
-     instead of the whole assertion being weakened. */
+  /* The four contrast failures the source design shipped are fixed rather than
+     carried over — the footer sits on --green-800 and the language toggle uses
+     --ink-soft. The one entry below is not an inherited defect but a tool
+     false positive, and it is here with its evidence rather than the assertion
+     being weakened.
+
+     The unit suffix on the impact stat cards ("35 km", "512,2 ton") is reported
+     as white on #f5f4f4 at 1.09:1. It is not. Measured in the browser, both
+     spans return insideCard: true and their card's computed background is
+     rgb(95,119,163) and rgb(170,81,9) — white on those is 4.51 and 5.40, which
+     pass. axe's background resolution gives up on these very small spans inside
+     a flex container within a transitioned link and falls back to the document
+     ground. Re-check if the markup around them changes. */
+  'color-contrast': ['text-[0.3em]'],
 };
 
 test.describe('accessibility', () => {
@@ -133,9 +132,20 @@ test.describe('accessibility', () => {
     '/berita/rekam-di-icrs-2026-membawa-neraca-sumber-daya-laut-indonesia-ke-panggung-global',
     '/event',
     '/event/cerita-laut-nusantara',
+    '/program/forest',
+    '/program/ocean',
   ]) {
     test(`${path} has no NEW axe violations`, async ({ page }) => {
       await page.goto(path);
+
+      /* Wait for the 360-degree hero to settle before auditing. It paints four
+         procedural canvases at up to 4096px and holds a loader overlay while it
+         works, so auditing straight after load measures a transient state that
+         no reader sees for more than a moment. Pages without a hero skip this
+         immediately. */
+      const loader = page.locator('#hero [role="status"]');
+      if (await loader.count()) await loader.waitFor({ state: 'detached', timeout: 20_000 });
+
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
         .analyze();

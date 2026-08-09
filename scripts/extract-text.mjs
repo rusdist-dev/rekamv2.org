@@ -45,6 +45,26 @@ export function decodeEntities(s) {
    token ("HutanOcean"), which would defeat the parity comparison. */
 const BLOCK = /<\/?(?:p|div|section|article|header|footer|main|nav|ul|ol|li|h[1-6]|br|hr|tr|td|th|dt|dd|figure|figcaption|blockquote|details|summary|option|label|button|a|span|time|small|strong|em|sup|sub)\b[^>]*>/gi;
 
+/* Elements carrying the `hidden` attribute. The old site used it liberally for
+   copy that was written but deliberately not shown — program-forest.html's
+   hero lede, the "Dampak dalam angka" eyebrow, the "Berita terkait" eyebrow,
+   index.html's volunteer lede. rekam.css:69 made it stick with
+   [hidden]{display:none!important}, so none of it was ever visible, and
+   counting it as content would demand the rewrite reproduce text no reader
+   has seen. Non-greedy same-tag match, which is enough for the flat
+   single-element cases the corpus actually contains. */
+/* Note: [hidden] elements are NOT stripped here.
+ *
+ * The old site used the attribute for copy that was written but deliberately
+ * not shown — program-forest.html's hero lede, the "Dampak dalam angka" and
+ * "Berita terkait" eyebrows, index.html's volunteer lede. Removing them would
+ * be more correct in principle, but doing it needs real tag balancing: a
+ * regex over <tag …>…</tag> lets an outer <div> match first and swallow the
+ * hidden child, and a looser /\bhidden\b/ test matches aria-hidden and
+ * Tailwind's class="hidden" too. A subtle bug in the tool that verifies the
+ * migration is worse than a short list, so the handful of affected blocks are
+ * named individually in scripts/check-parity.mjs instead. */
+
 export function visibleText(html) {
   return decodeEntities(
     html
