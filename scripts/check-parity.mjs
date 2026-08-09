@@ -87,6 +87,18 @@ const INTENTIONAL = [
      no video; they are simply not rendered now. Same outcome, less DOM. */
   { text: 'jeda', why: 'play control, only rendered when footage is in use' },
   { text: 'suara', why: 'mute control, only rendered when footage is in use' },
+
+  /* The cart bar. Same pattern: the source shipped it on every visit with
+     [hidden] and a "Rp 0" placeholder; it now mounts only once there is
+     something in the cart. Covered instead by tests/shop.spec.ts, which drives
+     a real cart rather than reading an empty page. */
+  { text: 'keranjang', why: 'cart bar mounts only when the cart is non-empty' },
+  { text: 'rp 0', why: 'cart bar placeholder total; no bar, no placeholder' },
+  { text: 'lanjut ke pembayaran', why: 'cart bar CTA; mounts with the bar' },
+
+  /* The config file moved. Pointing readers at shop-config.js would send them
+     to a file that no longer exists. */
+  { text: 'lihat shop-config.js', why: 'config is now src/lib/shop/config.ts, and the notice says so' },
 ];
 
 const baseline = JSON.parse(fs.readFileSync('baseline/content.json', 'utf8'));

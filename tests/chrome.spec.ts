@@ -156,6 +156,8 @@ test.describe('accessibility', () => {
     '/event/cerita-laut-nusantara',
     '/program/forest',
     '/program/ocean',
+    '/merch',
+    '/checkout',
   ]) {
     test(`${path} has no NEW axe violations`, async ({ page }) => {
       await page.goto(path);

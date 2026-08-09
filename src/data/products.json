@@ -1,0 +1,195 @@
+{
+  "categories": [
+    {
+      "id": "all",
+      "label": "Semua"
+    },
+    {
+      "id": "apparel",
+      "label": "Apparel"
+    },
+    {
+      "id": "aksesori",
+      "label": "Aksesori"
+    },
+    {
+      "id": "cetak",
+      "label": "Cetak"
+    },
+    {
+      "id": "publikasi",
+      "label": "Publikasi"
+    }
+  ],
+  "products": [
+    {
+      "id": "kaos-merekam",
+      "cat": "apparel",
+      "name": "Kaos #MerekamNusantara",
+      "price": 165000,
+      "desc": "Cotton combed 24s, sablon plastisol satu warna di bagian depan.",
+      "tag": "Apparel",
+      "glyph": "p-shirt",
+      "art": "a",
+      "option": {
+        "label": "Ukuran",
+        "values": [
+          "S",
+          "M",
+          "L",
+          "XL",
+          "XXL"
+        ],
+        "selected": "L"
+      }
+    },
+    {
+      "id": "kaos-rangkong",
+      "cat": "apparel",
+      "name": "Kaos Rangkong Gading",
+      "price": 175000,
+      "desc": "Ilustrasi ukir rangkong gading, cetak dua warna, jahitan rantai.",
+      "tag": "Apparel",
+      "glyph": "p-shirt",
+      "art": "b",
+      "option": {
+        "label": "Ukuran",
+        "values": [
+          "S",
+          "M",
+          "L",
+          "XL",
+          "XXL"
+        ],
+        "selected": "L"
+      }
+    },
+    {
+      "id": "topi-lapangan",
+      "cat": "apparel",
+      "name": "Topi Lapangan REKAM",
+      "price": 145000,
+      "desc": "Ripstop cepat kering, tali dagu, bordir mark REKAM di sisi depan.",
+      "tag": "Apparel",
+      "glyph": "p-cap",
+      "art": "c"
+    },
+    {
+      "id": "tote-kanvas",
+      "cat": "aksesori",
+      "name": "Tote Bag Kanvas Nusantara",
+      "price": 95000,
+      "desc": "Kanvas 12 oz, kantong dalam, muat laptop 14 inci.",
+      "tag": "Aksesori",
+      "glyph": "p-tote",
+      "art": "d",
+      "option": {
+        "label": "Motif",
+        "values": [
+          "Forest",
+          "Ocean",
+          "Urban"
+        ],
+        "selected": "Forest"
+      }
+    },
+    {
+      "id": "pin-rangkong",
+      "cat": "aksesori",
+      "name": "Enamel Pin Seri Rangkong",
+      "price": 55000,
+      "desc": "Hard enamel 30 mm, pengunci kupu-kupu, kartu keterangan spesies.",
+      "tag": "Aksesori",
+      "glyph": "p-pin",
+      "art": "e",
+      "option": {
+        "label": "Spesies",
+        "values": [
+          "Rangkong Gading",
+          "Julang Emas",
+          "Kangkareng Perut Putih"
+        ],
+        "selected": "Rangkong Gading"
+      }
+    },
+    {
+      "id": "bandana",
+      "cat": "aksesori",
+      "name": "Bandana Multifungsi",
+      "price": 65000,
+      "desc": "55 × 55 cm, peta sebaran rangkong Nusantara tercetak penuh.",
+      "tag": "Aksesori",
+      "glyph": "p-bandana",
+      "art": "f"
+    },
+    {
+      "id": "tumbler",
+      "cat": "aksesori",
+      "name": "Tumbler Stainless 500 ml",
+      "price": 185000,
+      "desc": "Dinding ganda, tahan panas 6 jam, ukiran laser mark REKAM.",
+      "tag": "Aksesori",
+      "glyph": "p-tumbler",
+      "art": "g"
+    },
+    {
+      "id": "stiker-set",
+      "cat": "aksesori",
+      "name": "Set Stiker Nusantara (8 pcs)",
+      "price": 35000,
+      "desc": "Vinil tahan air, potong khusus, cocok untuk laptop dan bidon.",
+      "tag": "Aksesori",
+      "glyph": "p-sticker",
+      "art": "h"
+    },
+    {
+      "id": "cetak-a3",
+      "cat": "cetak",
+      "name": "Cetak Ilustrasi Ukir A3",
+      "price": 120000,
+      "desc": "Giclée di kertas katun 300 gsm, bertanda tangan ilustrator, tanpa bingkai.",
+      "tag": "Cetak",
+      "glyph": "p-print",
+      "art": "a",
+      "option": {
+        "label": "Seri",
+        "values": [
+          "Forest",
+          "Ocean",
+          "Urban"
+        ],
+        "selected": "Forest"
+      }
+    },
+    {
+      "id": "poster-a2",
+      "cat": "cetak",
+      "name": "Poster Kampanye A2",
+      "price": 75000,
+      "desc": "Art paper 210 gsm, dikirim dalam tabung agar tidak terlipat.",
+      "tag": "Cetak",
+      "glyph": "p-poster",
+      "art": "b"
+    },
+    {
+      "id": "buku-merekam",
+      "cat": "publikasi",
+      "name": "Buku Merekam Nusantara",
+      "price": 210000,
+      "desc": "228 halaman, catatan lapangan dan foto dari sepuluh tahun kerja REKAM.",
+      "tag": "Publikasi",
+      "glyph": "p-book",
+      "art": "c"
+    },
+    {
+      "id": "notebook",
+      "cat": "publikasi",
+      "name": "Notebook Lapangan",
+      "price": 85000,
+      "desc": "A5, kertas tahan air, tabel pengamatan dan kunci identifikasi ringkas.",
+      "tag": "Publikasi",
+      "glyph": "p-note",
+      "art": "d"
+    }
+  ]
+}
