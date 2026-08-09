@@ -127,7 +127,7 @@ function SearchForm({ className }: { className?: string }) {
         type="search"
         placeholder="Cari"
         autoComplete="off"
-        className="min-w-0 flex-1 border-0 bg-transparent text-[0.8rem] text-green-900 outline-none placeholder:lowercase placeholder:text-green-ink/50"
+        className="min-w-0 flex-1 border-0 bg-transparent text-[0.8rem] text-green-900 outline-none placeholder:lowercase placeholder:text-ink-soft"
       />
       <button type="submit" aria-label="Cari" className="grid size-[22px] flex-none cursor-pointer place-items-center border-0 bg-transparent p-0 text-green-900">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-[15px]">
@@ -343,7 +343,7 @@ function NavGroup({
 }) {
   return (
     <>
-      <p className="mt-2 mb-[0.35rem] font-label text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-green-ink/60">
+      <p className="mt-2 mb-[0.35rem] font-label text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-ink-soft">
         {title}
       </p>
       <ul className="m-0 mb-4 list-none p-0">

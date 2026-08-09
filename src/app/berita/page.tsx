@@ -1,4 +1,93 @@
-import { Stub } from '@/components/chrome/Stub';
-export default function Page() {
-  return <Stub title="Berita" phase="Fase 3b" current="berita" />;
+import type { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import heroImg from '@/assets/berita/mencari-sang-arsitek-hutan-papua-melalui-film-in-search-of-the-northern-cassowary.jpg';
+import { SiteShell } from '@/components/chrome/SiteShell';
+import { PageHero } from '@/components/layout/PageHero';
+import { PostGrid } from '@/components/news/PostCard';
+import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
+import { featuredNews, listNews, resolveCover } from '@/lib/content';
+
+export const metadata: Metadata = {
+  title: 'Berita',
+  description: 'Catatan lapangan, publikasi, dan kabar acara dari seluruh program REKAM.',
+};
+
+const dateFmt = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+export default async function BeritaPage() {
+  const lead = await featuredNews();
+  const rest = await listNews({ exclude: lead?.slug });
+  const leadCover = resolveCover(lead?.cover);
+
+  return (
+    <SiteShell current="berita">
+      <PageHero
+        eyebrow="Berita"
+        title="Kabar terbaru"
+        lede="Catatan lapangan, publikasi, dan kabar acara dari seluruh program REKAM."
+        image={heroImg}
+        short
+      />
+
+      {lead && (
+        <section className="bg-cream py-[clamp(3rem,6vw,5rem)]">
+          <Wrap>
+            <Link
+              href={`/berita/${lead.slug}`}
+              className="group grid items-center gap-[clamp(1.5rem,4vw,3rem)] no-underline lg:grid-cols-2"
+            >
+              {leadCover && (
+                <span className="block overflow-hidden rounded-sm">
+                  <Image
+                    src={leadCover}
+                    alt={lead.coverAlt}
+                    width={1200}
+                    height={675}
+                    sizes="(max-width: 1000px) 100vw, 50vw"
+                    priority
+                    className="block aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  />
+                </span>
+              )}
+              <div>
+                <p className="m-0 font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
+                  <time dateTime={lead.date.toISOString()}>{dateFmt.format(lead.date)}</time>
+                  {lead.category && (
+                    <>
+                      <span aria-hidden="true"> / </span>
+                      {lead.category}
+                    </>
+                  )}
+                </p>
+                <h2 className="mt-3 mb-0 font-display text-quote leading-[1.15] text-green-900">
+                  {lead.title}
+                </h2>
+                <p className="mt-4 mb-0 text-lede leading-[1.65] text-ink-soft">{lead.excerpt}</p>
+                <span className="mt-7 inline-flex min-h-[3.25rem] items-center justify-center rounded-full bg-green-700 px-8 text-[1rem] font-bold text-white transition-[background-color,transform] duration-200 group-hover:bg-green-800 group-hover:-translate-y-[2px] motion-reduce:group-hover:translate-y-0">
+                  Baca selengkapnya
+                </span>
+              </div>
+            </Link>
+          </Wrap>
+        </section>
+      )}
+
+      <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">
+        <Wrap>
+          <Eyebrow>Arsip</Eyebrow>
+          <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display">Semua berita</Display>
+          <PostGrid posts={rest} />
+          {/* The source said "Menampilkan 18 dari 155 tulisan. Pagination
+              menyusul ketika daftar ini tersambung ke CMS." The count is now
+              derived, so it cannot go stale, and pagination lands with the CMS
+              rather than being faked over 18 records. */}
+          <p className="mt-[clamp(2rem,4vw,3rem)] mb-0 text-[0.82rem] text-ink-soft">
+            Menampilkan {rest.length + (lead ? 1 : 0)} tulisan. Sisanya menyusul ketika daftar ini
+            tersambung ke CMS.
+          </p>
+        </Wrap>
+      </section>
+    </SiteShell>
+  );
 }

@@ -48,6 +48,29 @@ const INTENTIONAL = [
      which is what assistive tech actually announces. */
   { text: 'jelajahi', why: 'rail group heading, now the aria-label on <nav>' },
   { text: 'program', why: 'rail group heading, now the aria-label on <nav>' },
+
+  /* Dates. The source printed English month names ("24 July 2026") on pages
+     served as lang="id". They are now formatted with Intl in id-ID, so the
+     same date reads "24 Juli 2026" and carries a machine-readable
+     <time datetime>. Matched loosely below by month name. */
+  ...['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'].map(
+    (m) => ({ text: m, why: 'date now formatted in id-ID rather than English' })
+  ),
+
+  /* The archive footnote. The source hardcoded "Menampilkan 18 dari 155
+     tulisan"; the count is derived now, so it cannot go stale. */
+  { text: 'menampilkan 18 dari 155 tulisan', why: 'count is derived from the collection' },
+
+  /* berita-detail.html:122-124. Three paragraphs appended to the ICRS article
+     that are truncated excerpts of three OTHER articles, still carrying
+     double-escaped &amp;#39; and &amp;nbsp;. Scrape debris, dropped on purpose —
+     each one still exists as its own article's excerpt. */
+  { text: 'following its screenings at the wild coast film festival', why: 'scrape artefact in berita-detail.html:122' },
+  { text: 'the last place on earth, an investigative documentary', why: 'scrape artefact in berita-detail.html:124' },
+  /* :123 is a truncated copy of the ICRS article's OWN opening paragraph, so it
+     has to be matched on the ellipsis rather than the prefix — the full version
+     of that sentence is legitimately on the page. */
+  { text: 'tourism, coastal...', why: 'scrape artefact in berita-detail.html:123; the full paragraph is present' },
 ];
 
 const baseline = JSON.parse(fs.readFileSync('baseline/content.json', 'utf8'));

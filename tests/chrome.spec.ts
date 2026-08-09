@@ -125,7 +125,13 @@ const INHERITED: Record<string, string[]> = {
 };
 
 test.describe('accessibility', () => {
-  for (const path of ['/', '/donasi', '/design']) {
+  for (const path of [
+    '/',
+    '/donasi',
+    '/design',
+    '/berita',
+    '/berita/rekam-di-icrs-2026-membawa-neraca-sumber-daya-laut-indonesia-ke-panggung-global',
+  ]) {
     test(`${path} has no NEW axe violations`, async ({ page }) => {
       await page.goto(path);
       const results = await new AxeBuilder({ page })
