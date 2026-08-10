@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { useMemo, useState } from 'react';
+import { AppLink } from '@/components/ui/AppLink';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { cn } from '@/lib/cn';
 import { rupiah, SHOP, unsetFields } from '@/lib/shop/config';
@@ -72,12 +72,12 @@ export function Checkout() {
         <p className="mt-4 mb-8 max-w-[46ch] text-lede text-ink-soft">
           Pilih dulu produk yang ingin Anda dukung, lalu kembali ke halaman ini.
         </p>
-        <Link
+        <AppLink
           href="/merch"
           className="inline-flex min-h-[3.25rem] items-center rounded-full bg-green-700 px-8 text-[1rem] font-bold text-white no-underline hover:bg-green-800"
         >
           Lihat katalog
-        </Link>
+        </AppLink>
       </Wrap>
     );
   }
@@ -262,12 +262,12 @@ export function Checkout() {
             Total pesanan Anda: <b className="text-green-900">{rupiah(total)}</b> ({count} item,{' '}
             {chosen.label}).
           </p>
-          <Link
+          <AppLink
             href="/#kontak"
             className="mt-6 inline-flex min-h-[3.25rem] items-center rounded-full bg-green-700 px-8 text-[1rem] font-bold text-white no-underline hover:bg-green-800"
           >
             Hubungi kami
-          </Link>
+          </AppLink>
         </section>
       )}
     </Wrap>

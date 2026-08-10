@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import canopy from '@/assets/canopy.jpg';
 import cardForest from '@/assets/card-forest.jpg';
 import cardOcean from '@/assets/card-ocean.jpg';
@@ -11,6 +10,7 @@ import volunteer from '@/assets/volunteer-aerial.jpg';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { Hero360 } from '@/components/hero/Hero360';
+import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
 import { featuredNews, getNews, resolveCover } from '@/lib/content';
@@ -105,7 +105,7 @@ export default async function Home() {
           <ul className="m-0 grid list-none gap-[clamp(1.5rem,3vw,2.5rem)] p-0 md:grid-cols-3">
             {CARDS.map((card) => (
               <li key={card.href}>
-                <Link href={card.href} className="group block no-underline">
+                <AppLink href={card.href} className="group block no-underline">
                   <span className="relative block overflow-hidden rounded-sm">
                     <Image
                       src={card.img}
@@ -127,7 +127,7 @@ export default async function Home() {
                   <span className="mt-3 block text-[0.8rem] font-semibold text-green-900">
                     Pelajari selengkapnya
                   </span>
-                </Link>
+                </AppLink>
               </li>
             ))}
           </ul>
@@ -154,7 +154,7 @@ export default async function Home() {
 
           <div className="grid gap-[clamp(1rem,2.5vw,1.75rem)] sm:grid-cols-3">
             {STATS.map((stat, i) => (
-              <Link
+              <AppLink
                 key={stat.href}
                 href={stat.href}
                 className={cn(
@@ -179,7 +179,7 @@ export default async function Home() {
                 </p>
                 <p className="mt-3 mb-0 text-xs font-bold leading-[1.35]">{stat.label}</p>
                 <p className="mt-2 mb-0 text-[0.72rem] font-medium text-white">{stat.when}</p>
-              </Link>
+              </AppLink>
             ))}
           </div>
         </Wrap>
@@ -219,7 +219,7 @@ export default async function Home() {
         <ul className="m-0 flex list-none gap-4 overflow-x-auto px-gutter p-0 [scrollbar-width:thin]">
           {Array.from({ length: 6 }, (_, i) => (
             <li key={i} className="w-[286px] flex-none">
-              <Link href="/berita" className="group block no-underline">
+              <AppLink href="/berita" className="group block no-underline">
                 <Image
                   src={cardPhoto}
                   alt={i === 0 ? 'Tangan menanam bibit pohon di dalam pot' : ''}
@@ -231,7 +231,7 @@ export default async function Home() {
                   Our 10th Anniversary
                   <Icon id="i-arrow" className="size-3 fill-none stroke-current stroke-[4]" />
                 </span>
-              </Link>
+              </AppLink>
             </li>
           ))}
         </ul>

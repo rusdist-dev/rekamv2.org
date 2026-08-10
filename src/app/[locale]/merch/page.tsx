@@ -5,16 +5,18 @@ import { PageHero } from '@/components/layout/PageHero';
 import { Shop } from '@/components/shop/Shop';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
-import { CartProvider } from '@/lib/shop/cart';
-import type { IconId } from '@/icons';
 import catalogue from '@/data/products.json';
+import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
+import type { IconId } from '@/icons';
+import { CartProvider } from '@/lib/shop/cart';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/merch' },
-  title: 'Merchandise',
-  description:
-    'Produk bertema keanekaragaman hayati Nusantara. Seluruh margin penjualan masuk ke kas program konservasi.',
-};
+export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
+  return pageMetadata(await readLocale(params), '/merch', {
+    title: 'Merchandise',
+    description:
+      'Produk bertema keanekaragaman hayati Nusantara. Seluruh margin penjualan masuk ke kas program konservasi.',
+  });
+}
 
 const WHY = [
   ['Produksi lokal', 'Dikerjakan perajin dan penyablon di Bogor dan sekitarnya.'],

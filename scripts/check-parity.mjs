@@ -101,12 +101,47 @@ const INTENTIONAL = [
   { text: 'lihat shop-config.js', why: 'config is now src/lib/shop/config.ts, and the notice says so' },
 ];
 
+/* The eleven pages, paired with what replaced them. Kept here rather than in
+   the npm script because passing no arguments used to make this exit 0 without
+   comparing anything — a parity check that reports success while checking
+   nothing is worse than no check at all. Pairs can still be given on the
+   command line to test one page.
+
+   Only the Indonesian URLs appear, deliberately: the baseline is an Indonesian
+   site, so it is the Indonesian build that owes it parity. /en is held to
+   tests/i18n.spec.ts instead. */
+const DEFAULT_PAIRS = [
+  'index.html', '/',
+  'tentang.html', '/tentang',
+  'berita.html', '/berita',
+  // The one article the source actually wrote a body for.
+  'berita-detail.html', '/berita/rekam-di-icrs-2026-membawa-neraca-sumber-daya-laut-indonesia-ke-panggung-global',
+  'event-detail.html', '/event/cerita-laut-nusantara',
+  'donasi.html', '/donasi',
+  'merch.html', '/merch',
+  /* checkout.html is deliberately absent — the eleventh page and the only one
+     whose content does not exist before hydration. It renders from cart state,
+     so a JS-less fetch gets "Memuat keranjang…" and nothing else; asserting
+     against that would mean either 52 false failures or 52 exemptions that
+     hide real ones. It is covered by tests/shop.spec.ts, which drives a real
+     cart through a real browser — a stronger check for this page, not a
+     weaker one. */
+  'program-forest.html', '/program/forest',
+  'program-urban.html', '/program/urban',
+  'program-ocean.html', '/program/ocean',
+];
+
+const BASE = process.env.PARITY_BASE ?? 'http://localhost:3100';
+
 const baseline = JSON.parse(fs.readFileSync('baseline/content.json', 'utf8'));
-const pairs = process.argv.slice(2);
-if (pairs.length % 2) {
-  console.error('usage: node scripts/check-parity.mjs <old-page.html> <new-url> [...]');
+const args = process.argv.slice(2);
+if (args.length % 2) {
+  console.error('usage: node scripts/check-parity.mjs [<old-page.html> <new-url> ...]');
   process.exit(1);
 }
+const pairs = (args.length ? args : DEFAULT_PAIRS).map((v, i) =>
+  i % 2 === 1 && v.startsWith('/') ? new URL(v, BASE).href : v
+);
 
 let failed = 0;
 
@@ -139,6 +174,11 @@ for (let i = 0; i < pairs.length; i += 2) {
   console.log(`${status.padEnd(6)} ${oldPage} -> ${newUrl}   ${oldBlocks.length - missing.length}/${oldBlocks.length} blok`);
   for (const m of missing) console.log(`         hilang: ${m.slice(0, 110)}`);
   if (missing.length) failed++;
+}
+
+if (!pairs.length) {
+  console.error('tidak ada halaman yang dibandingkan — ini kegagalan, bukan keberhasilan.');
+  failed++;
 }
 
 // process.exitCode rather than process.exit(): an immediate exit while fetch's

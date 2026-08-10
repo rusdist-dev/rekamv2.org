@@ -1,11 +1,18 @@
 import type { MetadataRoute } from 'next';
+import { DEFAULT_LOCALE, LOCALES } from '@/i18n/config';
+import { withLocale } from '@/i18n/routing';
 import { listEvents, listNews } from '@/lib/content';
 import { SITE_URL } from '@/lib/site';
 
 /* Derived from the collections, not typed by hand — so a new article is in the
  * sitemap the moment it exists, and a removed one leaves. That matters more
  * here than usual: the source's whole news section pointed at a single URL, so
- * there was nothing to submit even if a sitemap had existed. */
+ * there was nothing to submit even if a sitemap had existed.
+ *
+ * One entry per page, keyed on the Indonesian URL, each carrying `alternates.
+ * languages` for every locale. That is the shape Google asks for: listing /en
+ * as its own <url> as well would advertise two pages where there is one, and
+ * the two would compete. */
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [news, events] = await Promise.all([listNews(), listEvents()]);
@@ -37,5 +44,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),
-  ].map((entry) => ({ ...entry, url: new URL(entry.url, SITE_URL).href }));
+  ].map((entry) => ({
+    ...entry,
+    url: abs(withLocale(DEFAULT_LOCALE, entry.url)),
+    alternates: {
+      languages: Object.fromEntries([
+        ...LOCALES.map((locale) => [locale, abs(withLocale(locale, entry.url))]),
+        ['x-default', abs(withLocale(DEFAULT_LOCALE, entry.url))],
+      ]),
+    },
+  }));
+}
+
+function abs(path: string) {
+  return new URL(path, SITE_URL).href;
 }

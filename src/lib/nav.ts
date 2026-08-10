@@ -17,25 +17,23 @@ export type NavKey = 'forest' | 'urban' | 'ocean' | 'tentang' | 'berita' | 'even
 
 export type NavItem = {
   key: NavKey;
-  label: string;
   href: string;
   children?: { label: string; href: string }[];
 };
 
 /** Left of the rail, beside the mark. Also the hero-state pill shortcuts. */
 export const PROGRAMMES: NavItem[] = [
-  { key: 'forest', label: 'Forest', href: '/program/forest' },
-  { key: 'urban', label: 'Urban', href: '/program/urban' },
-  { key: 'ocean', label: 'Ocean', href: '/program/ocean' },
+  { key: 'forest', href: '/program/forest' },
+  { key: 'urban', href: '/program/urban' },
+  { key: 'ocean', href: '/program/ocean' },
 ];
 
 /** Right of the rail. */
 export const EXPLORE: NavItem[] = [
-  { key: 'tentang', label: 'Tentang', href: '/tentang' },
-  { key: 'berita', label: 'Berita', href: '/berita' },
+  { key: 'tentang', href: '/tentang' },
+  { key: 'berita', href: '/berita' },
   {
     key: 'event',
-    label: 'Event',
     href: '/event',
     /* Derived, not typed. The old nav listed two events — "Cerita Laut
        Nusantara" and "Bangga Papua" — and both hrefs pointed at the same
@@ -46,7 +44,6 @@ export const EXPLORE: NavItem[] = [
   },
   {
     key: 'donasi',
-    label: 'Donasi',
     href: '/donasi',
     children: [
       { label: 'Adopsi Pohon Pakan', href: '/donasi#adopsi' },

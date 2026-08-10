@@ -1,22 +1,24 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
-import { COVERS } from '@/assets/berita/covers';
 import heroImg from '@/assets/berita/cerita-laut-dan-masa-depannya-mendorong-peran-generasi-muda-dalam-menjaga-masa-depan-laut-indonesia.jpg';
+import { COVERS } from '@/assets/berita/covers';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PageHero } from '@/components/layout/PageHero';
+import { AppLink } from '@/components/ui/AppLink';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
+import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { listEvents } from '@/lib/content';
 
 /* A page the old site never had. Events existed only as two nav links that both
  * pointed at the same event-detail.html — so the second one showed you the
  * first one's event. There was nowhere to see what was on. */
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/event' },
-  title: 'Event',
-  description: 'Diskusi, pemutaran film, dan lokakarya dari seluruh program REKAM.',
-};
+export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
+  return pageMetadata(await readLocale(params), '/event', {
+    title: 'Event',
+    description: 'Diskusi, pemutaran film, dan lokakarya dari seluruh program REKAM.',
+  });
+}
 
 export default async function EventIndexPage() {
   const events = await listEvents();
@@ -42,7 +44,7 @@ export default async function EventIndexPage() {
               const cover = event.cover ? COVERS[event.cover] : undefined;
               return (
                 <li key={event.slug}>
-                  <Link href={`/event/${event.slug}`} className="group block no-underline">
+                  <AppLink href={`/event/${event.slug}`} className="group block no-underline">
                     {cover && (
                       <span className="block overflow-hidden rounded-sm">
                         <Image
@@ -71,7 +73,7 @@ export default async function EventIndexPage() {
                         ))}
                       </dl>
                     )}
-                  </Link>
+                  </AppLink>
                 </li>
               );
             })}

@@ -40,6 +40,16 @@ const pages = [
   '/checkout',
 ];
 
+/* Both locales, because the failure this cannot be allowed to miss is an
+   internal link that forgot its /en prefix. Such a link still answers 200 — it
+   just silently drops an English reader onto the Indonesian page — so status
+   codes alone would pass it. checkPrefix() below is what actually catches it.
+
+   The sitemap lists only Indonesian URLs by design (one entry per page, with
+   hreflang alternates), so the /en article and event pages are derived here
+   rather than read from it. */
+const LOCALE_PREFIXES = ['', '/en'];
+
 const seen = new Map(); // url -> status
 const problems = [];
 
@@ -67,8 +77,33 @@ async function routedUrls() {
   return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
 }
 
-const all = [...new Set([...pages, ...(await routedUrls())])];
-console.log(`memeriksa ${all.length} halaman…\n`);
+const indonesian = [...new Set([...pages, ...(await routedUrls())])];
+const all = LOCALE_PREFIXES.flatMap((prefix) =>
+  indonesian.map((path) => (prefix && path === '/' ? prefix : prefix + path))
+);
+console.log(`memeriksa ${all.length} halaman (${LOCALE_PREFIXES.length} locale)…\n`);
+
+/* An internal link on an /en page must stay on /en. Two exceptions, both
+   deliberate: the language switcher's own link out to Indonesian, which carries
+   hrefLang="id", and /icon.svg, which has no locale. */
+function checkPrefix(page, ref, html) {
+  if (!page.startsWith('/en')) return;
+  if (!ref.startsWith('/') || ref.startsWith('//')) return;
+  // /en, /en/berita, /en#kontak and /en?q= are all correctly prefixed. The
+  // boundary matters: /english would not be.
+  if (/^\/en(?=$|[/#?])/.test(ref)) return;
+  /* Only page paths carry a locale. Anything with a file extension is an asset
+     and is served from one place for both locales — the same rule the
+     middleware matcher uses, and for the same reason: enumerating the exempt
+     files by name is what let /logo-rekam.svg slip through in the first place. */
+  if (/^\/_next\//.test(ref) || /\.[a-z0-9]+($|[?#])/i.test(ref)) return;
+  // The switcher advertises the Indonesian URL on purpose.
+  if (html.includes(`hrefLang="id"`) && html.includes(`href="${ref}"`)) {
+    const tag = html.slice(Math.max(0, html.indexOf(`href="${ref}"`) - 200), html.indexOf(`href="${ref}"`));
+    if (tag.includes('hrefLang="id"')) return;
+  }
+  problems.push(`${page} -> ${ref} (tautan internal kehilangan prefiks /en)`);
+}
 
 for (const path of all) {
   const url = new URL(path, BASE).href;
@@ -87,6 +122,21 @@ for (const path of all) {
   for (const m of html.matchAll(/srcset="([^"]+)"/g)) {
     for (const part of decodeEntities(m[1]).split(',')) refs.add(part.trim().split(/\s+/)[0]);
   }
+  /* CSS url(), from both inline style attributes and <style> blocks. Added
+     because this checker missed a real one: the brand mark is painted as a
+     background and an alpha mask in Brand.tsx, so its only reference anywhere
+     in the HTML is a url() inside a style attribute. When the middleware
+     matcher started rewriting /logo-rekam.svg, every page 404'd the logo and
+     this script still reported everything alive — an <img> would have been
+     caught, a background was not. Anything the browser fetches counts. */
+  for (const m of html.matchAll(/url\(\s*([^)]+?)\s*\)/g)) {
+    /* Decode BEFORE stripping the quotes, not after. In built HTML a style
+       attribute is entity-escaped, so the source reads url(&quot;/x.svg&quot;)
+       — matching quotes first finds none and leaves them in the path, which
+       then 404s for the wrong reason and would report a false failure the day
+       the real one is fixed. */
+    refs.add(decodeEntities(m[1]).replace(/^['"]|['"]$/g, ''));
+  }
 
   for (const ref of refs) {
     if (!ref || ref.startsWith('#') || ref.startsWith('data:')) continue;
@@ -95,6 +145,8 @@ for (const path of all) {
     // not the rest of the internet.
     if (/^https?:\/\//.test(ref) && !ref.startsWith(BASE)) continue;
     if (KNOWN_MISSING.some((k) => ref.includes(k))) continue;
+
+    checkPrefix(path, ref, html);
 
     const target = new URL(ref, url).href;
     const status = await head(target);

@@ -1,18 +1,20 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import heroImg from '@/assets/berita/mencari-sang-arsitek-hutan-papua-melalui-film-in-search-of-the-northern-cassowary.jpg';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PageHero } from '@/components/layout/PageHero';
 import { PostGrid } from '@/components/news/PostCard';
+import { AppLink } from '@/components/ui/AppLink';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
+import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { featuredNews, listNews, resolveCover } from '@/lib/content';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/berita' },
-  title: 'Berita',
-  description: 'Catatan lapangan, publikasi, dan kabar acara dari seluruh program REKAM.',
-};
+export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
+  return pageMetadata(await readLocale(params), '/berita', {
+    title: 'Berita',
+    description: 'Catatan lapangan, publikasi, dan kabar acara dari seluruh program REKAM.',
+  });
+}
 
 const dateFmt = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -34,7 +36,7 @@ export default async function BeritaPage() {
       {lead && (
         <section className="bg-cream py-[clamp(3rem,6vw,5rem)]">
           <Wrap>
-            <Link
+            <AppLink
               href={`/berita/${lead.slug}`}
               className="group grid items-center gap-[clamp(1.5rem,4vw,3rem)] no-underline lg:grid-cols-2"
             >
@@ -69,7 +71,7 @@ export default async function BeritaPage() {
                   Baca selengkapnya
                 </span>
               </div>
-            </Link>
+            </AppLink>
           </Wrap>
         </section>
       )}

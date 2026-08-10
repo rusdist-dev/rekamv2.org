@@ -7,6 +7,7 @@ import { PostGrid } from '@/components/news/PostCard';
 import { ButtonLink } from '@/components/ui/button';
 import { NumberCard, NumberGrid } from '@/components/ui/NumberCard';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
+import { pageMetadata, readLocale } from '@/i18n/metadata';
 import { eventDocumentation, getEvent, listEvents } from '@/lib/content';
 
 /* rekam.css:1690-1812. A landing-style page rather than an article: full-bleed
@@ -18,10 +19,19 @@ export async function generateStaticParams() {
   return events.map((e) => ({ slug: e.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const event = await getEvent(slug);
-  return event ? { title: event.title, description: event.lede } : {};
+  if (!event) return {};
+
+  return pageMetadata(await readLocale(params), `/event/${event.slug}`, {
+    title: event.title,
+    description: event.lede,
+  });
 }
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {

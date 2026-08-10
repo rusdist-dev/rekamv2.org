@@ -169,7 +169,17 @@ test.describe('accessibility', () => {
          no reader sees for more than a moment. Pages without a hero skip this
          immediately. */
       const loader = page.locator('#hero [role="status"]');
-      if (await loader.count()) await loader.waitFor({ state: 'detached', timeout: 20_000 });
+      if (await loader.count()) {
+        /* A hero page needs more than the 30s default, and the reason is
+           arithmetic rather than caution: the settle wait alone allows 20s, so
+           under GPU contention the audit itself has under 10s left and the test
+           times out with nothing to show. Raising the budget for exactly these
+           pages is honest about the contention documented in
+           playwright.config.ts — a retry cannot fix a timeout that the timeout
+           itself caused. */
+        test.setTimeout(90_000);
+        await loader.waitFor({ state: 'detached', timeout: 20_000 });
+      }
 
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])

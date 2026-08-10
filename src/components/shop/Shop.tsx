@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { Icon } from '@/components/chrome/SvgSprite';
+import { AppLink } from '@/components/ui/AppLink';
 import { Chip, Wrap } from '@/components/ui/primitives';
 import type { IconId } from '@/icons';
 import { cn } from '@/lib/cn';
@@ -182,12 +182,12 @@ function CartBar() {
             <path d="M6 15 L12 9 L18 15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <Link
+        <AppLink
           href="/checkout"
           className="min-h-[2.6rem] rounded-full bg-green-700 px-6 text-[0.9rem] font-bold leading-[2.6rem] text-white no-underline transition-colors duration-200 hover:bg-green-800"
         >
           Lanjut ke pembayaran
-        </Link>
+        </AppLink>
       </Wrap>
     </div>
   );

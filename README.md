@@ -51,6 +51,42 @@ warna, potret memakai inisial, dan hero tanpa `<source>` memang **dirancang**
 jatuh ke panorama prosedural. `scripts/check-links.mjs` menyimpan daftar yang
 sudah diketahui itu sehingga celah **baru** tetap menggagalkan pemeriksaan.
 
+## Dua bahasa
+
+Indonesia **tanpa prefiks**, Inggris di bawah `/en`:
+
+| | Indonesia | Inggris |
+|---|---|---|
+| Beranda | `/` | `/en` |
+| Berita | `/berita` | `/en/berita` |
+
+Rute tinggal di `src/app/[locale]/`, dan `src/middleware.ts` menulis-ulang
+(*rewrite*, bukan redirect) URL tanpa prefiks ke `/id/...` secara internal.
+Alasannya: penulisan ulang ini baru saja memberi 18 artikel URL sungguhan yang
+pertama; memberi prefiks pada locale bawaan berarti memindahkannya lagi. `/id/...`
+yang diminta langsung tetap di-redirect 308 ke bentuk kanoniknya, supaya satu
+halaman tidak pernah hidup di dua URL.
+
+**Yang diterjemahkan hanya *chrome*** — navigasi, footer, kontrol, label
+formulir; sekitar 60 kunci di `src/i18n/dictionary.ts`. Isi editorial (18 profil
+tim, narasi program, 155 artikel) adalah pekerjaan tim konten, bukan tugas
+migrasi. Yang wajib disediakan migrasi adalah struktur tempat terjemahan itu
+bisa mendarat tanpa mengubah kode, dan itu sudah ada: field `lang` pada koleksi
+berita plus fallback di `listNews()`. Praktiknya tidak seberat kedengarannya —
+banyak teks editorialnya sudah berbahasa Inggris, sementara chrome di
+sekelilingnya berbahasa Indonesia; `/en` justru membuat keduanya sepakat.
+
+Label nav Inggris di `dictionary.ts` **dipulihkan, bukan dikarang**:
+`index.html` dulu mengirim *Who We Are / Field Notes / Whats On / Take Part*
+sementara sepuluh halaman lain mengirim bahasa Indonesia. Ketidakcocokan itu
+selesai dengan menjadikannya nilai `/en`.
+
+Setiap tautan internal lewat `AppLink` (`src/components/ui/AppLink.tsx`), yang
+membaca locale dari URL. Alternatifnya adalah meneruskan prop `locale` ke ~25
+tempat — dan setiap tempat itu satu kesempatan untuk lupa, yang akibatnya
+melempar pembaca Inggris kembali ke halaman Indonesia tanpa suara. `check-links`
+menegakkan ini di kedua locale.
+
 ## Sumber data
 
 Konten ada di `src/data/*.json`, divalidasi Zod di `src/lib/content/schema.ts`.
@@ -75,11 +111,21 @@ regresi — jadi pengecekannya berlapis:
 - **Paritas konten** — tiap blok teks dari sepuluh halaman lama harus muncul di
   penggantinya. Ini yang menangkap kelas bug paling senyap dalam sebuah
   penulisan ulang: paragraf yang hilang saat dipindahkan ke data. Semua sepuluh
-  halaman 100%. Perbedaan yang disengaja terdaftar satu per satu beserta
-  alasannya di `scripts/check-parity.mjs`.
-- **Tautan** — 29 halaman, ~90 tautan dan aset unik.
-- **Aksesibilitas** — axe pada setiap halaman, plus tes papan ketik. Situs lama
-  gagal kontras WCAG AA di footer; itu diperbaiki, bukan diwariskan.
+  halaman **100% (1.280 blok)**. Perbedaan yang disengaja terdaftar satu per satu
+  beserta alasannya di `scripts/check-parity.mjs`. Yang dibandingkan hanya build
+  **Indonesia** — baseline-nya situs Indonesia, jadi hanya sisi itu yang
+  berutang paritas padanya; `/en` dipegang `tests/i18n.spec.ts`. `checkout.html`
+  satu-satunya yang di luar daftar: isinya baru ada setelah hidrasi, jadi
+  `tests/shop.spec.ts` yang menggerakkan keranjang sungguhan memeriksanya lebih
+  keras, bukan lebih longgar.
+- **Tautan** — 58 halaman di dua locale, 123 tautan dan aset unik. Selain status
+  HTTP, pemeriksa ini menegakkan prefiks `/en` pada tautan internal — kegagalan
+  yang tidak bisa dilihat dari kode status, karena tautan yang lupa prefiks tetap
+  menjawab 200 dan hanya diam-diam memindahkan pembaca ke halaman Indonesia.
+- **Aksesibilitas** — axe pada setiap halaman di **kedua** locale, plus tes papan
+  ketik. Situs lama gagal kontras WCAG AA di footer; itu diperbaiki, bukan
+  diwariskan.
+- **92 tes Playwright** lulus (desktop 1440px dan mobile 390px).
 
 Screenshot baseline (`baseline/screens/`) tidak dilacak git — 33 MB, dan bisa
 dibuat ulang setelah memulihkan `site/` seperti di atas.

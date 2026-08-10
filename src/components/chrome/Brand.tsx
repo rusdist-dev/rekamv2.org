@@ -1,4 +1,7 @@
-import Link from 'next/link';
+'use client';
+
+import { AppLink, useLocale } from '@/components/ui/AppLink';
+import { t as dict } from '@/i18n/dictionary';
 import { cn } from '@/lib/cn';
 
 /* rekam.css:167-196.
@@ -29,9 +32,9 @@ export function Brand({
   className?: string;
 }) {
   return (
-    <Link
+    <AppLink
       href={href}
-      aria-label="REKAM Nusantara Foundation — beranda"
+      aria-label={dict(useLocale()).brandHome}
       className={cn('block leading-[0]', className)}
     >
       <span
@@ -53,6 +56,6 @@ export function Brand({
               }
         }
       />
-    </Link>
+    </AppLink>
   );
 }

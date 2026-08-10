@@ -2,9 +2,14 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Brand } from '@/components/chrome/Brand';
 import { cn } from '@/lib/cn';
+import { AppLink, useLocale } from '@/components/ui/AppLink';
+import { LOCALES, LOCALE_LABEL } from '@/i18n/config';
+import { t as dict } from '@/i18n/dictionary';
+import { alternatePath } from '@/i18n/routing';
 import { EXPLORE, PROGRAMMES, type NavItem, type NavKey } from '@/lib/nav';
 
 /* Ported from nav-station.css — the only nav variant any page actually links.
@@ -29,7 +34,7 @@ import { EXPLORE, PROGRAMMES, type NavItem, type NavKey } from '@/lib/nav';
  */
 
 const RAIL_LINK =
-  'block py-[0.3rem] text-[0.78rem] font-medium tracking-[0.02em] lowercase leading-[1.4] ' +
+  'block py-[0.3rem] text-[0.88rem] font-medium tracking-[0.02em] capitalize leading-[1.4] ' +
   'whitespace-nowrap no-underline text-ink-soft transition-colors duration-200 hover:text-green-900 ' +
   // The underline grows from the left on hover, and stays out for the current page.
   'after:block after:h-px after:mt-[3px] after:bg-current after:origin-left after:scale-x-0 ' +
@@ -38,15 +43,17 @@ const RAIL_LINK =
 
 function RailLink({ item, current }: { item: NavItem; current?: NavKey | null }) {
   const active = current === item.key;
+  const T = dict(useLocale());
+  const label = T.nav_items[item.key];
 
   const link = (
-    <Link
+    <AppLink
       href={item.href}
       aria-current={active ? 'page' : undefined}
       className={cn(RAIL_LINK, active && 'text-green-900 after:scale-x-100')}
     >
-      {item.label}
-    </Link>
+      {label}
+    </AppLink>
   );
 
   if (!item.children) return <li>{link}</li>;
@@ -64,7 +71,7 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
           assistive tech while the submenu is open. */}
       <DropdownMenu.Root modal={false}>
         <DropdownMenu.Trigger
-          aria-label={`Buka submenu ${item.label}`}
+          aria-label={T.nav.submenu(label)}
           className="group size-4 shrink-0 cursor-pointer border-0 bg-transparent p-0 text-ink-soft hover:text-green-900"
         >
           <span
@@ -89,12 +96,12 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
           >
             {item.children.map((child) => (
               <DropdownMenu.Item key={child.href} asChild>
-                <Link
+                <AppLink
                   href={child.href}
                   className="block cursor-pointer px-[1.1rem] py-2 text-[0.82rem] whitespace-nowrap text-ink-soft no-underline outline-none hover:bg-band hover:text-green-900 data-[highlighted]:bg-band data-[highlighted]:text-green-900"
                 >
                   {child.label}
-                </Link>
+                </AppLink>
               </DropdownMenu.Item>
             ))}
           </DropdownMenu.Content>
@@ -105,6 +112,7 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
 }
 
 function SearchForm({ className }: { className?: string }) {
+  const T = dict(useLocale());
   return (
     <form
       role="search"
@@ -119,17 +127,17 @@ function SearchForm({ className }: { className?: string }) {
       }}
     >
       <label className="sr-only" htmlFor="nav-q">
-        Cari di situs REKAM
+        {T.search.label}
       </label>
       <input
         id="nav-q"
         name="q"
         type="search"
-        placeholder="Cari"
+        placeholder={T.search.placeholder}
         autoComplete="off"
         className="min-w-0 flex-1 border-0 bg-transparent text-[0.8rem] text-green-900 outline-none placeholder:lowercase placeholder:text-ink-soft"
       />
-      <button type="submit" aria-label="Cari" className="grid size-[22px] flex-none cursor-pointer place-items-center border-0 bg-transparent p-0 text-green-900">
+      <button type="submit" aria-label={T.search.submit} className="grid size-[22px] flex-none cursor-pointer place-items-center border-0 bg-transparent p-0 text-green-900">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-[15px]">
           <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="2" />
           <path d="M15.5 15.5 L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -139,20 +147,47 @@ function SearchForm({ className }: { className?: string }) {
   );
 }
 
+/* Where rekam.js:339-345 popped alert('Versi bahasa Inggris belum tersedia.').
+   The pair renders in a fixed LOCALES order — ID / EN, the same two glyphs in
+   the same two places on both locales — so the control does not jump when you
+   use it. Only which one is a link changes. */
 function LangSwitch({ className }: { className?: string }) {
+  const pathname = usePathname();
+  const locale = useLocale();
+  const T = dict(locale);
+
   return (
-    <div role="group" aria-label="Pilih bahasa" className={cn('flex items-center gap-[0.3rem] text-[0.74rem] font-bold tracking-[0.06em]', className)}>
-      <span aria-current="true" className="text-green-900">
-        ID
-      </span>
-      {/* Becomes a real href in Fase 4. In the old build this was an inert
-          anchor whose click handler popped an alert. */}
-      <span aria-hidden="true" className="text-green-ink/30">
-        /
-      </span>
-      <span lang="en" className="text-ink-soft">
-        EN
-      </span>
+    <div
+      role="group"
+      aria-label={T.lang.group}
+      className={cn('flex items-center gap-[0.3rem] text-[0.74rem] font-bold tracking-[0.06em]', className)}
+    >
+      {LOCALES.map((l, i) => (
+        <span key={l} className="flex items-center gap-[0.3rem]">
+          {i > 0 && (
+            <span aria-hidden="true" className="text-green-ink/30">
+              /
+            </span>
+          )}
+          {l === locale ? (
+            <span aria-current="true" className="text-green-900">
+              {LOCALE_LABEL[l]}
+            </span>
+          ) : (
+            /* Plain <Link>, not AppLink: the href is already absolute for the
+               target locale, and AppLink would prefix it a second time. */
+            <Link
+              href={alternatePath(pathname, l)}
+              hrefLang={l}
+              lang={l}
+              aria-label={T.lang.switchTo(LOCALE_LABEL[l])}
+              className="text-ink-soft no-underline hover:text-green-900"
+            >
+              {LOCALE_LABEL[l]}
+            </Link>
+          )}
+        </span>
+      ))}
     </div>
   );
 }
@@ -163,6 +198,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
   const [scrolled, setScrolled] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const T = dict(useLocale());
 
   /* The old rekam.js:13-34 read getBoundingClientRect().bottom on every scroll
      event. An IntersectionObserver on the hero does the same job without
@@ -241,14 +277,14 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
               className={cn('text-white transition-opacity duration-300', scrolled && 'pointer-events-none opacity-0')}
             />
             <nav
-              aria-label="Program utama"
+              aria-label={T.nav.programme}
               className={cn(
                 'mt-[1.1rem] flex justify-center gap-[0.55rem] transition-opacity duration-300',
                 scrolled && 'pointer-events-none opacity-0'
               )}
             >
               {PROGRAMMES.map((p) => (
-                <Link
+                <AppLink
                   key={p.key}
                   href={p.href}
                   aria-current={current === p.key ? 'page' : undefined}
@@ -259,8 +295,8 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
                       : 'border-white/45 bg-white/8 text-white hover:border-white hover:bg-white hover:text-green-900'
                   )}
                 >
-                  {p.label}
-                </Link>
+                  {T.nav_items[p.key]}
+                </AppLink>
               ))}
             </nav>
         </div>
@@ -277,7 +313,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
             <div className="flex items-center">
               <Brand width={118} className="mr-[clamp(0.75rem,1.6vw,1.5rem)] max-lg:mr-auto max-lg:w-[112px] text-green-900" />
 
-              <nav aria-label="Program" className="hidden lg:block lg:mr-auto">
+              <nav aria-label={T.nav.programme} className="hidden lg:block lg:mr-auto">
                 <ul className="m-0 flex list-none items-center gap-[clamp(0.85rem,1.8vw,1.6rem)] p-0">
                   {PROGRAMMES.map((item) => (
                     <RailLink key={item.key} item={item} current={current} />
@@ -285,7 +321,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
                 </ul>
               </nav>
 
-              <nav aria-label="Jelajahi" className="hidden lg:block">
+              <nav aria-label={T.nav.explore} className="hidden lg:block">
                 <ul className="m-0 flex list-none items-center gap-[clamp(0.85rem,1.8vw,1.6rem)] p-0">
                   {EXPLORE.map((item) => (
                     <RailLink key={item.key} item={item} current={current} />
@@ -298,7 +334,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
                 type="button"
                 aria-expanded={drawer}
                 aria-controls="nav-drawer"
-                aria-label={drawer ? 'Tutup menu' : 'Buka menu'}
+                aria-label={drawer ? T.nav.close : T.nav.open}
                 onClick={() => setDrawer((d) => !d)}
                 className="ml-[clamp(0.75rem,2vw,1.25rem)] size-[34px] cursor-pointer border-0 bg-transparent p-0 text-green-900 lg:hidden"
               >
@@ -317,8 +353,8 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
                     rather than a modal overlay, which is what the original did. ---- */}
             {drawer && (
               <div id="nav-drawer" className="lg:hidden">
-                <NavGroup title="Program" items={PROGRAMMES} current={current} onNavigate={() => setDrawer(false)} />
-                <NavGroup title="Jelajahi" items={EXPLORE} current={current} onNavigate={() => setDrawer(false)} />
+                <NavGroup title={T.nav.programme} items={PROGRAMMES} current={current} onNavigate={() => setDrawer(false)} />
+                <NavGroup title={T.nav.explore} items={EXPLORE} current={current} onNavigate={() => setDrawer(false)} />
                 <SearchForm className="mt-2" />
                 <LangSwitch className="mt-4 text-[0.8rem]" />
               </div>
@@ -343,6 +379,8 @@ function NavGroup({
   current?: NavKey | null;
   onNavigate: () => void;
 }) {
+  const T = dict(useLocale());
+
   return (
     <>
       <p className="mt-2 mb-[0.35rem] font-label text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-ink-soft">
@@ -351,7 +389,7 @@ function NavGroup({
       <ul className="m-0 mb-4 list-none p-0">
         {items.map((item) => (
           <li key={item.key} className="border-b border-green-ink/12">
-            <Link
+            <AppLink
               href={item.href}
               onClick={onNavigate}
               aria-current={current === item.key ? 'page' : undefined}
@@ -360,15 +398,17 @@ function NavGroup({
                 current === item.key ? 'text-green-900' : 'text-ink-soft'
               )}
             >
-              {item.label}
-            </Link>
+              {T.nav_items[item.key]}
+            </AppLink>
             {item.children && (
               <ul className="m-0 list-none pb-[0.6rem] pl-4">
                 {item.children.map((child) => (
                   <li key={child.href}>
-                    <Link href={child.href} onClick={onNavigate} className="block py-[0.45rem] text-[0.9rem] text-ink-soft no-underline">
+                    {/* Child labels are event titles — editorial content, so they
+                        stay in their own language rather than being keyed. */}
+                    <AppLink href={child.href} onClick={onNavigate} className="block py-[0.45rem] text-[0.9rem] text-ink-soft no-underline">
                       {child.label}
-                    </Link>
+                    </AppLink>
                   </li>
                 ))}
               </ul>

@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { Icon } from '@/components/chrome/SvgSprite';
+import { AppLink } from '@/components/ui/AppLink';
 import { resolveCover, type News } from '@/lib/content';
 import { cn } from '@/lib/cn';
 
@@ -44,7 +44,7 @@ function CoverSlot({ post, className, sizes }: { post: News; className?: string;
 export function PostCard({ post, showExcerpt = true }: { post: News; showExcerpt?: boolean }) {
   return (
     <article className="group">
-      <Link href={`/berita/${post.slug}`} className="block no-underline">
+      <AppLink href={`/berita/${post.slug}`} className="block no-underline">
         <span className="block overflow-hidden rounded-sm">
           <CoverSlot
             post={post}
@@ -71,7 +71,7 @@ export function PostCard({ post, showExcerpt = true }: { post: News; showExcerpt
           Baca selengkapnya
           <Icon id="i-arrow" className="size-3 fill-none stroke-current" />
         </span>
-      </Link>
+      </AppLink>
     </article>
   );
 }

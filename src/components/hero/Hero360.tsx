@@ -1,6 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocale } from '@/components/ui/AppLink';
+import { t as dict } from '@/i18n/dictionary';
 import { Pano360 } from '@/lib/pano/Pano360';
 import type { SceneName } from '@/lib/pano/pano-scenes';
 import { cn } from '@/lib/cn';
@@ -82,11 +84,17 @@ export function Hero360({
   lightPano?: boolean;
   scrollTo?: string;
 }) {
+  const T = dict(useLocale());
   const stageRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const engineRef = useRef<Pano360 | null>(null);
 
-  const [status, setStatus] = useState<string | null>('Menyiapkan panorama…');
+  /* Generic here, per-scene once the engine starts — which is the order the
+     source had: its HTML carried "Menyiapkan panorama…" and hero-360.js
+     replaced it with the scene's own line. Seeding this with the per-scene
+     string instead put text in the server HTML that the old page never had
+     there, and content parity caught it on all four hero pages. */
+  const [status, setStatus] = useState<string | null>(T.hero.loading);
   const [videoUsable, setVideoUsable] = useState(false);
   const [hintGone, setHintGone] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -101,6 +109,13 @@ export function Hero360({
       engine = new Pano360(stage, {
         scene,
         video: videoRef.current,
+        strings: {
+          loading: T.pano.loadingScene[scene],
+          webglUnsupported: T.pano.webglUnsupported,
+          saveData: T.pano.saveData,
+          slowConnection: T.pano.slowConnection,
+          noFootage: T.pano.noFootage,
+        },
         onStatus: setStatus,
         onVideoUsable: setVideoUsable,
         onFirstInteraction: () => setHintGone(true),
@@ -159,7 +174,7 @@ export function Hero360({
         className="absolute inset-0 z-0 cursor-grab touch-pan-y active:cursor-grabbing [&_canvas]:block [&_canvas]:size-full"
         tabIndex={0}
         role="application"
-        aria-label="Panorama 360 derajat. Gunakan tombol panah untuk melihat sekeliling."
+        aria-label={T.pano.region}
       />
 
       <video
@@ -195,7 +210,7 @@ export function Hero360({
         {scrollTo && (
           <a
             href={scrollTo}
-            aria-label="Gulir ke bawah"
+            aria-label={T.hero.scroll}
             className="pointer-events-auto relative mt-6 block h-[78px] w-px bg-[linear-gradient(to_bottom,rgba(255,255,255,0)_0%,rgba(255,255,255,0.85)_100%)]"
           >
             <span
@@ -217,7 +232,7 @@ export function Hero360({
             aria-hidden="true"
             className="size-[7px] animate-[pulse-dot_2.4s_ease-in-out_infinite] rounded-full bg-yellow"
           />
-          Seret untuk melihat sekeliling
+          {T.hero.drag}
         </p>
 
         <div className="flex gap-2">
@@ -225,22 +240,22 @@ export function Hero360({
             <>
               <button type="button" onClick={togglePlay} aria-pressed={playing} className={CTRL}>
                 <CtrlIcon name={playing ? 'pause' : 'play'} />
-                <span>{playing ? 'Jeda' : 'Putar'}</span>
+                <span>{playing ? T.hero.pause : T.hero.play}</span>
               </button>
               <button type="button" onClick={toggleSound} aria-pressed={sound} className={CTRL}>
                 <CtrlIcon name={sound ? 'sound' : 'muted'} />
-                <span>Suara</span>
+                <span>{T.hero.sound}</span>
               </button>
             </>
           )}
           <button
             type="button"
             onClick={() => engineRef.current?.recenter()}
-            aria-label="Kembalikan sudut pandang"
+            aria-label={T.pano.recenterAction}
             className={CTRL}
           >
             <CtrlIcon name="recenter" />
-            <span>Pusatkan</span>
+            <span>{T.hero.recenter}</span>
           </button>
         </div>
       </div>

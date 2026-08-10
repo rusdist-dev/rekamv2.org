@@ -1,4 +1,8 @@
+'use client';
+
 import { Brand } from '@/components/chrome/Brand';
+import { useLocale } from '@/components/ui/AppLink';
+import { t as dict } from '@/i18n/dictionary';
 import { FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
 
 /* rekam.css:943-992 and :1250-1271.
@@ -14,7 +18,13 @@ import { FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
  * WCAG AA — confirmed by running axe against the old static site, where
  * donasi.html and index.html report exactly these nodes. --green-800 (#00522C)
  * was already in the palette as the button hover colour, so this stays inside
- * the brand while taking the three to 5.74 / 4.94 / 5.45. */
+ * the brand while taking the three to 5.74 / 4.94 / 5.45.
+ *
+ * 'use client' only so it can read the locale off the URL — see AppLink.tsx.
+ * There is no interactivity here. The alternative, headers() in middleware,
+ * would have made every one of the 65 routes dynamic; threading a locale prop
+ * would have touched fourteen pages. usePathname resolves during SSR, so the
+ * translated strings are in the server-rendered HTML either way. */
 
 function LinkColumn({ heading, links, label }: { heading: string; links: { href: string; label: string }[]; label: string }) {
   return (
@@ -34,6 +44,8 @@ function LinkColumn({ heading, links, label }: { heading: string; links: { href:
 }
 
 export function SiteFooter() {
+  const T = dict(useLocale());
+
   return (
     <footer id="kontak" className="bg-green-800 py-[clamp(2rem,4vw,3rem)] text-white">
       <div
@@ -46,16 +58,18 @@ export function SiteFooter() {
       >
         <div className="max-w-[26rem]">
           <Brand width={182} flat className="mb-[1.1rem] text-cream" />
+          {/* The blurb is the foundation's own English strapline on all eleven
+              source pages, so both dictionaries carry it unchanged. */}
           <p className="m-0 max-w-[34ch] text-[0.92rem] leading-[1.65] text-cream/78">
-            Documenting knowledge. Preserving life.
+            {T.footer.blurb}
           </p>
           <p className="mt-[0.9rem] mb-0 text-[0.8rem] leading-[1.6] text-cream/70">
-            © 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.
+            {T.footer.rights}
           </p>
         </div>
 
-        <LinkColumn heading="Links" links={FOOTER_LINKS} label="Unit dan kanal REKAM" />
-        <LinkColumn heading="Follow Us" links={FOOTER_SOCIAL} label="Media sosial" />
+        <LinkColumn heading={T.footer.links} links={FOOTER_LINKS} label={T.footer.channels} />
+        <LinkColumn heading={T.footer.follow} links={FOOTER_SOCIAL} label={T.footer.social} />
       </div>
     </footer>
   );

@@ -1,5 +1,6 @@
 import { SiteFooter } from '@/components/chrome/SiteFooter';
 import { SiteHeader } from '@/components/chrome/SiteHeader';
+import { SkipLink } from '@/components/chrome/SkipLink';
 import { SvgSprite } from '@/components/chrome/SvgSprite';
 import type { IconId } from '@/icons';
 import type { NavKey } from '@/lib/nav';
@@ -41,13 +42,7 @@ export function SiteShell({
    * did. One root gives the router one candidate at top: 0. */
   return (
     <div>
-      <a
-        href="#utama"
-        className="absolute left-1/2 top-[-100px] z-[200] -translate-x-1/2 rounded-b-[10px] bg-green-900 px-5 py-3 text-white no-underline transition-[top] duration-200 focus:top-0"
-      >
-        Lewati ke konten utama
-      </a>
-
+      <SkipLink />
       <SvgSprite icons={icons} />
       <SiteHeader hero={hero} current={current} />
 

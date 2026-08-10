@@ -3,8 +3,8 @@ import Image from 'next/image';
 import canopy from '@/assets/canopy.jpg';
 import mountains from '@/assets/mountains2.png';
 import petaKerja from '@/assets/peta-kerja.svg';
-import whereWeWork from '@/assets/where-we-work.svg';
 import { UNIT_LOGOS } from '@/assets/unit/logos';
+import whereWeWork from '@/assets/where-we-work.svg';
 import { OrgChart } from '@/components/about/OrgChart';
 import { Strategy } from '@/components/about/Strategy';
 import { StreetView } from '@/components/about/StreetView';
@@ -13,14 +13,16 @@ import { SiteShell } from '@/components/chrome/SiteShell';
 import { PageHero } from '@/components/layout/PageHero';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
+import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { ABOUT } from '@/lib/about/types';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/tentang' },
-  title: 'About Us',
-  description:
-    'Championing Indonesia biodiversity through research and conservation. Visi, misi, strategi, struktur organisasi, dan tim di balik Rekam Nusantara Foundation.',
-};
+export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
+  return pageMetadata(await readLocale(params), '/tentang', {
+    title: 'About Us',
+    description:
+      'Championing Indonesia biodiversity through research and conservation. Visi, misi, strategi, struktur organisasi, dan tim di balik Rekam Nusantara Foundation.',
+  });
+}
 
 /* The largest page in the site, and the only one carrying all four of its
  * hardest pieces: eighteen bios, the org chart with its cross-referenced

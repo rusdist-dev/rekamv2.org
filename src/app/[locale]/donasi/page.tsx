@@ -6,13 +6,15 @@ import { SiteShell } from '@/components/chrome/SiteShell';
 import { PageHero } from '@/components/layout/PageHero';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
+import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/donasi' },
-  title: 'Donasi',
-  description:
-    'Setiap kontribusi menopang riset, patroli, dan dokumentasi di lanskap yang kami dampingi.',
-};
+export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
+  return pageMetadata(await readLocale(params), '/donasi', {
+    title: 'Donasi',
+    description:
+      'Setiap kontribusi menopang riset, patroli, dan dokumentasi di lanskap yang kami dampingi.',
+  });
+}
 
 /* rekam.css:1667-1684. Two mirrored panels — copy one side, artwork the other,
    flipped on the second — then a closing prompt. */

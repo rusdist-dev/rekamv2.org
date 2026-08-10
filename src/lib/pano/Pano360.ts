@@ -37,10 +37,28 @@ const DRIFT_SPEED = 0.6; // degrees per second, once fully faded in
 const DRIFT_FADE = 3000; // ms to reach that speed, so it never snaps on
 const LOAD_TIMEOUT = 8000;
 
+/* Every string the engine can put on screen, supplied by the caller.
+ *
+ * These used to be Indonesian literals in here, which made the engine
+ * untranslatable without editing it. Passing them in keeps the engine a
+ * rendering concern and puts the copy where the rest of the copy lives — see
+ * dictionary.ts, which also explains why the per-scene loader lines could not
+ * simply be translated inside pano-scenes.js. */
+export type PanoStrings = {
+  /** Shown while the texture is being decided, per scene. */
+  loading: string;
+  webglUnsupported: string;
+  saveData: string;
+  slowConnection: (effectiveType: string) => string;
+  /** src is the file the page actually asked for, not a hardcoded guess. */
+  noFootage: (src: string) => string;
+};
+
 export type Pano360Options = {
   scene: SceneName;
   /** Optional: when absent or sourceless, the procedural scene is used. */
   video?: HTMLVideoElement | null;
+  strings: PanoStrings;
   /** Loader copy. null hides the loader. */
   onStatus: (text: string | null) => void;
   /** False once it is settled that there is no footage, so play/mute can go. */
@@ -95,7 +113,7 @@ export class Pano360 {
     this.look = getScene(opts.scene);
     this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    opts.onStatus(this.look.loading);
+    opts.onStatus(opts.strings.loading);
 
     try {
       this.renderer = new THREE.WebGLRenderer({
@@ -104,7 +122,7 @@ export class Pano360 {
         powerPreference: 'high-performance',
       });
     } catch (err) {
-      opts.onStatus('Peramban ini tidak dapat memulai WebGL, jadi tampilan 360° tidak tersedia.');
+      opts.onStatus(opts.strings.webglUnsupported);
       throw err;
     }
 
@@ -311,9 +329,9 @@ export class Pano360 {
     };
     const c = nav.connection || nav.mozConnection || nav.webkitConnection;
     if (!c) return false;
-    if (c.saveData) return 'Mode hemat data aktif — menampilkan panorama prosedural.';
+    if (c.saveData) return this.opts.strings.saveData;
     if (['slow-2g', '2g', '3g'].includes(c.effectiveType ?? '')) {
-      return `Koneksi ${c.effectiveType} — menampilkan panorama prosedural agar halaman tetap ringan.`;
+      return this.opts.strings.slowConnection(c.effectiveType ?? '');
     }
     return false;
   }
@@ -335,9 +353,9 @@ export class Pano360 {
     // Name the file this page actually asked for. Hardcoding one path reported
     // the wrong filename and sent anyone debugging it to the wrong place.
     const firstSource = video.querySelector('source');
-    const noFootage =
-      `Tidak ada footage di ${firstSource ? firstSource.getAttribute('src') : 'video hero'}` +
-      ' — menampilkan panorama prosedural.';
+    const noFootage = this.opts.strings.noFootage(
+      firstSource?.getAttribute('src') ?? 'video hero'
+    );
 
     const onLoaded = () => this.useVideo(video);
     video.addEventListener('loadeddata', onLoaded, { once: true });

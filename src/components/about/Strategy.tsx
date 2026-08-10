@@ -2,6 +2,7 @@
 
 import * as Tabs from '@radix-ui/react-tabs';
 import { useState } from 'react';
+import { AppLink } from '@/components/ui/AppLink';
 import { cn } from '@/lib/cn';
 
 /* Strategic thinking.
@@ -61,17 +62,17 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
       <>
         <strong>Capaian konservasi dan dampak sosial-ekonomi.</strong> Ujung panah — hasil yang
         dituju, dan yang angka-angkanya bisa dibaca di halaman{' '}
-        <a href="/program/forest" className="underline underline-offset-4">
+        <AppLink href="/program/forest" className="underline underline-offset-4">
           Forest
-        </a>
+        </AppLink>
         ,{' '}
-        <a href="/program/urban" className="underline underline-offset-4">
+        <AppLink href="/program/urban" className="underline underline-offset-4">
           Urban
-        </a>
+        </AppLink>
         , dan{' '}
-        <a href="/program/ocean" className="underline underline-offset-4">
+        <AppLink href="/program/ocean" className="underline underline-offset-4">
           Ocean
-        </a>
+        </AppLink>
         .
       </>
     ),

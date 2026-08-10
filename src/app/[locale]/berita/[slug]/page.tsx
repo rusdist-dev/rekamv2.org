@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PostGrid } from '@/components/news/PostCard';
+import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
+import { pageMetadata, readLocale } from '@/i18n/metadata';
 import { getNews, listNews, resolveCover } from '@/lib/content';
 
 /* Replaces berita-detail.html, which was a single hardcoded article that all 34
@@ -16,7 +17,11 @@ export async function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const post = await getNews(slug);
   if (!post) return {};
@@ -28,15 +33,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const cover = resolveCover(post.cover);
   const image = typeof cover === 'string' ? cover : cover?.src;
 
-  return {
+  return pageMetadata(await readLocale(params), `/berita/${post.slug}`, {
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `/berita/${post.slug}` },
     openGraph: {
       type: 'article',
-      title: post.title,
-      description: post.excerpt,
-      url: `/berita/${post.slug}`,
       publishedTime: post.date.toISOString(),
       ...(image ? { images: [{ url: image, width: 1200, height: 675 }] } : {}),
     },
@@ -46,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: post.excerpt,
       ...(image ? { images: [image] } : {}),
     },
-  };
+  });
 }
 
 /* The three channels berita-detail.html linked. Not the full footer set: the
@@ -78,15 +79,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <article>
         <Wrap className="article-top pb-[clamp(2rem,4vw,3rem)]">
           <nav aria-label="Remah roti" className="mb-6 text-[0.78rem] text-ink-soft">
-            <Link href="/" className="no-underline hover:text-green-900">
+            <AppLink href="/" className="no-underline hover:text-green-900">
               Beranda
-            </Link>
+            </AppLink>
             <span aria-hidden="true" className="px-2">
               /
             </span>
-            <Link href="/berita" className="no-underline hover:text-green-900">
+            <AppLink href="/berita" className="no-underline hover:text-green-900">
               Berita
-            </Link>
+            </AppLink>
             <span aria-hidden="true" className="px-2">
               /
             </span>

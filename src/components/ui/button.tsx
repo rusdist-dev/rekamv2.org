@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { AppLink } from '@/components/ui/AppLink';
 import { cn } from '@/lib/cn';
 
 /* Ported from rekam.css:142-159, :1450-1455, :1752-1757.
@@ -55,19 +58,24 @@ export function Button({
   );
 }
 
-/* href is deliberately Link's own type rather than string: typedRoutes then
-   rejects a link to a page that does not exist. Worth having here — the old
-   site had all 34 news links pointing at one file that was never a template. */
+/* Routes through AppLink so the href picks up the current locale. An internal
+   link that forgot its prefix would drop an English reader back onto the
+   Indonesian page, silently — see AppLink.tsx for why that is handled there
+   rather than by threading a prop to every call site. */
 export function ButtonLink({
   variant = 'green',
   block = false,
   className,
   children,
+  href,
   ...rest
-}: Props & Omit<React.ComponentPropsWithoutRef<typeof Link>, 'className' | 'children'>) {
+}: Props & { href: string } & Omit<
+    React.ComponentPropsWithoutRef<typeof Link>,
+    'className' | 'children' | 'href'
+  >) {
   return (
-    <Link className={classes(variant, block, className)} {...rest}>
+    <AppLink href={href} className={classes(variant, block, className)} {...rest}>
       {children}
-    </Link>
+    </AppLink>
   );
 }
