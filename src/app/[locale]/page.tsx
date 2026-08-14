@@ -4,6 +4,7 @@ import cardForest from '@/assets/card-forest.jpg';
 import cardOcean from '@/assets/card-ocean.jpg';
 import cardPhoto from '@/assets/card-photo.jpg';
 import cardUrban from '@/assets/card-urban.jpg';
+import mountains from '@/assets/mountains2.png';
 import newsIcrs from '@/assets/news-icrs.jpg';
 import panoramaLanskap from '@/assets/panorama-lanskap.jpg';
 import volunteer from '@/assets/volunteer-aerial.jpg';
@@ -86,7 +87,7 @@ export default async function Home() {
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(13,42,26,0.45)]" />
         <Wrap>
           <Eyebrow light>Who we are</Eyebrow>
-          <p className="mt-6 mb-0 max-w-[46ch] font-display text-quote leading-[1.28] text-white text-pretty">
+          <p className="mt-6 mb-0 max-w-[46ch] font-display text-4xl leading-[1.28] text-white text-pretty">
             REKAM records the living Indonesia — in forests, in seas, in cities — and turns what we
             document into conservation that lasts.
           </p>
@@ -96,9 +97,9 @@ export default async function Home() {
       <section id="program" className="bg-band py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
           <Eyebrow className="text-center">Our program</Eyebrow>
-          <h2 className="mt-4 mb-[clamp(2rem,4vw,3rem)] flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center font-display text-display font-normal text-green-900">
-            Forest <span aria-hidden="true" className="inline-block h-px w-10 bg-green-900/40" />
-            Urban <span aria-hidden="true" className="inline-block h-px w-10 bg-green-900/40" />
+          <h2 className="mt-4 mb-[clamp(2rem,4vw,3rem)] flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-center font-display text-4xl font-normal text-green-900">
+            Forest <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
+            Urban <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
             Ocean
           </h2>
 
@@ -107,24 +108,26 @@ export default async function Home() {
               <li key={card.href}>
                 <AppLink href={card.href} className="group block no-underline">
                   <span className="relative block overflow-hidden rounded-sm">
-                    <Image
-                      src={card.img}
-                      alt={card.alt}
-                      sizes="(max-width: 720px) 100vw, 33vw"
-                      className="block w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                    />
+                    <div className="w-full h-44 overflow-hidden flex items-center justify-center">
+                      <Image
+                        src={card.img}
+                        alt={card.alt}
+                        className="block w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                      />
+                    </div>
+
                     <Icon
                       id="i-arrow"
                       className="absolute bottom-3 right-3 size-7 fill-none stroke-yellow stroke-[4]"
                     />
                   </span>
-                  <span className="mt-4 block font-label text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-ink-soft">
+                  <span className="mt-4 block font-label text-[0.9rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">
                     {card.kicker}
                   </span>
-                  <span className="mt-2 block font-display text-title-sm leading-[1.3] text-green-900">
+                  <span className="mt-2 block text-title-xs leading-[1.3] text-green-900">
                     {card.body}
                   </span>
-                  <span className="mt-3 block text-[0.8rem] font-semibold text-green-900">
+                  <span className="mt-3 block text-[0.8rem] uppercase text-green-900">
                     Pelajari selengkapnya
                   </span>
                 </AppLink>
@@ -134,19 +137,38 @@ export default async function Home() {
         </Wrap>
       </section>
 
-      <section id="dampak" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
+      {/* The engraving is a watermark, not a photograph: it is a transparent PNG
+          of black ink, so it goes straight onto the paper ground with no scrim.
+          Anchored to the bottom (object-bottom) so the ridge line rises out of
+          the section's lower edge, and masked away over the top half so the
+          crop through the mountain doesn't read as a hard horizontal rule.
+          15% is the ceiling, not a taste call: the body copy sits over this,
+          and solid ink at 0.15 over paper lands on #d0cfcf, where ink-soft
+          still measures 4.71:1 and the green-900 headline 3.36:1. At 0.18
+          ink-soft drops to 4.38 and fails AA. */}
+      <section id="dampak" className="relative isolate overflow-hidden bg-paper py-[clamp(3rem,7vw,6rem)]">
+        <Image
+          src={mountains}
+          alt=""
+          fill
+          sizes="100vw"
+          className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-bottom opacity-[0.15] [mask-image:linear-gradient(to_bottom,transparent,#000_55%)]"
+        />
         <Wrap className="grid items-start gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div>
-            <Display>
-              Our
-              <br />
-              Impact
-            </Display>
-            <Lede>
+            <h2 className="text-left text-6xl font-display text-green-900">Our<br />Impact</h2>
+            {/* <Display>
+              Our Impact
+            </Display> */}
+            <p className="mt-6 block text-title-sm leading-[1.3] text-green-900">
               Sejak 2013, kami berkolaborasi dengan pemerintah pusat dan daerah, serta lembaga
               non-pemerintah nasional dan internasional.
-            </Lede>
-            <p className="mt-6 mb-0 max-w-[38ch] text-[0.85rem] leading-[1.7] text-ink-soft">
+            </p>
+            {/* <Lede>
+              Sejak 2013, kami berkolaborasi dengan pemerintah pusat dan daerah, serta lembaga
+              non-pemerintah nasional dan internasional.
+            </Lede> */}
+            <p className="mt-6 mb-0 max-w-[38ch] text-[0.95rem] leading-[1.7] text-ink-soft">
               Tiga angka teratas dari <em>Impact Highlights 2025</em> — satu untuk setiap program.
               Rinciannya ada di halaman masing-masing.
             </p>
@@ -188,7 +210,7 @@ export default async function Home() {
       {feature && (
         <section id="berita" className="grid bg-cream lg:grid-cols-2">
           <div className="order-2 self-center px-gutter py-[clamp(3rem,6vw,5rem)] lg:order-1">
-            <p className="m-0 font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
+            <p className="m-0 font-label text-[0.92rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
               <time dateTime={feature.date.toISOString()}>{dateFmt.format(feature.date)}</time>
               {feature.category && (
                 <>
@@ -197,7 +219,7 @@ export default async function Home() {
                 </>
               )}
             </p>
-            <h2 className="mt-4 mb-0 max-w-[20ch] font-display text-display leading-[1.15] text-green-900">
+            <h2 className="mt-4 mb-0 font-display text-4xl leading-[1.15] text-green-900">
               {feature.title}
             </h2>
             <ButtonLink href={`/berita/${feature.slug}`} className="mt-8">
@@ -285,9 +307,11 @@ export default async function Home() {
 
       {/* No items-center here: the photograph is sized with h-full, which only
           resolves if the grid item is allowed to stretch to the row. */}
-      <section className="grid bg-paper lg:grid-cols-2">
+      <section className="grid bg-cream lg:grid-cols-2">
         <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)]">
-          <Display>Be Part of the Story</Display>
+          <h2 className="mt-4 mb-0 font-display text-display leading-[1.15] text-green-900">
+            Be Part of the Story
+          </h2>
           <div className="mt-8 flex flex-wrap gap-3">
             <ButtonLink href="/donasi#adopsi">Adopt</ButtonLink>
             <ButtonLink href="/donasi">Give</ButtonLink>
@@ -304,16 +328,16 @@ export default async function Home() {
         />
       </section>
 
-      <section className="bg-cream pt-[clamp(3.5rem,8vw,6.5rem)]">
+      <section className="bg-white pt-[clamp(3.5rem,8vw,6.5rem)]">
         <Wrap>
-          <p className="m-0 max-w-[46ch] font-display text-quote leading-[1.25] text-green-900">
+          <p className="m-0 font-display text-3xl text-center leading-[1.5] text-green-900">
             The forest remembers, the ocean recalls, and every community carries stories older than
             us all. Science helps us understand, storytelling helps us care, technology helps us
             reach, and tradition reminds us why. For knowledge left unkept is a future undone;
             document with purpose today, so life may carry on.
           </p>
         </Wrap>
-        <Image src={canopy} alt="" sizes="100vw" className="mt-[clamp(2rem,5vw,4rem)] w-full" />
+        <Image src={canopy} alt="" sizes="100vw" className="w-full" />
       </section>
     </SiteShell>
   );

@@ -85,10 +85,10 @@ export default function TentangPage() {
               berkelanjutan.
             </p>
 
-            <ul className="m-0 grid list-none gap-[clamp(1.5rem,3vw,2.5rem)] p-0 md:grid-cols-2">
+            <ul className="m-0 grid list-none gap-[clamp(1.5rem,3vw,2.5rem)] p-0 md:grid-cols-3">
               {units.map((unit) => (
-                <li key={unit.name} className="flex gap-5 rounded-[14px] bg-white p-6">
-                  <div className="w-24 flex-none">
+                <li key={unit.name} className="flex flex-col rounded-[14px] bg-white border border-ink-soft/12">
+                  <div className="w-full h-44 overflow-hidden rounded-t-[14px] bg-cream p-12 text-center border-b border-ink-soft/12 flex items-center justify-center">
                     {unit.logo && UNIT_LOGOS[unit.logo] ? (
                       <Image
                         src={UNIT_LOGOS[unit.logo]}
@@ -100,37 +100,36 @@ export default function TentangPage() {
                       /* The source's own fallback for units with no logo. */
                       <span
                         aria-hidden="true"
-                        className="grid aspect-square w-full place-items-center rounded-[10px] bg-sage font-display text-[1.4rem] text-green-800"
+                        className="grid aspect-square w-full place-items-center rounded-[10px] font-display text-[1.4rem] text-green-800"
                       >
-                        {unit.letters ??
-                          unit.name
-                            .split(/\s+/)
-                            .slice(0, 2)
-                            .map((w) => w[0])
-                            .join('')}
+                        {unit.name}
                       </span>
                     )}
                   </div>
 
-                  <div className="min-w-0">
-                    <h3 className="m-0 font-display text-title-sm leading-[1.25] text-green-900">
-                      {unit.name}
-                    </h3>
-                    {unit.former && (
-                      <p className="mt-1 mb-0 text-[0.78rem] text-ink-soft">{unit.former}</p>
-                    )}
-                    <p className="mt-3 mb-0 text-[0.92rem] leading-[1.65] text-ink-soft">{unit.text}</p>
-                    {unit.href && (
-                      <a
-                        href={unit.href}
-                        className="mt-3 inline-block text-[0.85rem] font-semibold text-green-900 underline underline-offset-4"
-                      >
-                        {unit.href.replace(/^https?:\/\//, '')}
-                      </a>
-                    )}
-                    {unit.note && (
-                      <p className="mt-3 mb-0 text-[0.8rem] leading-[1.6] text-ink-soft">{unit.note}</p>
-                    )}
+                  <div className="min-w-0 p-4 flex flex-col flex-1">
+                    <div className="flex-1">
+                      <h3 className="m-0 font-display text-title-sm leading-[1.25] text-green-900">
+                        {unit.name}
+                      </h3>
+                      {unit.former && (
+                        <p className="mt-1 mb-0 text-[0.78rem] text-ink-soft">{unit.former}</p>
+                      )}
+                      <p className="mt-3 mb-0 text-[0.92rem] leading-[1.65] text-ink-soft">{unit.text}</p>
+                    </div>
+                    <div>
+                      {unit.href && (
+                        <a
+                          href={unit.href}
+                          className="mt-3 inline-block text-[0.85rem] font-semibold text-green-900 underline underline-offset-4"
+                        >
+                          {unit.href.replace(/^https?:\/\//, '')}
+                        </a>
+                      )}
+                      {unit.note && (
+                        <p className="mt-3 mb-0 text-[0.8rem] leading-[1.6] text-ink-soft">{unit.note}</p>
+                      )}
+                    </div>
                   </div>
                 </li>
               ))}
@@ -168,7 +167,11 @@ export default function TentangPage() {
           </Wrap>
         </section>
 
-        <section id="tim" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
+
+        {/* Every bio, as real markup. The dialog reads from the same data,
+            but this is what makes the page complete with JavaScript off —
+            the reason the source wrapped each one in <details>. */}
+        {/* <section id="tim" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
             <Eyebrow>Our team</Eyebrow>
             <Display className="mt-4 text-display">The people behind the work</Display>
@@ -179,10 +182,6 @@ export default function TentangPage() {
               public awareness.
             </p>
             <TeamGrid />
-
-            {/* Every bio, as real markup. The dialog reads from the same data,
-                but this is what makes the page complete with JavaScript off —
-                the reason the source wrapped each one in <details>. */}
             <div className="sr-only">
               {team.map((p) => (
                 <article key={p.id}>
@@ -195,9 +194,9 @@ export default function TentangPage() {
               ))}
             </div>
           </Wrap>
-        </section>
+        </section> */}
 
-        <section className="bg-cream pt-[clamp(3.5rem,8vw,6.5rem)]">
+        <section className="bg-paper pt-[clamp(3.5rem,8vw,6.5rem)]">
           <Wrap>
             <Display className="text-hero-sm">Be Part of the Story</Display>
             <Lede>

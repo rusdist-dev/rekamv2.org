@@ -175,11 +175,9 @@
       "logo": "unit/frci.png"
     },
     {
-      "name": "Story Telling",
-      "former": "Sebelumnya Indonesia Nature Film Society (INFIS)",
-      "text": "Unit produksi film REKAM di Bogor, Jawa Barat. Menjadi rumah bagi para penggerak yang menekuni dokumenter dan ingin memperluas kesadaran publik atas kekayaan alam dan budaya Indonesia.",
-      "href": "https://inaturefilms.org",
-      "logo": "unit/infis.png"
+      "name": "Urban & Sustainability",
+      "text": "Direktorat yang dibentuk untuk mendampingi masyarakat dan pemerintah daerah mencari jalan keluar atas persoalan lingkungan di perkotaan. Dimulai di Kota Bogor bersama pemerintah kota, warga, dan pelaku usaha untuk menata pengelolaan sampah di kawasan permukiman.",
+      "logo": "unit/urban.png"
     },
     {
       "name": "Creative Communication",
@@ -194,9 +192,11 @@
       "letters": "NRCU"
     },
     {
-      "name": "Urban & Sustainability",
-      "text": "Direktorat yang dibentuk untuk mendampingi masyarakat dan pemerintah daerah mencari jalan keluar atas persoalan lingkungan di perkotaan. Dimulai di Kota Bogor bersama pemerintah kota, warga, dan pelaku usaha untuk menata pengelolaan sampah di kawasan permukiman.",
-      "logo": "unit/urban.png"
+      "name": "Story Telling",
+      "former": "Sebelumnya Indonesia Nature Film Society (INFIS)",
+      "text": "Unit produksi film REKAM di Bogor, Jawa Barat. Menjadi rumah bagi para penggerak yang menekuni dokumenter dan ingin memperluas kesadaran publik atas kekayaan alam dan budaya Indonesia.",
+      "href": "https://inaturefilms.org",
+      "logo": "unit/infis.png"
     }
   ],
   "org": [

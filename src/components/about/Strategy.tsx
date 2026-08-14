@@ -19,20 +19,8 @@ type Step = 'strategies' | 'strengths' | 'actions' | 'outcomes';
 
 const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
   {
-    id: 'strategies',
-    n: 1,
-    label: 'Key strategies',
-    body: (
-      <>
-        <strong>Jejaring, kolaborasi, dan penguatan kapasitas.</strong> Lingkar terluar — tiga
-        strategi kunci yang menopang seluruh kerja REKAM sejak 2013, dan alasan program-programnya
-        bisa berjalan bersama pemerintah dan mitra.
-      </>
-    ),
-  },
-  {
     id: 'strengths',
-    n: 2,
+    n: 1,
     label: 'Core strengths',
     body: (
       <>
@@ -44,7 +32,7 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
   },
   {
     id: 'actions',
-    n: 3,
+    n: 2,
     label: 'Actions',
     body: (
       <>
@@ -55,13 +43,25 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
     ),
   },
   {
+    id: 'strategies',
+    n: 3,
+    label: 'Key strategies',
+    body: (
+      <>
+        <strong>Jejaring, kolaborasi, dan penguatan kapasitas.</strong> Lingkar luar — tiga
+        strategi kunci yang menopang seluruh kerja REKAM sejak 2013, dan alasan program-programnya
+        bisa berjalan bersama pemerintah dan mitra.
+      </>
+    ),
+  },
+  {
     id: 'outcomes',
     n: 4,
     label: 'Outcomes',
     body: (
       <>
-        <strong>Capaian konservasi dan dampak sosial-ekonomi.</strong> Ujung panah — hasil yang
-        dituju, dan yang angka-angkanya bisa dibaca di halaman{' '}
+        <strong>Capaian konservasi dan dampak sosial-ekonomi.</strong> Lingkar terluar — hasil yang
+        ditopang oleh ketiga lapisan di dalamnya, dan yang dilaporkan per program:{' '}
         <AppLink href="/program/forest" className="underline underline-offset-4">
           Forest
         </AppLink>
@@ -81,10 +81,10 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
 
 /** Dim every layer except the selected one. */
 const layer = (active: boolean) =>
-  cn('transition-opacity duration-300', active ? 'opacity-100' : 'opacity-25');
+  cn('transition-opacity duration-300', active ? 'opacity-100' : 'opacity-15');
 
 export function Strategy() {
-  const [step, setStep] = useState<Step>('strategies');
+  const [step, setStep] = useState<Step>('strengths');
 
   return (
     <Tabs.Root value={step} onValueChange={(v) => setStep(v as Step)}>
@@ -104,28 +104,62 @@ export function Strategy() {
         </div>
 
         <div>
-          <svg viewBox="0 0 300 300" role="img" aria-labelledby="sthink-title sthink-desc" className="w-full">
+          {/* The outcomes ring is added by growing the viewBox into negative
+              coordinates rather than by re-centring the diagram. Keeping the
+              centre at 150,150 leaves every existing radius and arc untouched;
+              -20 -20 340 340 just puts 170 units between the centre and each
+              edge, which is the room the fourth band needs. */}
+          <svg viewBox="-20 -20 340 340" role="img" aria-labelledby="sthink-title sthink-desc" className="w-full">
             <title id="sthink-title">Diagram pemikiran strategis REKAM</title>
             <desc id="sthink-desc">
-              Tiga lapisan melingkar — jejaring, kolaborasi dan penguatan kapasitas di lingkar luar;
-              konservasi di tapak dan kebijakan di lingkar tengah; sains, teknologi, seni, media dan
-              komunikasi di pusat — mengarah ke capaian konservasi dan dampak sosial-ekonomi.
+              Empat lapisan melingkar, dari pusat ke luar — sains, teknologi, seni, media dan
+              komunikasi di pusat; konservasi di tapak dan kebijakan di lingkar tengah; jejaring,
+              kolaborasi dan penguatan kapasitas di lingkar luar; capaian konservasi dan dampak
+              sosial-ekonomi di lingkar terluar.
             </desc>
             <defs>
+              <path id="arc-rim-top" d="M1,150 A149,149 0 0 1 299,150" />
+              <path id="arc-rim-bot" d="M-3,150 A153,153 0 0 0 303,150" />
               <path id="arc-out-top" d="M32,150 A118,118 0 0 1 268,150" />
               <path id="arc-out-bot" d="M28,150 A122,122 0 0 0 272,150" />
               <path id="arc-mid-top" d="M64,150 A86,86 0 0 1 236,150" />
               <path id="arc-mid-bot" d="M60,150 A90,90 0 0 0 240,150" />
             </defs>
 
+            {/* Outcomes was a line of text under the diagram with a ↓ into it.
+                As a ring it takes green-900 rather than the green-700 of the two
+                strategy bands, so the result still reads as a different kind of
+                thing from the strategies that produce it. White on green-900
+                measures 5.22:1.
+
+                It now dims with the others when unselected, which the text
+                version deliberately did not do (fading it measured 1.38:1). The
+                trade is acceptable here only because it is a ring: the same
+                opacity-15 already applies to the two bands inside it, and the
+                wording survives in the tab panel below and in <desc> above, so
+                nothing is only available in a dimmed layer. */}
+            <g className={layer(step === 'outcomes')}>
+              <circle cx="150" cy="150" r="152" fill="none" stroke="var(--color-green-900)" strokeWidth="30" />
+              <text className="fill-white font-label text-[11px] font-semibold tracking-[0.14em]" textAnchor="middle">
+                <textPath href="#arc-rim-top" startOffset="50%">
+                  CONSERVATION OUTCOMES
+                </textPath>
+              </text>
+              <text className="fill-white font-label text-[11px] font-semibold tracking-[0.14em]" textAnchor="middle">
+                <textPath href="#arc-rim-bot" startOffset="50%">
+                  &amp; SOCIO-ECONOMIC IMPACTS
+                </textPath>
+              </text>
+            </g>
+
             <g className={layer(step === 'strategies')}>
-              <circle cx="150" cy="150" r="120" fill="var(--color-sage)" />
-              <text className="fill-green-900 font-label text-[11px] font-semibold tracking-[0.14em]" textAnchor="middle">
+              <circle cx="150" cy="150" r="121" fill="none" stroke='var(--color-green-700)' strokeWidth="30" />
+              <text className="fill-white font-label text-[11px] font-semibold tracking-[0.14em]" textAnchor="middle">
                 <textPath href="#arc-out-top" startOffset="50%">
                   NETWORKING · COLLABORATION
                 </textPath>
               </text>
-              <text className="fill-green-900 font-label text-[11px] font-semibold tracking-[0.14em]" textAnchor="middle">
+              <text className="fill-white font-label text-[11px] font-semibold tracking-[0.14em]" textAnchor="middle">
                 <textPath href="#arc-out-bot" startOffset="50%">
                   &amp; CAPACITY DEVELOPMENT
                 </textPath>
@@ -133,13 +167,13 @@ export function Strategy() {
             </g>
 
             <g className={layer(step === 'actions')}>
-              <circle cx="150" cy="150" r="88" fill="var(--color-sage-deep)" />
-              <text className="fill-green-900 font-label text-[10px] font-semibold tracking-[0.12em]" textAnchor="middle">
+              <circle cx="150" cy="150" r="90" fill="none" stroke='var(--color-green-700)' strokeWidth="29" />
+              <text className="fill-white font-label text-[10px] font-semibold tracking-[0.12em]" textAnchor="middle">
                 <textPath href="#arc-mid-top" startOffset="50%">
                   CONSERVATION AT SITES
                 </textPath>
               </text>
-              <text className="fill-green-900 font-label text-[10px] font-semibold tracking-[0.12em]" textAnchor="middle">
+              <text className="fill-white font-label text-[10px] font-semibold tracking-[0.12em]" textAnchor="middle">
                 <textPath href="#arc-mid-bot" startOffset="50%">
                   POLICY AND REFORM
                 </textPath>
@@ -147,31 +181,22 @@ export function Strategy() {
             </g>
 
             <g className={layer(step === 'strengths')}>
-              <circle cx="150" cy="150" r="62" fill="var(--color-green-700)" />
-              <text x="150" y="137" textAnchor="middle" className="fill-white font-label text-[11px] font-semibold tracking-[0.08em]">
+              {/* --color-yellow-500 is not one of this project's tokens; it was
+                  resolving to Tailwind's stock yellow-500 (#eab308), the exact
+                  thing the token block at the top of globals.css exists to keep
+                  out. The brand token is --color-yellow, #fec901. */}
+              <circle cx="150" cy="150" r="62" fill="var(--color-yellow)" />
+              <text x="150" y="137" textAnchor="middle" className="font-label text-[11px] font-semibold tracking-[0.08em]">
                 SCIENCE
               </text>
-              <text x="150" y="154" textAnchor="middle" className="fill-white font-label text-[11px] font-semibold tracking-[0.08em]">
+              <text x="150" y="151" textAnchor="middle" className="font-label text-[11px] font-semibold tracking-[0.08em]">
                 TECH &amp; ART
               </text>
-              <text x="150" y="171" textAnchor="middle" className="fill-white font-label text-[11px] font-semibold tracking-[0.08em]">
+              <text x="150" y="165" textAnchor="middle" className="font-label text-[11px] font-semibold tracking-[0.08em]">
                 MEDIA &amp; COMMS
               </text>
             </g>
           </svg>
-
-          {/* Unlike the rings, this is text, so it is never dimmed. Fading it
-              to match them measured 1.38:1 — the selection signal cannot be
-              worth making a label unreadable. Colour carries it instead, and
-              both states clear AA: green-900 at 4.75, ink-soft at 6.67. */}
-          <p
-            className={cn(
-              'mt-3 mb-0 text-center text-[0.85rem] transition-colors duration-300',
-              step === 'outcomes' ? 'font-semibold text-green-900' : 'font-medium text-ink-soft'
-            )}
-          >
-            <span aria-hidden="true">↓</span> Capaian konservasi &amp; dampak sosial-ekonomi
-          </p>
         </div>
       </div>
 

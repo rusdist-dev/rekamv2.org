@@ -34,7 +34,7 @@ import { EXPLORE, PROGRAMMES, type NavItem, type NavKey } from '@/lib/nav';
  */
 
 const RAIL_LINK =
-  'block py-[0.3rem] text-[0.88rem] font-medium tracking-[0.02em] capitalize leading-[1.4] ' +
+  'block py-[0.3rem] text-[0.9rem] font-medium tracking-[0.02em] capitalize leading-[1.4] ' +
   'whitespace-nowrap no-underline text-ink-soft transition-colors duration-200 hover:text-green-900 ' +
   // The underline grows from the left on hover, and stays out for the current page.
   'after:block after:h-px after:mt-[3px] after:bg-current after:origin-left after:scale-x-0 ' +
@@ -272,7 +272,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
             losing that costs crawlers and no-JS readers the whole navigation. */}
         <div className={cn('flex flex-col items-center', !heroState && 'hidden')} aria-hidden={!heroState}>
             <Brand
-              width={118}
+              width={200}
               flat
               className={cn('text-white transition-opacity duration-300', scrolled && 'pointer-events-none opacity-0')}
             />
@@ -289,7 +289,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
                   href={p.href}
                   aria-current={current === p.key ? 'page' : undefined}
                   className={cn(
-                    'whitespace-nowrap rounded-full border px-[1.35rem] py-2 text-[0.74rem] font-semibold uppercase tracking-[0.1em] no-underline backdrop-blur-[6px] transition-colors duration-200',
+                    'whitespace-nowrap rounded-full border px-[1.35rem] py-2 text-[0.94rem] font-semibold uppercase tracking-[0.1em] no-underline backdrop-blur-[6px] transition-colors duration-200',
                     current === p.key
                       ? 'border-white bg-white text-green-900'
                       : 'border-white/45 bg-white/8 text-white hover:border-white hover:bg-white hover:text-green-900'

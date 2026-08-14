@@ -199,8 +199,8 @@ export function Hero360({
         style={{ background: lightPano ? SCRIM_LIGHT : SCRIM_DARK }}
       />
 
-      <div className="pointer-events-none relative z-[2] flex h-full flex-col items-center justify-center gap-6 px-gutter pt-20 pb-36 text-center">
-        <p className="m-0 font-label text-[0.8rem] font-semibold uppercase tracking-[0.32em] text-white/92">
+      <div className="pointer-events-none relative z-[2] flex h-full flex-col items-center justify-center gap-6 px-gutter pt-24 text-center">
+        <p className="m-0 font-label text-[1.4rem] font-semibold uppercase tracking-[0.32em] text-white/92">
           {eyebrow}
         </p>
         <h1 className="m-0 max-w-[18ch] font-display text-hero-lg font-normal leading-[1.06] tracking-[-0.02em] text-white [text-shadow:0_2px_44px_rgba(0,0,0,0.5)]">

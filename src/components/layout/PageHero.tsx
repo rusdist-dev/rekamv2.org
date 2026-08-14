@@ -39,7 +39,7 @@ export function PageHero({
   return (
     <section
       className={cn(
-        'relative isolate flex items-end overflow-hidden bg-green-900',
+        'relative isolate flex items-end overflow-hidden bg-green-300',
         'pt-[clamp(6rem,12vh,9rem)] pb-[clamp(2.5rem,5vw,4.5rem)]',
         short ? 'min-h-[clamp(20rem,44vh,28rem)]' : 'min-h-[clamp(26rem,58vh,38rem)]'
       )}
@@ -54,7 +54,7 @@ export function PageHero({
       />
       <div aria-hidden="true" className="absolute inset-0 z-[1]" style={{ background: dim ? SCRIM_DIM : SCRIM_BASE }} />
 
-      <Wrap className="relative z-[2]">
+      <Wrap className="relative z-[2] pt-12">
         <Eyebrow light>{eyebrow}</Eyebrow>
         <h1 className="mt-3 mb-0 font-display text-hero font-normal leading-[1.04] tracking-[-0.02em] text-white">
           {title}
