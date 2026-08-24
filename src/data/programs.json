@@ -8,140 +8,125 @@
     },
     "overview": {
       "body": [
-        "Indonesia holds some of the largest tropical forests left on earth, and no complete account of what lives in them.",
-        "A few species carry the attention: the tiger, the orangutan, the rafflesia. Behind them are thousands that keep the forest running and have never been studied, many of them named by the people living alongside them long before any scientist arrived. The pressure does not wait for the science. Forest is cleared for what it returns this season, and what goes with it was never written down.",
-        "Forest works on both gaps at once. We survey the species nobody has funded, train young researchers to keep surveying after us, and build the records with the communities whose knowledge of these forests is older than ours. Camera traps, acoustic monitoring, and field survey, run by people who will still be here in twenty years.",
-        "A forest that is documented can be argued for. One that is not simply disappears quietly, and the argument is over before it starts."
+        "As home to some of the world's most extensive tropical forests, Indonesia carries a profound responsibility for global biodiversity conservation. Effective forest management here is deeply intertwined with the cultural dynamics of local and indigenous communities. However, these vital ecosystems face continuous pressure from short-term exploitation. Compounding this challenge is lack of knowledge flora, fauna, and their interactions. While popular species receive attention, critical knowledge gaps remain for thousand of neglected taxa that are equally vital to forest health.",
+        "The Rekam Nusantara Foundation's Forestry Program addresses these systemic challenges. By deploying modern conservation technology, empowering youth leadership, championing understudied species, and fostering inclusive community dynamics, we work to shift from immediate exploitation to long-term ecological sustainability."
       ],
       "art": "card-forest.jpg",
       "artAlt": "Ilustrasi ukir lembah hutan dengan sungai berkelok"
     },
     "numbers": {
       "title": "By the numbers",
-      "lede": "Konservasi hutan adat berbasis masyarakat di Kalimantan Barat — capaian sepanjang 2025.",
-      "note": "Sumber: REKAM by the Numbers — Impact Highlights 2025. Nama jenis burung dan satwa ditulis sesuai dokumen aslinya.",
+      "lede": "Community-based customary forest conservation in West Kalimantan — achievements throughout 2025.",
+      "note": "Source: REKAM by the Numbers — Impact Highlights 2025. Bird and wildlife species names are written as they appear in the original document.",
       "groups": [
         {
-          "heading": "Pengakuan hak masyarakat adat",
+          "heading": "Recognition of indigenous community rights",
           "headline": false,
           "items": [
             {
               "icon": "i-people",
               "value": "242",
-              "label": "Warga masyarakat adat terlibat dalam pemetaan partisipatif dan pengakuan wilayah adat"
+              "label": "Members involved"
             },
             {
               "icon": "i-map",
               "value": "5",
-              "label": "Tapak menyelesaikan peta zonasi adat semi-detail"
+              "label": "Sites zonation maps"
             }
           ]
         },
         {
-          "heading": "Pemasangan patok batas",
+          "heading": "Boundary marker installation",
           "headline": false,
           "items": [
             {
               "icon": "i-post",
               "value": "20 km",
-              "label": "Patok batas terpasang"
+              "label": "Boundary markers installed"
             },
             {
               "icon": "i-route",
               "value": "35 km",
-              "label": "Batas adat terdelineasi antara Menua Ungak dan Menua Apan"
+              "label": "Boundary delineated"
             },
             {
               "icon": "i-people",
               "value": "18",
-              "label": "Perwakilan masyarakat dari Lauk Rugun dan Tamlambaloh Apalin Lauk dalam penetapan batas"
+              "label": "Community from Lauk Rugun and Tamlambaloh Apalin Lauk involved"
             },
             {
               "icon": "i-helmet",
               "value": "11",
-              "label": "Anggota tim teknis yang terlibat"
+              "label": "Technical team members involved"
             }
           ]
         },
         {
-          "heading": "Pengelolaan hutan adat",
+          "heading": "Customary forest management",
           "headline": false,
           "items": [
             {
               "icon": "i-board",
               "value": "166",
-              "label": "Peserta seminar dan lokakarya pengelolaan hutan pasca-pengakuan"
+              "label": "Participants"
             },
             {
               "icon": "i-station",
               "value": "4",
-              "label": "Stasiun pemantauan keanekaragaman hayati di Hutan Adat Kulan"
+              "label": "Biodiversity monitoring stations"
             },
             {
               "icon": "i-book",
               "value": "1",
-              "label": "Revisi buku hukum adat Ketemenggukan Iban Jalai Lintang diselesaikan"
+              "label": "Revision of the customary law book"
             },
             {
               "icon": "i-binocs",
               "value": "1",
-              "label": "Kelompok pemantau rangkong yang dipimpin perempuan terbentuk"
+              "label": "Women-led hornbill monitoring group"
             }
           ]
         },
         {
-          "heading": "Pemantauan akustik pasif",
+          "heading": "Passive acoustic monitoring",
           "headline": false,
           "items": [
             {
               "icon": "i-bird",
               "value": "52",
-              "label": "Jenis burung terdokumentasi",
-              "chips": [
-                "Helmeted Hornbill",
-                "Rhinoceros Hornbill",
-                "Wreathed Hornbill",
-                "Black Hornbill",
-                "Bushy-crested Hornbill"
-              ]
+              "label": "Bird species documented"
             },
             {
               "icon": "i-paw",
               "value": "3",
-              "label": "Jenis satwa kunci lainnya",
-              "chips": [
-                "Bornean Clouded Leopard",
-                "Bornean Yellow Muntjac",
-                "Great Argus"
-              ]
+              "label": "Other key wildlife species"
             }
           ]
         },
         {
-          "heading": "Pemantauan sarang & adopsi pohon",
+          "heading": "Nest monitoring & tree adoption",
           "headline": false,
           "items": [
             {
               "icon": "i-nest",
               "value": "27",
-              "label": "Sarang rangkong dipantau setiap bulan"
+              "label": "Hornbill nests monitored"
             },
             {
               "icon": "i-nest",
               "value": "13",
-              "label": "Sarang aktif teridentifikasi"
+              "label": "Active nests identified"
             },
             {
               "icon": "i-tree",
               "value": "1",
-              "label": "Pohon sarang dilindungi melalui inisiatif adopsi pohon berbasis masyarakat"
+              "label": "Nest tree protected through a community-based tree adoption initiative"
             }
           ]
         }
       ]
     },
-    "postsTitle": "From Forest",
-    "closing": "Be Part of the Story Adopt Give Shop Documenting knowledge. Preserving life."
+    "postsTitle": "From Forest"
   },
   "urban": {
     "scene": "urban",
@@ -152,9 +137,8 @@
     },
     "overview": {
       "body": [
-        "Every household in Bogor produces a detailed record of itself each day, and puts it out on the street by morning.",
-        "Nobody reads it. Household waste in Indonesian cities is collected without being counted, moved without being sorted, and buried without anyone knowing what went in. The decisions that follow — where the trucks go, what a landfill can hold, which regulation is worth writing — are made without that record.",
-        "Urban works on the environmental problems a city makes at home. We started in Bogor, with the city government, neighbourhood associations, and local businesses: building waste systems residents will actually use, and changing what happens to a bag of rubbish between the kitchen and the truck.",
+        "Every household in Bogor produces a detailed record of itself each day, and puts it out on the street by morning. Nobody reads it. Household waste in Indonesian cities is collected without being counted, moved without being sorted, and buried without anyone knowing what went in.",
+        "Urban works on the environmental problems a city makes at home. We started in Bogor, with the city government, neighbourhood associations, and local businesses: building waste systems residents will actually use.",
         "One city, on purpose. Waste is not solved by regulation alone — it is solved street by street, and it has to work somewhere real before it can be honest anywhere else."
       ],
       "art": "card-urban.jpg",
@@ -162,34 +146,33 @@
     },
     "numbers": {
       "title": "By the numbers",
-      "lede": "Pengelolaan dan upcycling sampah plastik menuju ekonomi sirkular — capaian sepanjang 2025.",
-      "note": "Sumber: REKAM by the Numbers — Impact Highlights 2025.",
+      "lede": "Plastic waste management and upcycling toward a circular economy — achievements throughout 2025.",
+      "note": "Source: REKAM by the Numbers — Impact Highlights 2025.",
       "groups": [
         {
-          "heading": "Pengelolaan & upcycling sampah plastik 35 RT",
-          "when": "35 RT 512,2 ton",
-          "note": "Diolah menjadi papan dan balok — material utama untuk membangun sumur resapan.",
+          "heading": "Plastic waste management & upcycling",
+          "when": "35 Neighborhood units",
           "headline": false,
           "items": [
             {
               "icon": "i-bin",
-              "value": "512,2 ton",
-              "label": "Total sampah terkumpul"
+              "value": "512.2 ton",
+              "label": "Total waste collected"
             },
             {
               "icon": "i-recycle",
-              "value": "53,3 ton",
-              "label": "Plastik terolah"
+              "value": "53.3 ton",
+              "label": "Plastic processed"
             },
             {
               "icon": "i-brick",
               "value": "220 unit",
-              "label": "Produk cetak dihasilkan, ukuran 100 × 200 × 100 cm"
+              "label": "Product produced"
             }
           ]
         },
         {
-          "heading": "Produk terdistribusi ke",
+          "heading": "Products distributed to",
           "headline": false,
           "items": [
             {
@@ -210,20 +193,19 @@
           ]
         },
         {
-          "heading": "Capaian",
+          "heading": "Achievements",
           "headline": true,
           "items": [
             {
               "icon": "i-coins",
-              "value": "Rp 1.210.000.000",
-              "label": "Nilai produk hasil upcycling dalam ekonomi sirkular"
+              "value": "Rp 1,210,000,000",
+              "label": "Value of upcycled products within the circular economy"
             }
           ]
         }
       ]
     },
-    "postsTitle": "From City",
-    "closing": "Be Part of the Story Adopt Give Shop Documenting knowledge. Preserving life."
+    "postsTitle": "From Urban"
   },
   "ocean": {
     "scene": "ocean",
@@ -251,18 +233,18 @@
     },
     "numbers": {
       "title": "By the numbers",
-      "lede": "Kawasan konservasi laut, pemberdayaan masyarakat, dan produksi pengetahuan — capaian 2025, dengan cakupan kumulatif sejak 2022.",
-      "note": "Sumber: REKAM by the Numbers — Impact Highlights 2025.",
+      "lede": "Marine conservation areas, community empowerment, and knowledge production — 2025 achievements, with cumulative coverage since 2022.",
+      "note": "Source: REKAM by the Numbers — Impact Highlights 2025.",
       "groups": [
         {
-          "heading": "Cakupan 2022 – 2025",
-          "when": "2022 – 2025 23",
+          "heading": "Coverage",
+          "when": "2022 – 2025",
           "headline": false,
           "items": [
             {
               "icon": "i-shield",
               "value": "23",
-              "label": "Kawasan Konservasi Perairan (MPA)"
+              "label": "Marine Protected Areas (MPA)"
             },
             {
               "icon": "i-area",
@@ -272,237 +254,193 @@
             {
               "icon": "i-map",
               "value": "8",
-              "label": "Wilayah Pengelolaan Perikanan"
+              "label": "Fisheries Management Areas"
             }
           ]
         },
         {
-          "heading": "Orang yang terlibat 2025",
-          "when": "2025 65",
+          "heading": "People involved",
+          "when": "2025",
           "headline": false,
           "items": [
             {
               "icon": "i-people",
-              "value": "65",
-              "label": "Kelompok masyarakat Jawa Tengah & Sulawesi Selatan"
+              "value": "72",
+              "label": "Community groups in Central Java & South Sulawesi"
             },
             {
               "icon": "i-clipboard",
-              "value": "44",
-              "label": "Enumerator dari 8 kelompok"
+              "value": "52",
+              "label": "Field Enumerators"
             },
             {
               "icon": "i-heart",
-              "value": "28",
-              "label": "Relawan"
+              "value": "195",
+              "label": "Volunteers"
             },
             {
               "icon": "i-cap",
-              "value": "20",
-              "label": "Beasiswa fellow GOAP, IWT & SFACT"
+              "value": "21",
+              "label": "Scholarship fellows of GOAP, IWT & SFACT"
             },
             {
               "icon": "i-cap",
-              "value": "5",
-              "label": "Pemagang dari 2 universitas & 1 sekolah"
+              "value": "30",
+              "label": "Interns from 2 universities & 1 school"
             }
           ]
         },
         {
-          "heading": "Publikasi 2025",
-          "when": "2025 11",
+          "heading": "Publications",
+          "when": "2025",
           "headline": false,
           "items": [
             {
               "icon": "i-article",
-              "value": "11",
-              "label": "Jurnal peer-reviewed"
+              "value": "38",
+              "label": "Peer-reviewed journals"
             },
             {
               "icon": "i-scroll",
-              "value": "8",
-              "label": "Publikasi kebijakan"
+              "value": "12",
+              "label": "Policy publications"
             },
             {
               "icon": "i-bulb",
-              "value": "7",
-              "label": "Produk pengetahuan"
+              "value": "29",
+              "label": "Knowledge products"
             },
             {
               "icon": "i-book",
-              "value": "4",
-              "label": "Buku"
+              "value": "3",
+              "label": "Books"
             }
           ]
         },
         {
-          "heading": "Pengumpulan data IKAN 2019 – 2025",
-          "when": "2019 – 2025 15.262",
-          "note": "Data tangkapan dari lokasi pendaratan di seluruh Indonesia melalui citizen science , dikumpulkan lewat aplikasi IKAN . Inisiatif rajungan: 28 relawan , 3.881 data trip, 32.732 data panjang.",
+          "heading": "IKAN data collection",
+          "when": "2019 – 2025",
           "headline": false,
           "items": [
             {
               "icon": "i-boat",
-              "value": "15.262",
-              "label": "Data trip penangkapan"
+              "value": "15,262",
+              "label": "Fishing trip data"
             },
             {
               "icon": "i-ruler",
-              "value": "120.551",
-              "label": "Data panjang ikan"
+              "value": "120,551",
+              "label": "Fish length data"
             }
           ]
         },
         {
-          "heading": "Sains & teknologi lanjutan 2025",
-          "when": "2025 6.781",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-boat",
-              "value": "6.781",
-              "label": "Data trip terkumpul"
-            },
-            {
-              "icon": "i-ruler",
-              "value": "66.122",
-              "label": "Data panjang terkumpul"
-            }
-          ]
-        },
-        {
-          "heading": "Penguatan kapasitas pengawasan IUU fishing",
+          "heading": "Strengthening IUU fishing monitoring capacity",
           "headline": false,
           "items": [
             {
               "icon": "i-board",
-              "value": "2.156",
-              "label": "Peserta lokakarya pengawasan, daring dan luring"
+              "value": "2,156",
+              "label": "Monitoring workshop participants"
             },
             {
               "icon": "i-laptop",
               "value": "18",
-              "label": "Peserta pelatihan forensik digital"
+              "label": "Digital forensics training participants"
             }
           ]
         },
         {
-          "heading": "Fasilitasi penyusunan regulasi",
-          "headline": false,
-          "items": [],
-          "policy": [
-            {
-              "status": "Disahkan",
-              "title": "Rencana Aksi Nasional Pencegahan dan Pemberantasan IUU Fishing 2025–2029",
-              "ref": "Keputusan Menteri No. 95/2025"
-            },
-            {
-              "status": "Disahkan",
-              "title": "Petunjuk Teknis Pengawasan Jenis Ikan Asing dan Invasif",
-              "ref": "Keputusan PSDKP No. 21/2025"
-            },
-            {
-              "status": "Rancangan",
-              "title": "Forum Koordinasi Penegakan Hukum",
-              "ref": "Peraturan Menteri"
-            },
-            {
-              "status": "Rancangan",
-              "title": "Pedoman Pemantauan Destructive Fishing",
-              "ref": "Keputusan PSDKP"
-            }
-          ]
-        },
-        {
-          "heading": "Kelompok masyarakat pesisir",
+          "heading": "Coastal community groups",
           "headline": false,
           "items": [
             {
               "icon": "i-people",
               "value": "6",
-              "label": "Jawa Tengah 120 anggota · 15 pelatihan"
+              "label": "Central Java",
+              "chips": ["120 members", "15 trainings"]
             },
             {
               "icon": "i-people",
               "value": "9",
-              "label": "Liukang Tangaya 107 anggota · 12 pelatihan"
+              "label": "Liukang Tangaya",
+              "chips": ["107 members", "12 trainings"]
             }
           ]
         },
         {
-          "heading": "Konservasi jenis — hiu & pari",
+          "heading": "Species conservation – sharks & rays",
           "headline": false,
           "items": [
             {
               "icon": "i-people",
               "value": "400",
-              "label": "Peserta terlatih"
+              "label": "People trained"
             },
             {
               "icon": "i-book",
               "value": "15",
-              "label": "Modul dan panduan"
+              "label": "Modules and guides"
             },
             {
               "icon": "i-board",
               "value": "5",
-              "label": "Sesi lokakarya"
+              "label": "Workshop sessions"
             }
           ]
         },
         {
-          "heading": "Ocean Accounts & pembangunan",
-          "note": "Komponen OfD: Ecosystem Services · Ocean Satellite · Ocean Statistical Systems . Pengarusutamaan GEDSI: rencana aksi bertahap untuk tata kelola laut yang lebih adil dan inklusif.",
+          "heading": "Ocean Accounts & development",
           "headline": false,
           "items": [
             {
               "icon": "i-megaphone",
               "value": "8",
-              "label": "Kegiatan peningkatan kesadaran"
+              "label": "Awareness-raising activities"
             },
             {
               "icon": "i-bulb",
               "value": "7",
-              "label": "Produk pengetahuan"
+              "label": "Knowledge products"
             }
           ]
         },
         {
-          "heading": "Blue carbon & rehabilitasi",
-          "note": "Usaha blue carbon berbasis masyarakat: silvofishery · pembenihan dan budidaya rajungan · ekowisata · pertanian sayur · rehabilitasi lamun dan mangrove · pembibitan · pengolahan produk perikanan.",
+          "heading": "Blue carbon & rehabilitation",
+          "note": "Community-based blue carbon enterprises: silvofishery · blue swimming crab hatchery and farming · ecotourism · vegetable farming · seagrass and mangrove rehabilitation · nurseries · fisheries product processing",
           "headline": false,
           "items": [],
           "table": {
-            "caption": "Rehabilitasi mangrove dan lamun di dua tapak, dengan jumlah benih dan tingkat kelulusan hidup",
+            "caption": "Mangrove and seagrass rehabilitation across two sites, with seedling counts and survival rates",
             "head": [
-              "Tapak",
+              "Site",
               "Habitat",
-              "Rehabilitasi",
-              "Kelulusan hidup"
+              "Rehabilitation",
+              "Survival rate"
             ],
             "rows": [
               [
-                "Jawa Tengah",
+                "Central Java",
                 "Mangrove",
-                "149.500 benih (15 ha)",
+                "149.500 seedlings (15 ha)",
                 "79,8%"
               ],
               [
-                "Jawa Tengah",
-                "Lamun",
-                "500 benih (500 m²)",
+                "Central Java",
+                "Seagrass",
+                "500 seedlings (500 m²)",
                 "50%"
               ],
               [
-                "Teluk Saleh",
+                "Saleh Bay",
                 "Mangrove",
-                "9.500 benih (5 ha)",
+                "9.500 seedlings (5 ha)",
                 "90%"
               ],
               [
-                "Teluk Saleh",
-                "Lamun",
-                "2.000 benih (2 ha)",
+                "Saleh Bay",
+                "Seagrass",
+                "2.000 seedlings (2 ha)",
                 "30%"
               ]
             ]
@@ -510,7 +448,6 @@
         }
       ]
     },
-    "postsTitle": "From Sea",
-    "closing": "Be Part of the Story Adopt Give Shop Documenting knowledge. Preserving life."
+    "postsTitle": "From Ocean"
   }
 }

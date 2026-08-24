@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { COVERS } from '@/assets/berita/covers';
+import heroImg from '@/assets/banner/event.png';
+import ctaImg from '@/assets/banner/event1.png';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PostGrid } from '@/components/news/PostCard';
 import { ButtonLink } from '@/components/ui/button';
@@ -39,22 +40,16 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   const event = await getEvent(slug);
   if (!event) notFound();
 
-  const cover = event.cover ? COVERS[event.cover] : undefined;
   const docs = await eventDocumentation(event.documentation);
 
   return (
     <SiteShell current="event">
       <section className="relative isolate flex min-h-[min(44rem,100svh)] items-end overflow-hidden bg-forest-black pb-[clamp(2.5rem,6vh,4.5rem)] pt-[calc(var(--nav-h)+clamp(4rem,10vh,8rem))]">
-        {cover && (
-          <Image src={cover} alt={event.coverAlt} fill priority sizes="100vw" className="absolute inset-0 z-0 size-full object-cover" />
-        )}
+        <Image src={heroImg} alt={event.coverAlt} fill priority sizes="100vw" className="absolute inset-0 z-0 size-full object-cover" />
         <div
           aria-hidden="true"
           className="absolute inset-0 z-[1]"
-          style={{
-            background:
-              'linear-gradient(to top, rgba(8,20,14,0.9) 0%, rgba(8,20,14,0.35) 55%, rgba(8,20,14,0.55) 100%)',
-          }}
+          style={{ background: 'rgba(20, 40, 30, 0.58)' }}
         />
         <Wrap className="relative z-[2]">
           <Eyebrow light>Event</Eyebrow>
@@ -162,20 +157,30 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       )}
 
       {event.cta && (
-        <section id="daftar" className="bg-paper py-[clamp(3.5rem,8vw,6.5rem)]">
-          <Wrap>
+        <section id="daftar" className="grid bg-[#f4f3f1] lg:grid-cols-2">
+          <div className="self-stretch px-gutter py-[clamp(1.5rem,4vw,2.5rem)]">
             <Display className="text-display-lg">{event.cta.title}</Display>
-            <Lede>{event.cta.lede}</Lede>
+            <Lede className="text-black">{event.cta.lede}</Lede>
+            {event.cta.note && (
+              <p className="mt-6 mb-0 max-w-[34ch] text-[0.85rem] leading-[1.6] text-ink-soft italic">
+                {event.cta.note}
+              </p>
+            )}
             <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
               <ButtonLink href="/donasi">Dukung acara ini</ButtonLink>
               <ButtonLink href="/#kontak" variant="ghostGreen">
                 Hubungi kami
               </ButtonLink>
             </div>
-            {event.cta.note && (
-              <p className="mt-6 mb-0 text-[0.85rem] leading-[1.6] text-ink-soft">{event.cta.note}</p>
-            )}
-          </Wrap>
+          </div>
+          <div className="flex items-end justify-center self-stretch">
+            <Image
+              src={ctaImg}
+              alt=""
+              sizes="(max-width: 1000px) 100vw, 50vw"
+              className="block h-auto w-full object-contain"
+            />
+          </div>
         </section>
       )}
     </SiteShell>

@@ -26,6 +26,9 @@ export function PageHero({
   alt = '',
   short = false,
   dim = false,
+  overlay,
+  longTitle = false,
+  fullImage = false,
 }: {
   eyebrow: string;
   title: string;
@@ -35,14 +38,25 @@ export function PageHero({
   alt?: string;
   short?: boolean;
   dim?: boolean;
+  /** Flat CSS color replacing the scrim entirely, e.g. 'rgba(10, 20, 16, 0.5)'. */
+  overlay?: string;
+  /** For a title that's a full sentence rather than a short label: smaller type, wrapped to a measure. */
+  longTitle?: boolean;
+  /** Sizes the banner to the image's own aspect ratio instead of a fixed viewport-height band, so object-cover never has to crop it. */
+  fullImage?: boolean;
 }) {
   return (
     <section
       className={cn(
-        'relative isolate flex items-end overflow-hidden bg-green-300',
-        'pt-[clamp(6rem,12vh,9rem)] pb-[clamp(2.5rem,5vw,4.5rem)]',
-        short ? 'min-h-[clamp(20rem,44vh,28rem)]' : 'min-h-[clamp(26rem,58vh,38rem)]'
+        'relative isolate flex overflow-hidden bg-green-300',
+        fullImage
+          ? 'items-center min-h-[16rem] py-[clamp(6rem,12vh,9rem)]'
+          : cn(
+              'items-end pt-[clamp(6rem,12vh,9rem)] pb-[clamp(2.5rem,5vw,4.5rem)]',
+              short ? 'min-h-[clamp(20rem,44vh,28rem)]' : 'min-h-[clamp(26rem,58vh,38rem)]'
+            )
       )}
+      style={fullImage ? { aspectRatio: `${image.width} / ${image.height}` } : undefined}
     >
       <Image
         src={image}
@@ -52,11 +66,22 @@ export function PageHero({
         sizes="100vw"
         className="absolute inset-0 z-0 size-full object-cover"
       />
-      <div aria-hidden="true" className="absolute inset-0 z-[1]" style={{ background: dim ? SCRIM_DIM : SCRIM_BASE }} />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-[1]"
+        style={{ background: overlay ?? (dim ? SCRIM_DIM : SCRIM_BASE) }}
+      />
 
-      <Wrap className="relative z-[2] pt-12">
+      <Wrap className={cn('relative z-[2]', fullImage ? 'mt-16' : 'pt-12')}>
         <Eyebrow light>{eyebrow}</Eyebrow>
-        <h1 className="mt-3 mb-0 font-display text-hero font-normal leading-[1.04] tracking-[-0.02em] text-white">
+        <h1
+          className={cn(
+            'mt-3 mb-0 font-display font-normal text-white',
+            longTitle
+              ? 'max-w-[38ch] text-display-lg leading-[1.2] tracking-normal'
+              : 'text-hero leading-[1.04] tracking-[-0.02em]'
+          )}
+        >
           {title}
         </h1>
         {lede && (

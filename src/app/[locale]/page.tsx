@@ -1,38 +1,38 @@
 import Image from 'next/image';
-import canopy from '@/assets/canopy.jpg';
-import cardForest from '@/assets/card-forest.jpg';
-import cardOcean from '@/assets/card-ocean.jpg';
 import cardPhoto from '@/assets/card-photo.jpg';
-import cardUrban from '@/assets/card-urban.jpg';
-import mountains from '@/assets/mountains2.png';
 import newsIcrs from '@/assets/news-icrs.jpg';
-import panoramaLanskap from '@/assets/panorama-lanskap.jpg';
-import volunteer from '@/assets/volunteer-aerial.jpg';
+import bgRekamoke3 from '@/assets/banner/bg_rekamoke3.jpeg';
+import borderRekamoke1 from '@/assets/banner/border_rekamoke1.png';
+import borderRekamoke2 from '@/assets/banner/border_rekamoke2.png';
+import card1 from '@/assets/banner/card1.jpg';
+import cardForest from '@/assets/banner/card_forest.png';
+import cardUrban from '@/assets/banner/card_urban.png';
+import cardOcean from '@/assets/banner/card_ocean.png';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { Hero360 } from '@/components/hero/Hero360';
 import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
-import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
+import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { featuredNews, getNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
 
-const dateFmt = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
 /* One flagship figure per programme, all measuring the same kind of thing: how
    much ground the work actually covered. Each links to that programme's full
    set of figures. Tints use the deep variants — white on --blue and --olive
    fails AA, same finding as the number cards. */
 const STATS = [
-  { href: '/program/forest', icon: 'i-route', value: '35', unit: 'km', label: 'Batas hutan adat terdelineasi', when: 'Forest · 2025', tint: 'bg-blue-deep' },
-  { href: '/program/urban', icon: 'i-bin', value: '512,2', unit: 'ton', label: 'Sampah terkumpul', when: 'Urban · 2025', tint: 'bg-rust' },
-  { href: '/program/ocean', icon: 'i-shield', value: '23', label: 'Kawasan konservasi perairan', when: 'Ocean · 2022–2025', tint: 'bg-olive-deep' },
+  { href: '/program/forest', icon: 'i-route', value: '19.000', unit: 'Ha', label: 'Customary Forest Established', when: 'Forest · 2025', tint: 'bg-olive-deep' },
+  { href: '/program/urban', icon: 'i-bin', value: '512,2', unit: 'Ton', label: 'Total waste collected', when: 'Urban · 2025', tint: 'bg-rust' },
+  { href: '/program/ocean', icon: 'i-shield', value: '23', label: 'Kawasan konservasi perairan', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
 ] as const;
 
 const CARDS = [
-  { href: '/program/forest', img: cardForest, kicker: 'Forest', body: 'Mapping what still stands, with the people who keep it standing.', alt: 'Ilustrasi ukir lembah hutan dengan sungai berkelok' },
-  { href: '/program/urban', img: cardUrban, kicker: 'Urban and sustainability', body: 'Where the city makes room for what lives in it.', alt: 'Ilustrasi ukir permukiman padat dengan latar gunung' },
-  { href: '/program/ocean', img: cardOcean, kicker: 'Ocean', body: 'Counting what the sea gives, and who it gives it to.', alt: 'Ilustrasi ukir gerombolan ikan di laut' },
+  { href: '/program/forest', img: cardForest, kicker: 'Forest', body: 'Mapping what still stands, with the people who keep it standing.', alt: 'Ilustrasi sketsa lembah hutan dengan sungai berkelok' },
+  { href: '/program/urban', img: cardUrban, kicker: 'Urban and sustainability', body: 'Where the city makes room for what lives in it.', alt: 'Ilustrasi sketsa desa dan permukiman di lereng gunung' },
+  { href: '/program/ocean', img: cardOcean, kicker: 'Ocean', body: 'Counting what the sea gives, and who it gives it to.', alt: 'Ilustrasi sketsa terumbu karang dengan lumba-lumba, hiu, dan ikan' },
 ] as const;
 
 /* The home page's featured article is NOT the archive's lead post. The source
@@ -62,6 +62,7 @@ export default async function Home() {
     <SiteShell hero icons={['i-route', 'i-bin', 'i-shield']}>
       <Hero360
         scene="coast"
+        image={bgRekamoke3.src}
         eyebrow="What we conserve?"
         title={
           <>
@@ -71,27 +72,34 @@ export default async function Home() {
           </>
         }
         lightPano
+        bgColor="#b7ccc7"
+        imageOverlay="rgba(10, 20, 16, 0.12)"
         scrollTo="#lanskap"
       />
 
       {/* rekam.css:518-551. A panorama under a flat scrim, with the quote set
           in white over it — not a plain cream band. */}
-      <section id="lanskap" className="relative isolate overflow-hidden py-[clamp(3.5rem,7vw,6rem)]">
+      <section
+        id="lanskap"
+        className="relative isolate overflow-hidden bg-white aspect-[1177/329] min-h-[16rem]"
+      >
         <Image
-          src={panoramaLanskap}
+          src={borderRekamoke1}
           alt=""
           fill
           sizes="100vw"
           className="absolute inset-0 -z-10 size-full object-cover"
         />
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(13,42,26,0.45)]" />
-        <Wrap>
-          <Eyebrow light>Who we are</Eyebrow>
-          <p className="mt-6 mb-0 max-w-[46ch] font-display text-4xl leading-[1.28] text-white text-pretty">
-            REKAM records the living Indonesia — in forests, in seas, in cities — and turns what we
-            document into conservation that lasts.
-          </p>
-        </Wrap>
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(7,93,84,0.71)]" />
+        <div className="absolute inset-0 flex items-center">
+          <Wrap>
+            <Eyebrow light>Who we are</Eyebrow>
+            <p className="mt-6 mb-0 max-w-[46ch] font-display text-4xl leading-[1.28] text-white text-pretty">
+              Documenting living Indonesia: in forests, in seas, in cities. What we gather becomes
+              conservation that lasts.
+            </p>
+          </Wrap>
+        </div>
       </section>
 
       <section id="program" className="bg-band py-[clamp(3rem,7vw,6rem)]">
@@ -103,16 +111,18 @@ export default async function Home() {
             Ocean
           </h2>
 
-          <ul className="m-0 grid list-none gap-[clamp(1.5rem,3vw,2.5rem)] p-0 md:grid-cols-3">
+          <ul className="m-0 grid list-none gap-6 p-0 md:grid-cols-3">
             {CARDS.map((card) => (
               <li key={card.href}>
                 <AppLink href={card.href} className="group block no-underline">
                   <span className="relative block overflow-hidden rounded-sm">
-                    <div className="w-full h-44 overflow-hidden flex items-center justify-center">
+                    <div className="relative aspect-[3/2] w-full overflow-hidden">
                       <Image
                         src={card.img}
                         alt={card.alt}
-                        className="block w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                       />
                     </div>
 
@@ -137,57 +147,35 @@ export default async function Home() {
         </Wrap>
       </section>
 
-      {/* The engraving is a watermark, not a photograph: it is a transparent PNG
-          of black ink, so it goes straight onto the paper ground with no scrim.
-          Anchored to the bottom (object-bottom) so the ridge line rises out of
-          the section's lower edge, and masked away over the top half so the
-          crop through the mountain doesn't read as a hard horizontal rule.
-          15% is the ceiling, not a taste call: the body copy sits over this,
-          and solid ink at 0.15 over paper lands on #d0cfcf, where ink-soft
-          still measures 4.71:1 and the green-900 headline 3.36:1. At 0.18
-          ink-soft drops to 4.38 and fails AA. */}
-      <section id="dampak" className="relative isolate overflow-hidden bg-paper py-[clamp(3rem,7vw,6rem)]">
-        <Image
-          src={mountains}
-          alt=""
-          fill
-          sizes="100vw"
-          className="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-bottom opacity-[0.15] [mask-image:linear-gradient(to_bottom,transparent,#000_55%)]"
-        />
+      <section id="dampak" className="relative isolate overflow-hidden bg-white py-14">
         <Wrap className="grid items-start gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-          <div>
+          <div className="py-16">
             <h2 className="text-left text-6xl font-display text-green-900">Our<br />Impact</h2>
-            {/* <Display>
-              Our Impact
-            </Display> */}
-            <p className="mt-6 block text-title-sm leading-[1.3] text-green-900">
-              Sejak 2013, kami berkolaborasi dengan pemerintah pusat dan daerah, serta lembaga
-              non-pemerintah nasional dan internasional.
-            </p>
-            {/* <Lede>
-              Sejak 2013, kami berkolaborasi dengan pemerintah pusat dan daerah, serta lembaga
-              non-pemerintah nasional dan internasional.
-            </Lede> */}
-            <p className="mt-6 mb-0 max-w-[38ch] text-[0.95rem] leading-[1.7] text-ink-soft">
-              Tiga angka teratas dari <em>Impact Highlights 2025</em> — satu untuk setiap program.
-              Rinciannya ada di halaman masing-masing.
+            <p className="mt-6 mb-0 max-w-[42ch] text-title-sm leading-[1.5] text-green-900">
+              We count because decisions are made from counts. Every number below came from
+              someone standing in a place, writing it down.
+              <br />
+              This is where the record stands today.
             </p>
           </div>
 
-          <div className="grid gap-[clamp(1rem,2.5vw,1.75rem)] sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-[clamp(1rem,2.5vw,1.75rem)] sm:grid-cols-2">
             {STATS.map((stat, i) => (
               <AppLink
                 key={stat.href}
                 href={stat.href}
                 className={cn(
-                  'flex min-h-[clamp(11rem,18vw,14rem)] flex-col justify-end rounded-[18px] p-[clamp(1.25rem,2.4vw,2rem)] text-white no-underline transition-transform duration-300 hover:-translate-y-1 motion-reduce:hover:translate-y-0',
+                  'flex flex-col items-center justify-center gap-3 rounded-[28px] p-4 text-center text-white no-underline transition-transform duration-300 hover:-translate-y-1 motion-reduce:hover:translate-y-0',
                   stat.tint,
-                  // Staggered, as in the source's impact grid.
-                  i === 1 && 'sm:mt-8',
-                  i === 2 && 'sm:mt-16'
+                  // Forest sits alone in the top row, a wide landscape card;
+                  // Urban is a tall portrait card below it; Ocean stays close
+                  // to square — mixed shapes, not one uniform height.
+                  i === 0 && 'sm:col-start-2 min-h-[13rem]',
+                  i === 1 && 'min-h-[17rem]',
+                  i === 2 && 'min-h-[17rem]'
                 )}
               >
-                <Icon id={stat.icon} className="mb-auto size-7 fill-none stroke-current stroke-[1.6]" />
+                <Icon id={stat.icon} className="size-10 fill-none stroke-current stroke-[1.6]" />
                 {/* The unit is a flex sibling rather than a vertical-align'd
                     <sup>. Same look, but a shifted inline has no clean box for
                     axe to resolve a background against, so it reported the
@@ -199,8 +187,10 @@ export default async function Home() {
                     <span className="mt-[0.15em] text-[0.3em] font-bold leading-none">{stat.unit}</span>
                   )}
                 </p>
-                <p className="mt-3 mb-0 text-xs font-bold leading-[1.35]">{stat.label}</p>
-                <p className="mt-2 mb-0 text-[0.72rem] font-medium text-white">{stat.when}</p>
+                <p className="m-0 text-xs font-bold leading-[1.35]">{stat.label}</p>
+                <p className="m-0 text-[0.72rem] font-medium uppercase tracking-[0.04em] text-white">
+                  {stat.when}
+                </p>
               </AppLink>
             ))}
           </div>
@@ -208,9 +198,9 @@ export default async function Home() {
       </section>
 
       {feature && (
-        <section id="berita" className="grid bg-cream lg:grid-cols-2">
+        <section id="berita" className="grid bg-green-700 lg:grid-cols-2">
           <div className="order-2 self-center px-gutter py-[clamp(3rem,6vw,5rem)] lg:order-1">
-            <p className="m-0 font-label text-[0.92rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
+            <p className="m-0 font-label text-[0.92rem] font-semibold uppercase tracking-[0.18em] text-white/85">
               <time dateTime={feature.date.toISOString()}>{dateFmt.format(feature.date)}</time>
               {feature.category && (
                 <>
@@ -219,10 +209,10 @@ export default async function Home() {
                 </>
               )}
             </p>
-            <h2 className="mt-4 mb-0 font-display text-4xl leading-[1.15] text-green-900">
+            <h2 className="mt-4 mb-0 font-display text-4xl leading-[1.15] text-white">
               {feature.title}
             </h2>
-            <ButtonLink href={`/berita/${feature.slug}`} className="mt-8">
+            <ButtonLink href={`/berita/${feature.slug}`} variant="cream" className="mt-8">
               Read More
             </ButtonLink>
           </div>
@@ -305,39 +295,72 @@ export default async function Home() {
         </Wrap>
       </section>
 
-      {/* No items-center here: the photograph is sized with h-full, which only
-          resolves if the grid item is allowed to stretch to the row. */}
-      <section className="grid bg-cream lg:grid-cols-2">
-        <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)]">
-          <h2 className="mt-4 mb-0 font-display text-display leading-[1.15] text-green-900">
-            Be Part of the Story
+      <section className="bg-white pt-16">
+        <Wrap>
+          <Eyebrow>Featured Video</Eyebrow>
+        </Wrap>
+        {/* Full-bleed, and shorter than the player's native 16:9 — the iframe
+            keeps its own aspect ratio and is simply vertically centred inside
+            a shallower box, cropping a slice off its top and bottom. */}
+        <div className="relative mt-6 aspect-[12/5] w-full overflow-hidden">
+          <iframe
+            src="https://www.youtube.com/embed/GlFSR2ymLWI"
+            title="Apa Itu Neraca Sumber Daya Laut? | Ocean Accounts | Fisheries Resource Center of Indonesia"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            loading="lazy"
+            className="absolute inset-x-0 top-1/2 aspect-video w-full -translate-y-1/2 border-0"
+          />
+        </div>
+      </section>
+
+      {/* The section carries an explicit min-height, not the photograph's own
+          aspect ratio: part_story.png is a portrait crop, and letting the grid
+          row take its intrinsic size from that would make the whole band tall
+          and narrow instead of the short, wide band the reference shows. */}
+      <section className="grid bg-cream lg:min-h-[30rem] lg:grid-cols-2">
+        <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
+          <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
+            Be Part of
+            <br />
+            the Story
           </h2>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink href="/donasi#adopsi">Adopt</ButtonLink>
-            <ButtonLink href="/donasi">Give</ButtonLink>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <ButtonLink href="/merch" variant="ghostGreen">
               Shop
             </ButtonLink>
           </div>
         </div>
-        <Image
-          src={volunteer}
-          alt="Foto udara petak ladang dan barisan pohon"
-          sizes="(max-width: 1000px) 100vw, 50vw"
-          className="h-full w-full object-cover"
-        />
+        <div className="relative h-64 w-full lg:h-full">
+          <Image
+            src={card1}
+            alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
+            fill
+            sizes="(max-width: 1000px) 100vw, 50vw"
+            className="object-cover"
+          />
+        </div>
       </section>
 
-      <section className="bg-white pt-[clamp(3.5rem,8vw,6.5rem)]">
-        <Wrap>
-          <p className="m-0 font-display text-3xl text-center leading-[1.5] text-green-900">
-            The forest remembers, the ocean recalls, and every community carries stories older than
-            us all. Science helps us understand, storytelling helps us care, technology helps us
-            reach, and tradition reminds us why. For knowledge left unkept is a future undone;
-            document with purpose today, so life may carry on.
-          </p>
-        </Wrap>
-        <Image src={canopy} alt="" sizes="100vw" className="w-full" />
+      <section className="relative isolate overflow-hidden bg-[#f9f1e6] aspect-[994/278] min-h-[16rem]">
+        <Image
+          src={borderRekamoke2}
+          alt=""
+          fill
+          sizes="100vw"
+          className="absolute inset-0 -z-10 size-full object-cover"
+        />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(13,42,26,0.55)]" />
+        <div className="absolute inset-0 flex items-center">
+          <Wrap>
+            <p className="m-0 font-display text-4xl text-center leading-[1.5] text-white text-justify">
+              The forest remembers, the ocean recalls, and every community carries stories older
+              than us all. Science helps us understand, storytelling helps us care, technology
+              helps us reach, and tradition reminds us why. For knowledge left unkept is a future
+              undone; document with purpose today, so life may carry on.
+            </p>
+          </Wrap>
+        </div>
       </section>
     </SiteShell>
   );

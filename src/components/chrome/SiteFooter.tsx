@@ -1,9 +1,9 @@
 'use client';
 
 import { Brand } from '@/components/chrome/Brand';
-import { useLocale } from '@/components/ui/AppLink';
+import { AppLink, useLocale } from '@/components/ui/AppLink';
 import { t as dict } from '@/i18n/dictionary';
-import { FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
+import { FOOTER_LEGAL, FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
 
 /* rekam.css:943-992 and :1250-1271.
  *
@@ -26,19 +26,34 @@ import { FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
  * would have touched fourteen pages. usePathname resolves during SSR, so the
  * translated strings are in the server-rendered HTML either way. */
 
-function LinkColumn({ heading, links, label }: { heading: string; links: { href: string; label: string }[]; label: string }) {
+/** `columns` is an array of link lists rendered side by side under one
+ *  shared heading — the "Links" nav splits into two this way rather than
+ *  getting a second, unlabelled heading of its own. */
+function LinkColumn({
+  heading,
+  columns,
+  label,
+}: {
+  heading: string;
+  columns: { href: string; label: string }[][];
+  label: string;
+}) {
   return (
     <nav aria-label={label}>
       <p className="m-0 font-label text-[0.75rem] font-semibold uppercase tracking-[0.2em] opacity-70">{heading}</p>
-      <ul className="mt-2 mb-0 list-none p-0 leading-[1.8]">
-        {links.map((l) => (
-          <li key={l.href}>
-            <a href={l.href} className="border-b border-transparent no-underline hover:border-current">
-              {l.label}
-            </a>
-          </li>
+      <div className="mt-2 flex gap-x-8">
+        {columns.map((links, i) => (
+          <ul key={i} className="m-0 list-none p-0 leading-[1.8]">
+            {links.map((l) => (
+              <li key={l.href}>
+                <AppLink href={l.href} className="border-b border-transparent no-underline hover:border-current">
+                  {l.label}
+                </AppLink>
+              </li>
+            ))}
+          </ul>
         ))}
-      </ul>
+      </div>
     </nav>
   );
 }
@@ -68,8 +83,8 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <LinkColumn heading={T.footer.links} links={FOOTER_LINKS} label={T.footer.channels} />
-        <LinkColumn heading={T.footer.follow} links={FOOTER_SOCIAL} label={T.footer.social} />
+        <LinkColumn heading={T.footer.links} columns={[FOOTER_LINKS, FOOTER_LEGAL]} label={T.footer.channels} />
+        <LinkColumn heading={T.footer.follow} columns={[FOOTER_SOCIAL]} label={T.footer.social} />
       </div>
     </footer>
   );

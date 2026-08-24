@@ -24,9 +24,9 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
     label: 'Core strengths',
     body: (
       <>
-        <strong>Sains, teknologi, seni, media, dan komunikasi.</strong> Pusat diagram — kekuatan
-        inti yang dipakai untuk membaca persoalan sekaligus menyampaikannya, dan yang ditopang oleh
-        strategi di lingkar luar.
+        <strong>Science, technology, arts, media, and communications.</strong> Centre of the
+        diagram — the core strengths used to read issues as well as communicate them, underpinned
+        by the strategies in the outer rings.
       </>
     ),
   },
@@ -36,9 +36,9 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
     label: 'Actions',
     body: (
       <>
-        <strong>Konservasi di tapak dan kebijakan.</strong> Lingkar tengah — inisiatif konservasi di
-        lokasi yang penting secara ekologis maupun ekonomis, berjalan bersamaan dengan penyusunan
-        kebijakan dan reformasi pengelolaan sumber daya alam.
+        <strong>Conservation at sites and policy.</strong> Middle ring — conservation initiatives
+        in ecologically and economically important locations, carried out alongside policy-making
+        and reform in the management of natural resources.
       </>
     ),
   },
@@ -48,9 +48,9 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
     label: 'Key strategies',
     body: (
       <>
-        <strong>Jejaring, kolaborasi, dan penguatan kapasitas.</strong> Lingkar luar — tiga
-        strategi kunci yang menopang seluruh kerja REKAM sejak 2013, dan alasan program-programnya
-        bisa berjalan bersama pemerintah dan mitra.
+        <strong>Networking, collaboration, and capacity building.</strong> Outer ring — the three
+        key strategies underpinning all of REKAM&rsquo;s work since 2013, and the reason its
+        programmes can run alongside government and partners.
       </>
     ),
   },
@@ -60,8 +60,8 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
     label: 'Outcomes',
     body: (
       <>
-        <strong>Capaian konservasi dan dampak sosial-ekonomi.</strong> Lingkar terluar — hasil yang
-        ditopang oleh ketiga lapisan di dalamnya, dan yang dilaporkan per program:{' '}
+        <strong>Conservation outcomes and socio-economic impacts.</strong> Outermost ring — the
+        results underpinned by the three layers within it, reported per programme:{' '}
         <AppLink href="/program/forest" className="underline underline-offset-4">
           Forest
         </AppLink>
@@ -69,7 +69,7 @@ const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
         <AppLink href="/program/urban" className="underline underline-offset-4">
           Urban
         </AppLink>
-        , dan{' '}
+        , and{' '}
         <AppLink href="/program/ocean" className="underline underline-offset-4">
           Ocean
         </AppLink>
@@ -90,7 +90,7 @@ export function Strategy() {
     <Tabs.Root value={step} onValueChange={(v) => setStep(v as Step)}>
       <div className="grid items-center gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-2">
         <div>
-          <p className="m-0 text-[clamp(1.35rem,2.6vw,2rem)] leading-[1.4] text-green-900">
+          <p className="m-0 font-display text-[clamp(1.35rem,2.6vw,2rem)] leading-[1.4] text-green-900">
             Since our founding in 2013, we have utilized key strategies of networking,
             collaboration and capacity building to underpin our core strengths of science,
             technology, arts, media and communications.

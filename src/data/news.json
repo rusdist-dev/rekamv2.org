@@ -4,7 +4,7 @@
     "title": "Searching for the Architects of Papua's Forests Through In Search of the Northern Cassowary",
     "date": "2026-07-29",
     "category": "Sorotan",
-    "excerpt": "Following its screenings at the Wild Coast Film Festival in the United States and a public discussion in Bogor, the documentary In Search of the Northern Cassowary will now be presented to audiences i",
+    "excerpt": "Following its screenings at the Wild Coast Film Festival in the United States and a public discussion in Bogor, the documentary will now be presented to a wider audience.",
     "cover": "berita/mencari-sang-arsitek-hutan-papua-melalui-film-in-search-of-the-northern-cassowary.jpg",
     "programs": [],
     "featured": true
@@ -37,7 +37,8 @@
     "excerpt": "The hall at SMA Negeri 1 Raja Ampat suddenly filled with laughter when Yoki, Forest Program Director at REKAM Nusantara, asked a simple question: “Are chickens and ducks birds or not?” Almost eve",
     "cover": "berita/bangga-papua-hutan-papua-yang-dibangun-oleh-burung.jpg",
     "programs": [
-      "forest"
+      "forest",
+      "urban"
     ]
   },
   {
@@ -60,8 +61,10 @@
     "title": "In Search of the Northern Cassowary: When Papua’s Forests Are Built by Birds",
     "date": "2026-06-13",
     "excerpt": "In most tropical forests around the world, large mammals such as elephants and rhinos serve as the primary architects of ecosystems. They disperse seeds, shape landscapes, and help maintain the balanc",
+    "cover": "berita/mencari-sang-arsitek-hutan-papua-melalui-film-in-search-of-the-northern-cassowary.jpg",
     "programs": [
-      "forest"
+      "forest",
+      "urban"
     ]
   },
   {
@@ -79,6 +82,8 @@
     "title": "Turning Data into Action: Highlights from the South-South Ocean Accounting Exchange (SSOAE) 2026",
     "date": "2026-04-02",
     "excerpt": "The future of ocean governance will not be built in isolation. It will be built through collaboration, shared knowledge, and the courage to turn data into impactful decisions. This spirit was the driv",
+    "cover": "berita/konsultasi-nasional-bbnj-memperkuat-prioritas-nasional-indonesia-dalam-implementasi-perjanjian-bbnj.jpg",
+    "coverAlt": "Delegasi berdiskusi dalam forum dialog kebijakan laut internasional.",
     "programs": [
       "ocean"
     ]
@@ -96,18 +101,14 @@
     "title": "1st ICTC: When Conservation Aligns with Technology",
     "date": "2026-02-21",
     "excerpt": "As technological advancements accelerate globally, conservation is entering a new era. Technology is no longer just a supporting tool—it is now at the core of how we understand, protect, and manage na",
-    "programs": [
-      "urban"
-    ]
+    "programs": []
   },
   {
     "slug": "merayakan-keragaman-papua-dari-layar-lebar-ruang-diskusi-hingga-percakapan-kecil-yang-mengubah-cara-pandang",
     "title": "Celebrating Papua’s Diversity: From the Big Screen and Discussion Rooms to Small Conversations that Shift Perspectives",
     "date": "2026-02-19",
     "excerpt": "Papua (02/2026) — Amid the scientific gathering of the 12th International Flora Malesiana Symposium and the International Nature-Based Solutions Conference (NBCS) 2026, Rekam Nusantara, together with",
-    "programs": [
-      "urban"
-    ]
+    "programs": []
   },
   {
     "slug": "multi-stakeholder-knowledge-management-based-on-co-production-principles-to-support-fisheries-resource-managament-in-indonesia",
@@ -124,7 +125,8 @@
     "excerpt": "Jakarta (30/01) — Rekam Nusantara held a film screening and discussion in collaboration with National Geographic Indonesia, creating a space for dialogue on forests, humanity, and the future of our cl",
     "cover": "berita/ketika-hutan-bercerita-film-manusia-dan-masa-depan-kehidupan.jpg",
     "programs": [
-      "forest"
+      "forest",
+      "urban"
     ]
   },
   {
@@ -149,9 +151,7 @@
     "date": "2025-12-03",
     "excerpt": "Ancol, Jakarta (3/12/2025) — Rekam Nusantara Foundation, in collaboration with the Ministry of Marine Affairs and Fisheries, held a side event titled Opportunities, Challenges, and Best Practices in B",
     "cover": "berita/menjelajahi-peluang-dan-tantangan-pengelolaan-karbon-biru-di-indonesia.jpg",
-    "programs": [
-      "urban"
-    ]
+    "programs": []
   },
   {
     "slug": "konsultasi-nasional-bbnj-memperkuat-prioritas-nasional-indonesia-dalam-implementasi-perjanjian-bbnj",

@@ -60,6 +60,15 @@ export const FOOTER_LINKS = [
   { href: 'https://rekamdiveacademy.id', label: 'rekamdiveacademy.id' },
 ];
 
+/** Second, unlabelled column sitting beside FOOTER_LINKS under the same
+ *  "Links" heading — site policy pages rather than sister projects. */
+export const FOOTER_LEGAL = [
+  { href: '/faq', label: 'FAQ' },
+  { href: '/brand-guideline', label: 'Brand Guideline' },
+  { href: '/privacy-policy', label: 'Privacy Policy' },
+  { href: '/terms-of-service', label: 'Term Of Service' },
+];
+
 export const FOOTER_SOCIAL = [
   { href: 'https://www.instagram.com/rekamnusantara/', label: 'Instagram' },
   { href: 'https://www.facebook.com/RekamNusantara', label: 'Facebook' },

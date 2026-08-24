@@ -71,7 +71,10 @@ export function Hero360({
   eyebrow,
   sources = [],
   poster,
+  image,
   lightPano = false,
+  bgColor,
+  imageOverlay,
   scrollTo,
 }: {
   scene: SceneName;
@@ -80,8 +83,16 @@ export function Hero360({
   /** Omit entirely for a procedural-only hero — that is by design, not a fault. */
   sources?: Source[];
   poster?: string;
+  /** Static equirectangular image shown instead of the procedural scene
+   *  whenever there is no usable video. */
+  image?: string;
   /** A brighter scrim, for procedural scenes that are pale rather than dark. */
   lightPano?: boolean;
+  /** Base fill behind the panorama, shown while it loads. Defaults to the
+   *  standard forest-black backdrop when omitted. */
+  bgColor?: string;
+  /** Flat tint laid directly over the panorama, underneath the scrim. */
+  imageOverlay?: string;
   scrollTo?: string;
 }) {
   const T = dict(useLocale());
@@ -109,6 +120,7 @@ export function Hero360({
       engine = new Pano360(stage, {
         scene,
         video: videoRef.current,
+        image,
         strings: {
           loading: T.pano.loadingScene[scene],
           webglUnsupported: T.pano.webglUnsupported,
@@ -130,7 +142,7 @@ export function Hero360({
       engine?.destroy();
       engineRef.current = null;
     };
-  }, [scene]);
+  }, [scene, image]);
 
   // Autoplay only once footage is actually in use, and never under reduced motion.
   useEffect(() => {
@@ -166,6 +178,7 @@ export function Hero360({
     <section
       id="hero"
       className="relative isolate h-svh min-h-[34rem] overflow-hidden bg-forest-black-deep"
+      style={bgColor ? { backgroundColor: bgColor } : undefined}
     >
       <div
         ref={stageRef}
@@ -193,6 +206,14 @@ export function Hero360({
         ))}
       </video>
 
+      {imageOverlay && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{ backgroundColor: imageOverlay }}
+        />
+      )}
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-[1]"
@@ -203,7 +224,7 @@ export function Hero360({
         <p className="m-0 font-label text-[1.4rem] font-semibold uppercase tracking-[0.32em] text-white/92">
           {eyebrow}
         </p>
-        <h1 className="m-0 max-w-[18ch] font-display text-hero-lg font-normal leading-[1.06] tracking-[-0.02em] text-white [text-shadow:0_2px_44px_rgba(0,0,0,0.5)]">
+        <h1 className="m-0 max-w-[18ch] font-display text-hero-lg font-normal leading-[1.06] tracking-[-0.02em] text-white">
           {title}
         </h1>
 
@@ -285,6 +306,4 @@ const SCRIM_DARK =
   'linear-gradient(to top, rgba(8,20,14,0.6) 0%, rgba(8,20,14,0) 42%),' +
   'radial-gradient(115% 80% at 50% 45%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%)';
 
-const SCRIM_LIGHT =
-  'linear-gradient(to bottom, rgba(8,20,14,0.34) 0%, rgba(8,20,14,0.60) 14%, rgba(8,20,14,0.60) 62%, rgba(8,20,14,0.30) 78%, rgba(8,20,14,0.22) 100%),' +
-  'linear-gradient(to top, rgba(8,20,14,0.45) 0%, rgba(8,20,14,0) 34%)';
+const SCRIM_LIGHT = 'none';

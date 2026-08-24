@@ -41,11 +41,27 @@ function CoverSlot({ post, className, sizes }: { post: News; className?: string;
   );
 }
 
-export function PostCard({ post, showExcerpt = true }: { post: News; showExcerpt?: boolean }) {
+export function PostCard({
+  post,
+  showExcerpt = true,
+  accent = false,
+  ctaLabel = 'Baca selengkapnya',
+  ctaBold = true,
+}: {
+  post: News;
+  showExcerpt?: boolean;
+  /** Matches the programme page's "From X" rail: brand-green text throughout,
+   *  and a cover with its bottom corners left square (only the top is rounded). */
+  accent?: boolean;
+  /** Urban's rail reads "Read more" in regular weight — every other rail
+   *  keeps the source's "Baca selengkapnya", bold. */
+  ctaLabel?: string;
+  ctaBold?: boolean;
+}) {
   return (
-    <article className="group">
-      <AppLink href={`/berita/${post.slug}`} className="block no-underline">
-        <span className="block overflow-hidden rounded-sm">
+    <article className="group flex h-full flex-col">
+      <AppLink href={`/berita/${post.slug}`} className="flex h-full flex-col no-underline">
+        <span className={cn('block overflow-hidden', accent ? 'rounded-t-xl' : 'rounded-sm')}>
           <CoverSlot
             post={post}
             sizes="(max-width: 720px) 100vw, (max-width: 1000px) 50vw, 33vw"
@@ -53,11 +69,21 @@ export function PostCard({ post, showExcerpt = true }: { post: News; showExcerpt
           />
         </span>
 
-        <span className="mt-4 block font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
+        <span
+          className={cn(
+            'mt-4 block font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em]',
+            accent ? 'text-green-700' : 'text-ink-soft'
+          )}
+        >
           <time dateTime={post.date.toISOString()}>{dateFmt.format(post.date)}</time>
         </span>
 
-        <span className="mt-2 block font-display text-title-sm leading-[1.25] text-green-900">
+        <span
+          className={cn(
+            'mt-2 block font-display text-title-sm leading-[1.25]',
+            accent ? 'font-bold text-green-700' : 'text-green-900'
+          )}
+        >
           {post.title}
         </span>
 
@@ -67,8 +93,14 @@ export function PostCard({ post, showExcerpt = true }: { post: News; showExcerpt
           </span>
         )}
 
-        <span className="mt-3 inline-flex items-center gap-2 text-[0.8rem] font-semibold text-green-900">
-          Baca selengkapnya
+        <span
+          className={cn(
+            'mt-auto inline-flex items-center gap-2 pt-3 text-[0.8rem]',
+            ctaBold && 'font-semibold',
+            accent ? 'text-green-700' : 'text-green-900'
+          )}
+        >
+          {ctaLabel}
           <Icon id="i-arrow" className="size-3 fill-none stroke-current" />
         </span>
       </AppLink>
@@ -77,11 +109,30 @@ export function PostCard({ post, showExcerpt = true }: { post: News; showExcerpt
 }
 
 /** A grid of them. Used by the archive and by every three-up rail. */
-export function PostGrid({ posts, showExcerpt = true }: { posts: News[]; showExcerpt?: boolean }) {
+export function PostGrid({
+  posts,
+  showExcerpt = true,
+  accent = false,
+  ctaLabel,
+  ctaBold,
+}: {
+  posts: News[];
+  showExcerpt?: boolean;
+  accent?: boolean;
+  ctaLabel?: string;
+  ctaBold?: boolean;
+}) {
   return (
     <div className="grid gap-x-[clamp(1.5rem,3vw,2.5rem)] gap-y-[clamp(2rem,4vw,3.5rem)] sm:grid-cols-2 lg:grid-cols-3">
       {posts.map((post) => (
-        <PostCard key={post.slug} post={post} showExcerpt={showExcerpt} />
+        <PostCard
+          key={post.slug}
+          post={post}
+          showExcerpt={showExcerpt}
+          accent={accent}
+          ctaLabel={ctaLabel}
+          ctaBold={ctaBold}
+        />
       ))}
     </div>
   );

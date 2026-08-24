@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import card2 from '@/assets/banner/card2.jpg';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PostGrid } from '@/components/news/PostCard';
 import { AppLink } from '@/components/ui/AppLink';
@@ -186,6 +187,32 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </Wrap>
         </section>
       )}
+
+      {/* Same "Be Part of the Story" CTA as the about page, the home page,
+          and the programme pages. */}
+      <section className="grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
+        <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
+          <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
+            Be Part of
+            <br />
+            the Story
+          </h2>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <ButtonLink href="/merch" variant="ghostGreen">
+              Shop
+            </ButtonLink>
+          </div>
+        </div>
+        <div className="relative h-64 w-full lg:h-full">
+          <Image
+            src={card2}
+            alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
+            fill
+            sizes="(max-width: 1000px) 100vw, 50vw"
+            className="object-cover"
+          />
+        </div>
+      </section>
     </SiteShell>
   );
 }

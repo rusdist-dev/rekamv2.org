@@ -165,36 +165,34 @@
   "units": [
     {
       "name": "Rangkong Indonesia",
-      "text": "Unit riset yang berangkat dari satu keprihatinan: ketiga belas jenis rangkong di Indonesia harus tetap berada di hutan, menjaga sisa 98 juta hektar hutan hujan tropis. Kerjanya melindungi jenis-jenis burung ini beserta habitatnya, sekaligus mendampingi masyarakat yang hidupnya bergantung pada kehadiran mereka.",
-      "href": "https://rangkong.org"
+      "text": "A research unit born from a single concern: Indonesia's thirteen hornbill species must remain in the forest, safeguarding the country's remaining 98 million hectares of tropical rainforest.",
+      "href": "https://rangkong.org",
+      "logo": "unit/rangkong.png"
     },
     {
       "name": "Fisheries Resources Center of Indonesia",
-      "text": "Lahir dari diskusi antara akademisi perikanan dan organisasi non-pemerintah, dengan misi “Sustainability and Justice for Fisheries in Indonesia”. FRCI diharapkan menyumbang pada persoalan perikanan nasional yang genting dan menawarkan terobosan alternatif untuk tantangan ke depan.",
+      "text": "Born from discussions between fisheries academics and NGOs, with the mission of “Sustainability and Justice for Fisheries in Indonesia.”",
       "href": "https://perikanan.org",
       "logo": "unit/frci.png"
     },
     {
       "name": "Urban & Sustainability",
-      "text": "Direktorat yang dibentuk untuk mendampingi masyarakat dan pemerintah daerah mencari jalan keluar atas persoalan lingkungan di perkotaan. Dimulai di Kota Bogor bersama pemerintah kota, warga, dan pelaku usaha untuk menata pengelolaan sampah di kawasan permukiman.",
+      "text": "A directorate that works alongside communities and local government to find solutions to urban environmental problems, starting in the city of Bogor.",
       "logo": "unit/urban.png"
     },
     {
       "name": "Creative Communication",
-      "text": "Komitmen menyampaikan narasi kritis yang berpijak pada riset data dan pemikiran yang kuat. Kerjanya menghasilkan informasi bermutu tinggi yang tetap bertumpu pada data dan fakta.",
-      "note": "Belum ada logo unit ini di rekam.org.",
-      "letters": "CC"
+      "text": "A commitment to delivering critical narratives grounded in solid data research and thinking.",
+      "logo": "unit/creative.png"
     },
     {
       "name": "Natural Resources Crime Unit",
-      "text": "",
-      "note": "Narasi dan logo unit ini tidak ada di rekam.org, jadi tidak ada yang bisa diambil. Kirimkan teksnya dan saya lengkapi.",
-      "letters": "NRCU"
+      "text": "Supporting law enforcement agencies in dismantling organized wildlife crime networks through digital forensic analysis and network-based investigations.",
+      "logo": "unit/nrcu.png"
     },
     {
       "name": "Story Telling",
-      "former": "Sebelumnya Indonesia Nature Film Society (INFIS)",
-      "text": "Unit produksi film REKAM di Bogor, Jawa Barat. Menjadi rumah bagi para penggerak yang menekuni dokumenter dan ingin memperluas kesadaran publik atas kekayaan alam dan budaya Indonesia.",
+      "text": "REKAM Nusantara's storytelling and film production unit in Bogor, home to documentary filmmakers expanding public awareness.",
       "href": "https://inaturefilms.org",
       "logo": "unit/infis.png"
     }

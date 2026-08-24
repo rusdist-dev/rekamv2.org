@@ -58,6 +58,10 @@ export type Pano360Options = {
   scene: SceneName;
   /** Optional: when absent or sourceless, the procedural scene is used. */
   video?: HTMLVideoElement | null;
+  /** Optional: a static equirectangular image used in place of the procedural
+   *  scene whenever there is no usable video. Takes priority over `scene`'s
+   *  canvas painter, but the scene's particle sprites still play over it. */
+  image?: string;
   strings: PanoStrings;
   /** Loader copy. null hides the loader. */
   onStatus: (text: string | null) => void;
@@ -211,6 +215,35 @@ export class Pano360 {
     this.reveal(message);
   }
 
+  // A static image standing in for the procedural scene — same sphere, same
+  // particle sprites, just a photo/illustration instead of painted canvas.
+  private attachImageTexture(src: string, message?: string) {
+    new THREE.TextureLoader().load(
+      src,
+      (texture) => {
+        if (this.dead) return;
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+        this.disposables.push(texture);
+
+        this.material.map = texture;
+        this.material.transparent = false;
+        this.material.depthWrite = true;
+        this.material.needsUpdate = true;
+
+        this.addParticles();
+        this.opts.onVideoUsable(false);
+        this.reveal(message);
+      },
+      undefined,
+      () => {
+        if (this.dead) return;
+        this.attachSceneTexture(message);
+      }
+    );
+  }
+
   // Points rather than texture animation, so they stay crisp and cost nothing
   // but a small buffer update each frame.
   private addParticles() {
@@ -314,6 +347,20 @@ export class Pano360 {
     this.attachSceneTexture(message);
   }
 
+  private useImage(src: string, message?: string) {
+    if (this.settled) return;
+    this.settled = true;
+    window.clearTimeout(this.loadTimeout);
+    this.attachImageTexture(src, message);
+  }
+
+  /** Whatever stands in for footage: the static image if one was given, the
+   *  procedural scene otherwise. */
+  private useFallback(message?: string) {
+    if (this.opts.image) this.useImage(this.opts.image, message);
+    else this.useScene(message);
+  }
+
   /* Decide whether to fetch footage at all. The markup carries preload="none",
      so nothing has been requested yet and this is a real choice rather than a
      cancellation — on a metered or slow connection the procedural panorama
@@ -346,7 +393,7 @@ export class Pano360 {
        was never requested, after holding the spinner up for eight seconds.
        Checked first, and with no message, because nothing failed. */
     if (!video || !(video.querySelector('source') || video.getAttribute('src'))) {
-      this.useScene();
+      this.useFallback();
       return;
     }
 
@@ -367,30 +414,30 @@ export class Pano360 {
     let failed = 0;
     for (const source of sources) {
       const onErr = () => {
-        if (++failed === sources.length) this.useScene(noFootage);
+        if (++failed === sources.length) this.useFallback(noFootage);
       };
       source.addEventListener('error', onErr, { once: true });
       this.cleanups.push(() => source.removeEventListener('error', onErr));
     }
 
     const onVideoError = () =>
-      this.useScene('Video 360° tidak dapat dibaca — menampilkan panorama prosedural.');
+      this.useFallback('Video 360° tidak dapat dibaca — menampilkan panorama prosedural.');
     video.addEventListener('error', onVideoError, { once: true });
     this.cleanups.push(() => video.removeEventListener('error', onVideoError));
 
     const skip = this.connectionSaysNo();
     if (skip) {
-      this.useScene(skip);
+      this.useFallback(skip);
       return;
     }
 
     // Backstop for a network that stalls without ever erroring.
     this.loadTimeout = window.setTimeout(() => {
-      this.useScene('Video 360° terlalu lama dimuat — menampilkan panorama prosedural.');
+      this.useFallback('Video 360° terlalu lama dimuat — menampilkan panorama prosedural.');
     }, LOAD_TIMEOUT);
 
     if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
-      this.useScene(noFootage);
+      this.useFallback(noFootage);
     } else if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
       this.useVideo(video);
     } else {

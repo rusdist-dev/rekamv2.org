@@ -22,6 +22,8 @@ const variants = {
   /* Outlined on imagery. rekam.css:1752-1757 */
   ghostLight:
     'border border-white/55 text-white bg-transparent hover:bg-white hover:text-green-900 hover:-translate-y-[2px]',
+  /* Filled, inverse of ghostLight — for a light call to action on a solid green section. */
+  cream: 'bg-cream text-green-900 hover:bg-white hover:-translate-y-[2px]',
 } as const;
 
 export type ButtonVariant = keyof typeof variants;
