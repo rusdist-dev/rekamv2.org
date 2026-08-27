@@ -62,6 +62,9 @@ export type Pano360Options = {
    *  scene whenever there is no usable video. Takes priority over `scene`'s
    *  canvas painter, but the scene's particle sprites still play over it. */
   image?: string;
+  /** Camera field of view in degrees. Wider pulls the view back so less of the
+   *  source image fills the frame. Defaults to 74. */
+  fov?: number;
   strings: PanoStrings;
   /** Loader copy. null hides the loader. */
   onStatus: (text: string | null) => void;
@@ -134,7 +137,12 @@ export class Pano360 {
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     stage.appendChild(this.renderer.domElement);
 
-    this.camera = new THREE.PerspectiveCamera(74, stage.clientWidth / stage.clientHeight || 1, 0.1, 1100);
+    this.camera = new THREE.PerspectiveCamera(
+      opts.fov ?? 74,
+      stage.clientWidth / stage.clientHeight || 1,
+      0.1,
+      1100
+    );
     this.camera.position.set(0, 0, 0);
 
     // A sphere seen from the inside: negating one axis flips the winding so the
