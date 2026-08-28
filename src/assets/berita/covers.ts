@@ -12,6 +12,7 @@ import img_mengintegrasikan_kualitas_habitat_ke_dalam_ukuran_keberlanjutan_cites
 import img_rekam_nusantara_di_cites_cop20 from './rekam-nusantara-di-cites-cop20.jpg';
 import img_menjelajahi_peluang_dan_tantangan_pengelolaan_karbon_biru_di_indonesia from './menjelajahi-peluang-dan-tantangan-pengelolaan-karbon-biru-di-indonesia.jpg';
 import img_konsultasi_nasional_bbnj_memperkuat_prioritas_nasional_indonesia_dalam_implementasi_perjanjian_bbnj from './konsultasi-nasional-bbnj-memperkuat-prioritas-nasional-indonesia-dalam-implementasi-perjanjian-bbnj.jpg';
+import img_leuser_ekosistem_terakhir_yang_masih_menyimpan_harapan from '../banner/card4.png';
 import type { StaticImageData } from 'next/image';
 
 export const COVERS: Record<string, StaticImageData> = {
@@ -28,4 +29,5 @@ export const COVERS: Record<string, StaticImageData> = {
   'berita/rekam-nusantara-di-cites-cop20.jpg': img_rekam_nusantara_di_cites_cop20,
   'berita/menjelajahi-peluang-dan-tantangan-pengelolaan-karbon-biru-di-indonesia.jpg': img_menjelajahi_peluang_dan_tantangan_pengelolaan_karbon_biru_di_indonesia,
   'berita/konsultasi-nasional-bbnj-memperkuat-prioritas-nasional-indonesia-dalam-implementasi-perjanjian-bbnj.jpg': img_konsultasi_nasional_bbnj_memperkuat_prioritas_nasional_indonesia_dalam_implementasi_perjanjian_bbnj,
+  'berita/leuser-ekosistem-terakhir-yang-masih-menyimpan-harapan.png': img_leuser_ekosistem_terakhir_yang_masih_menyimpan_harapan,
 };

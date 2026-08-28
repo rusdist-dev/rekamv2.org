@@ -9,13 +9,14 @@ import type { IconId } from '@/icons';
 import { listNews, type Program } from '@/lib/content';
 import type { SceneName } from '@/lib/pano/pano-scenes';
 import programs from '@/data/programs.json';
-import bgForestoke2 from '@/assets/banner/bg_forestoke2.jpeg';
+import bgForestoke3 from '@/assets/banner/bg_forestoke3.jpeg';
 import bgForestoke1Overview from '@/assets/banner/bg_forestoke1_overview.png';
-import bgUrbanoke1 from '@/assets/banner/bg_urbanoke1.png';
+import bgUrbanoke2 from '@/assets/banner/bg_urbanoke2.jpeg';
 import bgUrbanoke1Overview from '@/assets/banner/bg_urbanoke1_overview.png';
-import bgOceanoke1 from '@/assets/banner/bg_oceanoke1.png';
+import bgOceanoke5 from '@/assets/banner/bg_oceanoke5.png';
 import bgOceanoke1Overview from '@/assets/banner/bg_oceanoke1_overview.png';
 import card2 from '@/assets/banner/card2.jpg';
+import bgBanggaPapua from '@/assets/banner/bangga_papua.png';
 
 /* The three programme pages share this skeleton — hero, overview, by the
  * numbers, news rail, closing — but stay three separate routes rather than one
@@ -25,10 +26,11 @@ import card2 from '@/assets/banner/card2.jpg';
 /* All three programmes ship real photography in place of the procedural
  * scene — a static equirectangular image standing in for footage, same as
  * the homepage hero. */
-const HERO_OVERRIDES: Partial<Record<Program, { image: string; bgColor: string; imageOverlay: string }>> = {
-  forest: { image: bgForestoke2.src, bgColor: '#c6e9f4', imageOverlay: 'rgba(10, 20, 16, 0.29)' },
-  urban: { image: bgUrbanoke1.src, bgColor: '#c6e9f4', imageOverlay: 'rgba(10, 20, 16, 0.26)' },
-  ocean: { image: bgOceanoke1.src, bgColor: '#496aa2', imageOverlay: 'rgba(10, 20, 16, 0.18)' },
+const HERO_OVERRIDES: Partial<Record<Program, { image: string; bgColor: string; imageOverlay: string; fov?: number }>> = {
+  forest: { image: bgForestoke3.src, bgColor: '#c6e9f4', imageOverlay: 'rgba(10, 20, 16, 0.29)' },
+  urban: { image: bgUrbanoke2.src, bgColor: '#c6e9f4', imageOverlay: 'rgba(10, 20, 16, 0.26)' },
+  // Wider FOV pulls the camera back so the reef photo isn't cropped in tight.
+  ocean: { image: bgOceanoke5.src, bgColor: '#496aa2', imageOverlay: 'rgba(10, 20, 16, 0.18)', fov: 90 },
 };
 
 /* Forest swaps the side-by-side prose+art overview for a full-bleed photo
@@ -42,6 +44,21 @@ const OVERVIEW_BANNER: Partial<Record<Program, { image: string; bgColor?: string
   forest: { image: bgForestoke1Overview.src, fade: true },
   urban: { image: bgUrbanoke1Overview.src, bgColor: '#f4f2eb' },
   ocean: { image: bgOceanoke1Overview.src, bgColor: '#f4f2eb', fade: true },
+};
+
+/* Forest swaps the generic two-column "Be Part of the Story" CTA for a
+   full-bleed photo band with the copy set directly over the image — urban
+   and ocean keep the shared version below. */
+const STORY_BANNER: Partial<
+  Record<Program, { image: string; eyebrow: string; title: string; ctaLabel: string; ctaHref: string }>
+> = {
+  forest: {
+    image: bgBanggaPapua.src,
+    eyebrow: 'Bangga Papua',
+    title: 'Back to the roots',
+    ctaLabel: 'Learn more',
+    ctaHref: '/berita/bangga-papua-hutan-papua-yang-dibangun-oleh-burung',
+  },
 };
 
 export async function ProgramPage({
@@ -66,6 +83,7 @@ export async function ProgramPage({
         title={data.hero.title}
         sources={data.hero.sources}
         image={HERO_OVERRIDES[program]?.image}
+        fov={HERO_OVERRIDES[program]?.fov}
         bgColor={HERO_OVERRIDES[program]?.bgColor}
         imageOverlay={HERO_OVERRIDES[program]?.imageOverlay}
         scrollTo="#ikhtisar"
@@ -162,31 +180,68 @@ export async function ProgramPage({
         </section>
       )}
 
-      {/* Same "Be Part of the Story" CTA as the home page — not
-          programme-specific, so it's identical across forest/urban/ocean. */}
-      <section className="grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
-        <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
-          <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
-            Be Part of
-            <br />
-            the Story
-          </h2>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <ButtonLink href="/merch" variant="ghostGreen">
-              Shop
-            </ButtonLink>
-          </div>
-        </div>
-        <div className="relative h-64 w-full lg:h-full">
-          <Image
-            src={card2}
-            alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
-            fill
-            sizes="(max-width: 1000px) 100vw, 50vw"
-            className="object-cover"
-          />
-        </div>
-      </section>
+      {(() => {
+        const banner = STORY_BANNER[program];
+
+        if (banner) {
+          return (
+            <section className="relative isolate aspect-[21/8] min-h-[24rem] w-full overflow-hidden">
+              <Image
+                src={banner.image}
+                alt=""
+                fill
+                sizes="100vw"
+                className="absolute inset-0 -z-10 size-full object-cover"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 -z-10 bg-gradient-to-r from-[rgba(8,20,14,0.6)] via-[rgba(8,20,14,0.28)] to-[rgba(8,20,14,0.05)]"
+              />
+              <div className="absolute inset-0 flex items-center">
+                <Wrap>
+                  <div className="max-w-[24rem]">
+                    <p className="m-0 font-display text-2xl leading-none text-white/95">{banner.eyebrow}</p>
+                    <h2 className="mt-3 mb-0 font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-white">
+                      {banner.title}
+                    </h2>
+                    <ButtonLink href={banner.ctaHref} variant="green" className="mt-8">
+                      {banner.ctaLabel.toUpperCase()} →
+                    </ButtonLink>
+                  </div>
+                </Wrap>
+              </div>
+            </section>
+          );
+        }
+
+        /* Same "Be Part of the Story" CTA as the home page — not
+            programme-specific, so it's identical across urban/ocean. */
+        return (
+          <section className="grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
+            <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
+              <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
+                Be Part of
+                <br />
+                the Story
+              </h2>
+              <div className="mt-8 flex flex-wrap justify-center gap-3">
+                <ButtonLink href="/merch" variant="ghostGreen">
+                  Shop
+                </ButtonLink>
+              </div>
+            </div>
+            <div className="relative h-64 w-full lg:h-full">
+              <Image
+                src={card2}
+                alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
+                fill
+                sizes="(max-width: 1000px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+          </section>
+        );
+      })()}
     </SiteShell>
   );
 }

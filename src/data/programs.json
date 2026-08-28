@@ -52,7 +52,7 @@
             {
               "icon": "i-people",
               "value": "18",
-              "label": "Community from Lauk Rugun and Tamlambaloh Apalin Lauk involved"
+              "label": "Community Involved"
             },
             {
               "icon": "i-helmet",
@@ -78,7 +78,7 @@
             {
               "icon": "i-book",
               "value": "1",
-              "label": "Revision of the customary law book"
+              "label": "Customary law revised"
             },
             {
               "icon": "i-binocs",
@@ -99,7 +99,7 @@
             {
               "icon": "i-paw",
               "value": "3",
-              "label": "Other key wildlife species"
+              "label": "Other key species"
             }
           ]
         },
@@ -120,7 +120,7 @@
             {
               "icon": "i-tree",
               "value": "1",
-              "label": "Nest tree protected through a community-based tree adoption initiative"
+              "label": "Nest tree adopted"
             }
           ]
         }
@@ -198,8 +198,8 @@
           "items": [
             {
               "icon": "i-coins",
-              "value": "Rp 1,210,000,000",
-              "label": "Value of upcycled products within the circular economy"
+              "value": "IDR 1,2 Billion",
+              "label": "Upcycled products value"
             }
           ]
         }
@@ -244,7 +244,7 @@
             {
               "icon": "i-shield",
               "value": "23",
-              "label": "Marine Protected Areas (MPA)"
+              "label": "Marine Protected Areas"
             },
             {
               "icon": "i-area",
@@ -259,51 +259,19 @@
           ]
         },
         {
-          "heading": "People involved",
-          "when": "2025",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-people",
-              "value": "72",
-              "label": "Community groups in Central Java & South Sulawesi"
-            },
-            {
-              "icon": "i-clipboard",
-              "value": "52",
-              "label": "Field Enumerators"
-            },
-            {
-              "icon": "i-heart",
-              "value": "195",
-              "label": "Volunteers"
-            },
-            {
-              "icon": "i-cap",
-              "value": "21",
-              "label": "Scholarship fellows of GOAP, IWT & SFACT"
-            },
-            {
-              "icon": "i-cap",
-              "value": "30",
-              "label": "Interns from 2 universities & 1 school"
-            }
-          ]
-        },
-        {
           "heading": "Publications",
-          "when": "2025",
+          "when": "2022 - 2025",
           "headline": false,
           "items": [
             {
               "icon": "i-article",
               "value": "38",
-              "label": "Peer-reviewed journals"
+              "label": "Journals"
             },
             {
               "icon": "i-scroll",
               "value": "12",
-              "label": "Policy publications"
+              "label": "Policy briefs"
             },
             {
               "icon": "i-bulb",
@@ -335,18 +303,34 @@
           ]
         },
         {
-          "heading": "Strengthening IUU fishing monitoring capacity",
+          "heading": "People involved",
+          "when": "2025",
           "headline": false,
           "items": [
             {
-              "icon": "i-board",
-              "value": "2,156",
-              "label": "Monitoring workshop participants"
+              "icon": "i-people",
+              "value": "72",
+              "label": "Community groups"
             },
             {
-              "icon": "i-laptop",
-              "value": "18",
-              "label": "Digital forensics training participants"
+              "icon": "i-clipboard",
+              "value": "52",
+              "label": "Field Enumerators"
+            },
+            {
+              "icon": "i-heart",
+              "value": "195",
+              "label": "Volunteers"
+            },
+            {
+              "icon": "i-cap",
+              "value": "21",
+              "label": "Scholarship fellows"
+            },
+            {
+              "icon": "i-cap",
+              "value": "30",
+              "label": "Interns"
             }
           ]
         },
@@ -390,7 +374,7 @@
           ]
         },
         {
-          "heading": "Ocean Accounts & development",
+          "heading": "Ocean Accounts",
           "headline": false,
           "items": [
             {
@@ -406,7 +390,7 @@
           ]
         },
         {
-          "heading": "Blue carbon & rehabilitation",
+          "heading": "Rehabilitation blue carbon ecosystems",
           "note": "Community-based blue carbon enterprises: silvofishery · blue swimming crab hatchery and farming · ecotourism · vegetable farming · seagrass and mangrove rehabilitation · nurseries · fisheries product processing",
           "headline": false,
           "items": [],

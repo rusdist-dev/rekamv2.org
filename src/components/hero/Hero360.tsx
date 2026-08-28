@@ -72,6 +72,7 @@ export function Hero360({
   sources = [],
   poster,
   image,
+  fov,
   lightPano = false,
   bgColor,
   imageOverlay,
@@ -86,6 +87,9 @@ export function Hero360({
   /** Static equirectangular image shown instead of the procedural scene
    *  whenever there is no usable video. */
   image?: string;
+  /** Camera field of view in degrees. Wider pulls the view back so less of
+   *  the source image fills the frame. Defaults to 74. */
+  fov?: number;
   /** A brighter scrim, for procedural scenes that are pale rather than dark. */
   lightPano?: boolean;
   /** Base fill behind the panorama, shown while it loads. Defaults to the
@@ -121,6 +125,7 @@ export function Hero360({
         scene,
         video: videoRef.current,
         image,
+        fov,
         strings: {
           loading: T.pano.loadingScene[scene],
           webglUnsupported: T.pano.webglUnsupported,
@@ -142,7 +147,7 @@ export function Hero360({
       engine?.destroy();
       engineRef.current = null;
     };
-  }, [scene, image]);
+  }, [scene, image, fov]);
 
   // Autoplay only once footage is actually in use, and never under reduced motion.
   useEffect(() => {

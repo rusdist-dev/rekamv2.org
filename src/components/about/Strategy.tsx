@@ -139,7 +139,7 @@ export function Strategy() {
                 wording survives in the tab panel below and in <desc> above, so
                 nothing is only available in a dimmed layer. */}
             <g className={layer(step === 'outcomes')}>
-              <circle cx="150" cy="150" r="152" fill="none" stroke="var(--color-green-900)" strokeWidth="30" />
+              <circle cx="150" cy="150" r="152" fill="none" stroke="#224275" strokeWidth="30" />
               <text className="fill-white font-label text-[11px] font-semibold tracking-[0.14em]" textAnchor="middle">
                 <textPath href="#arc-rim-top" startOffset="50%">
                   CONSERVATION OUTCOMES
@@ -208,7 +208,9 @@ export function Strategy() {
             className={cn(
               'flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-[0.85rem] transition-colors duration-200',
               'border-green-ink/25 text-ink-soft hover:border-green-700',
-              'data-[state=active]:border-green-900 data-[state=active]:bg-green-900 data-[state=active]:text-cream'
+              s.id === 'outcomes'
+                ? 'data-[state=active]:border-[#224275] data-[state=active]:bg-[#224275] data-[state=active]:text-white'
+                : 'data-[state=active]:border-green-900 data-[state=active]:bg-green-900 data-[state=active]:text-cream'
             )}
           >
             <span className="font-bold">{s.n}</span> {s.label}

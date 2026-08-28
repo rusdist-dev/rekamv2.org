@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import cardPhoto from '@/assets/card-photo.jpg';
-import newsIcrs from '@/assets/news-icrs.jpg';
+import card4 from '@/assets/banner/card4.png';
 import bgRekamoke3 from '@/assets/banner/bg_rekamoke3.jpeg';
 import borderRekamoke1 from '@/assets/banner/border_rekamoke1.png';
 import borderRekamoke2 from '@/assets/banner/border_rekamoke2.png';
@@ -14,7 +13,7 @@ import { Hero360 } from '@/components/hero/Hero360';
 import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
-import { featuredNews, getNews, resolveCover } from '@/lib/content';
+import { featuredNews, getNews, listNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
 
 const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -26,7 +25,7 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
 const STATS = [
   { href: '/program/forest', icon: 'i-route', value: '19.000', unit: 'Ha', label: 'Customary Forest Established', when: 'Forest · 2025', tint: 'bg-olive-deep' },
   { href: '/program/urban', icon: 'i-bin', value: '512,2', unit: 'Ton', label: 'Total waste collected', when: 'Urban · 2025', tint: 'bg-rust' },
-  { href: '/program/ocean', icon: 'i-shield', value: '23', label: 'Kawasan konservasi perairan', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
+  { href: '/program/ocean', icon: 'i-shield', value: '1,115juta', unit: 'Ha', label: 'Kawasan konservasi perairan', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
 ] as const;
 
 const CARDS = [
@@ -35,11 +34,10 @@ const CARDS = [
   { href: '/program/ocean', img: cardOcean, kicker: 'Ocean', body: 'Counting what the sea gives, and who it gives it to.', alt: 'Ilustrasi sketsa terumbu karang dengan lumba-lumba, hiu, dan ikan' },
 ] as const;
 
-/* The home page's featured article is NOT the archive's lead post. The source
-   picked the ICRS piece here and "Searching for the Architects" on berita.html,
-   so this is named rather than derived — deriving it would silently change
-   which story the front page leads with. */
-const FEATURE_SLUG = 'rekam-di-icrs-2026-membawa-neraca-sumber-daya-laut-indonesia-ke-panggung-global';
+/* The home page's featured article is NOT the archive's lead post — the two are
+   picked independently, so this is named rather than derived. Deriving it would
+   silently change which story the front page leads with. */
+const FEATURE_SLUG = 'leuser-ekosistem-terakhir-yang-masih-menyimpan-harapan';
 
 /* Shell only: these are REKAM's own photographs standing in for live posts.
    Wire to the Instagram Graph API (Business/Creator account plus a long-lived
@@ -57,6 +55,8 @@ export default async function Home() {
   const feature = (await getNews(FEATURE_SLUG)) ?? (await featuredNews());
   const featureCover = resolveCover(feature?.cover);
   const igPosts = (await Promise.all(IG_TILES.map((s) => getNews(s)))).filter(Boolean);
+  // Excludes the feature post so its headline doesn't also show up here.
+  const galleryPosts = await listNews({ exclude: feature?.slug, limit: 6 });
 
   return (
     <SiteShell hero icons={['i-route', 'i-bin', 'i-shield']}>
@@ -217,7 +217,7 @@ export default async function Home() {
             </ButtonLink>
           </div>
           <Image
-            src={featureCover ?? newsIcrs}
+            src={card4}
             alt=""
             width={1302}
             height={744}
@@ -229,23 +229,32 @@ export default async function Home() {
 
       <section aria-label="Galeri kegiatan" className="bg-mauve py-[clamp(2rem,4vw,3rem)]">
         <ul className="m-0 flex list-none gap-4 overflow-x-auto px-gutter p-0 [scrollbar-width:thin]">
-          {Array.from({ length: 6 }, (_, i) => (
-            <li key={i} className="w-[286px] flex-none">
-              <AppLink href="/berita" className="group block no-underline">
-                <Image
-                  src={cardPhoto}
-                  alt={i === 0 ? 'Tangan menanam bibit pohon di dalam pot' : ''}
-                  width={286}
-                  height={200}
-                  className="block h-[200px] w-full rounded-sm object-cover"
-                />
-                <span className="mt-2 flex items-center justify-between gap-2 text-[0.78rem] text-green-800">
-                  Our 10th Anniversary
-                  <Icon id="i-arrow" className="size-3 fill-none stroke-current stroke-[4]" />
-                </span>
-              </AppLink>
-            </li>
-          ))}
+          {galleryPosts.map((post) => {
+            const cover = resolveCover(post.cover);
+            return (
+              <li key={post.slug} className="w-[286px] flex-none">
+                <AppLink href={`/berita/${post.slug}`} className="group relative block overflow-hidden rounded-sm no-underline">
+                  <div className="relative h-[200px] w-full">
+                    {cover ? (
+                      <Image
+                        src={cover}
+                        alt={post.coverAlt}
+                        fill
+                        sizes="286px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                      />
+                    ) : (
+                      <span aria-hidden="true" className="absolute inset-0 block bg-sage/60" />
+                    )}
+                  </div>
+                  <span className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-green-700/92 px-3 py-2.5 text-[0.78rem] font-semibold leading-[1.3] text-white">
+                    <span className="line-clamp-2">{post.title}</span>
+                    <Icon id="i-arrow" className="size-3 flex-none fill-none stroke-current stroke-[4]" />
+                  </span>
+                </AppLink>
+              </li>
+            );
+          })}
         </ul>
       </section>
 
