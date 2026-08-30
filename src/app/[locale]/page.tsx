@@ -79,9 +79,13 @@ export default async function Home() {
 
       {/* rekam.css:518-551. A panorama under a flat scrim, with the quote set
           in white over it — not a plain cream band. */}
+      {/* The panorama's own 1177/329 ratio only holds from lg up. Below that
+          the box would be ~105px tall while the quote inside it needs several
+          hundred, so the quote sits in normal flow with its own padding and
+          the section takes its height from the text. */}
       <section
         id="lanskap"
-        className="relative isolate overflow-hidden bg-white aspect-[1177/329] min-h-[16rem]"
+        className="relative isolate overflow-hidden bg-white py-[clamp(2.5rem,8vw,4rem)] lg:aspect-[1177/329] lg:min-h-[16rem] lg:py-0"
       >
         <Image
           src={borderRekamoke1}
@@ -91,12 +95,13 @@ export default async function Home() {
           className="absolute inset-0 -z-10 size-full object-cover"
         />
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(7,93,84,0.71)]" />
-        <div className="absolute inset-0 flex items-center">
+        <div className="flex items-center lg:absolute lg:inset-0">
           <Wrap>
-            <Eyebrow light>Who we are</Eyebrow>
-            <p className="mt-6 mb-0 max-w-[46ch] font-display text-4xl leading-[1.28] text-white text-pretty">
-              Documenting living Indonesia: in forests, in seas, in cities. What we gather becomes
-              conservation that lasts.
+            <Eyebrow light className="text-[clamp(0.95rem,3.4vw,1.2rem)] tracking-[0.18em] sm:tracking-[0.22em]">
+              Who we are
+            </Eyebrow>
+            <p className="mt-4 mb-0 max-w-[46ch] font-display text-[clamp(1.3rem,4.4vw,2.25rem)] leading-[1.28] text-white text-pretty sm:mt-6">
+              Documenting living Indonesia: in forests, in seas, in cities. What we gather becomes conservation that lasts.
             </p>
           </Wrap>
         </div>
@@ -105,7 +110,7 @@ export default async function Home() {
       <section id="program" className="bg-band py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
           <Eyebrow className="text-center">Our program</Eyebrow>
-          <h2 className="mt-4 mb-[clamp(2rem,4vw,3rem)] flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-center font-display text-4xl font-normal text-green-900">
+          <h2 className="mt-4 mb-[clamp(2rem,4vw,3rem)] flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center font-display text-[clamp(1.75rem,7vw,2.25rem)] font-normal text-green-900 sm:gap-x-8">
             Forest <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
             Urban <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
             Ocean
@@ -147,11 +152,13 @@ export default async function Home() {
         </Wrap>
       </section>
 
-      <section id="dampak" className="relative isolate overflow-hidden bg-white py-14">
+      <section id="dampak" className="relative isolate overflow-hidden bg-white py-[clamp(2.5rem,6vw,3.5rem)]">
         <Wrap className="grid items-start gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-          <div className="py-16">
-            <h2 className="text-left text-6xl font-display text-green-900">Our<br />Impact</h2>
-            <p className="mt-6 mb-0 max-w-[42ch] text-title-sm leading-[1.5] text-green-900">
+          <div className="py-[clamp(1rem,5vw,4rem)]">
+            <h2 className="text-left font-display text-[clamp(2.5rem,11vw,3.75rem)] leading-[1.05] text-green-900">
+              Our<br />Impact
+            </h2>
+            <p className="mt-5 mb-0 max-w-[42ch] text-title-sm leading-[1.5] text-green-900 sm:mt-6">
               We count because decisions are made from counts. Every number below came from
               someone standing in a place, writing it down.
               <br />
@@ -170,9 +177,9 @@ export default async function Home() {
                   // Forest sits alone in the top row, a wide landscape card;
                   // Urban is a tall portrait card below it; Ocean stays close
                   // to square — mixed shapes, not one uniform height.
-                  i === 0 && 'sm:col-start-2 min-h-[13rem]',
-                  i === 1 && 'min-h-[17rem]',
-                  i === 2 && 'min-h-[17rem]'
+                  i === 0 && 'min-h-[10rem] sm:col-start-2 sm:min-h-[13rem]',
+                  i === 1 && 'min-h-[11rem] sm:min-h-[17rem]',
+                  i === 2 && 'min-h-[11rem] sm:min-h-[17rem]'
                 )}
               >
                 <Icon id={stat.icon} className="size-10 fill-none stroke-current stroke-[1.6]" />
@@ -209,7 +216,7 @@ export default async function Home() {
                 </>
               )}
             </p>
-            <h2 className="mt-4 mb-0 font-display text-4xl leading-[1.15] text-white">
+            <h2 className="mt-4 mb-0 font-display text-[clamp(1.6rem,6vw,2.25rem)] leading-[1.15] text-white">
               {feature.title}
             </h2>
             <ButtonLink href={`/berita/${feature.slug}`} variant="cream" className="mt-8">
@@ -228,7 +235,7 @@ export default async function Home() {
       )}
 
       <section aria-label="Galeri kegiatan" className="bg-mauve py-[clamp(2rem,4vw,3rem)]">
-        <ul className="m-0 flex list-none gap-4 overflow-x-auto px-gutter p-0 [scrollbar-width:thin]">
+        <ul className="m-0 flex list-none gap-4 overflow-x-auto py-0 px-gutter [scrollbar-width:thin]">
           {galleryPosts.map((post) => {
             const cover = resolveCover(post.cover);
             return (
@@ -311,7 +318,10 @@ export default async function Home() {
         {/* Full-bleed, and shorter than the player's native 16:9 — the iframe
             keeps its own aspect ratio and is simply vertically centred inside
             a shallower box, cropping a slice off its top and bottom. */}
-        <div className="relative mt-6 aspect-[12/5] w-full overflow-hidden">
+        {/* The 12/5 crop leaves a phone with a ~155px-tall player whose
+            controls fall outside the box, so below sm the iframe's own 16:9 is
+            shown whole. */}
+        <div className="relative mt-6 aspect-video w-full overflow-hidden sm:aspect-[12/5]">
           <iframe
             src="https://www.youtube.com/embed/GlFSR2ymLWI"
             title="Apa Itu Neraca Sumber Daya Laut? | Ocean Accounts | Fisheries Resource Center of Indonesia"
@@ -351,7 +361,10 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative isolate overflow-hidden bg-[#f9f1e6] aspect-[994/278] min-h-[16rem]">
+      {/* Same as #lanskap: the artwork's ratio from lg up, content-driven
+          height below it — this passage is ~330 characters and never fitted a
+          phone-width band. */}
+      <section className="relative isolate overflow-hidden bg-[#f9f1e6] py-[clamp(2.5rem,8vw,4rem)] lg:aspect-[994/278] lg:min-h-[16rem] lg:py-0">
         <Image
           src={borderRekamoke2}
           alt=""
@@ -360,9 +373,12 @@ export default async function Home() {
           className="absolute inset-0 -z-10 size-full object-cover"
         />
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(13,42,26,0.55)]" />
-        <div className="absolute inset-0 flex items-center">
+        <div className="flex items-center lg:absolute lg:inset-0">
           <Wrap>
-            <p className="m-0 font-display text-4xl text-center leading-[1.5] text-white text-justify">
+            {/* text-center and text-justify both set text-align; the pair left
+                which one applied down to stylesheet order. Ragged-right on a
+                phone, justified only where the measure is wide enough for it. */}
+            <p className="m-0 text-left font-display text-[clamp(1.05rem,3.8vw,2.25rem)] leading-[1.5] text-white lg:text-justify">
               The forest remembers, the ocean recalls, and every community carries stories older
               than us all. Science helps us understand, storytelling helps us care, technology
               helps us reach, and tradition reminds us why. For knowledge left unkept is a future

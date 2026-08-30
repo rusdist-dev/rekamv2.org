@@ -30,7 +30,15 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        'm-0 font-label text-[1.2rem] font-semibold uppercase tracking-[0.22em]',
+        /* Letterspacing is the reason this needs a step. At 1.2rem the
+           0.22em tracking adds roughly a fifth of a character's width per
+           character, so "Organization structure" measured wider than a 375px
+           screen's content column and broke onto a second line on every page
+           that carries a two-word eyebrow. The smaller pair below the `sm`
+           step keeps the same look at a size the column can hold; above it
+           nothing changes. */
+        'm-0 font-label text-[0.95rem] font-semibold uppercase tracking-[0.16em]',
+        'sm:text-[1.2rem] sm:tracking-[0.22em]',
         light ? 'text-white/92' : 'text-green-900',
         className
       )}

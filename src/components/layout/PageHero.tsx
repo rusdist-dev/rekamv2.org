@@ -48,15 +48,30 @@ export function PageHero({
   return (
     <section
       className={cn(
-        'relative isolate flex overflow-hidden bg-green-300',
+        'relative isolate flex w-full overflow-hidden bg-green-300',
         fullImage
-          ? 'items-center min-h-[16rem] py-[clamp(6rem,12vh,9rem)]'
+          ? 'items-center py-[clamp(6rem,12vh,9rem)]'
           : cn(
               'items-end pt-[clamp(6rem,12vh,9rem)] pb-[clamp(2.5rem,5vw,4.5rem)]',
               short ? 'min-h-[clamp(20rem,44vh,28rem)]' : 'min-h-[clamp(26rem,58vh,38rem)]'
             )
       )}
-      style={fullImage ? { aspectRatio: `${image.width} / ${image.height}` } : undefined}
+      /* A MINIMUM height derived from the image's ratio, not `aspect-ratio`.
+         The two agree wherever the picture is the taller of the two — every
+         width from about the `md` step up — and there the banner is still
+         exactly the image, uncropped, which is the whole point of fullImage.
+         They part on a phone: 2732x1024 over a 375px viewport is a 140px
+         band, and the headline needs roughly three times that. `aspect-ratio`
+         gives the box a definite height, so the title was simply cut off at
+         the section's edge (and `overflow-hidden` hid the evidence); a
+         min-height lets the box grow to its content and lets object-cover crop
+         the photograph instead, which is the thing that can afford to give.
+         max() keeps the 16rem floor that used to be a class. */
+      style={
+        fullImage
+          ? { minHeight: `max(16rem, calc(100vw * ${image.height} / ${image.width}))` }
+          : undefined
+      }
     >
       <Image
         src={image}
@@ -72,7 +87,7 @@ export function PageHero({
         style={{ background: overlay ?? (dim ? SCRIM_DIM : SCRIM_BASE) }}
       />
 
-      <Wrap className={cn('relative z-[2]', fullImage ? 'mt-16' : 'pt-12')}>
+      <Wrap className={cn('relative z-[2]', fullImage ? 'mt-8 md:mt-16' : 'pt-12')}>
         <Eyebrow light>{eyebrow}</Eyebrow>
         <h1
           className={cn(

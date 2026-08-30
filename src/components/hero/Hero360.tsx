@@ -225,8 +225,11 @@ export function Hero360({
         style={{ background: lightPano ? SCRIM_LIGHT : SCRIM_DARK }}
       />
 
-      <div className="pointer-events-none relative z-[2] flex h-full flex-col items-center justify-center gap-6 px-gutter pt-24 text-center">
-        <p className="m-0 font-label text-[1.4rem] font-semibold uppercase tracking-[0.32em] text-white/92">
+      <div className="pointer-events-none relative z-[2] flex h-full flex-col items-center justify-center gap-4 px-gutter pb-24 pt-24 text-center sm:gap-6 sm:pb-0">
+        {/* 1.4rem at 0.32em tracking runs a 17-character eyebrow past a
+            375px gutter box; the clamp caps at the same size from ~640px up so
+            wider screens are unchanged. */}
+        <p className="m-0 font-label text-[clamp(0.95rem,3.6vw,1.4rem)] font-semibold uppercase tracking-[0.24em] text-white/92 sm:tracking-[0.32em]">
           {eyebrow}
         </p>
         <h1 className="m-0 max-w-[18ch] font-display text-hero-lg font-normal leading-[1.06] tracking-[-0.02em] text-white">
@@ -237,7 +240,7 @@ export function Hero360({
           <a
             href={scrollTo}
             aria-label={T.hero.scroll}
-            className="pointer-events-auto relative mt-6 block h-[78px] w-px bg-[linear-gradient(to_bottom,rgba(255,255,255,0)_0%,rgba(255,255,255,0.85)_100%)]"
+            className="pointer-events-auto relative mt-4 block h-[46px] w-px bg-[linear-gradient(to_bottom,rgba(255,255,255,0)_0%,rgba(255,255,255,0.85)_100%)] sm:mt-6 sm:h-[78px]"
           >
             <span
               aria-hidden="true"

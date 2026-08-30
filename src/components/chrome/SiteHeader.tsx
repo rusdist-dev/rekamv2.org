@@ -276,10 +276,15 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
               flat
               className={cn('text-white transition-opacity duration-300', scrolled && 'pointer-events-none opacity-0')}
             />
+            {/* Three nowrap pills at the full 0.94rem size with 1.35rem
+                padding measure ~348px — wider than a 320px screen minus its
+                gutters, and the hero clips rather than scrolls, so Ocean lost
+                its right half. Smaller below sm, and allowed to wrap if it
+                still runs out of room. */}
             <nav
               aria-label={T.nav.programme}
               className={cn(
-                'mt-[1.1rem] flex justify-center gap-[0.55rem] transition-opacity duration-300',
+                'mt-[1.1rem] flex flex-wrap justify-center gap-[0.4rem] transition-opacity duration-300 sm:gap-[0.55rem]',
                 scrolled && 'pointer-events-none opacity-0'
               )}
             >
@@ -289,7 +294,8 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
                   href={p.href}
                   aria-current={current === p.key ? 'page' : undefined}
                   className={cn(
-                    'whitespace-nowrap rounded-full border px-[1.35rem] py-2 text-[0.94rem] font-semibold uppercase tracking-[0.1em] no-underline backdrop-blur-[6px] transition-colors duration-200',
+                    'whitespace-nowrap rounded-full border px-[0.95rem] py-1.5 text-[0.8rem] font-semibold uppercase tracking-[0.08em] no-underline backdrop-blur-[6px] transition-colors duration-200',
+                    'sm:px-[1.35rem] sm:py-2 sm:text-[0.94rem] sm:tracking-[0.1em]',
                     current === p.key
                       ? 'border-white bg-white text-green-900'
                       : 'border-white/45 bg-white/8 text-white hover:border-white hover:bg-white hover:text-green-900'

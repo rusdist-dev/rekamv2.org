@@ -5,7 +5,14 @@ import { cn } from '@/lib/cn';
  * Each group is a heading plus a row of figures. The source cycled an accent
  * bar under the heading through five colours; the redesign drops that in
  * favour of a plain divider, so ACCENTS and the icon column are gone too —
- * every figure is now a fixed-size olive card, number first. */
+ * every figure is now an olive card, number first.
+ *
+ * Most groups hold two to four figures, so stacking every group full-width
+ * left two thirds of each row empty. Groups are packed into a twelve-column
+ * grid instead: a group asks for a share proportional to how many figures it
+ * holds, rows fill left to right, and whatever is left over at the end of a
+ * row is handed back to that row's groups so no gap survives. See
+ * layoutGroups below. */
 
 export type StatItem = { icon?: string; value: string; label: string; chips?: string[] };
 export type StatTable = { caption?: string; head: string[]; rows: string[][] };
@@ -19,6 +26,8 @@ export type StatGroup = {
   table?: StatTable;
   policy?: PolicyItem[];
 };
+
+type Variant = 'default' | 'urban' | 'ocean';
 
 // "20 km" -> a leading number with a trailing unit; "Rp 1.210.000.000" -> a
 // leading currency prefix with the number after it. Told apart by whether the
@@ -34,62 +43,78 @@ function splitValue(value: string) {
     : { prefix: first, number: rest, suffix: undefined };
 }
 
-// Long numbers (currency totals run to 13+ digits) would otherwise overflow
-// the fixed-width card, so the number's own size scales down with its length
-// and is allowed to wrap mid-string rather than push past the card's edge.
+// Long numbers (currency totals run to 13+ digits) would otherwise overflow a
+// card that is now as narrow as ~140px in a three-across row, so the number's
+// own size scales down with its length and is allowed to wrap mid-string
+// rather than push past the card's edge.
 function numberSizeClass(number: string) {
-  if (number.length > 9) return 'text-xl';
-  if (number.length > 6) return 'text-3xl';
-  if (number.length > 3) return 'text-4xl';
-  return 'text-5xl';
+  if (number.length > 9) return 'text-lg';
+  if (number.length > 6) return 'text-2xl';
+  if (number.length > 3) return 'text-3xl';
+  return 'text-4xl';
 }
 
-// Every card is 190px wide by default, which fits a label into two or three
-// lines. Prose wraps well short of its theoretical chars-per-line capacity
-// (word boundaries leave slack line to line), so 45 characters is where real
-// labels start reaching a fourth line — e.g. "Community from Lauk Rugun and
+// Cards are fluid now, but a label past ~45 characters still reaches a fourth
+// line at a normal track width — e.g. "Community from Lauk Rugun and
 // Tamlambaloh Apalin Lauk involved" (62 chars). Past that, widening beats
-// growing taller: the card spans two grid tracks, roughly doubling the line
-// budget.
+// growing taller: the card counts as two tracks when the group is measured and
+// spans two of them when it is drawn. Ocean is the exception — that
+// programme's page keeps every card one track wide.
 const WIDE_LABEL_THRESHOLD = 45;
 
-// Height still has a 150px floor and grows from there for a longer label.
-// flex-auto (not flex-1) keeps that content-based floor intact — flex-1
-// zeroes out the flex-basis, which let long labels overflow past the box.
+const MAX_CARD_COLUMNS = 5; // beyond this a group wraps to a second card row
+const CARD_MAX_WIDTH = 320; // px — keeps a lone card from stretching a whole row
+const CARD_GAP = 12; // px — matches gap-3 on the card grid
+
+function itemTracks(item: StatItem, variant: Variant) {
+  return variant !== 'ocean' && item.label.length > WIDE_LABEL_THRESHOLD ? 2 : 1;
+}
+
+// Height has a 128px floor and grows from there for a longer label. flex-auto
+// (not flex-1) keeps that content-based floor intact — flex-1 zeroes out the
+// flex-basis, which let long labels overflow past the box.
 //
-// Urban and ocean both swap the fixed olive card for a lighter one with the
-// figures in ink rather than white — a request specific to those programmes'
-// pages, not a redesign of the shared default. Ocean additionally never
-// widens a long-label card to a second track (unlike urban/default): its
-// longest label just wraps across more lines in the same 190px column.
-function Figure({ item, variant = 'default' }: { item: StatItem; variant?: 'default' | 'urban' | 'ocean' }) {
+// Urban and ocean both swap the olive card for a lighter one with the figures
+// in ink rather than white — a request specific to those programmes' pages,
+// not a redesign of the shared default.
+// A group holding a single figure would otherwise leave three quarters of its
+// row blank, so such a card is drawn as a band instead: shorter, full width,
+// with the number beside the label rather than above it.
+function Figure({
+  item,
+  variant = 'default',
+  band = false,
+}: {
+  item: StatItem;
+  variant?: Variant;
+  band?: boolean;
+}) {
   const { prefix, number, suffix } = splitValue(item.value);
-  const wide = item.label.length > WIDE_LABEL_THRESHOLD;
+  const wide = !band && itemTracks(item, variant) === 2;
   const isUrban = variant === 'urban';
   const isOcean = variant === 'ocean';
-  const isLight = isUrban || isOcean;
-  // Urban's one wide label ("Value of upcycled products…") needs the extra
-  // track to stay on a single line — the shared col-span-2 wraps it to two.
-  const span = isOcean ? 'col-span-1' : wide ? (isUrban ? 'col-span-3' : 'col-span-2') : 'col-span-1';
   return (
-    <div className={cn('flex flex-col', span)}>
+    <div className={cn('flex flex-col', wide && 'col-span-2')}>
       <div
         className={cn(
-          'flex min-h-[150px] flex-auto flex-col items-center justify-center rounded-md p-4 text-center',
-          isUrban ? 'bg-[#f3ecde]' : isOcean ? 'bg-[#c6e9f4]' : 'bg-[#6b7a3d]'
+          'flex flex-auto flex-col items-center justify-center rounded-md border text-center',
+          band ? 'min-h-[92px] gap-x-5 px-5 py-4 sm:flex-row sm:text-left' : 'min-h-[128px] px-3 py-4',
+          isUrban ? 'border-green-900' : isOcean ? 'border-sky-700' : 'border-[#6b7a3d]'
         )}
       >
         <p
           className={cn(
             'm-0 flex flex-wrap items-baseline justify-center gap-1 leading-none tracking-[-0.02em]',
-            isLight ? 'text-green-900' : 'text-white'
+            isUrban ? 'text-green-900' : isOcean ? 'text-sky-700' : 'text-[#6b7a3d]'
           )}
         >
           {prefix && <span className="text-base font-bold">{prefix}</span>}
           <span
             className={cn(
               'font-bold [overflow-wrap:anywhere]',
-              isUrban && wide ? 'text-4xl' : numberSizeClass(number)
+              // A band has room across, so the length-based step-down that
+              // keeps a narrow card from overflowing does not apply.
+              band ? 'text-3xl' : numberSizeClass(number)
             )}
           >
             {number}
@@ -98,9 +123,9 @@ function Figure({ item, variant = 'default' }: { item: StatItem; variant?: 'defa
         </p>
         <p
           className={cn(
-            'mt-2 mb-0 text-[0.9rem] font-medium leading-[1.35]',
-            isLight ? 'text-ink-soft' : 'text-white',
-            isUrban && wide && 'whitespace-nowrap'
+            'mb-0 font-medium leading-[1.3]',
+            band ? 'mt-2 text-[0.95rem] sm:mt-0' : 'mt-1.5 text-[0.82rem]',
+            isUrban ? 'text-green-900' : isOcean ? 'text-sky-700' : 'text-[#6b7a3d]'
           )}
         >
           {item.label}
@@ -110,28 +135,122 @@ function Figure({ item, variant = 'default' }: { item: StatItem; variant?: 'defa
           "52 jenis burung", the three mammals behind "3" — as a plain caption
           rather than the pill list the source used. */}
       {item.chips && (
-        <p className="mt-2 mb-0 text-[0.7rem] leading-[1.4] text-ink-soft">{item.chips.join(' · ')}</p>
+        <p className="mt-1.5 mb-0 text-[0.7rem] leading-[1.35] text-ink-soft">{item.chips.join(' · ')}</p>
       )}
     </div>
   );
 }
+
+const COLUMNS = 12;
+
+// A group's share of the row, before packing. A table or a policy list is wide
+// content in its own right and always takes the full width; otherwise the
+// share follows the number of card tracks — two cards want a third of the row,
+// three a half, four two thirds, five or more the lot.
+function desiredSpan(tracks: number, group: StatGroup) {
+  // A policy list wants the full width; a table asks for two thirds so a small
+  // group can sit alongside it, and widens to the full row when none does —
+  // eight columns still clear the table's 34rem minimum at every width where
+  // this grid is in play.
+  if (group.policy && group.policy.length > 0) return COLUMNS;
+  if (group.table) return 8;
+  if (tracks >= 5) return COLUMNS;
+  if (tracks === 4) return 8;
+  if (tracks === 3) return 6;
+  return 4;
+}
+
+// Groups run smallest first: the fewer figures a group holds, the earlier it
+// is packed, so the narrow ones pair up at the top instead of being stranded
+// one-per-row further down. A table or a policy list is full-width content no
+// matter how few figures sits with it, so those groups go last regardless of
+// count. Ties keep their order in the data.
+function sortByFigureCount(groups: StatGroup[]) {
+  const isWide = (g: StatGroup) => Boolean(g.table || (g.policy && g.policy.length > 0));
+  return groups
+    .map((group, i) => ({ group, i }))
+    .sort(
+      (a, b) =>
+        Number(isWide(a.group)) - Number(isWide(b.group)) ||
+        a.group.items.length - b.group.items.length ||
+        a.i - b.i
+    )
+    .map((entry) => entry.group);
+}
+
+// Greedy left-to-right packing: a group starts a new row as soon as it no
+// longer fits the current one, and the columns left over at the end of a row
+// are shared out one at a time among that row's groups — so a two-card group
+// beside a four-card one ends up 4 + 8 with no hole between them, and a group
+// left alone on the last row widens to the full twelve.
+function layoutGroups(unsorted: StatGroup[], variant: Variant) {
+  const groups = sortByFigureCount(unsorted);
+  const tracks = groups.map((g) => g.items.reduce((n, item) => n + itemTracks(item, variant), 0));
+  const spans = groups.map((g, i) => desiredSpan(tracks[i], g));
+
+  let rowStart = 0;
+  let used = 0;
+  const fillRow = (end: number) => {
+    const len = end - rowStart;
+    if (len <= 0) return;
+    for (let leftover = COLUMNS - used, k = 0; leftover > 0; leftover--, k++) {
+      spans[rowStart + (k % len)] += 1;
+    }
+  };
+  spans.forEach((span, i) => {
+    if (used + span > COLUMNS) {
+      fillRow(i);
+      rowStart = i;
+      used = 0;
+    }
+    used += span;
+  });
+  fillRow(spans.length);
+
+  return groups.map((group, i) => ({
+    group,
+    span: spans[i],
+    columns: Math.max(1, Math.min(tracks[i], MAX_CARD_COLUMNS)),
+    // One figure holding down two thirds of a row or more reads as a gap; it
+    // is drawn as a band across that width instead.
+    band: group.items.length === 1 && spans[i] >= 8,
+  }));
+}
+
+// Tailwind only sees class names it can read in the source, so the computed
+// span is looked up rather than interpolated.
+const SPAN_CLASS: Record<number, string> = {
+  4: 'lg:col-span-4',
+  5: 'lg:col-span-5',
+  6: 'lg:col-span-6',
+  7: 'lg:col-span-7',
+  8: 'lg:col-span-8',
+  9: 'lg:col-span-9',
+  10: 'lg:col-span-10',
+  11: 'lg:col-span-11',
+  12: 'lg:col-span-12',
+};
 
 export function ByTheNumbers({
   groups,
   variant = 'default',
 }: {
   groups: StatGroup[];
-  variant?: 'default' | 'urban' | 'ocean';
+  variant?: Variant;
 }) {
   const pillWhen = variant === 'urban' || variant === 'ocean';
+  const laidOut = layoutGroups(groups, variant);
   return (
-    <div className="grid gap-[clamp(2rem,4vw,3rem)]">
-      {groups.map((group) => (
-        <section key={group.heading} className="border-t border-green pt-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="m-0 font-sans text-base font-bold leading-[1.25] text-ink">{group.heading}</h3>
+    <div className="grid gap-x-8 gap-y-[clamp(1.5rem,3vw,2.25rem)] lg:grid-cols-12">
+      {laidOut.map(({ group, span, columns, band }) => (
+        <section
+          key={group.heading}
+          className={cn('border-t border-green pt-4', SPAN_CLASS[span] ?? 'lg:col-span-12')}
+        >
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="m-0 font-sans text-[0.95rem] font-bold leading-[1.25] text-ink">{group.heading}</h3>
             {pillWhen && group.when && (
-              <span className="rounded-full bg-olive/35 px-3 py-1 text-[0.72rem] font-semibold text-green-900">
+              <span className="rounded-full bg-olive/35 px-2.5 py-0.5 text-[0.7rem] font-semibold text-green-900">
                 {group.when}
               </span>
             )}
@@ -143,12 +262,25 @@ export function ByTheNumbers({
           )}
 
           {group.items.length > 0 && (
-            // Fixed-width tracks, not auto-fill columns: a normal card takes
-            // one track, a long-label card spans two, and everything else
-            // wraps around it exactly as it would with plain flex-wrap.
-            <div className="mt-4 grid grid-cols-[repeat(auto-fill,190px)] gap-x-6 gap-y-6">
+            // Two across on a phone, then as many tracks as the group has
+            // figures — its column was sized for exactly that many, so the
+            // cards fill it. The max-width only bites when a couple of cards
+            // inherit a whole row; a lone figure is a band across the full
+            // width instead and takes no cap at all.
+            <div
+              className={cn(
+                'mt-3 grid gap-3 sm:[grid-template-columns:var(--cards)]',
+                columns === 1 ? 'grid-cols-1' : 'grid-cols-2'
+              )}
+              style={
+                {
+                  '--cards': `repeat(${columns}, minmax(0,1fr))`,
+                  maxWidth: band ? undefined : columns * CARD_MAX_WIDTH + (columns - 1) * CARD_GAP,
+                } as React.CSSProperties
+              }
+            >
               {group.items.map((item) => (
-                <Figure key={item.label || item.value} item={item} variant={variant} />
+                <Figure key={item.label || item.value} item={item} variant={variant} band={band} />
               ))}
             </div>
           )}
@@ -156,8 +288,8 @@ export function ByTheNumbers({
           {group.table && (
             // Wide content scrolls inside its own box rather than pushing the
             // page sideways.
-            <div className="mt-6 overflow-x-auto">
-              <table className="w-full min-w-[34rem] border-collapse text-left text-[0.9rem]">
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full min-w-[34rem] border-collapse text-left text-[0.88rem]">
                 {/* Visually hidden in the source too: it is the only thing
                     describing this table to a screen reader. */}
                 {group.table.caption && <caption className="sr-only">{group.table.caption}</caption>}
@@ -167,7 +299,7 @@ export function ByTheNumbers({
                       <th
                         key={h}
                         scope="col"
-                        className="border-b border-green-ink/25 pb-3 pr-6 font-label text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-ink-soft"
+                        className="border-b border-green-ink/25 pb-2 pr-6 font-label text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-ink-soft"
                       >
                         {h}
                       </th>
@@ -181,7 +313,7 @@ export function ByTheNumbers({
                         <td
                           key={cell + ci}
                           className={cn(
-                            'border-b border-green-ink/12 py-3 pr-6 align-top text-ink-soft',
+                            'border-b border-green-ink/12 py-2 pr-6 align-top text-ink-soft',
                             ci === 0 && 'font-semibold text-green-900'
                           )}
                         >
@@ -195,14 +327,16 @@ export function ByTheNumbers({
             </div>
           )}
 
-          {/* Regulations REKAM helped draft, with where each one has got to. */}
+          {/* Regulations REKAM helped draft, with where each one has got to.
+              Two abreast once there is room, since each entry is a short line
+              of text rather than a paragraph. */}
           {group.policy && (
-            <ul className="mt-6 mb-0 list-none space-y-4 p-0">
+            <ul className="mt-4 mb-0 grid list-none gap-3 p-0 md:grid-cols-2">
               {group.policy.map((doc) => (
-                <li key={doc.title} className="flex flex-wrap items-start gap-x-4 gap-y-2">
+                <li key={doc.title} className="flex flex-wrap items-start gap-x-3 gap-y-1.5">
                   <span
                     className={cn(
-                      'mt-1 shrink-0 rounded-full px-3 py-1 font-label text-[0.66rem] font-semibold uppercase tracking-[0.14em]',
+                      'mt-0.5 shrink-0 rounded-full px-2.5 py-0.5 font-label text-[0.66rem] font-semibold uppercase tracking-[0.14em]',
                       doc.status.toLowerCase() === 'disahkan'
                         ? 'bg-green-700 text-white'
                         : 'border border-green-ink/30 text-ink-soft'
@@ -211,17 +345,17 @@ export function ByTheNumbers({
                     {doc.status}
                   </span>
                   <span className="min-w-0 flex-1">
-                    <b className="block font-sans text-[0.95rem] font-semibold leading-[1.45] text-green-900">
+                    <b className="block font-sans text-[0.92rem] font-semibold leading-[1.4] text-green-900">
                       {doc.title}
                     </b>
-                    {doc.ref && <span className="mt-1 block text-[0.8rem] text-ink-soft">{doc.ref}</span>}
+                    {doc.ref && <span className="mt-0.5 block text-[0.78rem] text-ink-soft">{doc.ref}</span>}
                   </span>
                 </li>
               ))}
             </ul>
           )}
 
-          {group.note && <p className="mt-4 mb-0 text-[0.82rem] italic leading-[1.6] text-ink-soft">{group.note}</p>}
+          {group.note && <p className="mt-3 mb-0 text-[0.8rem] italic leading-[1.55] text-ink-soft">{group.note}</p>}
         </section>
       ))}
     </div>

@@ -3,9 +3,9 @@ import Image from 'next/image';
 import bgTentang from '@/assets/banner/bg_tentang.png';
 import card2 from '@/assets/banner/card2.jpg';
 import { PARTNER_LOGOS } from '@/assets/partners/logos';
-import petaKerja from '@/assets/peta-kerja.svg';
 import { UNIT_LOGOS } from '@/assets/unit/logos';
 import whereWeWork from '@/assets/where-we-work.svg';
+import { IndonesiaMap } from '@/components/about/IndonesiaMap';
 import { OrgChart } from '@/components/about/OrgChart';
 import { Strategy } from '@/components/about/Strategy';
 // import { StreetView } from '@/components/about/StreetView';
@@ -126,16 +126,40 @@ export default function TentangPage() {
         <section id="wilayah" className="bg-band py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
             <Eyebrow>Where we work</Eyebrow>
-            <Image
-              src={petaKerja}
-              alt="Peta wilayah kerja REKAM di Indonesia, mencakup Wilayah Pengelolaan Perikanan FMA 571 hingga FMA 718"
-              className="mt-6 w-full"
+            {/* Warna diambil dari token, bukan hex lepas, supaya peta ikut
+                berubah bila paletnya digeser. `background` adalah lautnya —
+                itu yang bisa disesuaikan, dan alasannya ada di komponen. */}
+            <IndonesiaMap
+              className="mt-6"
+              fullBleed
+              provinceUrl="/geo/provinces.json"
+              background="var(--color-band)"
+              land="var(--color-sage)"
+              outline="var(--color-green-700)"
+              marker="var(--color-red-600)"
             />
-            <Image
-              src={whereWeWork}
-              alt="Tabel cakupan kerja empat unit: Rangkong Indonesia, FRCI, Natural Resources Crime Unit, dan Urban & Sustainability — pada tingkat nasional, provinsi/tapak, dan Wilayah Pengelolaan Perikanan"
-              className="mt-6 w-full"
-            />
+            {/* This is a table, drawn as a 1117x308 picture. Scaled to fit a
+                375px screen its row labels land at about 3px and stop being
+                text. A table that is too wide for the screen scrolls
+                sideways — so it scrolls, inside its own box, with the floor
+                set at the width where the labels are still legible; above
+                that width the floor never binds and nothing scrolls.
+                -mx/px reaches the scroll area out to both screen edges so the
+                first and last columns are not cut off by the gutter, and
+                tabIndex makes the box focusable, which is what lets a keyboard
+                scroll it. */}
+            <div
+              role="region"
+              aria-label="Tabel cakupan kerja per unit — dapat digeser mendatar"
+              tabIndex={0}
+              className="mt-6 overflow-x-auto mx-[calc(var(--spacing-gutter)*-1)] px-gutter md:mx-0 md:px-0"
+            >
+              <Image
+                src={whereWeWork}
+                alt="Tabel cakupan kerja empat unit: Rangkong Indonesia, FRCI, Natural Resources Crime Unit, dan Urban & Sustainability — pada tingkat nasional, provinsi/tapak, dan Wilayah Pengelolaan Perikanan"
+                className="w-full min-w-[44rem] md:min-w-0"
+              />
+            </div>
             {/* Sits under the illustrated map, not in place of it: the map shows
                 the fishery management areas, this shows what the ground looks
                 like. Nothing loads until the button is pressed. */}
@@ -177,7 +201,11 @@ export default function TentangPage() {
               effective communication.
             </p>
 
-            <ul className="m-0 grid grid-cols-10 gap-x-6 gap-y-8 p-0">
+            {/* 3 straight to 10 left the whole 640-1000px range rendering
+                ten columns into a ~600px column — roughly 40px per logo, which
+                is below the point where the wordmarks in these files can be
+                read at all. The ladder steps instead. */}
+            <ul className="m-0 grid grid-cols-3 xs:grid-cols-4 md:grid-cols-6 lg:grid-cols-10 gap-x-6 gap-y-8 p-0">
               {PARTNER_LOGOS.map(({ name, logo }, i) => (
                 <li key={`${name}-${i}`} className="relative h-14 w-full list-none">
                   <Image src={logo} alt={name} fill sizes="120px" className="object-contain" />

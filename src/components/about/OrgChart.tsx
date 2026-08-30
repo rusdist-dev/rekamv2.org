@@ -115,8 +115,15 @@ export function OrgChart() {
             <p className="m-0 font-label text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
               {b.role}
             </p>
-            <p className="mt-2 mb-0 text-[0.95rem] leading-[1.6] text-green-900 flex justify-between">
-              {b.people?.map((p, i) => (<span key={p}>{p}</span>))}
+            {/* Three names spread across one row is a desktop shape. In a
+                card roughly 290px wide it gave each name a ~90px column, so
+                every one of them wrapped mid-name ("Prof. Charlie D. /
+                Heatubun"). Stacked below the `sm` step they each get the full
+                card; the row returns where there is room for it. */}
+            <p className="mt-2 mb-0 flex flex-col gap-1 text-[0.95rem] leading-[1.6] text-green-900 sm:flex-row sm:justify-between sm:gap-3">
+              {b.people?.map((p) => (
+                <span key={p}>{p}</span>
+              ))}
             </p>
           </div>
         ))}
@@ -177,7 +184,14 @@ export function OrgChart() {
                 {/* No overflow-hidden on the card: it clipped the stub, which by
                     design is drawn outside this box's left edge. */}
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-2 p-5 bg-white rounded-[12px] border border-green-ink/15">
-                  <div className="min-w-0 flex-1">
+                  {/* basis-full below `sm` sends the manager toggle to its own
+                      line. Sharing the row costs about 130px, and the branch
+                      has already spent a gutter and an indent by the time it
+                      reaches this card: what was left on a 375px screen was a
+                      ~110px column, enough to break "Wahyu Mulyono" across two
+                      lines and "Director for Urban and Sustainability
+                      Programme" across four. */}
+                  <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
                     <p className="m-0 font-label text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
                       {node.role}
                     </p>

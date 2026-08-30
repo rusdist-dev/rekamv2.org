@@ -390,45 +390,47 @@
           ]
         },
         {
-          "heading": "Rehabilitation blue carbon ecosystems",
+          "heading": "Mangrove rehabilitation",
+          "headline": false,
+          "items": [
+            {
+              "icon": "i-seedling",
+              "value": "159.000",
+              "label": "Seedlings planted"
+            },
+            {
+              "icon": "i-map",
+              "value": "20 ha",
+              "label": "Area rehabilitated"
+            },
+            {
+              "icon": "i-chart",
+              "value": "79,8–90%",
+              "label": "Survival rate"
+            }
+          ]
+        },
+        {
+          "heading": "Seagrass rehabilitation",
           "note": "Community-based blue carbon enterprises: silvofishery · blue swimming crab hatchery and farming · ecotourism · vegetable farming · seagrass and mangrove rehabilitation · nurseries · fisheries product processing",
           "headline": false,
-          "items": [],
-          "table": {
-            "caption": "Mangrove and seagrass rehabilitation across two sites, with seedling counts and survival rates",
-            "head": [
-              "Site",
-              "Habitat",
-              "Rehabilitation",
-              "Survival rate"
-            ],
-            "rows": [
-              [
-                "Central Java",
-                "Mangrove",
-                "149.500 seedlings (15 ha)",
-                "79,8%"
-              ],
-              [
-                "Central Java",
-                "Seagrass",
-                "500 seedlings (500 m²)",
-                "50%"
-              ],
-              [
-                "Saleh Bay",
-                "Mangrove",
-                "9.500 seedlings (5 ha)",
-                "90%"
-              ],
-              [
-                "Saleh Bay",
-                "Seagrass",
-                "2.000 seedlings (2 ha)",
-                "30%"
-              ]
-            ]
-          }
+          "items": [
+            {
+              "icon": "i-seedling",
+              "value": "2.500",
+              "label": "Seedlings planted"
+            },
+            {
+              "icon": "i-map",
+              "value": "2,05 ha",
+              "label": "Area rehabilitated"
+            },
+            {
+              "icon": "i-chart",
+              "value": "30–50%",
+              "label": "Survival rate"
+            }
+          ]
         }
       ]
     },
