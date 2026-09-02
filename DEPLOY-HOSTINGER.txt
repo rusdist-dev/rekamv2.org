@@ -1,0 +1,58 @@
+rekamv2.org — arsip SUMBER untuk deploy Hostinger
+=================================================
+
+Arsip ini berisi kode sumber, BUKAN hasil build. Hostinger yang menjalankan
+build-nya sendiri. Jangan pakai arsip hasil build untuk platform ini: tanpa
+src/ perintah `next build` gagal dengan
+"Couldn't find any `pages` or `app` directory".
+
+Langkah di Hostinger
+--------------------
+  1. Ekstrak seluruh isi arsip ke application root.
+  2. npm install          <-- JANGAN --production / --omit=dev, lihat catatan
+  3. npm run build
+  4. npm start            <-- = next start
+
+  Startup file / start command : npm start
+  Node.js                      : 20 atau lebih baru
+
+PENTING: build butuh devDependencies
+------------------------------------
+`next build` memerlukan paket yang ada di devDependencies:
+  typescript, tailwindcss, @tailwindcss/postcss, @types/*
+
+Kalau Hostinger memasang dengan `npm install --production` atau
+`NODE_ENV=production npm install`, paket itu tidak ikut dan build gagal —
+biasanya dengan error PostCSS "Cannot find module '@tailwindcss/postcss'"
+atau keluhan soal TypeScript.
+
+Dua jalan keluar, pilih salah satu:
+  a. Pastikan instalasi memakai `npm install` biasa (dengan dev), atau
+     `npm ci --include=dev`.
+  b. Pindahkan tiga paket itu ke "dependencies" di package.json:
+       typescript, tailwindcss, @tailwindcss/postcss
+     plus @types/node, @types/react, @types/react-dom.
+
+Port
+----
+`next start` mengikuti variabel lingkungan PORT yang disetel Hostinger.
+Tidak perlu menetapkan -p secara manual.
+
+Sebelum live
+------------
+Setel NEXT_PUBLIC_SITE_URL ke domain sebenarnya. Tanpa itu canonical, tag
+OpenGraph, dan sitemap.xml memakai fallback https://rekam.or.id.
+
+Rekening/QRIS/WhatsApp donasi dan kunci Google Maps untuk Street View sengaja
+dibiarkan kosong; halaman akan menyatakan dirinya kosong, bukan gagal diam-diam.
+Lihat README.md.
+
+Kalau build kehabisan memori
+----------------------------
+Shared hosting kadang kurang RAM untuk `next build`. Coba:
+  NODE_OPTIONS=--max-old-space-size=2048 npm run build
+
+Yang tidak ikut dalam arsip
+---------------------------
+node_modules/ (dipasang npm), .next/ (dibuat `npm run build`),
+baseline/screens/ (33 MB screenshot, hanya untuk pemeriksaan paritas lokal).
