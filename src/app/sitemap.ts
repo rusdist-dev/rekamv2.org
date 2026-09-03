@@ -28,6 +28,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: '/event', changeFrequency: 'monthly', priority: 0.7 },
     { url: '/donasi', changeFrequency: 'yearly', priority: 0.8 },
     { url: '/merch', changeFrequency: 'monthly', priority: 0.6 },
+    { url: '/safeguarding', changeFrequency: 'yearly', priority: 0.5 },
+    { url: '/publication', changeFrequency: 'monthly', priority: 0.6 },
     /* /checkout and /design are deliberately absent — both are noindex. */
   ];
 

@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import heroImg from '@/assets/banner/event.png';
-import ctaImg from '@/assets/banner/event1.png';
+import eventImg from '@/assets/banner/event1.png';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PostGrid } from '@/components/news/PostCard';
 import { ButtonLink } from '@/components/ui/button';
@@ -45,7 +44,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   return (
     <SiteShell current="event">
       <section className="relative isolate flex min-h-[min(44rem,100svh)] items-end overflow-hidden bg-forest-black pb-[clamp(2.5rem,6vh,4.5rem)] pt-[calc(var(--nav-h)+clamp(4rem,10vh,8rem))]">
-        <Image src={heroImg} alt={event.coverAlt} fill priority sizes="100vw" className="absolute inset-0 z-0 size-full object-cover" />
+        <Image src={eventImg} alt={event.coverAlt} fill priority sizes="100vw" className="absolute inset-0 z-0 size-full object-cover" />
         <div
           aria-hidden="true"
           className="absolute inset-0 z-[1]"
@@ -175,7 +174,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
           </div>
           <div className="flex items-end justify-center self-stretch">
             <Image
-              src={ctaImg}
+              src={eventImg}
               alt=""
               sizes="(max-width: 1000px) 100vw, 50vw"
               className="block h-auto w-full object-contain"

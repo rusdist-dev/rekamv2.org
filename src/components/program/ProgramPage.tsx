@@ -57,7 +57,7 @@ const STORY_BANNER: Partial<
     eyebrow: 'Bangga Papua',
     title: 'Back to the roots',
     ctaLabel: 'Learn more',
-    ctaHref: '/berita/bangga-papua-hutan-papua-yang-dibangun-oleh-burung',
+    ctaHref: '/initiative',
   },
 };
 

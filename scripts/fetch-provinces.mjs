@@ -30,7 +30,7 @@ const WANTED = new Map([
   ['banten', 'Banten'],
   ['central java', 'Jawa Tengah'],
   ['west nusa tenggara', 'Nusa Tenggara Barat'],
-  ['west sulawesi', 'Sulawesi Barat'],
+  ['south sulawesi', 'Sulawesi Selatan'],
   // Kunci dicocokkan persis, jadi 'maluku' tidak akan ikut menangkap
   // 'north maluku' (Maluku Utara).
   ['maluku', 'Maluku'],

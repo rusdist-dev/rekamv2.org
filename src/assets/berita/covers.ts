@@ -13,6 +13,9 @@ import img_rekam_nusantara_di_cites_cop20 from './rekam-nusantara-di-cites-cop20
 import img_menjelajahi_peluang_dan_tantangan_pengelolaan_karbon_biru_di_indonesia from './menjelajahi-peluang-dan-tantangan-pengelolaan-karbon-biru-di-indonesia.jpg';
 import img_konsultasi_nasional_bbnj_memperkuat_prioritas_nasional_indonesia_dalam_implementasi_perjanjian_bbnj from './konsultasi-nasional-bbnj-memperkuat-prioritas-nasional-indonesia-dalam-implementasi-perjanjian-bbnj.jpg';
 import img_leuser_ekosistem_terakhir_yang_masih_menyimpan_harapan from '../banner/card4.png';
+import img_kisah_kisah_dari_leuser_dibagikan_melalui_film_dan_percakapan from './berita-leuser.png';
+import img_international_conservation_technology_conference_pertama_ketika_konservasi_berpadu_dengan_teknologi from './berita-ictc.png';
+import img_merayakan_keragaman_papua_dari_layar_lebar_ruang_diskusi_hingga_percakapan_kecil_yang_mengubah_cara_pandang from './berita-papua.png';
 import type { StaticImageData } from 'next/image';
 
 export const COVERS: Record<string, StaticImageData> = {
@@ -30,4 +33,7 @@ export const COVERS: Record<string, StaticImageData> = {
   'berita/menjelajahi-peluang-dan-tantangan-pengelolaan-karbon-biru-di-indonesia.jpg': img_menjelajahi_peluang_dan_tantangan_pengelolaan_karbon_biru_di_indonesia,
   'berita/konsultasi-nasional-bbnj-memperkuat-prioritas-nasional-indonesia-dalam-implementasi-perjanjian-bbnj.jpg': img_konsultasi_nasional_bbnj_memperkuat_prioritas_nasional_indonesia_dalam_implementasi_perjanjian_bbnj,
   'berita/leuser-ekosistem-terakhir-yang-masih-menyimpan-harapan.png': img_leuser_ekosistem_terakhir_yang_masih_menyimpan_harapan,
+  'berita/berita-leuser.png': img_kisah_kisah_dari_leuser_dibagikan_melalui_film_dan_percakapan,
+  'berita/berita-ictc.png': img_international_conservation_technology_conference_pertama_ketika_konservasi_berpadu_dengan_teknologi,
+  'berita/berita-papua.png': img_merayakan_keragaman_papua_dari_layar_lebar_ruang_diskusi_hingga_percakapan_kecil_yang_mengubah_cara_pandang,
 };

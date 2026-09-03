@@ -103,6 +103,25 @@ ulang:
 git checkout baseline -- site/
 ```
 
+### Feed Instagram (beranda)
+
+Section "Lately" di beranda menampilkan lima postingan @rekamnusantara.
+Secara default (`IG_ACCESS_TOKEN` kosong) ia jatuh ke tangkapan layar
+postingan itu sendiri (`src/assets/instagram-1.png` ... `instagram-5.png`) —
+foto aslinya, tapi statis, tidak ikut ter-update kalau postingannya diedit.
+Untuk feed yang benar-benar live, set:
+
+```bash
+IG_ACCESS_TOKEN=  # long-lived token, Instagram API with Instagram Login
+```
+
+Token ini didapat lewat akun Instagram professional (Business/Creator) yang
+sudah terhubung ke app Meta Developer — tidak perlu Facebook Page terpisah.
+`src/lib/instagram.ts` memanggil `graph.instagram.com/me/media` dengan token
+itu tiap jam (`revalidate: 3600`) dan mencocokkan tiap link postingan di
+`IG_TILES` (`src/app/[locale]/page.tsx`) lewat shortcode-nya; yang tidak
+cocok tetap jatuh ke tangkapan layar per-item.
+
 ## Verifikasi
 
 Karena CSS dan JS ditulis ulang seluruhnya, HTML bukan satu-satunya yang bisa

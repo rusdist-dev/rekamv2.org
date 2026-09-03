@@ -184,7 +184,7 @@ function sortByFigureCount(groups: StatGroup[]) {
 // beside a four-card one ends up 4 + 8 with no hole between them, and a group
 // left alone on the last row widens to the full twelve.
 function layoutGroups(unsorted: StatGroup[], variant: Variant) {
-  const groups = sortByFigureCount(unsorted);
+  const groups = (unsorted);
   const tracks = groups.map((g) => g.items.reduce((n, item) => n + itemTracks(item, variant), 0));
   const spans = groups.map((g, i) => desiredSpan(tracks[i], g));
 

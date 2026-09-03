@@ -237,6 +237,23 @@
       "note": "Source: REKAM by the Numbers — Impact Highlights 2025.",
       "groups": [
         {
+          "heading": "IKAN data collection",
+          "when": "2019 – 2025",
+          "headline": false,
+          "items": [
+            {
+              "icon": "i-boat",
+              "value": "15,262",
+              "label": "Fishing trip data"
+            },
+            {
+              "icon": "i-ruler",
+              "value": "120,551",
+              "label": "Fish length data"
+            }
+          ]
+        },
+        {
           "heading": "Coverage",
           "when": "2022 – 2025",
           "headline": false,
@@ -282,23 +299,6 @@
               "icon": "i-book",
               "value": "3",
               "label": "Books"
-            }
-          ]
-        },
-        {
-          "heading": "IKAN data collection",
-          "when": "2019 – 2025",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-boat",
-              "value": "15,262",
-              "label": "Fishing trip data"
-            },
-            {
-              "icon": "i-ruler",
-              "value": "120,551",
-              "label": "Fish length data"
             }
           ]
         },
@@ -402,17 +402,11 @@
               "icon": "i-map",
               "value": "20 ha",
               "label": "Area rehabilitated"
-            },
-            {
-              "icon": "i-chart",
-              "value": "79,8–90%",
-              "label": "Survival rate"
             }
           ]
         },
         {
           "heading": "Seagrass rehabilitation",
-          "note": "Community-based blue carbon enterprises: silvofishery · blue swimming crab hatchery and farming · ecotourism · vegetable farming · seagrass and mangrove rehabilitation · nurseries · fisheries product processing",
           "headline": false,
           "items": [
             {

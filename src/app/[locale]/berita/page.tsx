@@ -79,8 +79,9 @@ export default async function BeritaPage() {
 
       <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
-          <Eyebrow>Arsip</Eyebrow>
-          <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display">Semua berita</Display>
+          <Eyebrow className="mt-4 mb-3 text-display">OUR STORY</Eyebrow>
+          <div aria-hidden="true" className="mb-[clamp(2rem,4vw,3rem)] h-[1px] w-full bg-green-700" />
+          {/* <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display">Semua berita</Display> */}
           <PostGrid posts={rest} />
           {/* The source said "Menampilkan 18 dari 155 tulisan. Pagination
               menyusul ketika daftar ini tersambung ke CMS." The count is now

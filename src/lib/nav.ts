@@ -42,14 +42,10 @@ export const EXPLORE: NavItem[] = [
        a link that names something nonexistent impossible to write. */
     children: events.map((e) => ({ label: e.title, href: `/event/${e.slug}` })),
   },
-  {
-    key: 'donasi',
-    href: '/donasi',
-    children: [
-      { label: 'Adopsi Pohon Pakan', href: '/donasi#adopsi' },
-      { label: 'Fundraising Product', href: '/merch' },
-    ],
-  },
+  /* 'donasi' hidden from the navbar on request — the route, its #adopsi
+     anchor, and /merch (previously reachable only via this item's
+     "Fundraising Product" submenu) still exist and work when linked to
+     directly; they're just no longer in the header or its mobile drawer. */
 ];
 
 /** Footer, from the block that was byte-identical across all eleven pages. */
@@ -67,6 +63,13 @@ export const FOOTER_LEGAL = [
   { href: '/brand-guideline', label: 'Brand Guideline' },
   { href: '/privacy-policy', label: 'Privacy Policy' },
   { href: '/terms-of-service', label: 'Term Of Service' },
+];
+
+/** Third, unlabelled column sitting beside FOOTER_LEGAL under the same
+ *  "Links" heading. */
+export const FOOTER_EXTRA = [
+  { href: '/safeguarding', label: 'Safeguarding' },
+  { href: '/publication', label: 'Publication' },
 ];
 
 export const FOOTER_SOCIAL = [

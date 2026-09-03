@@ -1,16 +1,17 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import bgTentang from '@/assets/banner/bg_tentang.png';
-import card2 from '@/assets/banner/card2.jpg';
+import impactReport from '@/assets/banner/impact-report.png';
 import { PARTNER_LOGOS } from '@/assets/partners/logos';
 import { UNIT_LOGOS } from '@/assets/unit/logos';
-import whereWeWork from '@/assets/where-we-work.svg';
+import whereWeWork from '@/assets/where-work.svg';
 import { IndonesiaMap } from '@/components/about/IndonesiaMap';
 import { OrgChart } from '@/components/about/OrgChart';
 import { Strategy } from '@/components/about/Strategy';
 // import { StreetView } from '@/components/about/StreetView';
 import { TeamGrid, TeamProvider } from '@/components/about/Team';
 import { SiteShell } from '@/components/chrome/SiteShell';
+import { Icon } from '@/components/chrome/SvgSprite';
 import { PageHero } from '@/components/layout/PageHero';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
@@ -167,29 +168,43 @@ export default function TentangPage() {
           </Wrap>
         </section>
 
-        {/* Same "Be Part of the Story" CTA as the home page and the
-            programme pages. */}
-        <section className="grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
-          <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
-            <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
-              Be Part of
-              <br />
-              the Story
+        {/* Publication: sorotan Impact Report terbaru, menggantikan CTA
+            "Be Part of the Story" yang dipakai halaman lain. Tombolnya
+            mengarah ke /publication karena belum ada berkas PDF nyata untuk
+            ditautkan — ganti hrefnya begitu unduhannya tersedia. */}
+        <section className="grid bg-white lg:min-h-[28rem] lg:grid-cols-2">
+          <div className="relative order-2 w-full lg:order-1 flex items-center justify-center">
+            <Image
+              src={impactReport}
+              alt="Sampul Impact Report 2025 Rekam Nusantara Foundation"
+              sizes="(max-width: 1000px) 100vw, 50vw"
+              className="w-full h-auto max-h-[500px] object-contain"
+            />
+          </div>
+          <div className="order-1 self-center px-gutter py-[clamp(2.5rem,5vw,4rem)] lg:order-2">
+            <p className="m-0 font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-green-900">
+              <time dateTime="2026-07-29">29 July 2026</time>
+              <span aria-hidden="true"> / </span>
+              Impact Report
+            </p>
+            <h2 className="mt-3 mb-0 font-display text-quote leading-[1.15] text-green-900">
+              Impact Report 2025
             </h2>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <ButtonLink href="/merch" variant="ghostGreen">
-                Shop
+            <p className="mt-4 mb-0 max-w-[46ch] text-lede leading-[1.65] text-ink-soft">
+              The world continues to face various environmental challenges. Climate change, natural
+              resource degradation, and socio-economic disparities are urgent issues that require
+              innovative and sustainable solutions.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <ButtonLink href="/publication" variant="green" className="uppercase">
+                Download
+                <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
+              </ButtonLink>
+              <ButtonLink href="/publication" variant="ghostGreen" className="uppercase">
+                Read online
+                <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
               </ButtonLink>
             </div>
-          </div>
-          <div className="relative h-64 w-full lg:h-full">
-            <Image
-              src={card2}
-              alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
-              fill
-              sizes="(max-width: 1000px) 100vw, 50vw"
-              className="object-cover"
-            />
           </div>
         </section>
 

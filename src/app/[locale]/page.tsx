@@ -1,4 +1,12 @@
 import Image from 'next/image';
+import oiForest from '@/assets/oi-forest.svg';
+import oiUrban from '@/assets/oi-urban.svg';
+import oiFrci from '@/assets/oi-frci.svg';
+import instagram1 from '@/assets/instagram-1.png';
+import instagram2 from '@/assets/instagram-2.png';
+import instagram3 from '@/assets/instagram-3.png';
+import instagram4 from '@/assets/instagram-4.png';
+import instagram5 from '@/assets/instagram-5.png';
 import card4 from '@/assets/banner/card4.png';
 import bgRekamoke3 from '@/assets/banner/bg_rekamoke3.jpeg';
 import borderRekamoke1 from '@/assets/banner/border_rekamoke1.png';
@@ -15,6 +23,7 @@ import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { featuredNews, getNews, listNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
+import { fetchInstagramMedia, igShortcode } from '@/lib/instagram';
 
 const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -23,9 +32,9 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
    set of figures. Tints use the deep variants — white on --blue and --olive
    fails AA, same finding as the number cards. */
 const STATS = [
-  { href: '/program/forest', icon: 'i-route', value: '19.000', unit: 'Ha', label: 'Customary Forest Established', when: 'Forest · 2025', tint: 'bg-olive-deep' },
-  { href: '/program/urban', icon: 'i-bin', value: '512,2', unit: 'Ton', label: 'Total waste collected', when: 'Urban · 2025', tint: 'bg-rust' },
-  { href: '/program/ocean', icon: 'i-shield', value: '1,115juta', unit: 'Ha', label: 'Kawasan konservasi perairan', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
+  { href: '/program/forest', icon: oiForest, value: '19.000', unit: 'Ha', label: 'Customary Forest Established', when: 'Forest · 2025', tint: 'bg-olive-deep' },
+  { href: '/program/urban', icon: oiUrban, value: '512,2', unit: 'Ton', label: 'Total waste collected', when: 'Urban · 2025', tint: 'bg-rust' },
+  { href: '/program/ocean', icon: oiFrci, value: '1,115juta', unit: 'Ha', label: 'Kawasan konservasi perairan', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
 ] as const;
 
 const CARDS = [
@@ -39,27 +48,45 @@ const CARDS = [
    silently change which story the front page leads with. */
 const FEATURE_SLUG = 'leuser-ekosistem-terakhir-yang-masih-menyimpan-harapan';
 
-/* Shell only: these are REKAM's own photographs standing in for live posts.
-   Wire to the Instagram Graph API (Business/Creator account plus a long-lived
-   token) to make it a real feed. The note under the grid says so out loud,
-   which is the source's stance and worth keeping. */
+/* Screenshots of the actual posts (supplied directly, not scraped — Instagram
+   walls off bot requests and its rendered image URLs are signed and expire
+   within hours, so there's no reliable way to pull these automatically).
+   Wire IG_ACCESS_TOKEN (see src/lib/instagram.ts) to replace these with a
+   live feed; unmatched or unconfigured tiles keep using the screenshot. */
 const IG_TILES = [
-  'bangga-papua-hutan-papua-yang-dibangun-oleh-burung',
-  'cerita-laut-dan-masa-depannya-mendorong-peran-generasi-muda-dalam-menjaga-masa-depan-laut-indonesia',
-  'ketika-hutan-bercerita-film-manusia-dan-masa-depan-kehidupan',
-  'rumah-baru-untuk-sains-dan-solusi-berbasis-alam-meresmikan-stasiun-riset-terpadu-jogo-laut',
-  'dari-perairan-lokal-ke-dialog-global-indonesia-di-sharks-international-2026',
+  { cover: instagram1, href: 'https://www.instagram.com/p/DcaQtGdic3B/?img_index=1' },
+  { cover: instagram2, href: 'https://www.instagram.com/p/DYwpjK7iVZx/?img_index=1' },
+  { cover: instagram3, href: 'https://www.instagram.com/p/DZCvxBslL0x/?img_index=1' },
+  { cover: instagram4, href: 'https://www.instagram.com/p/DZUHUCDibbZ/?img_index=1' },
+  { cover: instagram5, href: 'https://www.instagram.com/p/DG5LsGfy9Cm/?img_index=1' },
+] as const;
+
+/* Same shelf layout as the Instagram widget above, one video per column.
+   Thumbnails come straight from YouTube's img.youtube.com host, so no local
+   asset or next/image remote-pattern config is needed. */
+const YT_VIDEOS = [
+  { id: 'GlFSR2ymLWI', title: 'Apa Itu Neraca Sumber Daya Laut? | Ocean Accounts | Fisheries Resource Center of Indonesia' },
+  { id: 'mnBlUW8BDhY', title: 'Video REKAM Nusantara' },
+  { id: 'IGY158BlSt0', title: 'Video REKAM Nusantara' },
+  { id: 'op95wuGjOTs', title: 'Video REKAM Nusantara' },
+  { id: '4_0dqP8u0Mw', title: 'Video REKAM Nusantara' },
 ];
 
 export default async function Home() {
   const feature = (await getNews(FEATURE_SLUG)) ?? (await featuredNews());
   const featureCover = resolveCover(feature?.cover);
-  const igPosts = (await Promise.all(IG_TILES.map((s) => getNews(s)))).filter(Boolean);
+  // null when IG_ACCESS_TOKEN isn't configured — every tile then falls back
+  // to its screenshot cover below.
+  const igMedia = await fetchInstagramMedia();
+  const igPosts = IG_TILES.map((tile) => ({
+    tile,
+    media: igMedia?.find((m) => igShortcode(m.permalink) === igShortcode(tile.href)) ?? null,
+  }));
   // Excludes the feature post so its headline doesn't also show up here.
   const galleryPosts = await listNews({ exclude: feature?.slug, limit: 6 });
 
   return (
-    <SiteShell hero icons={['i-route', 'i-bin', 'i-shield']}>
+    <SiteShell hero>
       <Hero360
         scene="coast"
         image={bgRekamoke3.src}
@@ -182,7 +209,17 @@ export default async function Home() {
                   i === 2 && 'min-h-[11rem] sm:min-h-[17rem]'
                 )}
               >
-                <Icon id={stat.icon} className="size-10 fill-none stroke-current stroke-[1.6]" />
+                {/* Fixed height, auto width — not a square box, so each SVG
+                    keeps its own aspect ratio (forest square, urban portrait,
+                    frci a wide horizontal mark) instead of being letterboxed.
+                    frci's long edge is its ~110px width at h-10; forest and
+                    urban are sized so THEIR long edge matches that, which is
+                    why they get a taller box than frci's own h-10. */}
+                <Image
+                  src={stat.icon}
+                  alt=""
+                  className={cn('w-auto object-contain', i === 2 ? 'h-10' : 'h-[60px]')}
+                />
                 {/* The unit is a flex sibling rather than a vertical-align'd
                     <sup>. Same look, but a shifted inline has no clean box for
                     axe to resolve a background against, so it reported the
@@ -273,64 +310,113 @@ export default async function Home() {
               @rekamnusantara
             </Display>
           </div>
-          <ButtonLink href="https://www.instagram.com/rekamnusantara/" variant="ghostGreen">
+          <ButtonLink href="https://www.instagram.com/rekamnusantara/" variant="ghostGreen" target="_blank" rel="noreferrer">
             Ikuti kami
           </ButtonLink>
         </Wrap>
 
         <Wrap className="mt-[clamp(2rem,4vw,3rem)]">
           <ul className="m-0 grid list-none grid-cols-2 gap-2 p-0 sm:grid-cols-3 lg:grid-cols-5">
-            {igPosts.map((post) => {
-              const cover = resolveCover(post!.cover);
+            {igPosts.map(({ tile, media }) => {
+              // The real post photo once IG_ACCESS_TOKEN is set and this
+              // shortcode is among the account's recent media; otherwise the
+              // screenshot supplied for this post.
+              const liveSrc = media && (media.mediaType === 'VIDEO' ? media.thumbnailUrl : media.mediaUrl);
               return (
-                <li key={post!.slug}>
+                <li key={tile.href}>
                   <a
-                    href="https://www.instagram.com/rekamnusantara/"
-                    aria-label="Buka Instagram REKAM Nusantara"
+                    href={tile.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Buka postingan Instagram REKAM Nusantara"
                     className="group relative block overflow-hidden rounded-sm"
                   >
-                    {cover && (
-                      <Image
-                        src={cover}
+                    {liveSrc ? (
+                      // Plain <img>: media_url is a signed CDN link Meta
+                      // rotates, not a stable asset next/image should optimize.
+                      <img
+                        src={liveSrc}
                         alt=""
-                        width={1200}
-                        height={675}
+                        loading="lazy"
+                        className="block aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                      />
+                    ) : (
+                      <Image
+                        src={tile.cover}
+                        alt=""
                         sizes="(max-width: 640px) 50vw, 20vw"
                         className="block aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                       />
                     )}
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 flex items-center justify-center bg-black/25 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    >
+                      <svg viewBox="0 0 24 24" className="size-10 drop-shadow-md">
+                        <circle cx="12" cy="12" r="12" fill="rgba(255,255,255,0.9)" />
+                        <path
+                          fill="#0d2a1a"
+                          d="M12 6.2c-1.62 0-1.82.01-2.46.04-.64.03-1.08.13-1.46.28a2.95 2.95 0 0 0-1.06.7 2.95 2.95 0 0 0-.7 1.06c-.15.38-.25.82-.28 1.46-.03.64-.04.84-.04 2.46s.01 1.82.04 2.46c.03.64.13 1.08.28 1.46.15.4.34.7.7 1.06.35.35.66.55 1.06.7.38.15.82.25 1.46.28.64.03.84.04 2.46.04s1.82-.01 2.46-.04c.64-.03 1.08-.13 1.46-.28.4-.15.7-.35 1.06-.7.35-.36.55-.66.7-1.06.15-.38.25-.82.28-1.46.03-.64.04-.84.04-2.46s-.01-1.82-.04-2.46c-.03-.64-.13-1.08-.28-1.46a2.95 2.95 0 0 0-.7-1.06 2.95 2.95 0 0 0-1.06-.7c-.38-.15-.82-.25-1.46-.28-.64-.03-.84-.04-2.46-.04Zm0 1.08c1.6 0 1.79.01 2.42.04.58.02.9.12 1.11.2.28.11.48.24.69.45.21.21.34.41.45.69.08.21.18.53.2 1.11.03.63.04.82.04 2.42s-.01 1.79-.04 2.42c-.02.58-.12.9-.2 1.11-.11.28-.24.48-.45.69-.21.21-.41.34-.69.45-.21.08-.53.18-1.11.2-.63.03-.82.04-2.42.04s-1.79-.01-2.42-.04c-.58-.02-.9-.12-1.11-.2a1.86 1.86 0 0 1-.69-.45 1.86 1.86 0 0 1-.45-.69c-.08-.21-.18-.53-.2-1.11-.03-.63-.04-.82-.04-2.42s.01-1.79.04-2.42c.02-.58.12-.9.2-1.11.11-.28.24-.48.45-.69.21-.21.41-.34.69-.45.21-.08.53-.18 1.11-.2.63-.03.82-.04 2.42-.04Zm0 1.83a3.09 3.09 0 1 0 0 6.18 3.09 3.09 0 0 0 0-6.18Zm0 5.1a2.01 2.01 0 1 1 0-4.02 2.01 2.01 0 0 1 0 4.02Zm3.21-5.22a.72.72 0 1 1-1.44 0 .72.72 0 0 1 1.44 0Z"
+                        />
+                      </svg>
+                    </span>
                   </a>
                 </li>
               );
             })}
           </ul>
-          <p className="mt-6 mb-0 max-w-[52ch] text-[0.82rem] leading-[1.7] text-ink-soft">
-            Feed belum tersambung ke Instagram — gambar di atas adalah foto REKAM sendiri sebagai
-            penempatan sementara.
-          </p>
         </Wrap>
       </section>
 
-      <section className="bg-white pt-16">
-        <Wrap>
-          <Eyebrow>Featured Video</Eyebrow>
+      <section aria-labelledby="video-title" className="bg-white py-[clamp(3rem,7vw,6rem)]">
+        <Wrap className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <Eyebrow>Featured Video</Eyebrow>
+            <Display id="video-title" className="mt-3 text-display">
+              Rekam Nusantara
+            </Display>
+          </div>
+          <ButtonLink href="https://www.youtube.com/@RekamNusantara" variant="ghostGreen" target="_blank" rel="noreferrer">
+            Kunjungi channel
+          </ButtonLink>
         </Wrap>
-        {/* Full-bleed, and shorter than the player's native 16:9 — the iframe
-            keeps its own aspect ratio and is simply vertically centred inside
-            a shallower box, cropping a slice off its top and bottom. */}
-        {/* The 12/5 crop leaves a phone with a ~155px-tall player whose
-            controls fall outside the box, so below sm the iframe's own 16:9 is
-            shown whole. */}
-        <div className="relative mt-6 aspect-video w-full overflow-hidden sm:aspect-[12/5]">
-          <iframe
-            src="https://www.youtube.com/embed/GlFSR2ymLWI"
-            title="Apa Itu Neraca Sumber Daya Laut? | Ocean Accounts | Fisheries Resource Center of Indonesia"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-            loading="lazy"
-            className="absolute inset-x-0 top-1/2 aspect-video w-full -translate-y-1/2 border-0"
-          />
-        </div>
+
+        <Wrap className="mt-[clamp(2rem,4vw,3rem)]">
+          <ul className="m-0 grid list-none grid-cols-2 gap-2 p-0 sm:grid-cols-3 lg:grid-cols-5">
+            {YT_VIDEOS.map((video) => (
+              <li key={video.id}>
+                <a
+                  href={`https://www.youtube.com/watch?v=${video.id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Tonton "${video.title}" di YouTube`}
+                  className="group relative block overflow-hidden rounded-sm"
+                >
+                  {/* Plain <img>, not next/image: the host (img.youtube.com)
+                      isn't in next.config's remote patterns, and adding one
+                      just for this thumbnail isn't worth it. */}
+                  <img
+                    src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                    alt=""
+                    width={480}
+                    height={360}
+                    loading="lazy"
+                    className="block aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 flex items-center justify-center bg-black/25 transition-colors duration-300 group-hover:bg-black/35"
+                  >
+                    <svg viewBox="0 0 24 24" className="size-10 drop-shadow-md">
+                      <circle cx="12" cy="12" r="12" fill="rgba(255,255,255,0.9)" />
+                      <path d="M10 8.5v7l6-3.5z" fill="#0d2a1a" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </Wrap>
       </section>
 
       {/* The section carries an explicit min-height, not the photograph's own

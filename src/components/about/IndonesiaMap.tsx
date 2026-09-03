@@ -89,7 +89,7 @@ const PROVINCE_GROUPS: ProvinceGroup[] = [
   },
   {
     color: 'var(--color-blue-900)',
-    names: ['Banten', 'Jawa Tengah', 'Nusa Tenggara Barat', 'Sulawesi Barat', 'Maluku'],
+    names: ['Banten', 'Jawa Tengah', 'Nusa Tenggara Barat', 'Sulawesi Selatan', 'Maluku'],
   },
 ];
 

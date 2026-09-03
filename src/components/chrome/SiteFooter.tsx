@@ -3,7 +3,7 @@
 import { Brand } from '@/components/chrome/Brand';
 import { AppLink, useLocale } from '@/components/ui/AppLink';
 import { t as dict } from '@/i18n/dictionary';
-import { FOOTER_LEGAL, FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
+import { FOOTER_EXTRA, FOOTER_LEGAL, FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
 
 /* rekam.css:943-992 and :1250-1271.
  *
@@ -41,11 +41,14 @@ function LinkColumn({
   return (
     <nav aria-label={label}>
       <p className="m-0 font-label text-[0.75rem] font-semibold uppercase tracking-[0.2em] opacity-70">{heading}</p>
-      <div className="mt-2 flex gap-x-8">
+      <div className="mt-2 flex flex-wrap gap-x-8 gap-y-4">
         {columns.map((links, i) => (
-          <ul key={i} className="m-0 list-none p-0 leading-[1.8]">
+          <ul className="m-0 list-none p-0 leading-[1.8]" key={i}>
             {links.map((l) => (
-              <li key={l.href}>
+              <li key={l.href} className="flex items-baseline gap-2">
+                <span aria-hidden="true" className="text-[1rem] opacity-70">
+                  &bull;
+                </span>
                 <AppLink href={l.href} className="border-b border-transparent no-underline hover:border-current">
                   {l.label}
                 </AppLink>
@@ -83,7 +86,11 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <LinkColumn heading={T.footer.links} columns={[FOOTER_LINKS, FOOTER_LEGAL]} label={T.footer.channels} />
+        <LinkColumn
+          heading={T.footer.links}
+          columns={[FOOTER_LINKS, FOOTER_LEGAL, FOOTER_EXTRA]}
+          label={T.footer.channels}
+        />
         <LinkColumn heading={T.footer.follow} columns={[FOOTER_SOCIAL]} label={T.footer.social} />
       </div>
     </footer>
