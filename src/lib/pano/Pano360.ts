@@ -429,7 +429,7 @@ export class Pano360 {
     }
 
     const onVideoError = () =>
-      this.useFallback('Video 360° tidak dapat dibaca — menampilkan panorama prosedural.');
+      this.useFallback('');
     video.addEventListener('error', onVideoError, { once: true });
     this.cleanups.push(() => video.removeEventListener('error', onVideoError));
 

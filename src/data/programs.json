@@ -212,16 +212,7 @@
     "hero": {
       "eyebrow": "Program Ocean",
       "title": "The life below, and the lives that depend on it.",
-      "sources": [
-        {
-          "src": "/assets/pano-ocean-hevc.mp4",
-          "type": "video/mp4; codecs=&quot;hvc1&quot;"
-        },
-        {
-          "src": "/assets/pano-ocean.mp4",
-          "type": "video/mp4; codecs=&quot;avc1.640028&quot;"
-        }
-      ]
+      "sources": []
     },
     "overview": {
       "body": [
