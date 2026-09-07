@@ -156,30 +156,27 @@ export default async function InitiativePage() {
 
       <section className="bg-green-700 p-3 sm:p-4">
         <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
+          {/* Display-only imagery, not a link — there is no article behind
+              these captions to send a reader to. */}
           {HIGHLIGHTS.map((h, i) => (
-            <AppLink
-              key={i}
-              href="/berita"
-              className="group relative isolate block aspect-[4/3] overflow-hidden no-underline"
-            >
+            <div key={i} className="relative isolate aspect-[4/3] overflow-hidden">
               <Image
                 src={h.image}
                 alt=""
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                className="object-cover"
               />
               <div
                 aria-hidden="true"
                 className="absolute inset-0 bg-gradient-to-t from-[rgba(6,20,14,0.88)] via-[rgba(6,20,14,0.25)] to-transparent"
               />
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
-                <p className="m-0 max-w-[75%] text-[1.05rem] font-semibold leading-[1.35] text-white">
+              <div className="absolute inset-x-0 bottom-0 p-5">
+                <p className="m-0 max-w-[85%] text-[1.05rem] font-semibold leading-[1.35] text-white">
                   {h.caption}
                 </p>
-                <Icon id="i-arrow" className="size-5 shrink-0 fill-none stroke-current text-white" />
               </div>
-            </AppLink>
+            </div>
           ))}
         </div>
       </section>

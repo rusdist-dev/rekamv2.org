@@ -409,11 +409,6 @@
               "icon": "i-map",
               "value": "2,05 ha",
               "label": "Area rehabilitated"
-            },
-            {
-              "icon": "i-chart",
-              "value": "30–50%",
-              "label": "Survival rate"
             }
           ]
         }

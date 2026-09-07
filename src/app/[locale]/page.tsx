@@ -20,6 +20,7 @@ import { SiteShell } from '@/components/chrome/SiteShell';
 import { Hero360 } from '@/components/hero/Hero360';
 import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
+import { Slider } from '@/components/ui/Slider';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { featuredNews, getNews, listNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
@@ -34,7 +35,7 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
 const STATS = [
   { href: '/program/forest', icon: oiForest, value: '19.000', unit: 'Ha', label: 'Customary Forest Established', when: 'Forest · 2025', tint: 'bg-olive-deep' },
   { href: '/program/urban', icon: oiUrban, value: '512,2', unit: 'Ton', label: 'Total waste collected', when: 'Urban · 2025', tint: 'bg-rust' },
-  { href: '/program/ocean', icon: oiFrci, value: '1,115juta', unit: 'Ha', label: 'Kawasan konservasi perairan', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
+  { href: '/program/ocean', icon: oiFrci, value: '1,115juta', unit: 'Ha', label: 'Marine Protected Area', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
 ] as const;
 
 const CARDS = [
@@ -272,7 +273,7 @@ export default async function Home() {
       )}
 
       <section aria-label="Galeri kegiatan" className="bg-mauve py-[clamp(2rem,4vw,3rem)]">
-        <ul className="m-0 flex list-none gap-4 overflow-x-auto py-0 px-gutter [scrollbar-width:thin]">
+        <Slider trackClassName="px-gutter">
           {galleryPosts.map((post) => {
             const cover = resolveCover(post.cover);
             return (
@@ -299,7 +300,7 @@ export default async function Home() {
               </li>
             );
           })}
-        </ul>
+        </Slider>
       </section>
 
       <section aria-labelledby="ig-title" className="bg-paper py-[clamp(3rem,7vw,6rem)]">

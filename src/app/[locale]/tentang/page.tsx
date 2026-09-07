@@ -13,10 +13,12 @@ import { TeamGrid, TeamProvider } from '@/components/about/Team';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { PageHero } from '@/components/layout/PageHero';
-import { ButtonLink } from '@/components/ui/button';
+import { PdfReadButton } from '@/components/publication/PdfReadButton';
+import { buttonClasses } from '@/components/ui/button-classes';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { ABOUT } from '@/lib/about/types';
+import { IMPACT_REPORT_PDF } from '@/lib/publication';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
   return pageMetadata(await readLocale(params), '/tentang', {
@@ -169,16 +171,14 @@ export default function TentangPage() {
         </section>
 
         {/* Publication: sorotan Impact Report terbaru, menggantikan CTA
-            "Be Part of the Story" yang dipakai halaman lain. Tombolnya
-            mengarah ke /publication karena belum ada berkas PDF nyata untuk
-            ditautkan — ganti hrefnya begitu unduhannya tersedia. */}
+            "Be Part of the Story" yang dipakai halaman lain. */}
         <section className="grid bg-white lg:min-h-[28rem] lg:grid-cols-2">
           <div className="relative order-2 w-full lg:order-1 flex items-center justify-center">
             <Image
               src={impactReport}
               alt="Sampul Impact Report 2025 Rekam Nusantara Foundation"
               sizes="(max-width: 1000px) 100vw, 50vw"
-              className="w-full h-auto max-h-[500px] object-contain"
+              className="w-full h-auto max-h-[500px] object-contain lg:py-10"
             />
           </div>
           <div className="order-1 self-center px-gutter py-[clamp(2.5rem,5vw,4rem)] lg:order-2">
@@ -196,14 +196,18 @@ export default function TentangPage() {
               innovative and sustainable solutions.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <ButtonLink href="/publication" variant="green" className="uppercase">
+              <a href={IMPACT_REPORT_PDF} download className={buttonClasses('green', false, 'uppercase')}>
                 Download
                 <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
-              </ButtonLink>
-              <ButtonLink href="/publication" variant="ghostGreen" className="uppercase">
+              </a>
+              <PdfReadButton
+                href={IMPACT_REPORT_PDF}
+                title="Impact Report 2025"
+                className={buttonClasses('ghostGreen', false, 'uppercase')}
+              >
                 Read online
                 <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
-              </ButtonLink>
+              </PdfReadButton>
             </div>
           </div>
         </section>
