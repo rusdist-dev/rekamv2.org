@@ -1,35 +1,73 @@
 [
   {
     "slug": "cerita-laut-nusantara",
-    "title": "Cerita Laut Nusantara",
-    "lede": "Diskusi dan pemutaran film tentang masa depan laut Indonesia, bersama generasi muda yang akan menjaganya.",
+    "title": { "id": "Cerita Laut Nusantara", "en": "Cerita Laut Nusantara" },
+    "lede": {
+      "id": "Diskusi dan pemutaran film tentang masa depan laut Indonesia, bersama generasi muda yang akan menjaganya.",
+      "en": "Discussions and film screenings on the future of Indonesia's seas, with the young generation who will safeguard them."
+    },
     "cover": "berita/cerita-laut-dan-masa-depannya-mendorong-peran-generasi-muda-dalam-menjaga-masa-depan-laut-indonesia.jpg",
-    "coverAlt": "",
+    "coverAlt": { "id": "", "en": "" },
     "facts": [
-      { "label": "Tanggal", "value": "Menyusul" },
-      { "label": "Lokasi", "value": "Menyusul" },
-      { "label": "Biaya", "value": "Gratis" },
-      { "label": "Kuota", "value": "Terbatas" }
+      { "label": { "id": "Tanggal", "en": "Date" }, "value": { "id": "Menyusul", "en": "To be announced" } },
+      { "label": { "id": "Lokasi", "en": "Location" }, "value": { "id": "Menyusul", "en": "To be announced" } },
+      { "label": { "id": "Biaya", "en": "Cost" }, "value": { "id": "Gratis", "en": "Free" } },
+      { "label": { "id": "Kuota", "en": "Quota" }, "value": { "id": "Terbatas", "en": "Limited" } }
     ],
     "about": {
-      "eyebrow": "Tentang acara",
-      "title": "Laut yang diceritakan ulang",
+      "eyebrow": { "id": "Tentang acara", "en": "About the event" },
+      "title": { "id": "Laut yang diceritakan ulang", "en": "The sea, retold" },
       "body": [
-        "Laut Indonesia menyimpan data yang belum banyak dibaca publik: stok perikanan, kondisi terumbu, dan kawasan konservasi yang terus berubah. Cerita Laut Nusantara mengambil temuan-temuan itu dan mengembalikannya dalam bentuk yang bisa dinikmati — film, percakapan, dan lokakarya.",
-        "Rangkaian ini dirancang untuk pelajar dan mahasiswa, komunitas pesisir, serta siapa pun yang ingin memahami mengapa neraca sumber daya laut penting bagi keputusan sehari-hari."
+        {
+          "id": "Laut Indonesia menyimpan data yang belum banyak dibaca publik: stok perikanan, kondisi terumbu, dan kawasan konservasi yang terus berubah. Cerita Laut Nusantara mengambil temuan-temuan itu dan mengembalikannya dalam bentuk yang bisa dinikmati — film, percakapan, dan lokakarya.",
+          "en": "Indonesia's seas hold data the public rarely gets to read: fish stocks, reef condition, and conservation areas that keep changing. Cerita Laut Nusantara takes those findings and returns them in a form people can actually engage with — film, conversation, and workshops."
+        },
+        {
+          "id": "Rangkaian ini dirancang untuk pelajar dan mahasiswa, komunitas pesisir, serta siapa pun yang ingin memahami mengapa neraca sumber daya laut penting bagi keputusan sehari-hari.",
+          "en": "The series is designed for students, coastal communities, and anyone who wants to understand why an ocean resource balance sheet matters for everyday decisions."
+        }
       ]
     },
     "agenda": [
-      { "time": "08.30", "title": "Registrasi", "detail": "Peserta masuk dan mengambil materi." },
-      { "time": "09.00", "title": "Pemutaran film", "detail": "Dokumenter pendek tentang perikanan skala kecil." },
-      { "time": "10.15", "title": "Diskusi panel", "detail": "Membaca neraca sumber daya laut bersama tim program Ocean." },
-      { "time": "11.30", "title": "Lokakarya data", "detail": "Latihan membaca data tangkapan dari aplikasi IKAN." },
-      { "time": "13.00", "title": "Penutup", "detail": "Rencana tindak lanjut dan jejaring peserta." }
+      {
+        "time": "08.30",
+        "title": { "id": "Registrasi", "en": "Registration" },
+        "detail": { "id": "Peserta masuk dan mengambil materi.", "en": "Attendees check in and collect materials." }
+      },
+      {
+        "time": "09.00",
+        "title": { "id": "Pemutaran film", "en": "Film screening" },
+        "detail": { "id": "Dokumenter pendek tentang perikanan skala kecil.", "en": "Short documentary on small-scale fisheries." }
+      },
+      {
+        "time": "10.15",
+        "title": { "id": "Diskusi panel", "en": "Panel discussion" },
+        "detail": { "id": "Membaca neraca sumber daya laut bersama tim program Ocean.", "en": "Reading the ocean resource balance sheet with the Ocean programme team." }
+      },
+      {
+        "time": "11.30",
+        "title": { "id": "Lokakarya data", "en": "Data workshop" },
+        "detail": { "id": "Latihan membaca data tangkapan dari aplikasi IKAN.", "en": "Practice reading catch data from the IKAN app." }
+      },
+      {
+        "time": "13.00",
+        "title": { "id": "Penutup", "en": "Closing" },
+        "detail": { "id": "Rencana tindak lanjut dan jejaring peserta.", "en": "Follow-up plans and networking among participants." }
+      }
     ],
     "gains": [
-      "Cara membaca data perikanan tanpa latar belakang statistik",
-      "Akses ke publikasi dan materi lokakarya",
-      "Jejaring dengan komunitas dan peneliti kelautan"
+      {
+        "id": "Cara membaca data perikanan tanpa latar belakang statistik",
+        "en": "How to read fisheries data with no statistics background"
+      },
+      {
+        "id": "Akses ke publikasi dan materi lokakarya",
+        "en": "Access to publications and workshop materials"
+      },
+      {
+        "id": "Jejaring dengan komunitas dan peneliti kelautan",
+        "en": "Networking with marine communities and researchers"
+      }
     ],
     "documentation": [
       "cerita-laut-dan-masa-depannya-mendorong-peran-generasi-muda-dalam-menjaga-masa-depan-laut-indonesia",
@@ -37,9 +75,15 @@
       "dari-perairan-lokal-ke-dialog-global-indonesia-di-sharks-international-2026"
     ],
     "cta": {
-      "title": "Ikut serta di Cerita Laut Nusantara",
-      "lede": "Pendaftaran dibuka mendekati tanggal acara. Tinggalkan minat Anda dan kami kabari lebih dulu.",
-      "note": "Formulir pendaftaran belum tersambung — hubungkan ke sistem pendaftaran acara sebelum dipublikasikan."
+      "title": { "id": "Ikut serta di Cerita Laut Nusantara", "en": "Join Cerita Laut Nusantara" },
+      "lede": {
+        "id": "Pendaftaran dibuka mendekati tanggal acara. Tinggalkan minat Anda dan kami kabari lebih dulu.",
+        "en": "Registration opens closer to the event date. Leave your interest and we'll let you know first."
+      },
+      "note": {
+        "id": "Formulir pendaftaran belum tersambung — hubungkan ke sistem pendaftaran acara sebelum dipublikasikan.",
+        "en": "The registration form isn't connected yet — wire it to an event registration system before this goes live."
+      }
     }
   }
 ]

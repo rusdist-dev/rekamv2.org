@@ -4,6 +4,8 @@ import { useMemo, useState } from 'react';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { AppLink } from '@/components/ui/AppLink';
 import { Chip, Wrap } from '@/components/ui/primitives';
+import type { Locale } from '@/i18n/config';
+import { merchContent, type MerchContent } from '@/i18n/content/merch';
 import type { IconId } from '@/icons';
 import { cn } from '@/lib/cn';
 import { rupiah } from '@/lib/shop/config';
@@ -22,12 +24,22 @@ const ART: Record<string, string> = {
   i: 'bg-cream', j: 'bg-sage-deep', k: 'bg-band', l: 'bg-mauve',
 };
 
-function Qty({ value, onChange, label }: { value: number; onChange: (n: number) => void; label: string }) {
+function Qty({
+  value,
+  onChange,
+  label,
+  copy,
+}: {
+  value: number;
+  onChange: (n: number) => void;
+  label: string;
+  copy: MerchContent['shop'];
+}) {
   return (
     <div role="group" aria-label={label} className="flex items-center rounded-full border border-green-ink/25">
       <button
         type="button"
-        aria-label="Kurangi jumlah"
+        aria-label={copy.qtyDecrease}
         onClick={() => onChange(Math.max(1, value - 1))}
         className="grid size-9 place-items-center rounded-full text-green-900 hover:bg-green-ink/8"
       >
@@ -39,7 +51,7 @@ function Qty({ value, onChange, label }: { value: number; onChange: (n: number) 
         max={MAX_QTY}
         step={1}
         value={value}
-        aria-label="Jumlah"
+        aria-label={copy.qtyInput}
         onChange={(e) => {
           const n = Number(e.target.value);
           onChange(Number.isFinite(n) ? Math.min(Math.max(Math.floor(n), 1), MAX_QTY) : 1);
@@ -48,7 +60,7 @@ function Qty({ value, onChange, label }: { value: number; onChange: (n: number) 
       />
       <button
         type="button"
-        aria-label="Tambah jumlah"
+        aria-label={copy.qtyIncrease}
         onClick={() => onChange(Math.min(MAX_QTY, value + 1))}
         className="grid size-9 place-items-center rounded-full text-green-900 hover:bg-green-ink/8"
       >
@@ -58,7 +70,7 @@ function Qty({ value, onChange, label }: { value: number; onChange: (n: number) 
   );
 }
 
-function ProductCard({ product }: { product: Product }) {
+function ProductCard({ product, copy }: { product: Product; copy: MerchContent['shop'] }) {
   const { add } = useCart();
   const [option, setOption] = useState(product.option?.selected ?? undefined);
   const [qty, setQty] = useState(1);
@@ -97,20 +109,20 @@ function ProductCard({ product }: { product: Product }) {
         )}
 
         <div className="mt-auto flex flex-wrap items-center gap-3 pt-5">
-          <Qty value={qty} onChange={setQty} label={`Jumlah ${product.name}`} />
+          <Qty value={qty} onChange={setQty} label={copy.qtyLabelFor(product.name)} copy={copy} />
           {/* The visible label repeats twelve times, so the accessible name
               says which product — and distinguishes it from the stepper's
               "Tambah jumlah" sitting right beside it. */}
           <button
             type="button"
-            aria-label={`Tambah ${product.name} ke keranjang`}
+            aria-label={copy.addAriaLabel(product.name)}
             onClick={() => {
               add(product.id, option, qty);
               setQty(1);
             }}
             className="min-h-[2.6rem] flex-1 cursor-pointer rounded-full border-0 bg-green-700 px-5 text-[0.9rem] font-bold text-white transition-colors duration-200 hover:bg-green-800"
           >
-            Tambah
+            {copy.add}
           </button>
         </div>
       </div>
@@ -118,7 +130,7 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
-function CartBar() {
+function CartBar({ copy }: { copy: MerchContent['shop'] }) {
   const { resolved, count, subtotal, hydrated, setQty, remove } = useCart();
   const [open, setOpen] = useState(false);
 
@@ -146,7 +158,8 @@ function CartBar() {
                 <Qty
                   value={l.qty}
                   onChange={(n) => setQty(l.productId, l.option, n)}
-                  label={`Jumlah ${l.product.name}`}
+                  label={copy.qtyLabelFor(l.product.name)}
+                  copy={copy}
                 />
                 <span className="w-28 text-right text-[0.92rem] font-bold text-green-900">
                   {rupiah(l.subtotal)}
@@ -154,7 +167,7 @@ function CartBar() {
                 <button
                   type="button"
                   onClick={() => remove(l.productId, l.option)}
-                  aria-label={`Hapus ${l.product.name}`}
+                  aria-label={copy.removeAriaLabel(l.product.name)}
                   className="cursor-pointer border-0 bg-transparent px-2 text-ink-soft hover:text-rust"
                 >
                   &times;
@@ -176,7 +189,7 @@ function CartBar() {
           <span className="grid size-7 place-items-center rounded-full bg-green-700 text-[0.78rem] font-bold text-white">
             {count}
           </span>
-          <span className="text-[0.92rem] font-semibold text-green-900">Keranjang</span>
+          <span className="text-[0.92rem] font-semibold text-green-900">{copy.cart}</span>
           <span className="text-[0.92rem] font-bold text-green-900">{rupiah(subtotal)}</span>
           <svg viewBox="0 0 24 24" aria-hidden="true" className={cn('size-4 transition-transform', open && 'rotate-180')}>
             <path d="M6 15 L12 9 L18 15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -186,14 +199,15 @@ function CartBar() {
           href="/checkout"
           className="min-h-[2.6rem] rounded-full bg-green-700 px-6 text-[0.9rem] font-bold leading-[2.6rem] text-white no-underline transition-colors duration-200 hover:bg-green-800"
         >
-          Lanjut ke pembayaran
+          {copy.checkout}
         </AppLink>
       </Wrap>
     </div>
   );
 }
 
-export function Shop() {
+export function Shop({ locale }: { locale: Locale }) {
+  const copy = merchContent(locale).shop;
   const [filter, setFilter] = useState('all');
   const { announcement } = useCart();
 
@@ -211,25 +225,26 @@ export function Shop() {
               {c.label}
             </Chip>
           ))}
-          <p className="m-0 ml-auto text-[0.82rem] text-ink-soft">
-            {shown.length} dari {catalogue.products.length} produk
-          </p>
+          <p className="m-0 ml-auto text-[0.82rem] text-ink-soft">{copy.countOf(shown.length, catalogue.products.length)}</p>
         </div>
 
         <div className="mt-[clamp(1.5rem,3vw,2.5rem)] grid gap-[clamp(1.25rem,2.5vw,2rem)] sm:grid-cols-2 lg:grid-cols-3">
           {shown.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard key={p.id} product={p} copy={copy} />
           ))}
         </div>
       </Wrap>
 
       {/* The source kept a live region for cart changes; keeping it means a
-          screen reader hears "added to cart" instead of nothing happening. */}
+          screen reader hears "added to cart" instead of nothing happening.
+          The announcement text itself comes from cart.tsx, which is shared
+          with /checkout (localized separately) and is left in Indonesian
+          for now. */}
       <p aria-live="polite" className="sr-only">
         {announcement}
       </p>
 
-      <CartBar />
+      <CartBar copy={copy} />
     </>
   );
 }

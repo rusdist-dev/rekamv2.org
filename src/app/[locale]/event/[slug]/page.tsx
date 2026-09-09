@@ -7,6 +7,7 @@ import { PostGrid } from '@/components/news/PostCard';
 import { ButtonLink } from '@/components/ui/button';
 import { NumberCard, NumberGrid } from '@/components/ui/NumberCard';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
+import { eventContent } from '@/i18n/content/event';
 import { pageMetadata, readLocale } from '@/i18n/metadata';
 import { eventDocumentation, getEvent, listEvents } from '@/lib/content';
 
@@ -25,18 +26,25 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const event = await getEvent(slug);
+  const locale = await readLocale(params);
+  const event = await getEvent(slug, locale);
   if (!event) return {};
 
-  return pageMetadata(await readLocale(params), `/event/${event.slug}`, {
+  return pageMetadata(locale, `/event/${event.slug}`, {
     title: event.title,
     description: event.lede,
   });
 }
 
-export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function EventPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
   const { slug } = await params;
-  const event = await getEvent(slug);
+  const locale = await readLocale(params);
+  const copy = eventContent(locale);
+  const event = await getEvent(slug, locale);
   if (!event) notFound();
 
   const docs = await eventDocumentation(event.documentation);
@@ -71,9 +79,9 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
           )}
 
           <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
-            <ButtonLink href="#daftar">Daftar sekarang</ButtonLink>
+            <ButtonLink href="#daftar">{copy.detail.registerNow}</ButtonLink>
             <ButtonLink href="#tentang-event" variant="ghostLight">
-              Tentang acara
+              {copy.detail.aboutEvent}
             </ButtonLink>
           </div>
         </Wrap>
@@ -108,7 +116,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
         <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
             <Eyebrow>Rundown</Eyebrow>
-            <Display className="mt-4 mb-10 text-display">Susunan acara</Display>
+            <Display className="mt-4 mb-10 text-display">{copy.detail.rundown.heading}</Display>
             <ol className="m-0 list-none p-0">
               {event.agenda.map((row, i) => (
                 <li
@@ -132,8 +140,8 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       {event.gains.length > 0 && (
         <section className="bg-cream py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Yang Anda dapatkan</Eyebrow>
-            <Display className="mt-4 mb-10 text-display">Tiga hal yang dibawa pulang</Display>
+            <Eyebrow>{copy.detail.gains.eyebrow}</Eyebrow>
+            <Display className="mt-4 mb-10 text-display">{copy.detail.gains.heading}</Display>
             <NumberGrid>
               {event.gains.map((g, i) => (
                 <NumberCard key={g} index={i} value={String(i + 1).padStart(2, '0')} label={g} />
@@ -146,9 +154,9 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       {docs.length > 0 && (
         <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Dokumentasi</Eyebrow>
+            <Eyebrow>{copy.detail.documentation.eyebrow}</Eyebrow>
             <Display className="mt-4 mb-[clamp(1.5rem,3vw,2.5rem)] text-display">
-              Dari rangkaian sebelumnya
+              {copy.detail.documentation.heading}
             </Display>
             <PostGrid posts={docs} showExcerpt={false} />
           </Wrap>
@@ -166,9 +174,9 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
               </p>
             )}
             <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
-              <ButtonLink href="/donasi">Dukung acara ini</ButtonLink>
+              <ButtonLink href="/donasi">{copy.detail.cta.support}</ButtonLink>
               <ButtonLink href="/#kontak" variant="ghostGreen">
-                Hubungi kami
+                {copy.detail.cta.contact}
               </ButtonLink>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import events from '@/data/events.json';
+import type { Locale } from '@/i18n/config';
 
 /* The nav, as data. This is what makes one drift structurally impossible:
  * index.html shipped English labels (Who We Are / Field Notes / Whats On /
@@ -18,7 +19,12 @@ export type NavKey = 'forest' | 'urban' | 'ocean' | 'tentang' | 'berita' | 'even
 export type NavItem = {
   key: NavKey;
   href: string;
-  children?: { label: string; href: string }[];
+  /* `label` is per-locale because it comes straight off events.json's
+     bilingual `title` field (src/lib/content/schema.ts's `localized` shape) —
+     this array is built once at module load, not per-request, so it can't
+     just pick a language here. SiteHeader resolves `label[locale]` at
+     render time via useLocale(). */
+  children?: { label: Record<Locale, string>; href: string }[];
 };
 
 /** Left of the rail, beside the mark. Also the hero-state pill shortcuts. */
@@ -48,33 +54,45 @@ export const EXPLORE: NavItem[] = [
      directly; they're just no longer in the header or its mobile drawer. */
 ];
 
+/** Every footer link's label, per locale. FOOTER_LINKS and FOOTER_SOCIAL
+ *  carry proper names (sister sites, social platforms) so id and en repeat
+ *  the same string; FOOTER_LEGAL and FOOTER_EXTRA are real UI copy. Kept as
+ *  one shape across all four arrays — rather than plain strings for the
+ *  untranslated ones — so SiteFooter's LinkColumn has a single way to read a
+ *  label regardless of which column it's rendering. */
+type FooterLink = { href: string; label: Record<Locale, string> };
+
 /** Footer, from the block that was byte-identical across all eleven pages. */
-export const FOOTER_LINKS = [
-  { href: 'https://rangkong.org', label: 'rangkong.org' },
-  { href: 'https://inaturefilms.org', label: 'inaturefilms.org' },
-  { href: 'https://perikanan.org', label: 'perikanan.org' },
-  { href: 'https://rekamdiveacademy.id', label: 'rekamdiveacademy.id' },
+export const FOOTER_LINKS: FooterLink[] = [
+  { href: 'https://rangkong.org', label: { id: 'rangkong.org', en: 'rangkong.org' } },
+  { href: 'https://inaturefilms.org', label: { id: 'inaturefilms.org', en: 'inaturefilms.org' } },
+  { href: 'https://perikanan.org', label: { id: 'perikanan.org', en: 'perikanan.org' } },
+  { href: 'https://rekamdiveacademy.id', label: { id: 'rekamdiveacademy.id', en: 'rekamdiveacademy.id' } },
 ];
 
 /** Second, unlabelled column sitting beside FOOTER_LINKS under the same
  *  "Links" heading — site policy pages rather than sister projects. */
-export const FOOTER_LEGAL = [
-  { href: '/faq', label: 'FAQ' },
-  { href: '/brand-guideline', label: 'Brand Guideline' },
-  { href: '/privacy-policy', label: 'Privacy Policy' },
-  { href: '/terms-of-service', label: 'Term Of Service' },
+export const FOOTER_LEGAL: FooterLink[] = [
+  { href: '/faq', label: { id: 'FAQ', en: 'FAQ' } },
+  { href: '/brand-guideline', label: { id: 'Panduan Merek', en: 'Brand Guideline' } },
+  { href: '/privacy-policy', label: { id: 'Kebijakan Privasi', en: 'Privacy Policy' } },
+  { href: '/terms-of-service', label: { id: 'Syarat & Ketentuan', en: 'Term Of Service' } },
 ];
 
 /** Third, unlabelled column sitting beside FOOTER_LEGAL under the same
- *  "Links" heading. */
-export const FOOTER_EXTRA = [
-  { href: '/safeguarding', label: 'Safeguarding' },
-  { href: '/publication', label: 'Publication' },
+ *  "Links" heading. "Safeguarding" stays English in both locales on
+ *  purpose — see the standing note on that term's spelling. */
+export const FOOTER_EXTRA: FooterLink[] = [
+  { href: '/safeguarding', label: { id: 'Safeguarding', en: 'Safeguarding' } },
+  { href: '/publication', label: { id: 'Publikasi', en: 'Publication' } },
 ];
 
-export const FOOTER_SOCIAL = [
-  { href: 'https://www.instagram.com/rekamnusantara/', label: 'Instagram' },
-  { href: 'https://www.facebook.com/RekamNusantara', label: 'Facebook' },
-  { href: 'https://www.youtube.com/channel/UCTDq1RHGEF4p_gxLOJtOIuA', label: 'YouTube' },
-  { href: 'https://www.linkedin.com/company/rekamnusantarafoundation/', label: 'LinkedIn' },
+export const FOOTER_SOCIAL: FooterLink[] = [
+  { href: 'https://www.instagram.com/rekamnusantara/', label: { id: 'Instagram', en: 'Instagram' } },
+  { href: 'https://www.facebook.com/RekamNusantara', label: { id: 'Facebook', en: 'Facebook' } },
+  { href: 'https://www.youtube.com/channel/UCTDq1RHGEF4p_gxLOJtOIuA', label: { id: 'YouTube', en: 'YouTube' } },
+  {
+    href: 'https://www.linkedin.com/company/rekamnusantarafoundation/',
+    label: { id: 'LinkedIn', en: 'LinkedIn' },
+  },
 ];

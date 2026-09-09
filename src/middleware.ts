@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { DEFAULT_LOCALE, LOCALES } from '@/i18n/config';
+import { DEFAULT_LOCALE, LOCALE_COOKIE, LOCALES } from '@/i18n/config';
 
 /* Keeps Indonesian unprefixed.
  *
@@ -15,12 +15,16 @@ import { DEFAULT_LOCALE, LOCALES } from '@/i18n/config';
 
 const PREFIXED = LOCALES.filter((l) => l !== DEFAULT_LOCALE);
 
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Already carries a non-default locale: nothing to do.
   if (PREFIXED.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))) {
-    return NextResponse.next();
+    const res = NextResponse.next();
+    res.cookies.set(LOCALE_COOKIE, 'en', { path: '/', maxAge: COOKIE_MAX_AGE });
+    return res;
   }
 
   /* Belt and braces against the address bar ever showing the default prefix.
@@ -32,9 +36,26 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
+  /* English is what a first-time — or last-known-English — visitor gets at the
+     front door. This only touches the exact root: a shared or search-indexed
+     deep link like /berita must keep answering in Indonesian no matter whose
+     cookie is attached, or the whole reason these URLs stay unprefixed (see
+     top of file) is defeated. Once someone has deliberately switched to
+     Indonesian — which lands them back on this same "/" — the cookie set at
+     the bottom of this function is what keeps the redirect from firing again. */
+  if (pathname === '/' && request.cookies.get(LOCALE_COOKIE)?.value !== DEFAULT_LOCALE) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/en';
+    const res = NextResponse.redirect(url, 307);
+    res.cookies.set(LOCALE_COOKIE, 'en', { path: '/', maxAge: COOKIE_MAX_AGE });
+    return res;
+  }
+
   const url = request.nextUrl.clone();
   url.pathname = `/${DEFAULT_LOCALE}${pathname === '/' ? '' : pathname}`;
-  return NextResponse.rewrite(url);
+  const res = NextResponse.rewrite(url);
+  res.cookies.set(LOCALE_COOKIE, DEFAULT_LOCALE, { path: '/', maxAge: COOKIE_MAX_AGE });
+  return res;
 }
 
 export const config = {

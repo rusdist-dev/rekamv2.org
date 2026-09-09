@@ -4,8 +4,10 @@ import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { PORTRAITS } from '@/assets/team/portraits';
+import type { Locale } from '@/i18n/config';
+import { ourStoryContent } from '@/i18n/content/our-story';
 import { cn } from '@/lib/cn';
-import { ABOUT, type TeamMember } from '@/lib/about/types';
+import { ABOUT, pick, pickList, type TeamMember } from '@/lib/about/types';
 
 /* The team grid and its bio dialog.
  *
@@ -70,8 +72,9 @@ function Portrait({ person, className }: { person: Person; className?: string })
   );
 }
 
-export function TeamProvider({ children }: { children: React.ReactNode }) {
+export function TeamProvider({ children, locale }: { children: React.ReactNode; locale: Locale }) {
   const people = ABOUT.team;
+  const copy = ourStoryContent(locale).org;
   const [openId, setOpenId] = useState<string | null>(null);
 
   const index = openId ? people.findIndex((p) => p.id === openId) : -1;
@@ -119,7 +122,7 @@ export function TeamProvider({ children }: { children: React.ReactNode }) {
 
                 <div className="max-h-[88vh] overflow-y-auto p-[clamp(1.5rem,3vw,2.5rem)]">
                   <p className="m-0 font-label text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
-                    {person.role}
+                    {pick(person.role, locale)}
                   </p>
                   {/* The visible name IS the dialog's accessible name. A
                       separate sr-only Dialog.Title would give the panel two
@@ -129,27 +132,27 @@ export function TeamProvider({ children }: { children: React.ReactNode }) {
                   </Dialog.Title>
 
                   <div className="mt-5">
-                    {person.bio.map((p) => (
+                    {pickList(person.bio, locale).map((p) => (
                       <p key={p.slice(0, 40)} className="mt-0 mb-4 text-[0.95rem] leading-[1.75] text-ink-soft">
                         {p}
                       </p>
                     ))}
                   </div>
 
-                  <nav aria-label="Pindah profil" className="mt-6 flex items-center gap-3 border-t border-green-ink/12 pt-4">
+                  <nav aria-label={copy.switchProfileNav} className="mt-6 flex items-center gap-3 border-t border-green-ink/12 pt-4">
                     <button
                       type="button"
                       onClick={() => step(-1)}
                       className="cursor-pointer rounded-full border border-green-ink/25 px-4 py-2 text-[0.82rem] text-green-900 hover:border-green-700"
                     >
-                      ← Sebelumnya
+                      ← {copy.previous}
                     </button>
                     <button
                       type="button"
                       onClick={() => step(1)}
                       className="cursor-pointer rounded-full border border-green-ink/25 px-4 py-2 text-[0.82rem] text-green-900 hover:border-green-700"
                     >
-                      Berikutnya →
+                      {copy.next} →
                     </button>
                     <span aria-hidden="true" className="ml-auto text-[0.8rem] text-ink-soft">
                       {index + 1} / {people.length}
@@ -158,7 +161,7 @@ export function TeamProvider({ children }: { children: React.ReactNode }) {
                 </div>
 
                 <Dialog.Close
-                  aria-label="Tutup profil"
+                  aria-label={copy.closeProfile}
                   className="absolute right-3 top-3 grid size-9 cursor-pointer place-items-center rounded-full border-0 bg-paper/80 text-[1.3rem] text-green-900 hover:bg-paper"
                 >
                   ×
@@ -172,9 +175,10 @@ export function TeamProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function TeamGrid() {
+export function TeamGrid({ locale }: { locale: Locale }) {
   const people = ABOUT.team;
   const { open } = useTeam();
+  const copy = ourStoryContent(locale).team;
 
   return (
     <ul className="m-0 grid list-none grid-cols-2 gap-[clamp(1rem,2vw,1.75rem)] p-0 md:grid-cols-3 lg:grid-cols-4">
@@ -187,18 +191,18 @@ export function TeamGrid() {
             <h3 className="mt-3 mb-0 font-display text-title-sm leading-[1.25] text-green-900">
               {person.name}
             </h3>
-            <p className="mt-1 mb-0 text-[0.82rem] leading-[1.45] text-ink-soft">{person.role}</p>
+            <p className="mt-1 mb-0 text-[0.82rem] leading-[1.45] text-ink-soft">{pick(person.role, locale)}</p>
 
-            {person.bio.length > 0 && (
+            {person.bio[locale].length > 0 && (
               <button
                 type="button"
                 // The visible label repeats eighteen times; the accessible name
                 // says whose profile it opens.
-                aria-label={`Baca profil ${person.name}`}
+                aria-label={copy.readProfileAria(person.name)}
                 onClick={() => open(person.id)}
                 className="mt-2 cursor-pointer border-0 bg-transparent p-0 text-[0.82rem] font-semibold text-green-900 underline underline-offset-4"
               >
-                Baca profil
+                {copy.readProfile}
               </button>
             )}
           </article>

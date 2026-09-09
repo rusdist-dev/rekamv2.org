@@ -3,6 +3,8 @@
 import * as Tabs from '@radix-ui/react-tabs';
 import { useState } from 'react';
 import { AppLink } from '@/components/ui/AppLink';
+import type { Locale } from '@/i18n/config';
+import { ourStoryContent, type OurStoryContent } from '@/i18n/content/our-story';
 import { cn } from '@/lib/cn';
 
 /* Strategic thinking.
@@ -13,77 +15,90 @@ import { cn } from '@/lib/cn';
  *
  * The tablist itself was hand-rolled — roving tabindex, arrow keys, Home and
  * End, aria-selected kept in sync by hand. Radix Tabs supplies all of that,
- * so what is left here is the wiring between the selected tab and the diagram. */
+ * so what is left here is the wiring between the selected tab and the diagram.
+ *
+ * The short ALL-CAPS ring labels inside the SVG (CONSERVATION OUTCOMES,
+ * NETWORKING · COLLABORATION, SCIENCE / TECH & ART / MEDIA & COMMS, …) are
+ * deliberately left in English in both locales: each is set along a <textPath>
+ * arc whose length was tuned for that exact string, and an Indonesian
+ * translation would very likely overflow or wrap unpredictably along the
+ * curve. The real, localized content is the intro paragraphs, the tab labels,
+ * and the tab body copy below — plus the <title>/<desc> a11y text, which has
+ * no such geometry constraint and is fully translated. */
 
 type Step = 'strategies' | 'strengths' | 'actions' | 'outcomes';
 
-const STEPS: { id: Step; n: number; label: string; body: React.ReactNode }[] = [
-  {
-    id: 'strengths',
-    n: 1,
-    label: 'Core strengths',
-    body: (
-      <>
-        <strong>Science, technology, arts, media, and communications.</strong> Centre of the
-        diagram — the core strengths used to read issues as well as communicate them, underpinned
-        by the strategies in the outer rings.
-      </>
-    ),
-  },
-  {
-    id: 'actions',
-    n: 2,
-    label: 'Actions',
-    body: (
-      <>
-        <strong>Conservation at sites and policy.</strong> Middle ring — conservation initiatives
-        in ecologically and economically important locations, carried out alongside policy-making
-        and reform in the management of natural resources.
-      </>
-    ),
-  },
-  {
-    id: 'strategies',
-    n: 3,
-    label: 'Key strategies',
-    body: (
-      <>
-        <strong>Networking, collaboration, and capacity building.</strong> Outer ring — the three
-        key strategies underpinning all of REKAM&rsquo;s work since 2013, and the reason its
-        programmes can run alongside government and partners.
-      </>
-    ),
-  },
-  {
-    id: 'outcomes',
-    n: 4,
-    label: 'Outcomes',
-    body: (
-      <>
-        <strong>Conservation outcomes and socio-economic impacts.</strong> Outermost ring — the
-        results underpinned by the three layers within it, reported per programme:{' '}
-        <AppLink href="/program/forest" className="underline underline-offset-4">
-          Forest
-        </AppLink>
-        ,{' '}
-        <AppLink href="/program/urban" className="underline underline-offset-4">
-          Urban
-        </AppLink>
-        , and{' '}
-        <AppLink href="/program/ocean" className="underline underline-offset-4">
-          Ocean
-        </AppLink>
-        .
-      </>
-    ),
-  },
-];
+/* Every step's body is `<strong>{lead}</strong> {rest}`, built from the
+ * localized copy — except "outcomes", whose sentence ends with three inline
+ * links out to the programme pages. Those three link labels ("Forest",
+ * "Urban", "Ocean") are the same short English category names used in the
+ * nav (FOREST / URBAN / OCEAN) and are kept unchanged across locale so a
+ * reader can recognise them; only the connecting word before "Ocean" is
+ * localized (`strategy.and`). */
+function buildSteps(strategy: OurStoryContent['strategy']): { id: Step; n: number; label: string; body: React.ReactNode }[] {
+  return [
+    {
+      id: 'strengths',
+      n: 1,
+      label: strategy.steps.strengths.label,
+      body: (
+        <>
+          <strong>{strategy.steps.strengths.lead}</strong> {strategy.steps.strengths.rest}
+        </>
+      ),
+    },
+    {
+      id: 'actions',
+      n: 2,
+      label: strategy.steps.actions.label,
+      body: (
+        <>
+          <strong>{strategy.steps.actions.lead}</strong> {strategy.steps.actions.rest}
+        </>
+      ),
+    },
+    {
+      id: 'strategies',
+      n: 3,
+      label: strategy.steps.strategies.label,
+      body: (
+        <>
+          <strong>{strategy.steps.strategies.lead}</strong> {strategy.steps.strategies.rest}
+        </>
+      ),
+    },
+    {
+      id: 'outcomes',
+      n: 4,
+      label: strategy.steps.outcomes.label,
+      body: (
+        <>
+          <strong>{strategy.steps.outcomes.lead}</strong> {strategy.steps.outcomes.rest}{' '}
+          <AppLink href="/program/forest" className="underline underline-offset-4">
+            Forest
+          </AppLink>
+          ,{' '}
+          <AppLink href="/program/urban" className="underline underline-offset-4">
+            Urban
+          </AppLink>
+          , {strategy.and}{' '}
+          <AppLink href="/program/ocean" className="underline underline-offset-4">
+            Ocean
+          </AppLink>
+          .
+        </>
+      ),
+    },
+  ];
+}
 
 /** Dim every layer except the selected one. */
 const layer = (active: boolean) =>
   cn('transition-opacity duration-300', active ? 'opacity-100' : 'opacity-15');
 
-export function Strategy() {
+export function Strategy({ locale }: { locale: Locale }) {
+  const copy = ourStoryContent(locale).strategy;
+  const STEPS = buildSteps(copy);
   const [step, setStep] = useState<Step>('strengths');
 
   return (
@@ -91,15 +106,10 @@ export function Strategy() {
       <div className="grid items-center gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-2">
         <div>
           <p className="m-0 font-display text-[clamp(1.35rem,2.6vw,2rem)] leading-[1.4] text-green-900">
-            Since our founding in 2013, we have utilized key strategies of networking,
-            collaboration and capacity building to underpin our core strengths of science,
-            technology, arts, media and communications.
+            {copy.intro[0]}
           </p>
           <p className="mt-6 mb-0 text-lede leading-[1.75] text-ink-soft">
-            This has enabled us to take action, such as developing conservation initiatives in
-            ecologically and economically important locations, as well as formulating policies and
-            spearheading reforms in the management of Indonesia natural resources — all leading to
-            tangible conservation outcomes and socio-economic impacts.
+            {copy.intro[1]}
           </p>
         </div>
 
@@ -110,13 +120,8 @@ export function Strategy() {
               -20 -20 340 340 just puts 170 units between the centre and each
               edge, which is the room the fourth band needs. */}
           <svg viewBox="-20 -20 340 340" role="img" aria-labelledby="sthink-title sthink-desc" className="w-full">
-            <title id="sthink-title">Diagram pemikiran strategis REKAM</title>
-            <desc id="sthink-desc">
-              Empat lapisan melingkar, dari pusat ke luar — sains, teknologi, seni, media dan
-              komunikasi di pusat; konservasi di tapak dan kebijakan di lingkar tengah; jejaring,
-              kolaborasi dan penguatan kapasitas di lingkar luar; capaian konservasi dan dampak
-              sosial-ekonomi di lingkar terluar.
-            </desc>
+            <title id="sthink-title">{copy.diagramTitle}</title>
+            <desc id="sthink-desc">{copy.diagramDesc}</desc>
             <defs>
               <path id="arc-rim-top" d="M1,150 A149,149 0 0 1 299,150" />
               <path id="arc-rim-bot" d="M-3,150 A153,153 0 0 0 303,150" />
@@ -200,7 +205,7 @@ export function Strategy() {
         </div>
       </div>
 
-      <Tabs.List aria-label="Tahap pemikiran strategis" className="mt-10 flex flex-wrap gap-2">
+      <Tabs.List aria-label={copy.tablistLabel} className="mt-10 flex flex-wrap gap-2">
         {STEPS.map((s) => (
           <Tabs.Trigger
             key={s.id}

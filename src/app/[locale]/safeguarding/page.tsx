@@ -8,21 +8,16 @@ import { SiteShell } from '@/components/chrome/SiteShell';
 import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
+import { safeguardingContent } from '@/i18n/content/safeguarding';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
-  return pageMetadata(await readLocale(params), '/safeguarding', {
+  const locale = await readLocale(params);
+  return pageMetadata(locale, '/safeguarding', {
     title: 'Safeguarding',
-    description:
-      'Komitmen Rekam Nusantara Foundation dalam melindungi masyarakat, mitra, relawan, dan lingkungan dari risiko bahaya selama pelaksanaan program.',
+    description: safeguardingContent(locale).metaDescription,
   });
 }
-
-const FOOTNOTES = [
-  "See ‘Scope’ for definition of associated personnel.",
-  'Some NGOs are now including workplace bullying and harassment in their safeguarding portfolio, as it relates to harm caused by coming into contact with our staff or programmes. However accompanying procedures for dealing with workplace bullying and harassment are likely to be different, due to legal and statutory differences in handling workplace incidents.',
-  "NHS ‘What is Safeguarding? Easy Read’ 2011.",
-];
 
 const inputCls =
   'mt-2 w-full rounded-lg border border-green-ink/25 bg-white px-3 py-[0.65rem] text-[0.92rem] text-ink outline-none focus:border-green-700';
@@ -50,35 +45,37 @@ function ComplaintField({ id, label, children }: { id: string; label: string; ch
  * penuh lebar tanpa scrim di bawahnya — mengikuti pola .article__title pada
  * /berita/[slug] daripada hero bergambar-latar seperti /tentang. */
 
-export default function SafeguardingPage() {
+export default async function SafeguardingPage({ params }: LocaleParams) {
+  const locale = await readLocale(params);
+  const copy = safeguardingContent(locale);
+
   return (
     <SiteShell>
       <section className="bg-cream page-top pb-[clamp(2rem,4vw,3rem)]">
         <Wrap>
-          <nav aria-label="Remah roti" className="mb-6 text-[0.78rem] text-ink-soft">
+          <nav aria-label={copy.breadcrumb.aria} className="mb-6 text-[0.78rem] text-ink-soft">
             <AppLink href="/" className="no-underline hover:text-green-900">
-              Beranda
+              {copy.breadcrumb.home}
             </AppLink>
             <span aria-hidden="true" className="px-2">
               /
             </span>
-            <span aria-current="page">Safeguarding</span>
+            <span aria-current="page">{copy.breadcrumb.current}</span>
           </nav>
 
-          <Eyebrow>Rekam Safeguarding Policy</Eyebrow>
+          <Eyebrow>{copy.hero.eyebrow}</Eyebrow>
           <Display
             as="h1"
             className="mt-4 max-w-[46ch] text-display-lg leading-[1.25] tracking-normal"
           >
-            The policies, procedures, and culture put in place to protect vulnerable people,
-            beneficiaries, and staff from harm, abuse, exploitation, and harassment.
+            {copy.hero.heading}
           </Display>
         </Wrap>
       </section>
 
       <Image
         src={safeguardingImg}
-        alt="Beberapa orang menyatukan tangan sebagai simbol perlindungan bersama"
+        alt={copy.hero.imageAlt}
         sizes="100vw"
         priority
         className="block h-auto w-full object-cover"
@@ -87,54 +84,44 @@ export default function SafeguardingPage() {
       <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
           <div className="max-w-full">
-            <p className="m-0 text-lede leading-[1.75] text-green-900">
-              The purpose of this policy is to protect people, particularly children, at risk adults and beneficiaries of assistance, from any harm that may be caused due to their coming into contact with [NGO]. This includes harm arising from:
-            </p>
+            <p className="m-0 text-lede leading-[1.75] text-green-900">{copy.policy.purposeLede}</p>
             <ul className="mt-4 mb-0 list-disc space-y-1 pl-5 text-lede leading-[1.75] text-green-900">
-              <li>The conduct of staff or personnel associated with [NGO]</li>
-              <li>The design and implementation of [NGO]’s programmes and activities</li>
+              <li>{copy.policy.purposeCauses[0]}</li>
+              <li>{copy.policy.purposeCauses[1]}</li>
             </ul>
 
             <p className="mt-8 mb-0 leading-[1.75] text-ink-soft">
-              The policy lays out the commitments made by [NGO], and informs staff and associated personnel
-              <sup>1</sup> of their responsibilities in relation to safeguarding.
+              {copy.policy.commitmentsBefore}
+              <sup>1</sup>
+              {copy.policy.commitmentsAfter}
             </p>
-            <p className="mt-6 mb-0 leading-[1.75] text-ink-soft">This policy does not cover:</p>
+            <p className="mt-6 mb-0 leading-[1.75] text-ink-soft">{copy.policy.doesNotCover}</p>
             <ul className="mt-3 mb-0 list-disc space-y-1 pl-5 leading-[1.75] text-ink-soft">
               <li>
-                Sexual harassment in the workplace &ndash; this is dealt with under NGO&rsquo;s
-                Anti-Bullying and Harassment Policy
+                {copy.policy.doesNotCoverItems[0]}
                 <sup>2</sup>
               </li>
-              <li>Safeguarding concerns in the wider community not perpetrated by [NGO] or associated personnel</li>
+              <li>{copy.policy.doesNotCoverItems[1]}</li>
             </ul>
 
             <h2 className="mt-10 mb-3 text-[1.35rem] font-semibold leading-[1.3] text-green-900">
-              What is safeguarding?
+              {copy.policy.whatIsSafeguardingHeading}
             </h2>
-            <p className="m-0 leading-[1.75] text-ink-soft">
-              In the UK, safeguarding means protecting peoples' health, wellbeing and human rights, and enabling them to live free from harm, abuse and neglect.
-            </p>
-            <p className="mt-4 mb-0 leading-[1.75] text-ink-soft">
-              In our sector, we understand it to mean protecting people, including children and at risk adults, from harm that arises from coming into contact with our staff or programmes.
-            </p>
-            <p className="mt-4 mb-0 leading-[1.75] text-ink-soft">
-              Further definitions relating to safeguarding are provided in the glossary below.
-            </p>
+            <p className="m-0 leading-[1.75] text-ink-soft">{copy.policy.whatIsSafeguardingParagraphs[0]}</p>
+            <p className="mt-4 mb-0 leading-[1.75] text-ink-soft">{copy.policy.whatIsSafeguardingParagraphs[1]}</p>
+            <p className="mt-4 mb-0 leading-[1.75] text-ink-soft">{copy.policy.whatIsSafeguardingParagraphs[2]}</p>
 
             <h2 className="mt-10 mb-3 text-[1.35rem] font-semibold leading-[1.3] text-green-900">
-              Scope
+              {copy.policy.scopeHeading}
             </h2>
             <ul className="m-0 list-disc space-y-1 pl-5 leading-[1.75] text-ink-soft">
-              <li>All staff contracted by [NGO]</li>
-              <li>
-                Associated personnel whilst engaged with work or visits related to [NGO], including but not limited to the following: consultants; volunteers; contractors; programme visitors including journalists, celebrities and politicians
-              </li>
+              <li>{copy.policy.scopeItems[0]}</li>
+              <li>{copy.policy.scopeItems[1]}</li>
             </ul>
 
             <hr className="mt-10 mb-4 border-t border-green-ink/12" />
             <ol className="m-0 list-none space-y-2 p-0 text-[0.8rem] leading-[1.6] text-ink-soft">
-              {FOOTNOTES.map((note, i) => (
+              {copy.policy.footnotes.map((note, i) => (
                 <li key={note}>
                   [{i + 1}] {note}
                 </li>
@@ -147,7 +134,7 @@ export default function SafeguardingPage() {
       <section id="lapor" className="bg-[#f4f3f1] py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
           <h2 className="m-0 max-w-full text-[clamp(1.4rem,4vw,1.9rem)] leading-[1.4] text-[#0e5436]">
-            Kami menyediakan beberapa kanal komunikasi untuk menyampaikan keluhan:
+            {copy.lapor.channelsHeading}
           </h2>
 
           <ul className="mt-6 mb-0 list-none space-y-4 p-0">
@@ -183,58 +170,33 @@ export default function SafeguardingPage() {
           <div className="grid gap-[clamp(2rem,4vw,3rem)] lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
             <div>
               <h3 className="m-0 text-[1.4rem] font-semibold leading-[1.4] text-[#0e5436]">
-                Siapa saja yang bisa menggunakan kanal ini?
+                {copy.lapor.eligibilityHeading}
               </h3>
               <ul className="mt-3 mb-8 list-disc space-y-2 pl-5 text-[1rem] leading-[1.65] text-ink-soft">
-                <li>Pemangku kepentingan yang berada di lokasi proyek/program konservasi Indonesia</li>
-                <li>Keluhan yang dibuat dengan itikad baik</li>
-                <li>
-                  Komplain dibuat oleh perwakilan/orang yang mewakili seseorang/pihak yang terdampak
-                  oleh proyek
-                </li>
-                <li>Komplain yang dibuat selama implementasi proyek atau 2 tahun setelah proyek berakhir</li>
+                {copy.lapor.eligibilityItems.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
               </ul>
 
               <h3 className="m-0 text-[1.4rem] font-semibold leading-[1.4] text-[#0e5436]">
-                Bagaimana prosesnya?
+                {copy.lapor.processHeading}
               </h3>
               <ul className="mt-3 mb-0 list-disc space-y-2 pl-5 text-[1rem] leading-[1.65] text-ink-soft">
-                <li>
-                  <strong className="text-ink">Pengajuan keluhan:</strong> Anda dapat mengirimkan
-                  pengaduan kepada perwakilan kami di lapangan atau koordinator.
-                </li>
-                <li>
-                  <strong className="text-ink">Pemeriksaan awal:</strong> Kami memverifikasi
-                  kelengkapan dan kesesuaian keluhan.
-                </li>
-                <li>
-                  <strong className="text-ink">Tindak lanjut:</strong> Keluhan ditindaklanjuti
-                  berdasarkan tingkat risikonya — rendah, menengah, atau tinggi.
-                </li>
-                <li>
-                  <strong className="text-ink">Resolusi:</strong> Solusi yang disepakati
-                  diimplementasikan dengan transparansi penuh.
-                </li>
-                <li>
-                  <strong className="text-ink">Implementasi:</strong> Langkah-langkah penyelesaian
-                  diterapkan sesuai dengan rencana tindakan yang telah disepakati. Proses ini
-                  mencakup pemantauan untuk memastikan efektivitas solusi.
-                </li>
-                <li>
-                  <strong className="text-ink">Penutupan:</strong> Setelah solusi diterapkan dan
-                  hasilnya dievaluasi, keluhan dianggap selesai, dan laporan akhir disampaikan
-                  kepada pihak terkait.
-                </li>
+                {copy.lapor.processSteps.map((step) => (
+                  <li key={step.label}>
+                    <strong className="text-ink">{step.label}</strong> {step.text}
+                  </li>
+                ))}
               </ul>
             </div>
 
             <form className="rounded-[14px] border border-green-ink/12 bg-white p-6">
               <fieldset className="m-0 border-0 p-0">
                 <legend className="mb-3 block font-label text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-green-900">
-                  Apakah anda ingin merahasiakan identitas anda?
+                  {copy.lapor.form.anonymityLegend}
                 </legend>
                 <div className="grid gap-2">
-                  {['Ya', 'Tidak'].map((opt) => (
+                  {copy.lapor.form.anonymityOptions.map((opt) => (
                     <label
                       key={opt}
                       className="flex cursor-pointer items-center gap-3 rounded-lg bg-sage/30 px-4 py-3 text-[0.92rem] text-ink"
@@ -247,19 +209,19 @@ export default function SafeguardingPage() {
               </fieldset>
 
               <div className="mt-5 grid gap-4">
-                <ComplaintField id="nama" label="Nama lengkap">
+                <ComplaintField id="nama" label={copy.lapor.form.nameLabel}>
                   <input id="nama" name="nama" type="text" className={inputCls} />
                 </ComplaintField>
-                <ComplaintField id="email-pengadu" label="Email">
+                <ComplaintField id="email-pengadu" label={copy.lapor.form.emailLabel}>
                   <input id="email-pengadu" name="email" type="email" className={inputCls} />
                 </ComplaintField>
-                <ComplaintField id="alamat" label="Alamat Kontak">
+                <ComplaintField id="alamat" label={copy.lapor.form.addressLabel}>
                   <input id="alamat" name="alamat" type="text" className={inputCls} />
                 </ComplaintField>
-                <ComplaintField id="nomor" label="Nomor Kontak">
+                <ComplaintField id="nomor" label={copy.lapor.form.phoneLabel}>
                   <input id="nomor" name="nomor" type="tel" className={inputCls} />
                 </ComplaintField>
-                <ComplaintField id="keluhan" label="Ceritakan keluhanmu?">
+                <ComplaintField id="keluhan" label={copy.lapor.form.messageLabel}>
                   <textarea id="keluhan" name="keluhan" rows={4} className={inputCls} />
                 </ComplaintField>
               </div>
@@ -268,7 +230,7 @@ export default function SafeguardingPage() {
                 type="submit"
                 className="mt-6 min-h-[3rem] w-full rounded-lg bg-green-700 text-[0.95rem] font-bold text-white hover:bg-green-800"
               >
-                Lanjutkan Pengaduan
+                {copy.lapor.form.submit}
               </button>
             </form>
           </div>
@@ -278,20 +240,20 @@ export default function SafeguardingPage() {
       <section className="grid bg-white lg:min-h-[26rem] lg:grid-cols-2">
         <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
           <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
-            Be Part of
+            {copy.cta.heading[0]}
             <br />
-            the Story
+            {copy.cta.heading[1]}
           </h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <ButtonLink href="/tentang" variant="ghostGreen">
-              Tentang Kami
+              {copy.cta.button}
             </ButtonLink>
           </div>
         </div>
         <div className="relative h-64 w-full lg:h-full">
           <Image
             src={card2}
-            alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
+            alt={copy.cta.imageAlt}
             fill
             sizes="(max-width: 1000px) 100vw, 50vw"
             className="object-cover"

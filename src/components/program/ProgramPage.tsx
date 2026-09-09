@@ -9,6 +9,12 @@ import type { IconId } from '@/icons';
 import { listNews, type Program } from '@/lib/content';
 import type { SceneName } from '@/lib/pano/pano-scenes';
 import programs from '@/data/programs.json';
+import type { Locale } from '@/i18n/config';
+import { readLocale, type LocaleParams } from '@/i18n/metadata';
+import { t } from '@/i18n/dictionary';
+import { forestContent } from '@/i18n/content/forest';
+import { urbanContent } from '@/i18n/content/urban';
+import { oceanContent } from '@/i18n/content/ocean';
 import bgForestoke3 from '@/assets/banner/bg_forestoke3.jpeg';
 import bgForestoke1Overview from '@/assets/banner/bg_forestoke1_overview.png';
 import bgUrbanoke2 from '@/assets/banner/bg_urbanoke2.jpeg';
@@ -48,30 +54,79 @@ const OVERVIEW_BANNER: Partial<Record<Program, { image: string; bgColor?: string
 
 /* Forest swaps the generic two-column "Be Part of the Story" CTA for a
    full-bleed photo band with the copy set directly over the image — urban
-   and ocean keep the shared version below. */
-const STORY_BANNER: Partial<
-  Record<Program, { image: string; eyebrow: string; title: string; ctaLabel: string; ctaHref: string }>
-> = {
+   and ocean keep the shared version below. eyebrow/title are the "Bangga
+   Papua: Back to the roots" campaign name, left identical across locales
+   (see forest.ts); ctaLabel is real UI copy and comes from there instead. */
+const STORY_BANNER: Partial<Record<Program, { image: string; eyebrow: string; title: string; ctaHref: string }>> = {
   forest: {
     image: bgBanggaPapua.src,
     eyebrow: 'Bangga Papua',
     title: 'Back to the roots',
-    ctaLabel: 'Learn more',
     ctaHref: '/initiative',
   },
 };
+
+/* Translatable copy (hero eyebrow/title, overview prose + art alt, "by the
+ * numbers" headings/labels, postsTitle) lives in src/i18n/content/<program>.ts
+ * — one file per programme, each carrying the existing English copy as-is
+ * plus a new Indonesian translation. `programs.json` remains the source for
+ * everything non-textual: icons, numeric values, table data, and the scene
+ * name. This shape describes only the fields every programme's content file
+ * has in common, which is all ProgramPage needs to read. */
+type ProgramCopy = {
+  metaDescription: string;
+  hero: { eyebrow: string; title: string };
+  overview: { body: string[]; artAlt: string };
+  numbers: { title: string; lede: string; note: string; groups: ProgramCopyGroup[] };
+  postsTitle: string;
+  /** Only forest has a STORY_BANNER override — see forest.ts. */
+  storyBanner?: { ctaLabel: string };
+};
+type ProgramCopyGroup = { heading: string; when?: string; items: { label: string; chips?: string[] }[] };
+
+const CONTENT: Record<Program, (locale: Locale) => ProgramCopy> = {
+  forest: forestContent,
+  urban: urbanContent,
+  ocean: oceanContent,
+};
+
+// Merges programs.json's per-group figures (icon, value, table, policy —
+// none of it language-dependent) with the localized heading/label/chips from
+// the matching content file, by index. The two arrays are always the same
+// shape for a given programme, since the content file mirrors programs.json
+// group-for-group.
+function localizeGroups(groups: StatGroup[], overrides: ProgramCopyGroup[]): StatGroup[] {
+  return groups.map((group, gi) => {
+    const override = overrides[gi];
+    if (!override) return group;
+    return {
+      ...group,
+      heading: override.heading,
+      when: override.when ?? group.when,
+      items: group.items.map((item, ii) => {
+        const itemOverride = override.items[ii];
+        return itemOverride ? { ...item, label: itemOverride.label, chips: itemOverride.chips ?? item.chips } : item;
+      }),
+    };
+  });
+}
 
 export async function ProgramPage({
   program,
   art,
   icons,
+  params,
 }: {
   program: Program;
   /** The engraved illustration beside the overview prose. */
   art: StaticImageData;
   /** Symbols this page's stat groups reference. */
   icons: IconId[];
+  params: LocaleParams['params'];
 }) {
+  const locale = await readLocale(params);
+  const copy = CONTENT[program](locale);
+  const dict = t(locale);
   const data = programs[program];
   const posts = await listNews({ program, limit: 3 });
 
@@ -79,8 +134,8 @@ export async function ProgramPage({
     <SiteShell hero current={program} icons={icons}>
       <Hero360
         scene={data.scene as SceneName}
-        eyebrow={data.hero.eyebrow}
-        title={data.hero.title}
+        eyebrow={copy.hero.eyebrow}
+        title={copy.hero.title}
         sources={data.hero.sources}
         image={HERO_OVERRIDES[program]?.image}
         fov={HERO_OVERRIDES[program]?.fov}
@@ -91,7 +146,7 @@ export async function ProgramPage({
 
       {(() => {
         const banner = OVERVIEW_BANNER[program];
-        const prose = data.overview.body.map((p, i) => (
+        const prose = copy.overview.body.map((p, i) => (
           <p
             key={p.slice(0, 40)}
             className={
@@ -112,13 +167,13 @@ export async function ProgramPage({
               style={banner.bgColor ? { backgroundColor: banner.bgColor } : undefined}
             >
               <Wrap className="py-[clamp(3rem,7vw,6rem)] mb-5">
-                <Eyebrow>Overview</Eyebrow>
+                <Eyebrow>{dict.common.overview}</Eyebrow>
                 {prose}
               </Wrap>
               <div className="relative aspect-[3246/906] w-full">
                 <Image
                   src={banner.image}
-                  alt={data.overview.artAlt}
+                  alt={copy.overview.artAlt}
                   fill
                   sizes="100vw"
                   className={banner.fade ? 'object-cover opacity-70' : 'object-cover'}
@@ -132,7 +187,7 @@ export async function ProgramPage({
           <section id="ikhtisar" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
             <Wrap className="grid items-start gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)]">
               <div>
-                <Eyebrow>Overview</Eyebrow>
+                <Eyebrow>{dict.common.overview}</Eyebrow>
                 {prose}
               </div>
               <Image
@@ -148,20 +203,20 @@ export async function ProgramPage({
 
       <section id="dampak" className="bg-white py-7">
         <Wrap>
-          <Eyebrow>Impact</Eyebrow>
-          <Display className="mt-3 text-display text-black">{data.numbers.title}</Display>
-          {data.numbers.lede && (
+          <Eyebrow>{dict.common.impact}</Eyebrow>
+          <Display className="mt-3 text-display text-black">{copy.numbers.title}</Display>
+          {copy.numbers.lede && (
             <p className="mt-3 mb-8 max-w-[68ch] text-lede leading-[1.6] text-ink-soft">
-              {data.numbers.lede}
+              {copy.numbers.lede}
             </p>
           )}
           <div/>
           <ByTheNumbers
-            groups={data.numbers.groups as StatGroup[]}
+            groups={localizeGroups(data.numbers.groups as StatGroup[], copy.numbers.groups)}
             variant={program === 'urban' ? 'urban' : program === 'ocean' ? 'ocean' : 'default'}
           />
-          {data.numbers.note && (
-            <p className="mt-10 mb-0 text-[0.8rem] italic leading-[1.6] text-ink-soft">{data.numbers.note}</p>
+          {copy.numbers.note && (
+            <p className="mt-10 mb-0 text-[0.8rem] italic leading-[1.6] text-ink-soft">{copy.numbers.note}</p>
           )}
         </Wrap>
       </section>
@@ -173,9 +228,9 @@ export async function ProgramPage({
                 programme its own heading, and hid the shared "Berita terkait"
                 eyebrow above it. */}
             <Display className="mb-[clamp(1.5rem,3vw,2.5rem)] text-[45px] text-green-700">
-              {data.postsTitle}
+              {copy.postsTitle}
             </Display>
-            <PostGrid posts={posts} showExcerpt={false} accent ctaLabel="Read more" ctaBold={false} />
+            <PostGrid posts={posts} showExcerpt={false} accent ctaLabel={dict.common.readMore} ctaBold={false} />
           </Wrap>
         </section>
       )}
@@ -205,7 +260,7 @@ export async function ProgramPage({
                       {banner.title}
                     </h2>
                     <ButtonLink href={banner.ctaHref} variant="green" className="mt-8">
-                      {banner.ctaLabel.toUpperCase()} →
+                      {(copy.storyBanner?.ctaLabel ?? dict.common.readMore).toUpperCase()} →
                     </ButtonLink>
                   </div>
                 </Wrap>
@@ -220,20 +275,20 @@ export async function ProgramPage({
           <section className="grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
             <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
               <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
-                Be Part of
+                {dict.common.storyBand.heading1}
                 <br />
-                the Story
+                {dict.common.storyBand.heading2}
               </h2>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <ButtonLink href="/merch" variant="ghostGreen">
-                  Shop
+                  {dict.common.storyBand.shopCta}
                 </ButtonLink>
               </div>
             </div>
             <div className="relative h-64 w-full lg:h-full">
               <Image
                 src={card2}
-                alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
+                alt={dict.common.storyBand.alt}
                 fill
                 sizes="(max-width: 1000px) 100vw, 50vw"
                 className="object-cover"

@@ -11,6 +11,8 @@ import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
+import { beritaContent } from '@/i18n/content/berita';
+import { t } from '@/i18n/dictionary';
 import { featuredNews, listNews } from '@/lib/content';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
@@ -22,16 +24,19 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 
 const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-export default async function BeritaPage() {
+export default async function BeritaPage({ params }: LocaleParams) {
+  const locale = await readLocale(params);
+  const copy = beritaContent(locale);
+  const dict = t(locale);
   const lead = await featuredNews();
   const rest = await listNews({ exclude: lead?.slug });
 
   return (
     <SiteShell current="berita">
       <PageHero
-        eyebrow="Field notes"
-        title="Latest noted"
-        lede="Field notes, publications, and news events from all REKAM programs."
+        eyebrow={copy.hero.eyebrow}
+        title={copy.hero.title}
+        lede={copy.hero.lede}
         image={heroImg}
         overlay="rgba(10, 20, 16, 0.23)"
         short
@@ -69,7 +74,7 @@ export default async function BeritaPage() {
               </h2>
               <p className="mt-4 mb-0 text-lede leading-[1.65] text-ink-soft">{lead.excerpt}</p>
               <span className="mt-7 inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-full bg-green-700 px-8 text-[1rem] font-bold text-white transition-[background-color,transform] duration-200 group-hover:bg-green-800 group-hover:-translate-y-[2px] motion-reduce:group-hover:translate-y-0">
-                Read more
+                {dict.common.readMore}
                 <Icon id="i-arrow" className="size-4 fill-none stroke-current" />
               </span>
             </div>
@@ -88,8 +93,7 @@ export default async function BeritaPage() {
               derived, so it cannot go stale, and pagination lands with the CMS
               rather than being faked over 18 records. */}
           <p className="mt-[clamp(2rem,4vw,3rem)] mb-0 text-[0.82rem] text-ink-soft">
-            Menampilkan {rest.length + (lead ? 1 : 0)} tulisan. Sisanya menyusul ketika daftar ini
-            tersambung ke CMS.
+            {copy.list.count(rest.length + (lead ? 1 : 0))}
           </p>
         </Wrap>
       </section>
@@ -99,20 +103,20 @@ export default async function BeritaPage() {
       <section className="grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
         <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
           <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
-            Be Part of
+            {dict.common.storyBand.heading1}
             <br />
-            the Story
+            {dict.common.storyBand.heading2}
           </h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <ButtonLink href="/merch" variant="ghostGreen">
-              Shop
+              {dict.common.storyBand.shopCta}
             </ButtonLink>
           </div>
         </div>
         <div className="relative h-64 w-full lg:h-full">
           <Image
             src={card2}
-            alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
+            alt={dict.common.storyBand.alt}
             fill
             sizes="(max-width: 1000px) 100vw, 50vw"
             className="object-cover"

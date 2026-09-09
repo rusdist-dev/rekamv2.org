@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import type { Locale } from '@/i18n/config';
+import { initiativeContent } from '@/i18n/content/initiative';
 
 /* "Gallery Film" viewer for the initiative page's fourth section. Client
  * component only because Back/Next need state — everything else could stay
@@ -41,7 +43,8 @@ function CircleIconButton({
   );
 }
 
-export function GalleryFilm() {
+export function GalleryFilm({ locale }: { locale: Locale }) {
+  const copy = initiativeContent(locale).gallery;
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const video = VIDEOS[index];
@@ -64,7 +67,7 @@ export function GalleryFilm() {
     <section style={{ backgroundColor: '#0a3142' }}>
       <div className="flex flex-wrap items-center justify-between gap-4 bg-[#0c3d49] px-gutter py-5">
         <p className="m-0 font-label text-[0.85rem] font-semibold uppercase tracking-[0.28em] text-white">
-          Gallery film
+          {copy.label}
         </p>
         <div className="flex gap-3">
           <button
@@ -72,14 +75,14 @@ export function GalleryFilm() {
             onClick={() => go(-1)}
             className="inline-flex min-h-[2.5rem] cursor-pointer items-center gap-2 rounded-full border border-white/50 bg-transparent px-5 font-label text-[0.75rem] font-bold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-white/10"
           >
-            <span aria-hidden="true">←</span> Back
+            <span aria-hidden="true">←</span> {copy.back}
           </button>
           <button
             type="button"
             onClick={() => go(1)}
             className="inline-flex min-h-[2.5rem] cursor-pointer items-center gap-2 rounded-full border border-white/50 bg-transparent px-5 font-label text-[0.75rem] font-bold uppercase tracking-[0.14em] text-white transition-colors duration-200 hover:bg-white/10"
           >
-            Next <span aria-hidden="true">→</span>
+            {copy.next} <span aria-hidden="true">→</span>
           </button>
         </div>
       </div>
@@ -103,7 +106,7 @@ export function GalleryFilm() {
             <button
               type="button"
               onClick={() => setPlaying(true)}
-              aria-label={`Putar "${video.title}"`}
+              aria-label={copy.play(video.title)}
               className="group absolute inset-0 block w-full cursor-pointer border-0 bg-transparent p-0"
             >
               <img
@@ -149,7 +152,7 @@ export function GalleryFilm() {
               <circle cx="12" cy="12" r="9" strokeLinecap="round" />
             </svg>
             <span className="text-[0.85rem] font-semibold leading-[1.4] text-white">
-              Tonton video ini di YouTube
+              {copy.watchOnYoutube}
             </span>
           </a>
 
@@ -158,7 +161,7 @@ export function GalleryFilm() {
               {index + 1} / {VIDEOS.length}
             </p>
             <div className="flex gap-3">
-              <CircleIconButton label="Bagikan video ini" onClick={() => void share()}>
+              <CircleIconButton label={copy.share} onClick={() => void share()}>
                 <svg viewBox="0 0 20 20" className="size-4 fill-none stroke-current" strokeWidth="1.6">
                   <path d="M7 12.5 13 8.5M7 7.5 13 11.5" strokeLinecap="round" />
                   <circle cx="15" cy="5.5" r="2.3" />
@@ -166,7 +169,7 @@ export function GalleryFilm() {
                   <circle cx="5" cy="10" r="2.3" />
                 </svg>
               </CircleIconButton>
-              <CircleIconButton label={`Video ke-${index + 1} dari ${VIDEOS.length}`}>
+              <CircleIconButton label={copy.videoOf(index + 1, VIDEOS.length)}>
                 <svg viewBox="0 0 20 20" className="size-4 fill-none stroke-current" strokeWidth="1.6">
                   <circle cx="10" cy="10" r="7.5" />
                   <path d="M10 6v4l3 2" strokeLinecap="round" strokeLinejoin="round" />

@@ -4,6 +4,7 @@ import { Brand } from '@/components/chrome/Brand';
 import { AppLink, useLocale } from '@/components/ui/AppLink';
 import { t as dict } from '@/i18n/dictionary';
 import { FOOTER_EXTRA, FOOTER_LEGAL, FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
+import type { Locale } from '@/i18n/config';
 
 /* rekam.css:943-992 and :1250-1271.
  *
@@ -33,10 +34,12 @@ function LinkColumn({
   heading,
   columns,
   label,
+  locale,
 }: {
   heading: string;
-  columns: { href: string; label: string }[][];
+  columns: { href: string; label: Record<Locale, string> }[][];
   label: string;
+  locale: Locale;
 }) {
   return (
     <nav aria-label={label}>
@@ -50,7 +53,7 @@ function LinkColumn({
                   &bull;
                 </span>
                 <AppLink href={l.href} className="border-b border-transparent no-underline hover:border-current">
-                  {l.label}
+                  {l.label[locale]}
                 </AppLink>
               </li>
             ))}
@@ -62,7 +65,8 @@ function LinkColumn({
 }
 
 export function SiteFooter() {
-  const T = dict(useLocale());
+  const locale = useLocale();
+  const T = dict(locale);
 
   return (
     <footer id="kontak" className="bg-green-800 py-[clamp(2rem,4vw,3rem)] text-white">
@@ -76,8 +80,6 @@ export function SiteFooter() {
       >
         <div className="max-w-[26rem]">
           <Brand width={182} flat className="mb-[1.1rem] text-cream" />
-          {/* The blurb is the foundation's own English strapline on all eleven
-              source pages, so both dictionaries carry it unchanged. */}
           <p className="m-0 max-w-[34ch] text-[0.92rem] leading-[1.65] text-cream/78">
             {T.footer.blurb}
           </p>
@@ -90,8 +92,9 @@ export function SiteFooter() {
           heading={T.footer.links}
           columns={[FOOTER_LINKS, FOOTER_LEGAL, FOOTER_EXTRA]}
           label={T.footer.channels}
+          locale={locale}
         />
-        <LinkColumn heading={T.footer.follow} columns={[FOOTER_SOCIAL]} label={T.footer.social} />
+        <LinkColumn heading={T.footer.follow} columns={[FOOTER_SOCIAL]} label={T.footer.social} locale={locale} />
       </div>
     </footer>
   );

@@ -16,15 +16,17 @@ import { PageHero } from '@/components/layout/PageHero';
 import { PdfReadButton } from '@/components/publication/PdfReadButton';
 import { buttonClasses } from '@/components/ui/button-classes';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
+import { ourStoryContent } from '@/i18n/content/our-story';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
-import { ABOUT } from '@/lib/about/types';
+import { ABOUT, pick, pickList } from '@/lib/about/types';
 import { IMPACT_REPORT_PDF } from '@/lib/publication';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
-  return pageMetadata(await readLocale(params), '/tentang', {
-    title: 'About Us',
-    description:
-      'Championing Indonesia biodiversity through research and conservation. Visi, misi, strategi, struktur organisasi, dan tim di balik Rekam Nusantara Foundation.',
+  const locale = await readLocale(params);
+  const copy = ourStoryContent(locale).meta;
+  return pageMetadata(locale, '/tentang', {
+    title: copy.title,
+    description: copy.description,
   });
 }
 
@@ -37,15 +39,17 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
  * a <details> precisely so it was readable with JavaScript off; a dialog that
  * fetched its content on open would have quietly dropped that. */
 
-export default function TentangPage() {
+export default async function TentangPage({ params }: LocaleParams) {
+  const locale = await readLocale(params);
+  const copy = ourStoryContent(locale);
   const { team, units } = ABOUT;
 
   return (
-    <TeamProvider>
+    <TeamProvider locale={locale}>
       <SiteShell current="tentang">
         <PageHero
-          eyebrow="What we do"
-          title="Championing Indonesia biodiversity through research and conservation."
+          eyebrow={copy.hero.eyebrow}
+          title={copy.hero.title}
           image={bgTentang}
           overlay="rgba(10, 20, 16, 0.5)"
           longTitle
@@ -54,39 +58,34 @@ export default function TentangPage() {
 
         <section id="visi-misi" className="grid md:grid-cols-2">
           <div className="bg-cream p-[clamp(2rem,5vw,4rem)]">
-            <Display className="text-display">Vision</Display>
+            <Display className="text-display">{copy.vision.label}</Display>
             <p className="mt-5 mb-0 max-w-[42ch] text-lede leading-[1.75] text-ink">
-              Capturing and preserving the extraordinary natural heritage of the archipelago to
-              inspire collective awareness and action for environmental sustainability and a better
-              future of Indonesia.
+              {copy.vision.text}
             </p>
           </div>
           <div className="bg-sage p-[clamp(2rem,5vw,4rem)]">
-            <Display className="text-display">Mission</Display>
+            <Display className="text-display">{copy.mission.label}</Display>
             <p className="mt-5 mb-0 max-w-[42ch] text-lede leading-[1.75] text-ink">
-              Integrating art, science, technology and traditional wisdom to realize environmental
-              sustainability and human welfare throughout the Indonesian archipelago.
+              {copy.mission.text}
             </p>
           </div>
         </section>
 
         <section id="strategi" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Strategic thinking</Eyebrow>
+            <Eyebrow>{copy.strategy.eyebrow}</Eyebrow>
             <div className="mt-8">
-              <Strategy />
+              <Strategy locale={locale} />
             </div>
           </Wrap>
         </section>
 
         <section id="unit" className="bg-band py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Our units</Eyebrow>
-            <Display className="mt-4 text-display text-black">Unit program</Display>
+            <Eyebrow>{copy.units.eyebrow}</Eyebrow>
+            <Display className="mt-4 text-display text-black">{copy.units.heading}</Display>
             <p className="mt-5 mb-[clamp(2.5rem,5vw,3.5rem)] max-w-[58ch] text-lede leading-[1.7] text-ink-soft">
-              Six units carry out REKAM&rsquo;s work on the ground — from hornbill and fisheries
-              research to storytelling, communications, natural-resource law enforcement, and
-              sustainable cities.
+              {copy.units.intro}
             </p>
 
             <ul className="m-0 grid list-none gap-x-[clamp(2rem,5vw,4rem)] gap-y-[clamp(2rem,4vw,3rem)] p-0 md:grid-cols-3">
@@ -101,7 +100,7 @@ export default function TentangPage() {
                   <h3 className="mt-4 mb-0 text-[1.05rem] font-semibold leading-[1.3] text-ink">
                     {unit.name}
                   </h3>
-                  <p className="mt-2 mb-0 text-[0.9rem] leading-[1.6] text-ink-soft">{unit.text}</p>
+                  <p className="mt-2 mb-0 text-[0.9rem] leading-[1.6] text-ink-soft">{pick(unit.text, locale)}</p>
                   {unit.href && (
                     <a
                       href={unit.href}
@@ -118,17 +117,17 @@ export default function TentangPage() {
 
         <section id="struktur" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Organization structure</Eyebrow>
+            <Eyebrow>{copy.org.eyebrow}</Eyebrow>
             <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display text-black">
-              How we are organised
+              {copy.org.heading}
             </Display>
-            <OrgChart />
+            <OrgChart locale={locale} />
           </Wrap>
         </section>
 
         <section id="wilayah" className="bg-band py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Where we work</Eyebrow>
+            <Eyebrow>{copy.map.eyebrow}</Eyebrow>
             {/* Warna diambil dari token, bukan hex lepas, supaya peta ikut
                 berubah bila paletnya digeser. `background` adalah lautnya —
                 itu yang bisa disesuaikan, dan alasannya ada di komponen. */}
@@ -153,13 +152,13 @@ export default function TentangPage() {
                 scroll it. */}
             <div
               role="region"
-              aria-label="Tabel cakupan kerja per unit — dapat digeser mendatar"
+              aria-label={copy.map.tableAriaLabel}
               tabIndex={0}
               className="mt-6 overflow-x-auto mx-[calc(var(--spacing-gutter)*-1)] px-gutter md:mx-0 md:px-0"
             >
               <Image
                 src={whereWeWork}
-                alt="Tabel cakupan kerja empat unit: Rangkong Indonesia, FRCI, Natural Resources Crime Unit, dan Urban & Sustainability — pada tingkat nasional, provinsi/tapak, dan Wilayah Pengelolaan Perikanan"
+                alt={copy.map.tableAlt}
                 className="w-full min-w-[44rem] md:min-w-0"
               />
             </div>
@@ -176,7 +175,7 @@ export default function TentangPage() {
           <div className="relative order-2 w-full lg:order-1 flex items-center justify-center">
             <Image
               src={impactReport}
-              alt="Sampul Impact Report 2025 Rekam Nusantara Foundation"
+              alt="Impact Report 2025 Rekam Nusantara Foundation cover"
               sizes="(max-width: 1000px) 100vw, 50vw"
               className="w-full h-auto max-h-[500px] object-contain lg:py-10"
             />
@@ -185,27 +184,25 @@ export default function TentangPage() {
             <p className="m-0 font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-green-900">
               <time dateTime="2026-07-29">29 July 2026</time>
               <span aria-hidden="true"> / </span>
-              Impact Report
+              {copy.impactReport.dateLabel}
             </p>
             <h2 className="mt-3 mb-0 font-display text-quote leading-[1.15] text-green-900">
-              Impact Report 2025
+              {copy.impactReport.heading}
             </h2>
             <p className="mt-4 mb-0 max-w-[46ch] text-lede leading-[1.65] text-ink-soft">
-              The world continues to face various environmental challenges. Climate change, natural
-              resource degradation, and socio-economic disparities are urgent issues that require
-              innovative and sustainable solutions.
+              {copy.impactReport.paragraph}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href={IMPACT_REPORT_PDF} download className={buttonClasses('green', false, 'uppercase')}>
-                Download
+                {copy.impactReport.download}
                 <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
               </a>
               <PdfReadButton
                 href={IMPACT_REPORT_PDF}
-                title="Impact Report 2025"
+                title={copy.impactReport.heading}
                 className={buttonClasses('ghostGreen', false, 'uppercase')}
               >
-                Read online
+                {copy.impactReport.readOnline}
                 <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
               </PdfReadButton>
             </div>
@@ -214,10 +211,9 @@ export default function TentangPage() {
 
         <section id="kolaborasi" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Collaboration</Eyebrow>
+            <Eyebrow>{copy.collaboration.eyebrow}</Eyebrow>
             <p className="mt-3 mb-[clamp(2rem,4vw,3rem)] max-w-[62ch] text-lede leading-[1.7] text-ink-soft">
-              Strong partnerships we build in good relationships, through open dialogue and
-              effective communication.
+              {copy.collaboration.intro}
             </p>
 
             {/* 3 straight to 10 left the whole 640-1000px range rendering
@@ -239,21 +235,18 @@ export default function TentangPage() {
             the reason the source wrapped each one in <details>. */}
         {/* <section id="tim" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Our team</Eyebrow>
-            <Display className="mt-4 text-display">The people behind the work</Display>
+            <Eyebrow>{copy.team.eyebrow}</Eyebrow>
+            <Display className="mt-4 text-display">{copy.team.heading}</Display>
             <p className="mt-5 mb-[clamp(2rem,4vw,3rem)] max-w-[62ch] text-lede leading-[1.7] text-ink-soft">
-              We are a group of dedicated environmentalists who conduct research, publish scientific
-              publications, and disseminate Indonesia natural and cultural treasures through
-              engaging audiovisual, text, visual, and graphic content to educate and encourage
-              public awareness.
+              {copy.team.intro}
             </p>
-            <TeamGrid />
+            <TeamGrid locale={locale} />
             <div className="sr-only">
               {team.map((p) => (
                 <article key={p.id}>
                   <h3>{p.name}</h3>
-                  <p>{p.role}</p>
-                  {p.bio.map((para) => (
+                  <p>{pick(p.role, locale)}</p>
+                  {pickList(p.bio, locale).map((para) => (
                     <p key={para.slice(0, 40)}>{para}</p>
                   ))}
                 </article>

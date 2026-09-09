@@ -3,196 +3,309 @@
     {
       "id": "irfan-yulianto",
       "name": "Irfan Yulianto",
-      "role": "Chairperson of the Foundation",
+      "role": { "en": "Chairperson of the Foundation", "id": "Ketua Yayasan" },
       "photo": "team/irfan-yulianto.jpg",
-      "bio": [
-        "Dr. Irfan Yulianto currently works at the REKAM Foundation and IPB University. As a member of FRCI Advisory Board, Irfan has a history of research in fisheries, marine biology, and environmental and conservation sciences for over 20 years. Irfan's vast research experiences includes community-based natural resource management, marine conservation area management and networking, species conservation, and sustainable fisheries, enriching the perspective and analysis of FRCI's research."
-      ]
+      "bio": {
+        "en": [
+          "Dr. Irfan Yulianto currently works at the REKAM Foundation and IPB University. As a member of FRCI Advisory Board, Irfan has a history of research in fisheries, marine biology, and environmental and conservation sciences for over 20 years. Irfan's vast research experiences includes community-based natural resource management, marine conservation area management and networking, species conservation, and sustainable fisheries, enriching the perspective and analysis of FRCI's research."
+        ],
+        "id": [
+          "Dr. Irfan Yulianto saat ini bekerja di Yayasan REKAM dan IPB University. Sebagai anggota Dewan Penasihat FRCI, Irfan memiliki rekam jejak riset di bidang perikanan, biologi kelautan, serta ilmu lingkungan dan konservasi selama lebih dari 20 tahun. Pengalaman risetnya yang luas mencakup pengelolaan sumber daya alam berbasis masyarakat, pengelolaan dan penjejaringan kawasan konservasi laut, konservasi spesies, serta perikanan berkelanjutan, yang memperkaya perspektif dan analisis riset FRCI."
+        ]
+      }
     },
     {
       "id": "wahyu-mulyono",
       "name": "Wahyu Mulyono",
-      "role": "Director for Operations",
-      "bio": [
-        "With his expertise, this Yogyakarta-born man once led the documentary division in one of Indonesia’s national media. His documentary had been nominated and won awards, thanks to his hard work. He is now working on #DocuCamp filmmaking and programmes in Rekam Nusantara Foundation."
-      ]
+      "role": { "en": "Director for Operations", "id": "Direktur Operasional" },
+      "bio": {
+        "en": [
+          "With his expertise, this Yogyakarta-born man once led the documentary division in one of Indonesia’s national media. His documentary had been nominated and won awards, thanks to his hard work. He is now working on #DocuCamp filmmaking and programmes in Rekam Nusantara Foundation."
+        ],
+        "id": [
+          "Dengan keahliannya, pria kelahiran Yogyakarta ini pernah memimpin divisi dokumenter di salah satu media nasional Indonesia. Film dokumenternya pernah dinominasikan dan meraih penghargaan berkat kerja kerasnya. Kini ia menangani pembuatan film dan program #DocuCamp di Rekam Nusantara Foundation."
+        ]
+      }
     },
     {
       "id": "yoki-hadiprakarsa",
       "name": "Yoki Hadiprakarsa",
-      "role": "Director for Forest Program",
+      "role": { "en": "Director for Forest Program", "id": "Direktur Program Hutan" },
       "photo": "team/yoki-hadiprakarsa.jpg",
-      "bio": [
-        "Yokyok Hadiprakarsa, known as Yoki, boasts over two decades of experience in wildlife research and conservation locally and internationally. His primary areas of expertise are hornbill ecology and wildlife management in multifunctional landscapes supported by his tech savviness and quantitative mind. His passion for wildlife stems from his childhood, and he has established himself as a trailblazer in the field. Yoki is a founding member of Rekam Nusantara and the founder and leader of the Rangkong Indonesia team, driving significant strides in hornbill conservation in Indonesia."
-      ]
+      "bio": {
+        "en": [
+          "Yokyok Hadiprakarsa, known as Yoki, boasts over two decades of experience in wildlife research and conservation locally and internationally. His primary areas of expertise are hornbill ecology and wildlife management in multifunctional landscapes supported by his tech savviness and quantitative mind. His passion for wildlife stems from his childhood, and he has established himself as a trailblazer in the field. Yoki is a founding member of Rekam Nusantara and the founder and leader of the Rangkong Indonesia team, driving significant strides in hornbill conservation in Indonesia."
+        ],
+        "id": [
+          "Yokyok Hadiprakarsa, yang akrab disapa Yoki, memiliki pengalaman lebih dari dua dekade dalam riset dan konservasi satwa liar, baik di tingkat nasional maupun internasional. Bidang keahlian utamanya adalah ekologi rangkong dan pengelolaan satwa liar di lanskap multifungsi, didukung oleh kemampuan teknologinya dan pola pikir kuantitatif. Kecintaannya pada satwa liar tumbuh sejak masa kecil, dan ia telah membuktikan diri sebagai perintis di bidang ini. Yoki adalah anggota pendiri Rekam Nusantara serta pendiri dan pemimpin tim Rangkong Indonesia, yang mendorong kemajuan signifikan dalam konservasi rangkong di Indonesia."
+        ]
+      }
     },
     {
       "id": "een-irawan-putra",
       "name": "Een Irawan Putra",
-      "role": "Director for Urban and Sustainability Program",
+      "role": { "en": "Director for Urban and Sustainability Program", "id": "Direktur Program Perkotaan dan Keberlanjutan" },
       "photo": "team/een-irawan-putra.jpg",
-      "bio": [
-        "Een Irawan Putra is one of the co-founders of the Rekam Nusantara Foundation. Born in North Bengkulu, he has long been passionate about environmental issues, forestry, Indigenous peoples’ rights, and sustainable natural resource management. His interest in conservation began during his studies at the Department of Forest Conservation and Ecotourism, Faculty of Forestry, IPB University, where he was also active in the outdoor student organization LAWALATA IPB.",
-        "After graduating from IPB University in 2004, he immediately chose to work with non-governmental organizations and engage directly in fieldwork. He traveled across Indonesia to conduct investigations into environmental and forestry crimes, carry out research, write, and produce documentary videos for educational and advocacy purposes focused on protecting Indonesia’s natural resources. His work also brought him to several countries in Asia, Europe, and the United States. For him, there can be no compromise when it comes to confronting environmental offenders and those who destroy Indonesia’s nature.",
-        "When Rekam Nusantara was established in 2013, he was entrusted by the founding members to lead the organization. He holds a Master’s degree in Natural Resource and Environmental Management (PSL) from IPB University.",
-        "Driven by his deep affection for rivers, since 2009 he has been actively involved in the Ciliwung River Care Community in Bogor City—a contribution he considers a tangible act for the environment. In 2018, together with Bogor Mayor Bima Arya Sugiarto, he co-founded the Ciliwung River Naturalization Task Force (SATGAS) of Bogor City."
-      ]
+      "bio": {
+        "en": [
+          "Een Irawan Putra is one of the co-founders of the Rekam Nusantara Foundation. Born in North Bengkulu, he has long been passionate about environmental issues, forestry, Indigenous peoples’ rights, and sustainable natural resource management. His interest in conservation began during his studies at the Department of Forest Conservation and Ecotourism, Faculty of Forestry, IPB University, where he was also active in the outdoor student organization LAWALATA IPB.",
+          "After graduating from IPB University in 2004, he immediately chose to work with non-governmental organizations and engage directly in fieldwork. He traveled across Indonesia to conduct investigations into environmental and forestry crimes, carry out research, write, and produce documentary videos for educational and advocacy purposes focused on protecting Indonesia’s natural resources. His work also brought him to several countries in Asia, Europe, and the United States. For him, there can be no compromise when it comes to confronting environmental offenders and those who destroy Indonesia’s nature.",
+          "When Rekam Nusantara was established in 2013, he was entrusted by the founding members to lead the organization. He holds a Master’s degree in Natural Resource and Environmental Management (PSL) from IPB University.",
+          "Driven by his deep affection for rivers, since 2009 he has been actively involved in the Ciliwung River Care Community in Bogor City—a contribution he considers a tangible act for the environment. In 2018, together with Bogor Mayor Bima Arya Sugiarto, he co-founded the Ciliwung River Naturalization Task Force (SATGAS) of Bogor City."
+        ],
+        "id": [
+          "Een Irawan Putra adalah salah satu pendiri Rekam Nusantara Foundation. Lahir di Bengkulu Utara, ia telah lama memiliki kepedulian terhadap isu lingkungan, kehutanan, hak-hak masyarakat adat, dan pengelolaan sumber daya alam berkelanjutan. Minatnya pada konservasi bermula sejak masa studinya di Departemen Konservasi Sumberdaya Hutan dan Ekowisata, Fakultas Kehutanan, IPB University, tempat ia juga aktif dalam organisasi mahasiswa pecinta alam LAWALATA IPB.",
+          "Setelah lulus dari IPB University pada 2004, ia langsung memilih untuk bekerja bersama organisasi non-pemerintah dan terjun langsung ke lapangan. Ia menjelajahi berbagai penjuru Indonesia untuk melakukan investigasi kejahatan lingkungan dan kehutanan, melakukan riset, menulis, serta memproduksi video dokumenter untuk keperluan edukasi dan advokasi yang berfokus pada perlindungan sumber daya alam Indonesia. Pekerjaannya juga membawanya ke sejumlah negara di Asia, Eropa, dan Amerika Serikat. Baginya, tidak ada kompromi dalam menghadapi para pelaku kejahatan lingkungan dan perusak alam Indonesia.",
+          "Ketika Rekam Nusantara didirikan pada 2013, ia dipercaya oleh para anggota pendiri untuk memimpin organisasi ini. Ia menyandang gelar Magister Pengelolaan Sumberdaya Alam dan Lingkungan (PSL) dari IPB University.",
+          "Didorong oleh kecintaannya yang mendalam terhadap sungai, sejak 2009 ia aktif terlibat dalam Komunitas Peduli Ciliwung di Kota Bogor—sebuah kontribusi yang ia anggap sebagai wujud nyata kepeduliannya terhadap lingkungan. Pada 2018, bersama Wali Kota Bogor Bima Arya Sugiarto, ia turut mendirikan Satuan Tugas (SATGAS) Naturalisasi Sungai Ciliwung Kota Bogor."
+        ]
+      }
     },
     {
       "id": "heidi-retnoningtyas",
       "name": "Heidi Retnoningtyas",
-      "role": "Director for Ocean Program",
-      "bio": [
-        "Heidi Retnoningtyas, or affectionately known as Tyas, has become a part of the Fisheries Resources Center of Indonesia (FRCI) program as the Project Leader for IKAN. IKAN is an initiative for the collection and management of data on catches from various groups of resources, namely demersal fish (snappers, groupers, and emperors), crabs, and sharks. Data collection is carried out through the IKAN application and involves enumerators scattered in fish landing locations, such as Pati (Central Java), North Lombok (NTB), and Pangkajene Kepulauan (South Sulawesi). In addition to her experience in fisheries management projects/initiatives, Tyas also has the capacity to network and establish relations with various parties, including the central government, local government, researchers, and academics. Through the IKAN program, various parties can actively engage in supporting the data collection of fisheries resources in Indonesia, both as contributors and users of the data. Tyas obtained a master's degree in Marine Science from IPB University and a doctoral degree from the University of Rostock, Germany, through the DAAD Research Grants - Doctoral Programmes in Germany scholarship scheme."
-      ]
+      "role": { "en": "Director for Ocean Program", "id": "Direktur Program Laut" },
+      "bio": {
+        "en": [
+          "Heidi Retnoningtyas, or affectionately known as Tyas, has become a part of the Fisheries Resources Center of Indonesia (FRCI) program as the Project Leader for IKAN. IKAN is an initiative for the collection and management of data on catches from various groups of resources, namely demersal fish (snappers, groupers, and emperors), crabs, and sharks. Data collection is carried out through the IKAN application and involves enumerators scattered in fish landing locations, such as Pati (Central Java), North Lombok (NTB), and Pangkajene Kepulauan (South Sulawesi). In addition to her experience in fisheries management projects/initiatives, Tyas also has the capacity to network and establish relations with various parties, including the central government, local government, researchers, and academics. Through the IKAN program, various parties can actively engage in supporting the data collection of fisheries resources in Indonesia, both as contributors and users of the data. Tyas obtained a master's degree in Marine Science from IPB University and a doctoral degree from the University of Rostock, Germany, through the DAAD Research Grants - Doctoral Programmes in Germany scholarship scheme."
+        ],
+        "id": [
+          "Heidi Retnoningtyas, yang akrab disapa Tyas, menjadi bagian dari program Fisheries Resources Center of Indonesia (FRCI) sebagai Project Leader untuk IKAN. IKAN adalah inisiatif pengumpulan dan pengelolaan data hasil tangkapan dari berbagai kelompok sumber daya, yaitu ikan demersal (kakap, kerapu, dan lencam), kepiting, dan hiu. Pengumpulan data dilakukan melalui aplikasi IKAN dan melibatkan para enumerator yang tersebar di lokasi-lokasi pendaratan ikan, seperti Pati (Jawa Tengah), Lombok Utara (NTB), dan Pangkajene Kepulauan (Sulawesi Selatan). Selain pengalamannya dalam proyek/inisiatif pengelolaan perikanan, Tyas juga memiliki kapasitas untuk menjalin jejaring dan membangun relasi dengan berbagai pihak, termasuk pemerintah pusat, pemerintah daerah, peneliti, dan akademisi. Melalui program IKAN, berbagai pihak dapat berperan aktif mendukung pengumpulan data sumber daya perikanan Indonesia, baik sebagai kontributor maupun pengguna data. Tyas meraih gelar magister dalam bidang Ilmu Kelautan dari IPB University dan gelar doktor dari University of Rostock, Jerman, melalui skema beasiswa DAAD Research Grants - Doctoral Programmes in Germany."
+        ]
+      }
     },
     {
       "id": "nuraeni",
       "name": "Nuraeni",
-      "role": "Finance Manager",
+      "role": { "en": "Finance Manager", "id": "Manajer Keuangan" },
       "photo": "team/nuraeni.jpg",
-      "bio": [
-        "Neni is responsible for reviewing Rekam Nusantara’s financial statements. Prior to joining Rekam Nusantara Foundation, Neni also worked in various non-profit organisations, including Kaoem Telapak, Sajogyo Institute, and the Association of Indigenous Women of the Archipelago (PEREMPUAN AMAN). Neni hopes to make a significant contribution to Rekam Nusantara Foundation and witness the organisation’s bright future."
-      ]
+      "bio": {
+        "en": [
+          "Neni is responsible for reviewing Rekam Nusantara’s financial statements. Prior to joining Rekam Nusantara Foundation, Neni also worked in various non-profit organisations, including Kaoem Telapak, Sajogyo Institute, and the Association of Indigenous Women of the Archipelago (PEREMPUAN AMAN). Neni hopes to make a significant contribution to Rekam Nusantara Foundation and witness the organisation’s bright future."
+        ],
+        "id": [
+          "Neni bertanggung jawab dalam meninjau laporan keuangan Rekam Nusantara. Sebelum bergabung dengan Rekam Nusantara Foundation, Neni juga pernah bekerja di berbagai organisasi nirlaba, antara lain Kaoem Telapak, Sajogyo Institute, dan Perkumpulan Perempuan AMAN (Aliansi Masyarakat Adat Nusantara). Neni berharap dapat memberikan kontribusi yang berarti bagi Rekam Nusantara Foundation dan menyaksikan masa depan cerah organisasi ini."
+        ]
+      }
     },
     {
       "id": "riki-rahmansyah",
       "name": "Riki Rahmansyah",
-      "role": "Kalimantan Hornbill Conservation Program Manager",
+      "role": { "en": "Kalimantan Hornbill Conservation Program Manager", "id": "Manajer Program Konservasi Rangkong Kalimantan" },
       "photo": "team/riki-rahmansyah.jpg",
-      "bio": [
-        "One of the conservationists, a graduate of the Forestry Department at the University of Bengkulu, who enjoys observing wildlife. He completed his final project by researching large mammals in the former HPK Seblat, PLG HPKh. He began to develop an interest in observing birds in 2014 and became one of the contributors to the Asian Waterbird Census for the Bengkulu region until 2018. He has also been involved in bird research on Enggano Island with LIPI. He joined Rangkong Indonesia, one of the conservation units of Rekam Nusantara in the Kapuas Hulu Nature Reserve, West Kalimantan."
-      ]
+      "bio": {
+        "en": [
+          "One of the conservationists, a graduate of the Forestry Department at the University of Bengkulu, who enjoys observing wildlife. He completed his final project by researching large mammals in the former HPK Seblat, PLG HPKh. He began to develop an interest in observing birds in 2014 and became one of the contributors to the Asian Waterbird Census for the Bengkulu region until 2018. He has also been involved in bird research on Enggano Island with LIPI. He joined Rangkong Indonesia, one of the conservation units of Rekam Nusantara in the Kapuas Hulu Nature Reserve, West Kalimantan."
+        ],
+        "id": [
+          "Salah satu konservasionis lulusan Jurusan Kehutanan Universitas Bengkulu yang gemar mengamati satwa liar. Ia menyelesaikan tugas akhirnya dengan meneliti mamalia besar di bekas kawasan HPK Seblat, PLG HPKh. Ketertarikannya pada pengamatan burung mulai tumbuh pada 2014, dan ia menjadi salah satu kontributor Asian Waterbird Census untuk wilayah Bengkulu hingga 2018. Ia juga pernah terlibat dalam riset burung di Pulau Enggano bersama LIPI. Ia bergabung dengan Rangkong Indonesia, salah satu unit konservasi Rekam Nusantara, di Suaka Margasatwa Kapuas Hulu, Kalimantan Barat."
+        ]
+      }
     },
     {
       "id": "irwan-setiadi",
       "name": "Irwan Setiadi",
-      "role": "Communication Manager",
-      "bio": [
-        "Irwan admitted that he has an open personality and likes to network with many people. The man who enjoys adventure, is a graduate of Communication Management Science at the Institute of Social and Political Sciences (IISIP) Jakarta. His educational background also made him accustomed to thinking about various campaign ideas to make people aware of environmental issues.At Rekam, he is in charge of environmentally conscious campaign strategies through digital mediums including social media. He hopes that Rekam Nusantara can always grow and have many studies that are beneficial to the wider community."
-      ]
+      "role": { "en": "Communication Manager", "id": "Manajer Komunikasi" },
+      "bio": {
+        "en": [
+          "Irwan admitted that he has an open personality and likes to network with many people. The man who enjoys adventure, is a graduate of Communication Management Science at the Institute of Social and Political Sciences (IISIP) Jakarta. His educational background also made him accustomed to thinking about various campaign ideas to make people aware of environmental issues.At Rekam, he is in charge of environmentally conscious campaign strategies through digital mediums including social media. He hopes that Rekam Nusantara can always grow and have many studies that are beneficial to the wider community."
+        ],
+        "id": [
+          "Irwan mengaku memiliki kepribadian yang terbuka dan senang menjalin relasi dengan banyak orang. Pria yang gemar berpetualang ini adalah lulusan Ilmu Manajemen Komunikasi dari Institut Ilmu Sosial dan Ilmu Politik (IISIP) Jakarta. Latar belakang pendidikannya membuatnya terbiasa memikirkan berbagai gagasan kampanye untuk menumbuhkan kesadaran masyarakat akan isu lingkungan. Di Rekam, ia bertanggung jawab atas strategi kampanye peduli lingkungan melalui media digital, termasuk media sosial. Ia berharap Rekam Nusantara dapat terus berkembang dan menghasilkan banyak kajian yang bermanfaat bagi masyarakat luas."
+        ]
+      }
     },
     {
       "id": "efin-muttaqin",
       "name": "Efin Muttaqin",
-      "role": "FRCI Manager",
+      "role": { "en": "FRCI Manager", "id": "Manajer FRCI" },
       "photo": "team/efin-muttaqin.jpg",
-      "bio": [
-        "Born in Garut on 31 August 1982, Efin completed his bachelor degree in the Department of Marine Science of the Faculty of Fisheries and Marine Science, IPB University. He continued his graduate degree in the Department of Coastal Resource and Small Island Management, IPB University. Efin has had over 15 years of experience in marine conservation, specifically in developing effective management for national parks, taking Karimunjawa and Taka Bonerate National Park as project implementation sites. He is a diver with a dive master certificate from the International Scuba School. Efin specializes in conducting monitoring for coral reef ecosystems, coral bleaching surveys, and was involved in several coral reef ecosystem surveys in many areas in Indonesia."
-      ]
+      "bio": {
+        "en": [
+          "Born in Garut on 31 August 1982, Efin completed his bachelor degree in the Department of Marine Science of the Faculty of Fisheries and Marine Science, IPB University. He continued his graduate degree in the Department of Coastal Resource and Small Island Management, IPB University. Efin has had over 15 years of experience in marine conservation, specifically in developing effective management for national parks, taking Karimunjawa and Taka Bonerate National Park as project implementation sites. He is a diver with a dive master certificate from the International Scuba School. Efin specializes in conducting monitoring for coral reef ecosystems, coral bleaching surveys, and was involved in several coral reef ecosystem surveys in many areas in Indonesia."
+        ],
+        "id": [
+          "Lahir di Garut pada 31 Agustus 1982, Efin menyelesaikan gelar sarjananya di Departemen Ilmu Kelautan, Fakultas Perikanan dan Ilmu Kelautan, IPB University. Ia melanjutkan studi magisternya di Departemen Manajemen Sumberdaya Pesisir dan Pulau-Pulau Kecil, IPB University. Efin memiliki pengalaman lebih dari 15 tahun di bidang konservasi laut, khususnya dalam mengembangkan pengelolaan yang efektif untuk taman nasional, dengan Taman Nasional Karimunjawa dan Taka Bonerate sebagai lokasi implementasi proyeknya. Ia juga seorang penyelam bersertifikat dive master dari International Scuba School. Efin memiliki keahlian khusus dalam pemantauan ekosistem terumbu karang, survei pemutihan karang, dan pernah terlibat dalam sejumlah survei ekosistem terumbu karang di berbagai wilayah di Indonesia."
+        ]
+      }
     },
     {
       "id": "annisya-rosdiana",
       "name": "Annisya Rosdiana",
-      "role": "FRCI Manager",
-      "bio": [
-        "Annisya Rosdiana, or Anyes, received her undergraduate and master degree in Marine Science from IPB University. She has been actively contributing in many initiatives related to marine and fisheries since 2013, including the development of marine debris action plan, studies on climate change vulnerability, and studies on socio-economic development in coastal regions. In 2019, Anyes joined an international NGO working on the designation and management of 29 conservation areas. She took part in supporting the development of pelagic protected areas, the development of evaluation tools for marine protected areas (MPAs), and conducted institutional assessment for conservation areas. She was promoted as a Fisheries Coordinator in the same organization in 2020 to manage fisheries management program, including to supervise the compilation and implementation of fisheries management planning and harvest strategy at national level and provincial level, as well as developing and implementing the Fisheries Improvement Project (FIP). Anyes joined FRCI in 2021 as a Project Leader in implementing Ocean Accounts Pilot in Indonesia to support the national program for sustainable fisheries and conservation areas."
-      ]
+      "role": { "en": "FRCI Manager", "id": "Manajer FRCI" },
+      "bio": {
+        "en": [
+          "Annisya Rosdiana, or Anyes, received her undergraduate and master degree in Marine Science from IPB University. She has been actively contributing in many initiatives related to marine and fisheries since 2013, including the development of marine debris action plan, studies on climate change vulnerability, and studies on socio-economic development in coastal regions. In 2019, Anyes joined an international NGO working on the designation and management of 29 conservation areas. She took part in supporting the development of pelagic protected areas, the development of evaluation tools for marine protected areas (MPAs), and conducted institutional assessment for conservation areas. She was promoted as a Fisheries Coordinator in the same organization in 2020 to manage fisheries management program, including to supervise the compilation and implementation of fisheries management planning and harvest strategy at national level and provincial level, as well as developing and implementing the Fisheries Improvement Project (FIP). Anyes joined FRCI in 2021 as a Project Leader in implementing Ocean Accounts Pilot in Indonesia to support the national program for sustainable fisheries and conservation areas."
+        ],
+        "id": [
+          "Annisya Rosdiana, atau Anyes, meraih gelar sarjana dan magisternya dalam bidang Ilmu Kelautan dari IPB University. Ia telah aktif berkontribusi dalam berbagai inisiatif terkait kelautan dan perikanan sejak 2013, termasuk penyusunan rencana aksi sampah laut, kajian kerentanan perubahan iklim, dan kajian pembangunan sosial-ekonomi di wilayah pesisir. Pada 2019, Anyes bergabung dengan sebuah NGO internasional yang bekerja pada penetapan dan pengelolaan 29 kawasan konservasi. Ia turut mendukung pengembangan kawasan lindung pelagis, pengembangan perangkat evaluasi kawasan konservasi laut (MPA), serta melakukan asesmen kelembagaan untuk kawasan konservasi. Ia dipromosikan menjadi Fisheries Coordinator di organisasi yang sama pada 2020 untuk mengelola program pengelolaan perikanan, termasuk mengawasi penyusunan dan implementasi rencana pengelolaan perikanan serta strategi pemanfaatan di tingkat nasional dan provinsi, serta mengembangkan dan menjalankan Fisheries Improvement Project (FIP). Anyes bergabung dengan FRCI pada 2021 sebagai Project Leader dalam pelaksanaan Ocean Accounts Pilot di Indonesia untuk mendukung program nasional perikanan berkelanjutan dan kawasan konservasi."
+        ]
+      }
     },
     {
       "id": "oktavianto-prastyo",
       "name": "Oktavianto Prastyo",
-      "role": "FRCI Manager",
+      "role": { "en": "FRCI Manager", "id": "Manajer FRCI" },
       "photo": "team/oktavianto-prastyo.jpg",
-      "bio": [
-        "Born in Madiun in 1990, Oktavianto completed his bachelor at the Faculty of Fisheries and Marine Science in 2012 and master degree in 2016 at the IPB University. He joined FRCI in March 2021 as a Project Leader in program implementation in Central Java. Prior to joining FRCI, Oktavianto has been involved in sustainable fisheries programs, conservation areas, and facilitation for the coastal community for over seven years. He developed fishery management programs and conservation for Wedgefish and Giant Guitarfish in the northern coast of Java, particularly in Central Java, through collaboration with the provincial government through the Department of Marine Affairs and Fisheries of Central the Faculty of Fisheries and Marine Science of Diponegoro University."
-      ]
+      "bio": {
+        "en": [
+          "Born in Madiun in 1990, Oktavianto completed his bachelor at the Faculty of Fisheries and Marine Science in 2012 and master degree in 2016 at the IPB University. He joined FRCI in March 2021 as a Project Leader in program implementation in Central Java. Prior to joining FRCI, Oktavianto has been involved in sustainable fisheries programs, conservation areas, and facilitation for the coastal community for over seven years. He developed fishery management programs and conservation for Wedgefish and Giant Guitarfish in the northern coast of Java, particularly in Central Java, through collaboration with the provincial government through the Department of Marine Affairs and Fisheries of Central the Faculty of Fisheries and Marine Science of Diponegoro University."
+        ],
+        "id": [
+          "Lahir di Madiun pada 1990, Oktavianto menyelesaikan gelar sarjananya di Fakultas Perikanan dan Ilmu Kelautan pada 2012 dan gelar magister pada 2016, keduanya di IPB University. Ia bergabung dengan FRCI pada Maret 2021 sebagai Project Leader untuk implementasi program di Jawa Tengah. Sebelum bergabung dengan FRCI, Oktavianto telah terlibat dalam program perikanan berkelanjutan, kawasan konservasi, dan pendampingan masyarakat pesisir selama lebih dari tujuh tahun. Ia mengembangkan program pengelolaan perikanan dan konservasi untuk hiu pari (Wedgefish) dan pari raksasa (Giant Guitarfish) di pesisir utara Jawa, khususnya di Jawa Tengah, melalui kolaborasi dengan pemerintah provinsi lewat Dinas Kelautan dan Perikanan Jawa Tengah serta Fakultas Perikanan dan Ilmu Kelautan Universitas Diponegoro."
+        ]
+      }
     },
     {
       "id": "intan-destianis-hartati",
       "name": "Intan Destianis Hartati",
-      "role": "FRCI Manager",
-      "bio": [
-        "Intan Destianis Hartati has been working in the field of conservation since 2017 as a Fisheries Science and Database Officer. In her career, Intan is responsible for controlling and managing fisheries database systems and conducting analysis on fish stock conditions using statistical software such as RStudio. With her expertise in identifying coral reef and demersal fish species, Intan has also contributed to the writing of the book \"Kerapu di Indonesia / Groupers in Indonesia\". In 2023, Intan joined the Fisheries Resource Center of Indonesia (FRCI) as a Senior Officer for Sustainable Fisheries and Conservation. In this role, Intan is responsible for managing sustainable fisheries and marine protected areas. Additionally, Intan is involved in supporting the implementation of the Pilot Projects of Ocean Accounts Indonesia."
-      ]
+      "role": { "en": "FRCI Manager", "id": "Manajer FRCI" },
+      "bio": {
+        "en": [
+          "Intan Destianis Hartati has been working in the field of conservation since 2017 as a Fisheries Science and Database Officer. In her career, Intan is responsible for controlling and managing fisheries database systems and conducting analysis on fish stock conditions using statistical software such as RStudio. With her expertise in identifying coral reef and demersal fish species, Intan has also contributed to the writing of the book \"Kerapu di Indonesia / Groupers in Indonesia\". In 2023, Intan joined the Fisheries Resource Center of Indonesia (FRCI) as a Senior Officer for Sustainable Fisheries and Conservation. In this role, Intan is responsible for managing sustainable fisheries and marine protected areas. Additionally, Intan is involved in supporting the implementation of the Pilot Projects of Ocean Accounts Indonesia."
+        ],
+        "id": [
+          "Intan Destianis Hartati telah berkecimpung di bidang konservasi sejak 2017 sebagai Fisheries Science and Database Officer. Dalam kariernya, Intan bertanggung jawab mengontrol dan mengelola sistem basis data perikanan serta melakukan analisis kondisi stok ikan menggunakan perangkat lunak statistik seperti RStudio. Dengan keahliannya dalam mengidentifikasi terumbu karang dan spesies ikan demersal, Intan juga turut berkontribusi dalam penulisan buku \"Kerapu di Indonesia / Groupers in Indonesia\". Pada 2023, Intan bergabung dengan Fisheries Resource Center of Indonesia (FRCI) sebagai Senior Officer for Sustainable Fisheries and Conservation. Dalam peran ini, Intan bertanggung jawab mengelola perikanan berkelanjutan dan kawasan konservasi perairan. Selain itu, Intan turut mendukung pelaksanaan Pilot Projects of Ocean Accounts Indonesia."
+        ]
+      }
     },
     {
       "id": "dewi-pudiawati",
       "name": "Dewi Pudiawati",
-      "role": "Finance Staff",
+      "role": { "en": "Finance Staff", "id": "Staf Keuangan" },
       "photo": "team/dewi-pudiawati.jpg",
-      "bio": [
-        "Dewi Pudiawati was born in Bogor, 1st December 1986. She is a travel lover who joined Rekam Nusantara in 2013 as a finance staff. She is responsible for inputting data on the organisation’s finance and journal voucher on Accurate Online, as well as donor reports and others."
-      ]
+      "bio": {
+        "en": [
+          "Dewi Pudiawati was born in Bogor, 1st December 1986. She is a travel lover who joined Rekam Nusantara in 2013 as a finance staff. She is responsible for inputting data on the organisation’s finance and journal voucher on Accurate Online, as well as donor reports and others."
+        ],
+        "id": [
+          "Dewi Pudiawati lahir di Bogor, 1 Desember 1986. Ia seorang pecinta jalan-jalan yang bergabung dengan Rekam Nusantara pada 2013 sebagai staf keuangan. Ia bertanggung jawab menginput data keuangan organisasi dan voucher jurnal pada Accurate Online, serta laporan donor dan lainnya."
+        ]
+      }
     },
     {
       "id": "bernita-sumardja",
       "name": "Bernita Sumardja",
-      "role": "Senior Financial Staff",
+      "role": { "en": "Senior Financial Staff", "id": "Staf Keuangan Senior" },
       "photo": "team/bernita-sumardja.jpg",
-      "bio": [
-        "Bernita Sumardja joined Rekam Nusantara Foundation in January 2018. Graduated from Trisakti University’s Environmental Engineering programme, she has worked in the banking industry for many years. She works as an administrative staff at Rekam Nusantara Foundation, where she is in charge of various secretariat reports, projects, payroll, Employee Social Security (BPJS Ketenagakerjaan) programme, and monthly office expenses."
-      ]
+      "bio": {
+        "en": [
+          "Bernita Sumardja joined Rekam Nusantara Foundation in January 2018. Graduated from Trisakti University’s Environmental Engineering programme, she has worked in the banking industry for many years. She works as an administrative staff at Rekam Nusantara Foundation, where she is in charge of various secretariat reports, projects, payroll, Employee Social Security (BPJS Ketenagakerjaan) programme, and monthly office expenses."
+        ],
+        "id": [
+          "Bernita Sumardja bergabung dengan Rekam Nusantara Foundation pada Januari 2018. Lulusan program studi Teknik Lingkungan Universitas Trisakti ini telah bertahun-tahun berkarier di industri perbankan. Ia bekerja sebagai staf administrasi di Rekam Nusantara Foundation, tempat ia menangani berbagai laporan kesekretariatan, proyek, penggajian, program BPJS Ketenagakerjaan, serta pengeluaran kantor bulanan."
+        ]
+      }
     },
     {
       "id": "aulia-nurahman",
       "name": "Aulia Nurahman",
-      "role": "Footage Curator",
+      "role": { "en": "Footage Curator", "id": "Kurator Footage" },
       "photo": "team/aulia-nurahman.jpg",
-      "bio": [
-        "Aulia joined Rekam Nusantara Foundation in 2015 and now works as a database and general affairs staff. He completed his high school and undergraduate education in Bandung. He values discipline and order, both at home and at work. He likes watching movies or series in his free time. This Geminian hopes he will always be able to deliver the best work for the foundation."
-      ]
+      "bio": {
+        "en": [
+          "Aulia joined Rekam Nusantara Foundation in 2015 and now works as a database and general affairs staff. He completed his high school and undergraduate education in Bandung. He values discipline and order, both at home and at work. He likes watching movies or series in his free time. This Geminian hopes he will always be able to deliver the best work for the foundation."
+        ],
+        "id": [
+          "Aulia bergabung dengan Rekam Nusantara Foundation pada 2015 dan kini bekerja sebagai staf basis data dan umum. Ia menyelesaikan pendidikan SMA dan sarjananya di Bandung. Ia menjunjung tinggi kedisiplinan dan keteraturan, baik di rumah maupun di tempat kerja. Di waktu luang, ia gemar menonton film atau serial. Pria kelahiran Gemini ini berharap dapat selalu memberikan kinerja terbaik bagi yayasan."
+        ]
+      }
     },
     {
       "id": "rizki-rukyanti",
       "name": "Rizki Rukyanti",
-      "role": "Communication Staff",
+      "role": { "en": "Communication Staff", "id": "Staf Komunikasi" },
       "photo": "team/rizki-rukyanti.jpg",
-      "bio": [
-        "Kiki is now pursuing a degree in communication at Indonesia Open University. She formerly majored in Environmental Engineering and Management at IPB University Vocational School. As a Gemini girl, she enjoys not only traveling and capturing moments through photographs and videos, but also spicy foods and fried chicken.",
-        "Kiki loves her current role because it allows her to share her knowledge of hornbills with the community. She wants to connect with hornbill enthusiasts and even other conservationists.",
-        "Kiki hopes that Rekam Nusantara Foundation will maintain its spirit and continue to promote and raise awareness of the environment and humanity."
-      ]
+      "bio": {
+        "en": [
+          "Kiki is now pursuing a degree in communication at Indonesia Open University. She formerly majored in Environmental Engineering and Management at IPB University Vocational School. As a Gemini girl, she enjoys not only traveling and capturing moments through photographs and videos, but also spicy foods and fried chicken.",
+          "Kiki loves her current role because it allows her to share her knowledge of hornbills with the community. She wants to connect with hornbill enthusiasts and even other conservationists.",
+          "Kiki hopes that Rekam Nusantara Foundation will maintain its spirit and continue to promote and raise awareness of the environment and humanity."
+        ],
+        "id": [
+          "Kiki saat ini sedang menempuh studi Ilmu Komunikasi di Universitas Terbuka. Sebelumnya, ia mengambil jurusan Teknik dan Manajemen Lingkungan di Sekolah Vokasi IPB University. Sebagai perempuan kelahiran Gemini, ia gemar bepergian dan mengabadikan momen lewat foto dan video, serta menyukai makanan pedas dan ayam goreng.",
+          "Kiki menyukai perannya saat ini karena memungkinkannya membagikan pengetahuannya tentang rangkong kepada masyarakat. Ia ingin terhubung dengan para pecinta rangkong, bahkan dengan sesama konservasionis lainnya.",
+          "Kiki berharap Rekam Nusantara Foundation dapat terus menjaga semangatnya serta terus menggaungkan dan meningkatkan kesadaran akan lingkungan dan kemanusiaan."
+        ]
+      }
     },
     {
       "id": "pandu-wijaya",
       "name": "Pandu Wijaya",
-      "role": "Illustrator",
-      "bio": [
-        "Pandu is an accomplished illustrator who loves daydreaming and portraying his reveries through sketches or drawings, which has earned him the position of a senior illustrator and animator at Rekam Nusantara Foundation."
-      ]
+      "role": { "en": "Illustrator", "id": "Ilustrator" },
+      "bio": {
+        "en": [
+          "Pandu is an accomplished illustrator who loves daydreaming and portraying his reveries through sketches or drawings, which has earned him the position of a senior illustrator and animator at Rekam Nusantara Foundation."
+        ],
+        "id": [
+          "Pandu adalah ilustrator berpengalaman yang gemar berkhayal dan menuangkan lamunannya lewat sketsa atau gambar, yang mengantarkannya pada posisi ilustrator dan animator senior di Rekam Nusantara Foundation."
+        ]
+      }
     },
     {
       "id": "masud-wijaya",
       "name": "Masud Wijaya",
-      "role": "Graphic Designer",
+      "role": { "en": "Graphic Designer", "id": "Desainer Grafis" },
       "photo": "team/masud-wijaya.jpg",
-      "bio": [
-        "His previous work experience helps him see the nature from different perspectives. For example, while working at the Directorate of Use of Conservation Forest Environmental Services, he had an opportunity to visit half of all of Indonesia’s national parks which turned out to have high natural resources and biodiversity. He keeps this as a highly valuable experience."
-      ]
+      "bio": {
+        "en": [
+          "His previous work experience helps him see the nature from different perspectives. For example, while working at the Directorate of Use of Conservation Forest Environmental Services, he had an opportunity to visit half of all of Indonesia’s national parks which turned out to have high natural resources and biodiversity. He keeps this as a highly valuable experience."
+        ],
+        "id": [
+          "Pengalaman kerjanya sebelumnya membantunya melihat alam dari berbagai sudut pandang berbeda. Misalnya, saat bekerja di Direktorat Pemanfaatan Jasa Lingkungan Hutan Konservasi, ia berkesempatan mengunjungi separuh dari seluruh taman nasional di Indonesia yang ternyata memiliki sumber daya alam dan keanekaragaman hayati yang tinggi. Ia memandang ini sebagai pengalaman yang sangat berharga."
+        ]
+      }
     }
   ],
   "units": [
     {
       "name": "Rangkong Indonesia",
-      "text": "A research unit born from a single concern: Indonesia's thirteen hornbill species must remain in the forest, safeguarding the country's remaining 98 million hectares of tropical rainforest.",
+      "text": {
+        "en": "A research unit born from a single concern: Indonesia's thirteen hornbill species must remain in the forest, safeguarding the country's remaining 98 million hectares of tropical rainforest.",
+        "id": "Unit riset yang lahir dari satu keprihatinan: ketiga belas spesies rangkong Indonesia harus tetap berada di hutan, demi menjaga 98 juta hektare hutan tropis yang tersisa di Indonesia."
+      },
       "href": "https://rangkong.org",
       "logo": "unit/rangkong.png"
     },
     {
       "name": "Fisheries Resources Center of Indonesia",
-      "text": "Born from discussions between fisheries academics and NGOs, with the mission of “Sustainability and Justice for Fisheries in Indonesia.”",
+      "text": {
+        "en": "Born from discussions between fisheries academics and NGOs, with the mission of “Sustainability and Justice for Fisheries in Indonesia.”",
+        "id": "Lahir dari diskusi antara akademisi perikanan dan organisasi non-pemerintah, dengan misi “Keberlanjutan dan Keadilan bagi Perikanan Indonesia.”"
+      },
       "href": "https://perikanan.org",
       "logo": "unit/frci.png"
     },
     {
       "name": "Urban & Sustainability",
-      "text": "A directorate that works alongside communities and local government to find solutions to urban environmental problems, starting in the city of Bogor.",
+      "text": {
+        "en": "A directorate that works alongside communities and local government to find solutions to urban environmental problems, starting in the city of Bogor.",
+        "id": "Direktorat yang bekerja bersama masyarakat dan pemerintah daerah untuk mencari solusi atas persoalan lingkungan perkotaan, dimulai dari Kota Bogor."
+      },
       "logo": "unit/urban.png"
     },
     {
       "name": "Creative Communication",
-      "text": "A commitment to delivering critical narratives grounded in solid data research and thinking.",
+      "text": {
+        "en": "A commitment to delivering critical narratives grounded in solid data research and thinking.",
+        "id": "Komitmen untuk menghadirkan narasi kritis yang berpijak pada riset data dan pemikiran yang kuat."
+      },
       "logo": "unit/creative.png"
     },
     {
       "name": "Natural Resources Crime Unit",
-      "text": "Supporting law enforcement agencies in dismantling organized wildlife crime networks through digital forensic analysis and network-based investigations.",
+      "text": {
+        "en": "Supporting law enforcement agencies in dismantling organized wildlife crime networks through digital forensic analysis and network-based investigations.",
+        "id": "Mendukung aparat penegak hukum dalam membongkar jaringan kejahatan satwa liar yang terorganisir melalui analisis forensik digital dan investigasi berbasis jaringan."
+      },
       "logo": "unit/nrcu.png"
     },
     {
       "name": "Story Telling",
-      "text": "REKAM Nusantara's storytelling and film production unit in Bogor, home to documentary filmmakers expanding public awareness.",
+      "text": {
+        "en": "REKAM Nusantara's storytelling and film production unit in Bogor, home to documentary filmmakers expanding public awareness.",
+        "id": "Unit bertutur cerita dan produksi film REKAM Nusantara di Bogor, rumah bagi para sineas dokumenter yang memperluas kesadaran publik."
+      },
       "href": "https://inaturefilms.org",
       "logo": "unit/infis.png"
     }
@@ -200,7 +313,7 @@
   "org": [
     {
       "kind": "board",
-      "role": "Advisory Board",
+      "role": { "en": "Advisory Board", "id": "Dewan Penasihat" },
       "people": [
         "Nanang Sujana",
         "Prof. Charlie D. Heatubun",
@@ -209,7 +322,7 @@
     },
     {
       "kind": "board",
-      "role": "Supervisory Board",
+      "role": { "en": "Supervisory Board", "id": "Dewan Pengawas" },
       "people": [
         "Ridzki R. Sigit",
         "Dian Agustine Nuriman",
@@ -218,7 +331,7 @@
     },
     {
       "kind": "chair",
-      "role": "Chairperson of the Foundation",
+      "role": { "en": "Chairperson of the Foundation", "id": "Ketua Yayasan" },
       "lead": {
         "name": "Irfan Yulianto",
         "ref": "irfan-yulianto"
@@ -226,7 +339,7 @@
     },
     {
       "kind": "unit",
-      "role": "Director for Operations",
+      "role": { "en": "Director for Operations", "id": "Direktur Operasional" },
       "lead": {
         "name": "Wahyu Mulyono",
         "ref": "wahyu-mulyono"
@@ -234,7 +347,7 @@
       "domId": "unit-ops",
       "managers": [
         {
-          "role": "Mgr. for Finance",
+          "role": { "en": "Mgr. for Finance", "id": "Mgr. Keuangan" },
           "person": {
             "name": "Nuraeni",
             "ref": "nuraeni"
@@ -244,7 +357,7 @@
     },
     {
       "kind": "unit",
-      "role": "Director for Ocean Program",
+      "role": { "en": "Director for Ocean Program", "id": "Direktur Program Laut" },
       "lead": {
         "name": "Heidi Retnoningtyas",
         "ref": "heidi-retnoningtyas"
@@ -252,40 +365,40 @@
       "domId": "unit-ocean",
       "managers": [
         {
-          "role": "Mgr. for Species Conservation",
+          "role": { "en": "Mgr. for Species Conservation", "id": "Mgr. Konservasi Spesies" },
           "person": {
             "name": "Efin Muttaqin",
             "ref": "efin-muttaqin"
           }
         },
         {
-          "role": "Mgr. for Fisheries Management",
+          "role": { "en": "Mgr. for Fisheries Management", "id": "Mgr. Pengelolaan Perikanan" },
           "person": {
             "name": "Intan Destianis Hartati",
             "ref": "intan-destianis-hartati"
           }
         },
         {
-          "role": "Mgr. for Central Java",
+          "role": { "en": "Mgr. for Central Java", "id": "Mgr. Jawa Tengah" },
           "person": {
             "name": "Octavianto P. Darmono",
             "ref": "oktavianto-prastyo"
           }
         },
         {
-          "role": "Mgr. for MPA Management",
+          "role": { "en": "Mgr. for MPA Management", "id": "Mgr. Pengelolaan MPA" },
           "person": {
             "name": "Prayekti Ningtias"
           }
         },
         {
-          "role": "Mgr. for Blue Carbon",
+          "role": { "en": "Mgr. for Blue Carbon", "id": "Mgr. Karbon Biru" },
           "person": {
             "name": "Jessica Pingkan"
           }
         },
         {
-          "role": "Mgr. for Ocean Accounts",
+          "role": { "en": "Mgr. for Ocean Accounts", "id": "Mgr. Neraca Sumber Daya Laut" },
           "person": {
             "name": "Annisya Rosdiana",
             "ref": "annisya-rosdiana"
@@ -295,7 +408,7 @@
     },
     {
       "kind": "unit",
-      "role": "Director for Forest Program",
+      "role": { "en": "Director for Forest Program", "id": "Direktur Program Hutan" },
       "lead": {
         "name": "Yok Yok Hadiprakarsa",
         "ref": "yoki-hadiprakarsa"
@@ -303,7 +416,7 @@
       "domId": "unit-forest",
       "managers": [
         {
-          "role": "Mgr. for Rangkong Indonesia",
+          "role": { "en": "Mgr. for Rangkong Indonesia", "id": "Mgr. Rangkong Indonesia" },
           "person": {
             "name": "Riki Rahmansyah",
             "ref": "riki-rahmansyah"
@@ -313,7 +426,7 @@
     },
     {
       "kind": "unit",
-      "role": "Director for Urban and Sustainability Program",
+      "role": { "en": "Director for Urban and Sustainability Program", "id": "Direktur Program Perkotaan dan Keberlanjutan" },
       "lead": {
         "name": "Een Irawan Putra",
         "ref": "een-irawan-putra"
@@ -321,7 +434,7 @@
       "domId": "unit-urban",
       "managers": [
         {
-          "role": "Mgr. for Urban and Sustainability",
+          "role": { "en": "Mgr. for Urban and Sustainability", "id": "Mgr. Perkotaan dan Keberlanjutan" },
           "person": {
             "name": "Irfan Hawari"
           }
@@ -330,7 +443,7 @@
     },
     {
       "kind": "leaf",
-      "role": "Mgr. for Creative Communication",
+      "role": { "en": "Mgr. for Creative Communication", "id": "Mgr. Komunikasi Kreatif" },
       "lead": {
         "name": "Irwan Setiadi",
         "ref": "irwan-setiadi"
@@ -339,7 +452,7 @@
     },
     {
       "kind": "leaf",
-      "role": "Mgr. for Story Telling",
+      "role": { "en": "Mgr. for Story Telling", "id": "Mgr. Story Telling" },
       "lead": {
         "name": "Dini Aristya Wulandari"
       },

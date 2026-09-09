@@ -67,53 +67,89 @@ export type News = z.infer<typeof newsSchema>;
  * link that showed you a different event than it named. There is nothing to
  * migrate for it, so it is not invented here; the nav is derived from this
  * collection instead, which makes that class of lie impossible to reintroduce.
+ *
+ * Bilingual shape: every field a reader sees is `{ id, en }` rather than a
+ * bare string, Indonesian being the canonical/original text with a faithful
+ * English translation alongside it — same spirit as src/i18n/content, just
+ * inlined onto the data because this collection *is* the copy. `localized`
+ * below is that pair; `documentation` (slugs into the news collection, out of
+ * scope for this pass) and structural bits (`slug`, `cover`, `agenda[].time`)
+ * stay plain strings.
+ *
+ * One exception: `title` currently carries the same text in both languages.
+ * "Cerita Laut Nusantara" is this event's proper name, not a description —
+ * the same call the /initiative page makes for "Bangga Papua: Back to the
+ * roots" (see src/i18n/content/initiative.ts). A future event with a
+ * genuinely different English name can simply set title.en to something else.
  */
+const localized = z.object({ id: z.string(), en: z.string() });
+export type Localized = z.infer<typeof localized>;
+
 export const eventSchema = z.object({
   slug: z.string().min(1),
-  title: z.string().min(1),
-  lede: z.string(),
+  title: localized,
+  lede: localized,
   cover: z.string().optional(),
-  coverAlt: z.string().default(''),
+  coverAlt: localized.default({ id: '', en: '' }),
 
   /* The source shipped a yellow warning strip saying the details below are
      placeholders. Keeping it as a field rather than hardcoding it means a real
      event simply omits it. */
-  notice: z.string().optional(),
+  notice: localized.optional(),
 
   /* Tanggal / Lokasi / Biaya / Kuota. Free-form label+value pairs because two
      of the four currently read "Menyusul" — typing them as a real date would
      mean inventing one. */
-  facts: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
+  facts: z.array(z.object({ label: localized, value: localized })).default([]),
 
   about: z
     .object({
-      eyebrow: z.string(),
-      title: z.string(),
-      body: z.array(z.string()),
+      eyebrow: localized,
+      title: localized,
+      body: z.array(localized),
     })
     .optional(),
 
   agenda: z
-    .array(z.object({ time: z.string(), title: z.string(), detail: z.string() }))
+    .array(z.object({ time: z.string(), title: localized, detail: localized }))
     .default([]),
 
   /* Rendered as the 01/02/03 cards. Capped at three because the source styles
      colour them by position — .numbers__grid .numcard:nth-child(1|2|3) — so a
      fourth would render unstyled. */
-  gains: z.array(z.string()).max(3).default([]),
+  gains: z.array(localized).max(3).default([]),
 
   /* Explicit article slugs, not a derived query. The source's rail mixed two
      ocean-tagged articles with the event's own namesake piece, which no simple
-     rule reproduces — it was curated. */
+     rule reproduces — it was curated. Left as plain slugs, not localized: the
+     news collection itself carries the language split (`News.lang`), and
+     translating berita content is explicitly out of scope here. */
   documentation: z.array(z.string()).default([]),
 
   cta: z
     .object({
-      title: z.string(),
-      lede: z.string(),
-      note: z.string().optional(),
+      title: localized,
+      lede: localized,
+      note: localized.optional(),
     })
     .optional(),
 });
 
 export type EventRecord = z.infer<typeof eventSchema>;
+
+/** An EventRecord with every `localized` field resolved to one locale's
+ *  plain string — what the pages actually render. */
+export type ResolvedEvent = {
+  slug: string;
+  title: string;
+  lede: string;
+  cover?: string;
+  coverAlt: string;
+  notice?: string;
+  facts: { label: string; value: string }[];
+  about?: { eyebrow: string; title: string; body: string[] };
+  agenda: { time: string; title: string; detail: string }[];
+  gains: string[];
+  documentation: string[];
+  cta?: { title: string; lede: string; note?: string };
+};

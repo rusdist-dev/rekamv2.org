@@ -63,7 +63,21 @@ type Dict = {
     slowConnection: (effectiveType: string) => string;
     noFootage: (src: string) => string;
   };
-  common: { readMore: string; allNews: string; back: string };
+  common: {
+    readMore: string;
+    allNews: string;
+    back: string;
+    /** The programme pages' "Overview" / "Impact" section eyebrows — identical
+     *  wording across forest/urban/ocean, so it lives here once rather than
+     *  being repeated in each of src/i18n/content/{forest,urban,ocean}.ts. */
+    overview: string;
+    impact: string;
+    /** The "Be Part of the Story" CTA band, duplicated identically across the
+     *  home page, ProgramPage's shared (non-forest) branch, and both berita
+     *  pages — genuinely shared chrome, not page-specific content.
+     *  heading1/heading2 are the two visual lines of the heading. */
+    storyBand: { heading1: string; heading2: string; shopCta: string; alt: string };
+  };
   /** Says which parts of the page are not translated yet. */
   partial: string;
 };
@@ -81,20 +95,20 @@ const id: Dict = {
   search: { label: 'Cari di situs REKAM', placeholder: 'Cari', submit: 'Cari' },
   lang: { group: 'Pilih bahasa', switchTo: (label) => `Beralih ke ${label}` },
   footer: {
-    links: 'Links',
-    follow: 'Follow Us',
+    links: 'Tautan',
+    follow: 'Ikuti Kami',
     channels: 'Unit dan kanal REKAM',
     social: 'Media sosial',
-    blurb: 'Documenting knowledge. Preserving life.',
+    blurb: 'Mendokumentasikan pengetahuan. Melestarikan kehidupan.',
     rights: '© 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.',
   },
   nav_items: {
     forest: 'Forest',
     urban: 'Urban',
     ocean: 'Ocean',
-    tentang: 'Tentang',
+    tentang: 'Tentang Kami',
     berita: 'Berita',
-    event: 'Event',
+    event: 'Kegiatan',
     donasi: 'Donasi',
     merch: 'Merch',
   },
@@ -126,6 +140,14 @@ const id: Dict = {
     readMore: 'Baca selengkapnya',
     allNews: 'Lihat semua berita',
     back: 'Kembali',
+    overview: 'Ikhtisar',
+    impact: 'Dampak',
+    storyBand: {
+      heading1: 'Jadilah Bagian',
+      heading2: 'dari Cerita Ini',
+      shopCta: 'Belanja',
+      alt: 'Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye',
+    },
   },
   partial: '',
 };
@@ -155,9 +177,9 @@ const en: Dict = {
     forest: 'Forest',
     urban: 'Urban',
     ocean: 'Ocean',
-    tentang: 'Who We Are',
+    tentang: 'Our Story',
     berita: 'Field Notes',
-    event: 'Whats On',
+    event: 'Event',
     donasi: 'Take Part',
     merch: 'Shop',
   },
@@ -189,6 +211,14 @@ const en: Dict = {
     readMore: 'Read more',
     allNews: 'See all news',
     back: 'Back',
+    overview: 'Overview',
+    impact: 'Impact',
+    storyBand: {
+      heading1: 'Be Part of',
+      heading2: 'the Story',
+      shopCta: 'Shop',
+      alt: 'Four REKAM volunteers walking together carrying books and campaign materials',
+    },
   },
   partial:
     'Some editorial copy on this page has not been translated yet and is shown in Indonesian.',

@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Brand } from '@/components/chrome/Brand';
 import { cn } from '@/lib/cn';
 import { AppLink, useLocale } from '@/components/ui/AppLink';
-import { LOCALES, LOCALE_LABEL } from '@/i18n/config';
+import { LOCALE_COOKIE, LOCALES, LOCALE_LABEL } from '@/i18n/config';
 import { t as dict } from '@/i18n/dictionary';
 import { alternatePath } from '@/i18n/routing';
 import { EXPLORE, PROGRAMMES, type NavItem, type NavKey } from '@/lib/nav';
@@ -43,7 +43,8 @@ const RAIL_LINK =
 
 function RailLink({ item, current }: { item: NavItem; current?: NavKey | null }) {
   const active = current === item.key;
-  const T = dict(useLocale());
+  const locale = useLocale();
+  const T = dict(locale);
   const label = T.nav_items[item.key];
 
   const link = (
@@ -100,7 +101,7 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
                   href={child.href}
                   className="block cursor-pointer px-[1.1rem] py-2 text-[0.82rem] whitespace-nowrap text-ink-soft no-underline outline-none hover:bg-band hover:text-green-900 data-[highlighted]:bg-band data-[highlighted]:text-green-900"
                 >
-                  {child.label}
+                  {child.label[locale]}
                 </AppLink>
               </DropdownMenu.Item>
             ))}
@@ -182,6 +183,20 @@ function LangSwitch({ className }: { className?: string }) {
               lang={l}
               aria-label={T.lang.switchTo(LOCALE_LABEL[l])}
               className="text-ink-soft no-underline hover:text-green-900"
+              // Switching language re-renders the same page in the other
+              // tongue, not a new one — Next's default scroll-to-top on
+              // navigate would otherwise throw a reader back to the masthead
+              // mid-article.
+              scroll={false}
+              onClick={() => {
+                /* Written before the navigation request goes out, not after:
+                   on the home page the Indonesian target IS "/", which is the
+                   same URL middleware.ts uses to redirect fresh visitors to
+                   /en. Without the cookie landing first, clicking ID from the
+                   English home page would race that redirect and bounce
+                   straight back to /en. */
+                document.cookie = `${LOCALE_COOKIE}=${l}; path=/; max-age=${60 * 60 * 24 * 365}`;
+              }}
             >
               {LOCALE_LABEL[l]}
             </Link>
@@ -385,7 +400,8 @@ function NavGroup({
   current?: NavKey | null;
   onNavigate: () => void;
 }) {
-  const T = dict(useLocale());
+  const locale = useLocale();
+  const T = dict(locale);
 
   return (
     <>
@@ -410,10 +426,11 @@ function NavGroup({
               <ul className="m-0 list-none pb-[0.6rem] pl-4">
                 {item.children.map((child) => (
                   <li key={child.href}>
-                    {/* Child labels are event titles — editorial content, so they
-                        stay in their own language rather than being keyed. */}
+                    {/* Child labels are event titles — editorial content, kept
+                        bilingual on the data itself (events.json) so this
+                        still shows the right language per locale. */}
                     <AppLink href={child.href} onClick={onNavigate} className="block py-[0.45rem] text-[0.9rem] text-ink-soft no-underline">
-                      {child.label}
+                      {child.label[locale]}
                     </AppLink>
                   </li>
                 ))}

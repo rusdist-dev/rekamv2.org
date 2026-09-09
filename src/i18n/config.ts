@@ -13,6 +13,13 @@ export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = 'id';
 
+/* Remembers a visitor's locale choice so middleware.ts's root-entry redirect
+ * (first-time and returning visitors land on /en) only fires until someone
+ * has actually picked a language — read there, and written here by the
+ * switcher itself (see LangSwitch in SiteHeader.tsx) so the choice takes
+ * effect on the very next request rather than the one after. */
+export const LOCALE_COOKIE = 'nu_locale';
+
 export const LOCALE_LABEL: Record<Locale, string> = { id: 'ID', en: 'EN' };
 
 /** BCP 47 tags, for <html lang> and og:locale. */

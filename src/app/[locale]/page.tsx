@@ -25,6 +25,9 @@ import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { featuredNews, getNews, listNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
 import { fetchInstagramMedia, igShortcode } from '@/lib/instagram';
+import { homeContent } from '@/i18n/content/home';
+import { t } from '@/i18n/dictionary';
+import { readLocale, type LocaleParams } from '@/i18n/metadata';
 
 const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -33,15 +36,15 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
    set of figures. Tints use the deep variants — white on --blue and --olive
    fails AA, same finding as the number cards. */
 const STATS = [
-  { href: '/program/forest', icon: oiForest, value: '19.000', unit: 'Ha', label: 'Customary Forest Established', when: 'Forest · 2025', tint: 'bg-olive-deep' },
-  { href: '/program/urban', icon: oiUrban, value: '512,2', unit: 'Ton', label: 'Total waste collected', when: 'Urban · 2025', tint: 'bg-rust' },
-  { href: '/program/ocean', icon: oiFrci, value: '1,115juta', unit: 'Ha', label: 'Marine Protected Area', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
+  { href: '/program/forest', icon: oiForest, value: '19.000', unit: 'Ha', labelKey: 'forest', when: 'Forest · 2025', tint: 'bg-olive-deep' },
+  { href: '/program/urban', icon: oiUrban, value: '512,2', unit: 'Ton', labelKey: 'urban', when: 'Urban · 2025', tint: 'bg-rust' },
+  { href: '/program/ocean', icon: oiFrci, value: '1,115juta', unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
 ] as const;
 
 const CARDS = [
-  { href: '/program/forest', img: cardForest, kicker: 'Forest', body: 'Mapping what still stands, with the people who keep it standing.', alt: 'Ilustrasi sketsa lembah hutan dengan sungai berkelok' },
-  { href: '/program/urban', img: cardUrban, kicker: 'Urban and sustainability', body: 'Where the city makes room for what lives in it.', alt: 'Ilustrasi sketsa desa dan permukiman di lereng gunung' },
-  { href: '/program/ocean', img: cardOcean, kicker: 'Ocean', body: 'Counting what the sea gives, and who it gives it to.', alt: 'Ilustrasi sketsa terumbu karang dengan lumba-lumba, hiu, dan ikan' },
+  { href: '/program/forest', img: cardForest, kicker: 'Forest', body: 'Mapping what still stands, with the people who keep it standing.', altKey: 'forest' },
+  { href: '/program/urban', img: cardUrban, kicker: 'Urban and sustainability', body: 'Where the city makes room for what lives in it.', altKey: 'urban' },
+  { href: '/program/ocean', img: cardOcean, kicker: 'Ocean', body: 'Counting what the sea gives, and who it gives it to.', altKey: 'ocean' },
 ] as const;
 
 /* The home page's featured article is NOT the archive's lead post — the two are
@@ -73,7 +76,10 @@ const YT_VIDEOS = [
   { id: '4_0dqP8u0Mw', title: 'Video REKAM Nusantara' },
 ];
 
-export default async function Home() {
+export default async function Home({ params }: LocaleParams) {
+  const locale = await readLocale(params);
+  const copy = homeContent(locale);
+  const dict = t(locale);
   const feature = (await getNews(FEATURE_SLUG)) ?? (await featuredNews());
   const featureCover = resolveCover(feature?.cover);
   // null when IG_ACCESS_TOKEN isn't configured — every tile then falls back
@@ -91,12 +97,12 @@ export default async function Home() {
       <Hero360
         scene="coast"
         image={bgRekamoke3.src}
-        eyebrow="What we conserve?"
+        eyebrow={copy.hero.eyebrow}
         title={
           <>
-            Documenting knowledge
+            {copy.hero.title[0]}
             <br />
-            Preserving life
+            {copy.hero.title[1]}
           </>
         }
         lightPano
@@ -126,10 +132,10 @@ export default async function Home() {
         <div className="flex items-center lg:absolute lg:inset-0">
           <Wrap>
             <Eyebrow light className="text-[clamp(0.95rem,3.4vw,1.2rem)] tracking-[0.18em] sm:tracking-[0.22em]">
-              Who we are
+              {copy.lanskap.eyebrow}
             </Eyebrow>
             <p className="mt-4 mb-0 max-w-[46ch] font-display text-[clamp(1.3rem,4.4vw,2.25rem)] leading-[1.28] text-white text-pretty sm:mt-6">
-              Documenting living Indonesia: in forests, in seas, in cities. What we gather becomes conservation that lasts.
+              {copy.lanskap.quote}
             </p>
           </Wrap>
         </div>
@@ -137,7 +143,7 @@ export default async function Home() {
 
       <section id="program" className="bg-band py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
-          <Eyebrow className="text-center">Our program</Eyebrow>
+          <Eyebrow className="text-center">{copy.program.eyebrow}</Eyebrow>
           <h2 className="mt-4 mb-[clamp(2rem,4vw,3rem)] flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center font-display text-[clamp(1.75rem,7vw,2.25rem)] font-normal text-green-900 sm:gap-x-8">
             Forest <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
             Urban <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
@@ -152,7 +158,7 @@ export default async function Home() {
                     <div className="relative aspect-[3/2] w-full overflow-hidden">
                       <Image
                         src={card.img}
-                        alt={card.alt}
+                        alt={copy.cardAlts[card.altKey]}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
@@ -171,7 +177,7 @@ export default async function Home() {
                     {card.body}
                   </span>
                   <span className="mt-3 block text-[0.8rem] uppercase text-green-900">
-                    Pelajari selengkapnya
+                    {copy.program.cardCta}
                   </span>
                 </AppLink>
               </li>
@@ -184,13 +190,12 @@ export default async function Home() {
         <Wrap className="grid items-start gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div className="py-[clamp(1rem,5vw,4rem)]">
             <h2 className="text-left font-display text-[clamp(2.5rem,11vw,3.75rem)] leading-[1.05] text-green-900">
-              Our<br />Impact
+              {copy.impact.heading[0]}<br />{copy.impact.heading[1]}
             </h2>
             <p className="mt-5 mb-0 max-w-[42ch] text-title-sm leading-[1.5] text-green-900 sm:mt-6">
-              We count because decisions are made from counts. Every number below came from
-              someone standing in a place, writing it down.
+              {copy.impact.paragraph[0]}
               <br />
-              This is where the record stands today.
+              {copy.impact.paragraph[1]}
             </p>
           </div>
 
@@ -232,7 +237,7 @@ export default async function Home() {
                     <span className="mt-[0.15em] text-[0.3em] font-bold leading-none">{stat.unit}</span>
                   )}
                 </p>
-                <p className="m-0 text-xs font-bold leading-[1.35]">{stat.label}</p>
+                <p className="m-0 text-xs font-bold leading-[1.35]">{copy.stats[stat.labelKey]}</p>
                 <p className="m-0 text-[0.72rem] font-medium uppercase tracking-[0.04em] text-white">
                   {stat.when}
                 </p>
@@ -258,7 +263,7 @@ export default async function Home() {
               {feature.title}
             </h2>
             <ButtonLink href={`/berita/${feature.slug}`} variant="cream" className="mt-8">
-              Read More
+              {dict.common.readMore}
             </ButtonLink>
           </div>
           <Image
@@ -272,7 +277,7 @@ export default async function Home() {
         </section>
       )}
 
-      <section aria-label="Galeri kegiatan" className="bg-mauve py-[clamp(2rem,4vw,3rem)]">
+      <section aria-label={copy.gallery.ariaLabel} className="bg-mauve py-[clamp(2rem,4vw,3rem)]">
         <Slider trackClassName="px-gutter">
           {galleryPosts.map((post) => {
             const cover = resolveCover(post.cover);
@@ -312,7 +317,7 @@ export default async function Home() {
             </Display>
           </div>
           <ButtonLink href="https://www.instagram.com/rekamnusantara/" variant="ghostGreen" target="_blank" rel="noreferrer">
-            Ikuti kami
+            {copy.instagram.followCta}
           </ButtonLink>
         </Wrap>
 
@@ -329,7 +334,7 @@ export default async function Home() {
                     href={tile.href}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label="Buka postingan Instagram REKAM Nusantara"
+                    aria-label={copy.instagram.postAriaLabel}
                     className="group relative block overflow-hidden rounded-sm"
                   >
                     {liveSrc ? (
@@ -372,13 +377,13 @@ export default async function Home() {
       <section aria-labelledby="video-title" className="bg-white py-[clamp(3rem,7vw,6rem)]">
         <Wrap className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <Eyebrow>Featured Video</Eyebrow>
+            <Eyebrow>{copy.featuredVideo.eyebrow}</Eyebrow>
             <Display id="video-title" className="mt-3 text-display">
               Rekam Nusantara
             </Display>
           </div>
           <ButtonLink href="https://www.youtube.com/@RekamNusantara" variant="ghostGreen" target="_blank" rel="noreferrer">
-            Kunjungi channel
+            {copy.youtube.channelCta}
           </ButtonLink>
         </Wrap>
 
@@ -390,7 +395,7 @@ export default async function Home() {
                   href={`https://www.youtube.com/watch?v=${video.id}`}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`Tonton "${video.title}" di YouTube`}
+                  aria-label={copy.youtube.watchAriaLabel(video.title)}
                   className="group relative block overflow-hidden rounded-sm"
                 >
                   {/* Plain <img>, not next/image: the host (img.youtube.com)
@@ -427,20 +432,20 @@ export default async function Home() {
       <section className="grid bg-cream lg:min-h-[30rem] lg:grid-cols-2">
         <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
           <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
-            Be Part of
+            {dict.common.storyBand.heading1}
             <br />
-            the Story
+            {dict.common.storyBand.heading2}
           </h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <ButtonLink href="/merch" variant="ghostGreen">
-              Shop
+              {dict.common.storyBand.shopCta}
             </ButtonLink>
           </div>
         </div>
         <div className="relative h-64 w-full lg:h-full">
           <Image
             src={card1}
-            alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
+            alt={dict.common.storyBand.alt}
             fill
             sizes="(max-width: 1000px) 100vw, 50vw"
             className="object-cover"
@@ -466,10 +471,7 @@ export default async function Home() {
                 which one applied down to stylesheet order. Ragged-right on a
                 phone, justified only where the measure is wide enough for it. */}
             <p className="m-0 text-left font-display text-[clamp(1.05rem,3.8vw,2.25rem)] leading-[1.5] text-white lg:text-justify">
-              The forest remembers, the ocean recalls, and every community carries stories older
-              than us all. Science helps us understand, storytelling helps us care, technology
-              helps us reach, and tradition reminds us why. For knowledge left unkept is a future
-              undone; document with purpose today, so life may carry on.
+              {copy.closingQuote}
             </p>
           </Wrap>
         </div>

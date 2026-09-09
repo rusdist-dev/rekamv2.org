@@ -5,6 +5,7 @@ import { SiteShell } from '@/components/chrome/SiteShell';
 import { PageHero } from '@/components/layout/PageHero';
 import { AppLink } from '@/components/ui/AppLink';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
+import { eventContent } from '@/i18n/content/event';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { listEvents } from '@/lib/content';
 
@@ -13,21 +14,24 @@ import { listEvents } from '@/lib/content';
  * first one's event. There was nowhere to see what was on. */
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
-  return pageMetadata(await readLocale(params), '/event', {
+  const locale = await readLocale(params);
+  return pageMetadata(locale, '/event', {
     title: 'Event',
-    description: 'Diskusi, pemutaran film, dan lokakarya dari seluruh program REKAM.',
+    description: eventContent(locale).metaDescription,
   });
 }
 
-export default async function EventIndexPage() {
-  const events = await listEvents();
+export default async function EventIndexPage({ params }: LocaleParams) {
+  const locale = await readLocale(params);
+  const copy = eventContent(locale);
+  const events = await listEvents(locale);
 
   return (
     <SiteShell current="event">
       <PageHero
         eyebrow="Event"
-        title="Whats on"
-        lede="Diskusi, pemutaran film, dan lokakarya dari seluruh program REKAM."
+        title={copy.list.heroTitle}
+        lede={copy.metaDescription}
         image={heroEvnt}
         short
         dim
@@ -35,8 +39,8 @@ export default async function EventIndexPage() {
 
       <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
-          <Eyebrow>Agenda</Eyebrow>
-          <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display">Acara mendatang</Display>
+          <Eyebrow>{copy.list.eyebrow}</Eyebrow>
+          <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display">{copy.list.heading}</Display>
 
           <ul className="m-0 grid list-none gap-[clamp(2rem,4vw,3rem)] p-0 lg:grid-cols-2">
             {events.map((event) => (
@@ -79,8 +83,7 @@ export default async function EventIndexPage() {
           {/* Honest rather than padded. One event exists; the nav used to imply
               two by linking a name that led somewhere else. */}
           <p className="mt-[clamp(2rem,4vw,3rem)] mb-0 text-[0.82rem] leading-[1.7] text-ink-soft">
-            Menampilkan {events.length} acara. Agenda berikutnya menyusul ketika daftar ini
-            tersambung ke CMS.
+            {copy.list.count(events.length)}
           </p>
         </Wrap>
       </section>

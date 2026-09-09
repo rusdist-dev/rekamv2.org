@@ -8,6 +8,8 @@ import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { pageMetadata, readLocale } from '@/i18n/metadata';
+import { beritaContent } from '@/i18n/content/berita';
+import { t } from '@/i18n/dictionary';
 import { getNews, listNews, resolveCover } from '@/lib/content';
 
 /* Replaces berita-detail.html, which was a single hardcoded article that all 34
@@ -61,8 +63,15 @@ const SHARE = [
 
 const dateFmt = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
-export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ArticlePage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
   const { slug } = await params;
+  const locale = await readLocale(params);
+  const copy = beritaContent(locale);
+  const dict = t(locale);
   const post = await getNews(slug);
   if (!post) notFound();
 
@@ -79,20 +88,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     <SiteShell current="berita">
       <article>
         <Wrap className="article-top pb-[clamp(2rem,4vw,3rem)]">
-          <nav aria-label="Remah roti" className="mb-6 text-[0.78rem] text-ink-soft">
+          <nav aria-label={copy.detail.breadcrumb.ariaLabel} className="mb-6 text-[0.78rem] text-ink-soft">
             <AppLink href="/" className="no-underline hover:text-green-900">
-              Beranda
+              {copy.detail.breadcrumb.home}
             </AppLink>
             <span aria-hidden="true" className="px-2">
               /
             </span>
             <AppLink href="/berita" className="no-underline hover:text-green-900">
-              Berita
+              {copy.detail.breadcrumb.berita}
             </AppLink>
             <span aria-hidden="true" className="px-2">
               /
             </span>
-            <span aria-current="page">Artikel</span>
+            <span aria-current="page">{copy.detail.breadcrumb.article}</span>
           </nav>
 
           <p className="m-0 font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
@@ -146,8 +155,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     only ever wrote one, in berita-detail.html. Saying so beats
                     padding the page with invented prose. */}
                 <p className="m-0 border-l-2 border-sage pl-4 text-[0.85rem] leading-[1.7] text-ink-soft">
-                  Naskah lengkap tulisan ini belum tersedia di situs. Isinya menyusul begitu arsip
-                  redaksi tersambung ke CMS.
+                  {copy.detail.noBody}
                 </p>
               </>
             )}
@@ -155,7 +163,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
           <div className="mt-[clamp(2.5rem,5vw,4rem)] border-t border-green-ink/12 pt-6">
             <p className="m-0 font-label text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-ink-soft">
-              Bagikan
+              {copy.detail.share}
             </p>
             <ul className="mt-3 mb-0 flex list-none flex-wrap gap-5 p-0">
               {SHARE.map((s) => (
@@ -176,13 +184,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       {related.length > 0 && (
         <section className="bg-band py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>Baca juga</Eyebrow>
-            <Display className="mt-4 mb-[clamp(1.5rem,3vw,2.5rem)] text-display">Tulisan lain</Display>
+            <Eyebrow>{copy.detail.related.eyebrow}</Eyebrow>
+            <Display className="mt-4 mb-[clamp(1.5rem,3vw,2.5rem)] text-display">{copy.detail.related.heading}</Display>
             {/* The source repeated three post blocks by hand here, on every
                 page that carried a rail. One collection now. */}
             <PostGrid posts={related} showExcerpt={false} />
             <ButtonLink href="/berita" variant="ghostGreen" className="mt-[clamp(2rem,4vw,3rem)]">
-              Lihat semua berita
+              {copy.detail.related.viewAll}
             </ButtonLink>
           </Wrap>
         </section>
@@ -193,20 +201,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       <section className="grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
         <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
           <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
-            Be Part of
+            {dict.common.storyBand.heading1}
             <br />
-            the Story
+            {dict.common.storyBand.heading2}
           </h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <ButtonLink href="/merch" variant="ghostGreen">
-              Shop
+              {dict.common.storyBand.shopCta}
             </ButtonLink>
           </div>
         </div>
         <div className="relative h-64 w-full lg:h-full">
           <Image
             src={card2}
-            alt="Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye"
+            alt={dict.common.storyBand.alt}
             fill
             sizes="(max-width: 1000px) 100vw, 50vw"
             className="object-cover"

@@ -6,13 +6,14 @@ import { SiteShell } from '@/components/chrome/SiteShell';
 import { PageHero } from '@/components/layout/PageHero';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
+import { donasiContent } from '@/i18n/content/donasi';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
-  return pageMetadata(await readLocale(params), '/donasi', {
-    title: 'Donasi',
-    description:
-      'Setiap kontribusi menopang riset, patroli, dan dokumentasi di lanskap yang kami dampingi.',
+  const locale = await readLocale(params);
+  return pageMetadata(locale, '/donasi', {
+    title: donasiContent(locale).hero.eyebrow,
+    description: donasiContent(locale).metaDescription,
   });
 }
 
@@ -86,68 +87,59 @@ function Give({
   );
 }
 
-export default function DonasiPage() {
+export default async function DonasiPage({ params }: LocaleParams) {
+  const locale = await readLocale(params);
+  const copy = donasiContent(locale);
+
   return (
     <SiteShell current="donasi">
       <PageHero
-        eyebrow="Donasi"
-        title="Dukung kami"
-        lede="Setiap kontribusi menopang riset, patroli, dan dokumentasi di lanskap yang kami dampingi."
+        eyebrow={copy.hero.eyebrow}
+        title={copy.hero.title}
+        lede={copy.hero.lede}
         image={cardForest}
         short
       />
 
       <Give
         id="adopsi"
-        eyebrow="Cara pertama"
-        title="Adopsi Pohon Pakan"
-        lede="Rangkong bergantung pada pohon berbuah tertentu sepanjang musim. Dengan mengadopsi satu pohon pakan, Anda membiayai penandaan, pemantauan berkala, dan perlindungannya bersama masyarakat adat di sekitar kawasan."
-        items={[
-          'Penandaan dan pendataan pohon di lokasi',
-          'Pemantauan berkala oleh tim patroli',
-          'Laporan kondisi pohon untuk setiap pengadopsi',
-        ]}
-        cta={<ButtonLink href="#form-donasi">Adopsi satu pohon</ButtonLink>}
+        eyebrow={copy.adopsi.eyebrow}
+        title={copy.adopsi.title}
+        lede={copy.adopsi.lede}
+        items={copy.adopsi.items}
+        cta={<ButtonLink href="#form-donasi">{copy.adopsi.cta}</ButtonLink>}
         image={cardForest}
-        alt="Ilustrasi ukir lembah hutan dengan sungai berkelok"
+        alt={copy.adopsi.alt}
       />
 
       <Give
         id="produk"
         flip
-        eyebrow="Cara kedua"
-        title="Fundraising Product"
-        lede="Produk cetak dan merchandise bertema keanekaragaman hayati Nusantara. Seluruh margin penjualan masuk ke kas program konservasi."
-        items={[
-          'Cetak ilustrasi ukir seri Forest, Ocean, Urban',
-          'Buku dan publikasi hasil riset',
-          'Merchandise kampanye #MerekamNusantara',
-        ]}
+        eyebrow={copy.produk.eyebrow}
+        title={copy.produk.title}
+        lede={copy.produk.lede}
+        items={copy.produk.items}
         cta={
           <ButtonLink href="/merch" variant="ghostGreen">
-            Lihat katalog
+            {copy.produk.cta}
           </ButtonLink>
         }
         image={cardOcean}
-        alt="Ilustrasi ukir gerombolan ikan di laut"
+        alt={copy.produk.alt}
       />
 
       <section id="form-donasi" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
-          <Eyebrow>Langkah berikutnya</Eyebrow>
-          <Display className="mt-4 text-display">Siap berdonasi?</Display>
-          <Lede>
-            Kanal pembayaran belum tersambung ke halaman ini. Untuk sementara, hubungi kami lebih
-            dulu dan tim akan memandu prosesnya.
-          </Lede>
+          <Eyebrow>{copy.closing.eyebrow}</Eyebrow>
+          <Display className="mt-4 text-display">{copy.closing.title}</Display>
+          <Lede>{copy.closing.lede}</Lede>
           {/* The source keeps this note visible on purpose: a fundraising page
               that quietly does nothing is worse than one that says so. */}
           <p className="mt-6 mb-0 max-w-[52ch] text-[0.82rem] leading-[1.7] text-ink-soft">
-            Catatan teknis: sambungkan tombol di atas ke payment gateway atau halaman donasi resmi
-            sebelum halaman ini dipublikasikan.
+            {copy.closing.note}
           </p>
           <ButtonLink href="/#kontak" className="mt-8">
-            Hubungi kami
+            {copy.closing.cta}
           </ButtonLink>
         </Wrap>
       </section>

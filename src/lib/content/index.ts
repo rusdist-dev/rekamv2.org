@@ -1,6 +1,7 @@
 import type { StaticImageData } from 'next/image';
 import { COVERS } from '@/assets/berita/covers';
-import { eventSchema, newsSchema, type EventRecord, type News, type Program } from './schema';
+import { DEFAULT_LOCALE, type Locale } from '@/i18n/config';
+import { eventSchema, newsSchema, type EventRecord, type Localized, type News, type Program, type ResolvedEvent } from './schema';
 import { rawEvents, rawNews } from './source';
 
 /* The data facade. Pages import from here and never touch source.ts or a
@@ -73,7 +74,7 @@ export function resolveCover(cover: string | undefined): StaticImageData | strin
 
 let eventCache: EventRecord[] | null = null;
 
-export async function listEvents(): Promise<EventRecord[]> {
+async function allEvents(): Promise<EventRecord[]> {
   if (eventCache) return eventCache;
   const raw = await rawEvents();
   eventCache = raw.map((row, i) => {
@@ -89,8 +90,51 @@ export async function listEvents(): Promise<EventRecord[]> {
   return eventCache;
 }
 
-export async function getEvent(slug: string): Promise<EventRecord | undefined> {
-  return (await listEvents()).find((e) => e.slug === slug);
+const pick = (value: Localized, locale: Locale): string => value[locale];
+
+/** Flatten every `{ id, en }` pair on an EventRecord down to the one locale
+ *  a page actually renders. */
+function resolveEvent(event: EventRecord, locale: Locale): ResolvedEvent {
+  return {
+    slug: event.slug,
+    title: pick(event.title, locale),
+    lede: pick(event.lede, locale),
+    cover: event.cover,
+    coverAlt: pick(event.coverAlt, locale),
+    notice: event.notice && pick(event.notice, locale),
+    facts: event.facts.map((f) => ({ label: pick(f.label, locale), value: pick(f.value, locale) })),
+    about: event.about && {
+      eyebrow: pick(event.about.eyebrow, locale),
+      title: pick(event.about.title, locale),
+      body: event.about.body.map((p) => pick(p, locale)),
+    },
+    agenda: event.agenda.map((row) => ({
+      time: row.time,
+      title: pick(row.title, locale),
+      detail: pick(row.detail, locale),
+    })),
+    gains: event.gains.map((g) => pick(g, locale)),
+    documentation: event.documentation,
+    cta: event.cta && {
+      title: pick(event.cta.title, locale),
+      lede: pick(event.cta.lede, locale),
+      note: event.cta.note && pick(event.cta.note, locale),
+    },
+  };
+}
+
+/** `locale` defaults to `DEFAULT_LOCALE` for call sites (generateStaticParams)
+ *  that only need the slug and don't care which language the prose comes
+ *  back in. (The nav's EXPLORE submenu reads events.json directly rather than
+ *  through here — see src/lib/nav.ts — because it needs both languages'
+ *  titles at once, not one resolved string.) */
+export async function listEvents(locale: Locale = DEFAULT_LOCALE): Promise<ResolvedEvent[]> {
+  const events = await allEvents();
+  return events.map((e) => resolveEvent(e, locale));
+}
+
+export async function getEvent(slug: string, locale: Locale = DEFAULT_LOCALE): Promise<ResolvedEvent | undefined> {
+  return (await listEvents(locale)).find((e) => e.slug === slug);
 }
 
 /** Resolve an event's curated documentation list to real articles, in order. */
@@ -99,4 +143,4 @@ export async function eventDocumentation(slugs: string[]): Promise<News[]> {
   return slugs.map((s) => posts.find((p) => p.slug === s)).filter((p): p is News => Boolean(p));
 }
 
-export type { News, Program, EventRecord };
+export type { News, Program, EventRecord, ResolvedEvent };

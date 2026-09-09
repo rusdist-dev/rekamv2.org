@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { buttonClasses } from '@/components/ui/button-classes';
 import { Eyebrow, Wrap } from '@/components/ui/primitives';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
+import { publicationContent } from '@/i18n/content/publication';
 import { cn } from '@/lib/cn';
 import { IMPACT_REPORT_PDF } from '@/lib/publication';
 
@@ -46,7 +47,10 @@ const achievements: Achievement[] = [1, 2, 3].map((n) => ({
 
 const achievementBtn = 'min-h-[2.5rem] px-5 text-[0.78rem]';
 
-export default async function PublicationPage() {
+export default async function PublicationPage({ params }: LocaleParams) {
+  const locale = await readLocale(params);
+  const copy = publicationContent(locale);
+
   return (
     <SiteShell>
       <PageHero
@@ -63,7 +67,7 @@ export default async function PublicationPage() {
         <div className="relative order-2 h-64 w-full lg:order-1 lg:h-full">
           <Image
             src={impactReport}
-            alt="Sampul Impact Report 2025 Rekam Nusantara Foundation"
+            alt={copy.impactReportCoverAlt}
             fill
             sizes="(max-width: 1000px) 100vw, 50vw"
             className="w-full h-auto max-h-[500px] object-contain lg:py-10"

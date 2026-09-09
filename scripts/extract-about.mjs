@@ -27,6 +27,14 @@
  *     git checkout baseline -- site/
  *
  * The tag `baseline` is the untouched static site as imported.
+ *
+ * NOT SAFE TO RE-RUN as-is any more: src/data/about.json now stores every
+ * translatable field (role, bio, unit text, org role) as `{ en, id }` pairs
+ * with hand-written Indonesian translations (see src/lib/about/types.ts's
+ * `pick`/`pickList`). This script only ever produced flat English strings, so
+ * running it again would silently wipe the `id` side of every pair. If it is
+ * ever revived, it should merge into the existing `en` value rather than
+ * overwrite the file outright.
  */
 
 import fs from 'node:fs';

@@ -4,8 +4,10 @@ import * as Accordion from '@radix-ui/react-accordion';
 import { useState } from 'react';
 import { Chip } from '@/components/ui/primitives';
 import { useTeam } from '@/components/about/Team';
+import type { Locale } from '@/i18n/config';
+import { ourStoryContent } from '@/i18n/content/our-story';
 import { cn } from '@/lib/cn';
-import { ABOUT, type OrgNode } from '@/lib/about/types';
+import { ABOUT, pick, type OrgNode } from '@/lib/about/types';
 
 /* The organisation chart.
  *
@@ -71,8 +73,17 @@ const SPINE_STOP =
 const STUB =
   'before:absolute before:left-[calc(var(--org-indent)*-1)] before:top-1/2 before:h-px before:w-[var(--org-indent)] before:bg-green-ink/25';
 
-function PersonName({ person, isDark }: { person: { name: string; ref?: string }, isDark?: boolean }) {
+function PersonName({
+  person,
+  isDark,
+  locale,
+}: {
+  person: { name: string; ref?: string };
+  isDark?: boolean;
+  locale: Locale;
+}) {
   const { open, has } = useTeam();
+  const copy = ourStoryContent(locale).org;
 
   // No profile written for this person: plain text, exactly as before.
   if (!person.ref || !has(person.ref)) {
@@ -82,7 +93,7 @@ function PersonName({ person, isDark }: { person: { name: string; ref?: string }
   return (
     <button
       type="button"
-      aria-label={`Baca profil ${person.name}`}
+      aria-label={copy.readProfile(person.name)}
       onClick={() => open(person.ref!)}
       className={cn('font-display text-lg cursor-pointer border-0 bg-transparent p-0 text-left font-semibold underline underline-offset-4', isDark ? 'text-white decoration-green-100 hover:decoration-green-200' : 'text-green-900 decoration-green-ink/30 hover:decoration-green-700')}
     >
@@ -91,7 +102,8 @@ function PersonName({ person, isDark }: { person: { name: string; ref?: string }
   );
 }
 
-export function OrgChart() {
+export function OrgChart({ locale }: { locale: Locale }) {
+  const copy = ourStoryContent(locale).org;
   const nodes: OrgNode[] = ABOUT.org;
   const units = nodes.filter((n) => n.kind === 'unit');
   // The source opened the first unit so the interaction was discoverable
@@ -105,15 +117,15 @@ export function OrgChart() {
   return (
     <div>
       <div className="mb-6 flex flex-wrap gap-3">
-        <Chip onClick={() => setOpenIds(units.map((u) => u.domId!).filter(Boolean))}>Buka semua</Chip>
-        <Chip onClick={() => setOpenIds([])}>Tutup semua</Chip>
+        <Chip onClick={() => setOpenIds(units.map((u) => u.domId!).filter(Boolean))}>{copy.expandAll}</Chip>
+        <Chip onClick={() => setOpenIds([])}>{copy.collapseAll}</Chip>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         {boards.map((b) => (
-          <div key={b.role} className="rounded-[12px] border border-green-ink/15 bg-cream p-5">
+          <div key={pick(b.role, locale)} className="rounded-[12px] border border-green-ink/15 bg-cream p-5">
             <p className="m-0 font-label text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
-              {b.role}
+              {pick(b.role, locale)}
             </p>
             {/* Three names spread across one row is a desktop shape. In a
                 card roughly 290px wide it gave each name a ~90px column, so
@@ -132,10 +144,10 @@ export function OrgChart() {
       {chair && (
         <div className="mt-4 rounded-[12px] border border-green-ink/15 bg-green-ink/75 p-5">
           <p className="m-0 font-label text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-gray-200">
-            {chair.role}
+            {pick(chair.role, locale)}
           </p>
           <p className="mt-2 mb-0 text-[1rem] text-white">
-            <PersonName person={chair.lead!} isDark={true} />
+            <PersonName person={chair.lead!} isDark={true} locale={locale} />
           </p>
         </div>
       )}
@@ -157,14 +169,14 @@ export function OrgChart() {
           // still a peer of the directorates, so it sits on the same spine.
           if (node.kind === 'leaf') {
             return (
-              <div key={node.role} className={cn('relative', vars, !isLast && SPINE_FULL)}>
+              <div key={pick(node.role, locale)} className={cn('relative', vars, !isLast && SPINE_FULL)}>
                 <div className={cn('relative', STUB, isLast && SPINE_STOP)}>
                   <div className="rounded-[12px] border border-green-ink/15 bg-white p-5">
                     <p className="m-0 font-label text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
-                      {node.role}
+                      {pick(node.role, locale)}
                     </p>
                     <p className="mt-2 mb-0 text-[0.95rem]">
-                      <PersonName person={node.lead!} />
+                      <PersonName person={node.lead!} locale={locale} />
                     </p>
                   </div>
                 </div>
@@ -193,10 +205,10 @@ export function OrgChart() {
                       Programme" across four. */}
                   <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
                     <p className="m-0 font-label text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
-                      {node.role}
+                      {pick(node.role, locale)}
                     </p>
                     <p className="mt-2 mb-0 text-[0.95rem]">
-                      <PersonName person={node.lead!} />
+                      <PersonName person={node.lead!} locale={locale} />
                     </p>
                   </div>
                   <Accordion.Header className="m-0">
@@ -207,7 +219,7 @@ export function OrgChart() {
                       )}
                     >
                       {/* Derived, not typed. */}
-                      <span className="font-bold text-green-900">{managers.length}</span> manajer
+                      <span className="font-bold text-green-900">{managers.length}</span> {copy.managersLabel(managers.length)}
                       <span
                         aria-hidden="true"
                         className="ml-1 block size-[6px] -translate-y-px rotate-45 border-b-[1.5px] border-r-[1.5px] border-current transition-transform duration-200 group-data-[state=open]:translate-y-px group-data-[state=open]:-rotate-[135deg]"
@@ -224,10 +236,10 @@ export function OrgChart() {
               <Accordion.Content forceMount className="overflow-hidden data-[state=closed]:hidden ml-6 mt-2">
                 <ul className="m-0 list-none pb-3 space-y-2">
                   {managers.map((m) => (
-                    <li key={m.role} className="flex flex-col py-3 px-5 bg-white overflow-hidden rounded-[12px] border border-green-ink/15">
-                      <span className="min-w-0 flex-1 text-[0.85rem] text-ink-soft">{m.role}</span>
+                    <li key={pick(m.role, locale)} className="flex flex-col py-3 px-5 bg-white overflow-hidden rounded-[12px] border border-green-ink/15">
+                      <span className="min-w-0 flex-1 text-[0.85rem] text-ink-soft">{pick(m.role, locale)}</span>
                       <span className="text-[0.9rem]">
-                        <PersonName person={m.person} />
+                        <PersonName person={m.person} locale={locale} />
                       </span>
                     </li>
                   ))}
