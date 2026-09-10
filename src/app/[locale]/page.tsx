@@ -38,7 +38,7 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
 const STATS = [
   { href: '/program/forest', icon: oiForest, value: '19.000', unit: 'Ha', labelKey: 'forest', when: 'Forest · 2025', tint: 'bg-olive-deep' },
   { href: '/program/urban', icon: oiUrban, value: '512,2', unit: 'Ton', labelKey: 'urban', when: 'Urban · 2025', tint: 'bg-rust' },
-  { href: '/program/ocean', icon: oiFrci, value: '1,115juta', unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
+  { href: '/program/ocean', icon: oiFrci, value: '1,115 Mio', unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
 ] as const;
 
 const CARDS = [
