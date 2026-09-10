@@ -28,6 +28,28 @@ const nextConfig: NextConfig = {
      exist. That catches strictly more: broken internal links AND missing
      assets, of which the old site has 16. */
   typedRoutes: false,
+
+  /* The CMS falls over under concurrent load (src/lib/cms/client.ts has the
+     measurements: 100 concurrent detail requests -> 72 failures, mixing 429
+     and plain 500). Real concurrent CMS load during `next build` is
+     numWorkers x staticGenerationMaxConcurrency, and both defaults are
+     generous — with ~357 pages the default split alone gives ~15 workers,
+     each rendering up to 8 pages at once (the default maxConcurrency), i.e.
+     ~120 simultaneous CMS requests. Both are turned down:
+       - minPagesPerWorker above the page count collapses the batch split to
+         one real worker. Note: the "Generating static pages using N
+         workers" progress line does NOT reflect this — that label is the
+         pre-reduction worker count and stays put regardless.
+       - maxConcurrency caps how many pages that one worker renders (and
+         thus how many CMS calls it fires) at once.
+     staticGenerationRetryCount is a second line of defence behind the
+     client's own short, capped retry for whatever 429/500 still gets
+     through. */
+  experimental: {
+    staticGenerationRetryCount: 2,
+    staticGenerationMinPagesPerWorker: 1000,
+    staticGenerationMaxConcurrency: 4,
+  },
 };
 
 export default nextConfig;
