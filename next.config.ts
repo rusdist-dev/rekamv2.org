@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
        (berita 1200x675, team 600x750), so layout shift is zero without any
        measuring work. Formats ordered cheapest-decoding first. */
     formats: ['image/avif', 'image/webp'],
+
+    /* News covers can now be absolute URLs from the CMS (see
+       src/lib/content/index.ts's resolveCover) — next/image refuses to
+       optimise a remote host it hasn't been told about. */
+    remotePatterns: [{ protocol: 'https', hostname: 'cms.rekam.org' }],
   },
 
   /* typedRoutes is deliberately OFF.

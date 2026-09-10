@@ -18,7 +18,10 @@ import type { Locale } from '@/i18n/config';
 
 type BeritaContent = {
   hero: { eyebrow: string; title: string; lede: string };
-  list: { count: (total: number) => string };
+  list: {
+    count: (from: number, to: number, total: number) => string;
+    pagination: { ariaLabel: string; prev: string; next: string };
+  };
   detail: {
     breadcrumb: { ariaLabel: string; home: string; berita: string; article: string };
     share: string;
@@ -34,7 +37,8 @@ const id: BeritaContent = {
     lede: 'Catatan lapangan, publikasi, dan kabar acara dari seluruh program REKAM.',
   },
   list: {
-    count: (total) => `Menampilkan ${total} tulisan. Sisanya menyusul ketika daftar ini tersambung ke CMS.`,
+    count: (from, to, total) => (total === 0 ? 'Belum ada tulisan.' : `Menampilkan ${from}–${to} dari ${total} tulisan.`),
+    pagination: { ariaLabel: 'Navigasi halaman', prev: 'Sebelumnya', next: 'Berikutnya' },
   },
   detail: {
     breadcrumb: {
@@ -61,7 +65,8 @@ const en: BeritaContent = {
     lede: 'Field notes, publications, and news events from all REKAM programs.',
   },
   list: {
-    count: (total) => `Showing ${total} articles. The rest will follow once this list connects to the CMS.`,
+    count: (from, to, total) => (total === 0 ? 'No articles yet.' : `Showing ${from}–${to} of ${total} articles.`),
+    pagination: { ariaLabel: 'Page navigation', prev: 'Previous', next: 'Next' },
   },
   detail: {
     breadcrumb: {

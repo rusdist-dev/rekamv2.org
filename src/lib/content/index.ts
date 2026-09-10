@@ -2,38 +2,42 @@ import type { StaticImageData } from 'next/image';
 import { COVERS } from '@/assets/berita/covers';
 import { DEFAULT_LOCALE, type Locale } from '@/i18n/config';
 import { eventSchema, newsSchema, type EventRecord, type Localized, type News, type Program, type ResolvedEvent } from './schema';
-import { rawEvents, rawNews } from './source';
+import { rawEvents, rawNews, rawNewsDetail } from './source';
 
 /* The data facade. Pages import from here and never touch source.ts or a
  * schema directly, so swapping local JSON for the CMS — or later promoting one
  * route to render per-request — is a change in one layer rather than in every
  * template. */
 
-let cache: News[] | null = null;
+function parseNews(row: unknown, where: string): News {
+  const result = newsSchema.safeParse(row);
+  if (!result.success) {
+    // Name the record and the field. A CMS that changes shape should fail
+    // loudly, not render "Invalid Date" to a reader.
+    throw new Error(`news "${where}" tidak valid: ${result.error.issues.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')}`);
+  }
+  return result.data;
+}
 
-async function all(): Promise<News[]> {
-  if (cache) return cache;
-  const raw = await rawNews();
-  const parsed = raw.map((row, i) => {
-    const result = newsSchema.safeParse(row);
-    if (!result.success) {
-      // Name the record and the field. A CMS that changes shape should fail
-      // loudly at build time, not render "Invalid Date" to a reader.
-      const where = (row as { slug?: string })?.slug ?? `index ${i}`;
-      throw new Error(`news "${where}" tidak valid: ${result.error.issues.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')}`);
-    }
-    return result.data;
-  });
+/* No module-level cache here: news now comes from a live CMS (source.ts),
+ * and Next's own fetch cache — the `tags`/`revalidate` on that call — is
+ * what's supposed to own freshness. A hand-rolled cache on top of it would
+ * keep serving the first request's list forever within a running server
+ * instance, defeating revalidateTag() and the CMS's own "diperbarui begitu
+ * konten disimpan" contract (docs/api-public.md). Re-validating this array on
+ * every call is cheap; the local-JSON fallback is a small synchronous import. */
+async function all(locale: Locale): Promise<News[]> {
+  const raw = await rawNews(locale);
+  const parsed = raw.map((row, i) => parseNews(row, (row as { slug?: string })?.slug ?? `index ${i}`));
   parsed.sort((a, b) => +b.date - +a.date);
-  cache = parsed;
   return parsed;
 }
 
 export async function listNews(
-  opts: { program?: Program; exclude?: string; limit?: number; lang?: 'id' | 'en' } = {}
+  opts: { program?: Program; exclude?: string; limit?: number; locale?: Locale } = {}
 ): Promise<News[]> {
-  const { program, exclude, limit, lang = 'id' } = opts;
-  let posts = (await all()).filter((p) => p.lang === lang);
+  const { program, exclude, limit, locale = DEFAULT_LOCALE } = opts;
+  let posts = (await all(locale)).filter((p) => p.lang === locale);
 
   if (program) {
     const tagged = posts.filter((p) => p.programs.includes(program));
@@ -46,18 +50,24 @@ export async function listNews(
   return limit ? posts.slice(0, limit) : posts;
 }
 
-export async function getNews(slug: string): Promise<News | undefined> {
-  return (await all()).find((p) => p.slug === slug);
+/** A single article. Goes through the CMS's own /news/{slug} rather than
+ *  filtering the list — the list endpoint isn't guaranteed to include the
+ *  full body (see source.ts's rawNewsDetail). Falls back to the local-JSON
+ *  list when the CMS isn't configured. */
+export async function getNews(slug: string, locale: Locale = DEFAULT_LOCALE): Promise<News | undefined> {
+  const detail = await rawNewsDetail(slug, locale);
+  if (detail === undefined) return (await all(locale)).find((p) => p.slug === slug);
+  return detail === null ? undefined : parseNews(detail, slug);
 }
 
-export async function featuredNews(lang: 'id' | 'en' = 'id'): Promise<News | undefined> {
-  const posts = await listNews({ lang });
+export async function featuredNews(locale: Locale = DEFAULT_LOCALE): Promise<News | undefined> {
+  const posts = await listNews({ locale });
   return posts.find((p) => p.featured) ?? posts[0];
 }
 
 /** The three-up rail under an article and on each programme page. */
-export function relatedNews(program: Program | undefined, exclude?: string) {
-  return listNews({ program, exclude, limit: 3 });
+export function relatedNews(program: Program | undefined, exclude?: string, locale: Locale = DEFAULT_LOCALE) {
+  return listNews({ program, exclude, limit: 3, locale });
 }
 
 /* Cover resolution is the one place the local/remote difference leaks, and it
@@ -138,8 +148,8 @@ export async function getEvent(slug: string, locale: Locale = DEFAULT_LOCALE): P
 }
 
 /** Resolve an event's curated documentation list to real articles, in order. */
-export async function eventDocumentation(slugs: string[]): Promise<News[]> {
-  const posts = await all();
+export async function eventDocumentation(slugs: string[], locale: Locale = DEFAULT_LOCALE): Promise<News[]> {
+  const posts = await all(locale);
   return slugs.map((s) => posts.find((p) => p.slug === s)).filter((p): p is News => Boolean(p));
 }
 

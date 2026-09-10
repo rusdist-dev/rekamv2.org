@@ -9,6 +9,7 @@ import { PageHero } from '@/components/layout/PageHero';
 import { PostGrid } from '@/components/news/PostCard';
 import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
+import { Pagination } from '@/components/ui/Pagination';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { beritaContent } from '@/i18n/content/berita';
@@ -24,12 +25,27 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 
 const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
-export default async function BeritaPage({ params }: LocaleParams) {
+/* The archive shows the 9 newest stories per page below the featured lead —
+ * the lead itself sits outside this count, it's a callout, not page 1 of the
+ * grid. */
+const PAGE_SIZE = 9;
+
+export default async function BeritaPage({
+  params,
+  searchParams,
+}: LocaleParams & { searchParams: Promise<{ page?: string }> }) {
   const locale = await readLocale(params);
   const copy = beritaContent(locale);
   const dict = t(locale);
-  const lead = await featuredNews();
-  const rest = await listNews({ exclude: lead?.slug });
+  const lead = await featuredNews(locale);
+  const rest = await listNews({ exclude: lead?.slug, locale });
+
+  const totalPages = Math.max(1, Math.ceil(rest.length / PAGE_SIZE));
+  const { page: pageParam } = await searchParams;
+  const requestedPage = Number(pageParam);
+  const currentPage = Number.isInteger(requestedPage) ? Math.min(Math.max(requestedPage, 1), totalPages) : 1;
+  const pageStart = (currentPage - 1) * PAGE_SIZE;
+  const pageItems = rest.slice(pageStart, pageStart + PAGE_SIZE);
 
   return (
     <SiteShell current="berita">
@@ -87,13 +103,15 @@ export default async function BeritaPage({ params }: LocaleParams) {
           <Eyebrow className="mt-4 mb-3 text-display">OUR STORY</Eyebrow>
           <div aria-hidden="true" className="mb-[clamp(2rem,4vw,3rem)] h-[1px] w-full bg-green-700" />
           {/* <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display">Semua berita</Display> */}
-          <PostGrid posts={rest} />
-          {/* The source said "Menampilkan 18 dari 155 tulisan. Pagination
-              menyusul ketika daftar ini tersambung ke CMS." The count is now
-              derived, so it cannot go stale, and pagination lands with the CMS
-              rather than being faked over 18 records. */}
-          <p className="mt-[clamp(2rem,4vw,3rem)] mb-0 text-[0.82rem] text-ink-soft">
-            {copy.list.count(rest.length + (lead ? 1 : 0))}
+          <PostGrid posts={pageItems} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            basePath="/berita"
+            labels={copy.list.pagination}
+          />
+          <p className="mt-[clamp(2rem,4vw,3rem)] mb-0 text-center text-[0.82rem] text-ink-soft">
+            {copy.list.count(rest.length === 0 ? 0 : pageStart + 1, pageStart + pageItems.length, rest.length)}
           </p>
         </Wrap>
       </section>

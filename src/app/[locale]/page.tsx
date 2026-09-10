@@ -291,6 +291,7 @@ export default async function Home({ params }: LocaleParams) {
                         alt={post.coverAlt}
                         fill
                         sizes="286px"
+                        unoptimized={typeof cover === 'string'}
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                       />
                     ) : (

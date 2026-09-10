@@ -10,13 +10,20 @@ import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { pageMetadata, readLocale } from '@/i18n/metadata';
 import { beritaContent } from '@/i18n/content/berita';
 import { t } from '@/i18n/dictionary';
+import { DEFAULT_LOCALE, isLocale } from '@/i18n/config';
 import { getNews, listNews, resolveCover } from '@/lib/content';
 
 /* Replaces berita-detail.html, which was a single hardcoded article that all 34
  * news links on the site pointed at. Every article now has its own URL. */
 
-export async function generateStaticParams() {
-  const posts = await listNews();
+/* Per-locale, not shared: the CMS resolves a slug's own translation to
+ * whichever `?lang=` was requested (docs/api-public.md — "{slug} boleh slug
+ * bahasa Indonesia maupun Inggris"), so /berita and /en/berita can list
+ * different slugs for the same article. `params` here is what the parent
+ * [locale] segment's own generateStaticParams produced. */
+export async function generateStaticParams({ params }: { params: { locale: string } }) {
+  const locale = isLocale(params.locale) ? params.locale : DEFAULT_LOCALE;
+  const posts = await listNews({ locale });
   return posts.map((p) => ({ slug: p.slug }));
 }
 
@@ -26,7 +33,8 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getNews(slug);
+  const locale = await readLocale(params);
+  const post = await getNews(slug, locale);
   if (!post) return {};
 
   /* An article is the thing people actually share, so this is where the Open
@@ -36,7 +44,7 @@ export async function generateMetadata({
   const cover = resolveCover(post.cover);
   const image = typeof cover === 'string' ? cover : cover?.src;
 
-  return pageMetadata(await readLocale(params), `/berita/${post.slug}`, {
+  return pageMetadata(locale, `/berita/${post.slug}`, {
     title: post.title,
     description: post.excerpt,
     openGraph: {
@@ -72,7 +80,7 @@ export default async function ArticlePage({
   const locale = await readLocale(params);
   const copy = beritaContent(locale);
   const dict = t(locale);
-  const post = await getNews(slug);
+  const post = await getNews(slug, locale);
   if (!post) notFound();
 
   const cover = resolveCover(post.cover);
@@ -82,7 +90,7 @@ export default async function ArticlePage({
      hardcoded markup: for the ICRS piece it showed the 29 Jul, 17 Jul and
      10 Jul articles, which is exactly that. Reproduced rather than "improved"
      into a programme filter, which would have quietly changed the output. */
-  const related = await listNews({ exclude: post.slug, limit: 3 });
+  const related = await listNews({ exclude: post.slug, limit: 3, locale });
 
   return (
     <SiteShell current="berita">
@@ -128,6 +136,7 @@ export default async function ArticlePage({
                 height={675}
                 sizes="(max-width: 1180px) 100vw, 1180px"
                 priority
+                unoptimized={typeof cover === 'string'}
                 className="block w-full rounded-sm object-cover"
               />
               {post.coverAlt && (

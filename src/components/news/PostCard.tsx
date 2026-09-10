@@ -36,6 +36,7 @@ function CoverSlot({ post, className, sizes }: { post: News; className?: string;
       width={1200}
       height={675}
       sizes={sizes}
+      unoptimized={typeof src === 'string'}
       className={cn('block aspect-[16/9] w-full object-cover', className)}
     />
   );
