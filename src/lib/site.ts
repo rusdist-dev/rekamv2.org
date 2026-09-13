@@ -8,7 +8,7 @@
 
 /** Set NEXT_PUBLIC_SITE_URL in the deploy environment. The fallback keeps
  *  local builds working and is never correct in production. */
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rekam.or.id';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://rekam.org';
 
 export const SITE = {
   name: 'REKAM Nusantara Foundation',

@@ -14,7 +14,7 @@ import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { beritaContent } from '@/i18n/content/berita';
 import { t } from '@/i18n/dictionary';
-import { featuredNews, listNews } from '@/lib/content';
+import { featuredNews, listNews, resolveCover } from '@/lib/content';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
   return pageMetadata(await readLocale(params), '/berita', {
@@ -39,6 +39,12 @@ export default async function BeritaPage({
   const dict = t(locale);
   const lead = await featuredNews(locale);
   const rest = await listNews({ exclude: lead?.slug, locale });
+
+  /* The lead cover comes from the CMS row's cover_url (resolveCover passes an
+   * absolute URL straight through). Articles without one — five of eighteen in
+   * the local set — keep the house image rather than leaving a hole in the
+   * band. */
+  const leadCover = resolveCover(lead?.cover) ?? card3;
 
   const totalPages = Math.max(1, Math.ceil(rest.length / PAGE_SIZE));
   const { page: pageParam } = await searchParams;
@@ -68,11 +74,14 @@ export default async function BeritaPage({
           >
             <span className="block overflow-hidden">
               <Image
-                src={card3}
+                src={leadCover}
                 alt={lead.coverAlt}
+                width={1200}
+                height={675}
                 sizes="(max-width: 1000px) 100vw, 50vw"
                 priority
-                className="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                unoptimized={typeof leadCover === 'string'}
+                className="block aspect-[16/9] h-auto w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
               />
             </span>
             <div className="px-gutter">
