@@ -147,9 +147,16 @@ export type ResolvedEvent = {
   coverAlt: string;
   notice?: string;
   facts: { label: string; value: string }[];
-  about?: { eyebrow: string; title: string; body: string[] };
+  /* `html` is the CMS path: /api/v1/events returns one rich-text
+     `description` rather than the array of plain paragraphs events.json
+     carries, so the template renders whichever of the two is present. */
+  about?: { eyebrow: string; title: string; body: string[]; html?: string };
   agenda: { time: string; title: string; detail: string }[];
   gains: string[];
   documentation: string[];
   cta?: { title: string; lede: string; note?: string };
+  /* CMS only: `registration_url`. Absent means this event takes no sign-ups,
+     and both the hero's register button and the CTA band stay hidden rather
+     than pointing at an anchor that leads nowhere. */
+  registerUrl?: string;
 };

@@ -9,7 +9,7 @@ import { NumberCard, NumberGrid } from '@/components/ui/NumberCard';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
 import { eventContent } from '@/i18n/content/event';
 import { pageMetadata, readLocale } from '@/i18n/metadata';
-import { eventDocumentation, getEvent, listEvents } from '@/lib/content';
+import { eventDocumentation, getEvent, listEvents, resolveCover } from '@/lib/content';
 
 /* rekam.css:1690-1812. A landing-style page rather than an article: full-bleed
  * hero with the facts strip, then about / rundown / takeaways / documentation /
@@ -52,7 +52,18 @@ export default async function EventPage({
   return (
     <SiteShell current="event">
       <section className="relative isolate flex min-h-[min(44rem,100svh)] items-end overflow-hidden bg-forest-black pb-[clamp(2.5rem,6vh,4.5rem)] pt-[calc(var(--nav-h)+clamp(4rem,10vh,8rem))]">
-        <Image src={eventImg} alt={event.coverAlt} fill priority sizes="100vw" className="absolute inset-0 z-0 size-full object-cover" />
+        {/* The event's own cover from the CMS; event1.png is the stand-in for
+            one that has none. A 1.6MB PNG behind a full-bleed hero is exactly
+            what the optimiser is for, so this is NOT `unoptimized` — the host
+            is allow-listed in next.config.ts. */}
+        <Image
+          src={resolveCover(event.cover) ?? eventImg}
+          alt={event.coverAlt}
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 z-0 size-full object-cover"
+        />
         <div
           aria-hidden="true"
           className="absolute inset-0 z-[1]"
@@ -79,7 +90,13 @@ export default async function EventPage({
           )}
 
           <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
-            <ButtonLink href="#daftar">{copy.detail.registerNow}</ButtonLink>
+            {/* Only shown when sign-ups exist: events.json's event has its own
+                CTA band at #daftar, a CMS event has one only when it carries a
+                registration_url, and a button scrolling to a section that
+                isn't on the page is worse than no button. */}
+            {(event.cta || event.registerUrl) && (
+              <ButtonLink href="#daftar">{copy.detail.registerNow}</ButtonLink>
+            )}
             <ButtonLink href="#tentang-event" variant="ghostLight">
               {copy.detail.aboutEvent}
             </ButtonLink>
@@ -102,11 +119,24 @@ export default async function EventPage({
               <Display className="mt-4 text-display">{event.about.title}</Display>
             </div>
             <div>
-              {event.about.body.map((p) => (
-                <p key={p.slice(0, 40)} className="mt-0 mb-[1.4rem] text-lede leading-[1.8] text-ink">
-                  {p}
-                </p>
-              ))}
+              {event.about.html ? (
+                // Rich text straight from the CMS, same treatment the news
+                // detail page gives a post body.
+                <div
+                  /* Paragraphs get the spacing the JSON path uses. Plain <div>s
+                     are styled but NOT given a margin: this CMS writes its
+                     breaks as <div><br></div>, so adding one would double
+                     every gap the author actually asked for. */
+                  className="text-lede leading-[1.8] text-ink [&_p]:mt-0 [&_p]:mb-[1.4rem] [&_a]:text-green-900 [&_a]:underline"
+                  dangerouslySetInnerHTML={{ __html: event.about.html }}
+                />
+              ) : (
+                event.about.body.map((p) => (
+                  <p key={p.slice(0, 40)} className="mt-0 mb-[1.4rem] text-lede leading-[1.8] text-ink">
+                    {p}
+                  </p>
+                ))
+              )}
             </div>
           </Wrap>
         </section>
@@ -174,7 +204,14 @@ export default async function EventPage({
               </p>
             )}
             <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
-              <ButtonLink href="/donasi">{copy.detail.cta.support}</ButtonLink>
+              {event.registerUrl && (
+                <ButtonLink href={event.registerUrl} target="_blank" rel="noreferrer">
+                  {copy.detail.registerNow}
+                </ButtonLink>
+              )}
+              <ButtonLink href="/donasi" variant={event.registerUrl ? 'ghostGreen' : 'green'}>
+                {copy.detail.cta.support}
+              </ButtonLink>
               <ButtonLink href="/#kontak" variant="ghostGreen">
                 {copy.detail.cta.contact}
               </ButtonLink>
@@ -182,8 +219,10 @@ export default async function EventPage({
           </div>
           <div className="flex items-end justify-center self-stretch">
             <Image
-              src={eventImg}
+              src={resolveCover(event.cover) ?? eventImg}
               alt=""
+              width={1200}
+              height={800}
               sizes="(max-width: 1000px) 100vw, 50vw"
               className="block h-auto w-full object-contain"
             />

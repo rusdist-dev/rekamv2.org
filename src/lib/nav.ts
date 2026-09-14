@@ -1,4 +1,3 @@
-import events from '@/data/events.json';
 import type { Locale } from '@/i18n/config';
 
 /* The nav, as data. This is what makes one drift structurally impossible:
@@ -16,15 +15,16 @@ import type { Locale } from '@/i18n/config';
 
 export type NavKey = 'forest' | 'urban' | 'ocean' | 'tentang' | 'berita' | 'event' | 'donasi' | 'merch';
 
+export type NavChild = { label: Record<Locale, string>; href: string };
+
 export type NavItem = {
   key: NavKey;
   href: string;
-  /* `label` is per-locale because it comes straight off events.json's
-     bilingual `title` field (src/lib/content/schema.ts's `localized` shape) —
-     this array is built once at module load, not per-request, so it can't
-     just pick a language here. SiteHeader resolves `label[locale]` at
-     render time via useLocale(). */
-  children?: { label: Record<Locale, string>; href: string }[];
+  /* `label` is per-locale because the only submenu that exists lists events,
+     whose titles are editorial content. SiteHeader is a client component
+     rendered once for both locales, so it resolves `label[locale]` at render
+     time via useLocale() rather than the label being picked here. */
+  children?: NavChild[];
 };
 
 /** Left of the rail, beside the mark. Also the hero-state pill shortcuts. */
@@ -38,16 +38,14 @@ export const PROGRAMMES: NavItem[] = [
 export const EXPLORE: NavItem[] = [
   { key: 'tentang', href: '/tentang' },
   { key: 'berita', href: '/berita' },
-  {
-    key: 'event',
-    href: '/event',
-    /* Derived, not typed. The old nav listed two events — "Cerita Laut
-       Nusantara" and "Bangga Papua" — and both hrefs pointed at the same
-       event-detail.html, so clicking the second showed you the first. Only one
-       event has ever had content. Reading the submenu off the collection makes
-       a link that names something nonexistent impossible to write. */
-    children: events.map((e) => ({ label: e.title, href: `/event/${e.slug}` })),
-  },
+  /* No `children` here. The old nav listed two events — "Cerita Laut
+     Nusantara" and "Bangga Papua" — and both hrefs pointed at the same
+     event-detail.html, so clicking the second showed you the first. The
+     submenu is therefore never typed out: SiteShell reads the live event
+     collection and passes it to SiteHeader, so a link naming an event that
+     doesn't exist can't be written by hand — and won't survive the event
+     being unpublished in the CMS either. */
+  { key: 'event', href: '/event' },
   /* 'donasi' hidden from the navbar on request — the route, its #adopsi
      anchor, and /merch (previously reachable only via this item's
      "Fundraising Product" submenu) still exist and work when linked to

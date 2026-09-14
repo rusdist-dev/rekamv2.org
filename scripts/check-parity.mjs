@@ -116,7 +116,10 @@ const DEFAULT_PAIRS = [
   'berita.html', '/berita',
   // The one article the source actually wrote a body for.
   'berita-detail.html', '/berita/rekam-di-icrs-2026-membawa-neraca-sumber-daya-laut-indonesia-ke-panggung-global',
-  'event-detail.html', '/event/cerita-laut-nusantara',
+  /* event-detail.html has no counterpart any more. Events come from the CMS
+     (src/lib/content/index.ts), and the record the old page described —
+     "Cerita Laut Nusantara" — was never published there, so the only thing a
+     pair here could report is that two different events have different text. */
   'donasi.html', '/donasi',
   'merch.html', '/merch',
   /* checkout.html is deliberately absent — the eleventh page and the only one

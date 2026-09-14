@@ -28,6 +28,22 @@ type EventContent = {
     gains: { eyebrow: string; heading: string };
     documentation: { eyebrow: string; heading: string };
     cta: { support: string; contact: string };
+    /* The CTA band for a CMS event. events.json writes its own `cta` prose;
+       the API has no such field, only a registration_url, so the band's copy
+       is UI chrome here and the event's name is interpolated into it. */
+    register: { title: (event: string) => string; lede: string };
+  };
+  /* Labels for the facts strip. events.json stores label and value together
+     as typed-out copy; a CMS row stores start_at / location / is_free / quota
+     and the labels have to come from somewhere — here. */
+  facts: {
+    date: string;
+    time: string;
+    location: string;
+    cost: string;
+    quota: string;
+    free: string;
+    quotaValue: (n: number) => string;
   };
 };
 
@@ -37,8 +53,7 @@ const id: EventContent = {
     heroTitle: 'Agenda Acara',
     eyebrow: 'Agenda',
     heading: 'Acara mendatang',
-    count: (n) =>
-      `Menampilkan ${n} acara. Agenda berikutnya menyusul ketika daftar ini tersambung ke CMS.`,
+    count: (n) => `Menampilkan ${n} acara.`,
   },
   detail: {
     registerNow: 'Daftar sekarang',
@@ -47,6 +62,19 @@ const id: EventContent = {
     gains: { eyebrow: 'Yang Anda dapatkan', heading: 'Tiga hal yang dibawa pulang' },
     documentation: { eyebrow: 'Dokumentasi', heading: 'Dari rangkaian sebelumnya' },
     cta: { support: 'Dukung acara ini', contact: 'Hubungi kami' },
+    register: {
+      title: (event) => `Daftar untuk ${event}`,
+      lede: 'Pendaftaran acara ini dibuka lewat tautan resminya.',
+    },
+  },
+  facts: {
+    date: 'Tanggal',
+    time: 'Waktu',
+    location: 'Lokasi',
+    cost: 'Biaya',
+    quota: 'Kuota',
+    free: 'Gratis',
+    quotaValue: (n) => `${n} peserta`,
   },
 };
 
@@ -56,8 +84,7 @@ const en: EventContent = {
     heroTitle: "What's On",
     eyebrow: 'Agenda',
     heading: 'Upcoming events',
-    count: (n) =>
-      `Showing ${n} event${n === 1 ? '' : 's'}. More dates land here once this list is connected to the CMS.`,
+    count: (n) => `Showing ${n} event${n === 1 ? '' : 's'}.`,
   },
   detail: {
     registerNow: 'Register now',
@@ -66,6 +93,19 @@ const en: EventContent = {
     gains: { eyebrow: "What you'll gain", heading: "Three things you'll take home" },
     documentation: { eyebrow: 'Documentation', heading: 'From previous editions' },
     cta: { support: 'Support this event', contact: 'Contact us' },
+    register: {
+      title: (event) => `Register for ${event}`,
+      lede: "Sign-ups for this event are handled through its official link.",
+    },
+  },
+  facts: {
+    date: 'Date',
+    time: 'Time',
+    location: 'Location',
+    cost: 'Cost',
+    quota: 'Quota',
+    free: 'Free',
+    quotaValue: (n) => `${n} seats`,
   },
 };
 

@@ -43,15 +43,15 @@ test.describe('rail', () => {
 
     // The parent is a real link, not a disclosure button — that was a
     // deliberate call in the original and is preserved.
-    const parent = page.getByRole('link', { name: 'Event', exact: true });
+    const parent = page.getByRole('link', { name: 'Kegiatan', exact: true });
     await expect(parent).toHaveAttribute('href', '/event');
 
-    const chevron = page.getByRole('button', { name: 'Buka submenu Event' });
+    const chevron = page.getByRole('button', { name: 'Buka submenu Kegiatan' });
     await expect(chevron).toHaveAttribute('aria-expanded', 'false');
 
     await chevron.click();
     await expect(chevron).toHaveAttribute('aria-expanded', 'true');
-    await expect(page.getByRole('menuitem', { name: 'Cerita Laut Nusantara' })).toBeVisible();
+    await expect(page.getByRole('menuitem', { name: 'Side Event ICMMBT 2025' })).toBeVisible();
 
     await page.keyboard.press('Escape');
     await expect(chevron).toHaveAttribute('aria-expanded', 'false');
@@ -59,13 +59,13 @@ test.describe('rail', () => {
 
   test('only one submenu is open at a time', async ({ page }) => {
     await page.goto('/donasi');
-    await page.getByRole('button', { name: 'Buka submenu Event' }).click();
-    await expect(page.getByRole('menuitem', { name: 'Cerita Laut Nusantara' })).toBeVisible();
+    await page.getByRole('button', { name: 'Buka submenu Kegiatan' }).click();
+    await expect(page.getByRole('menuitem', { name: 'Side Event ICMMBT 2025' })).toBeVisible();
 
     await page.keyboard.press('Escape');
     await page.getByRole('button', { name: 'Buka submenu Donasi' }).click();
     await expect(page.getByRole('menuitem', { name: 'Adopsi Pohon Pakan' })).toBeVisible();
-    await expect(page.getByRole('menuitem', { name: 'Cerita Laut Nusantara' })).toHaveCount(0);
+    await expect(page.getByRole('menuitem', { name: 'Side Event ICMMBT 2025' })).toHaveCount(0);
   });
 });
 
@@ -153,7 +153,7 @@ test.describe('accessibility', () => {
     '/berita',
     '/berita/rekam-di-icrs-2026-membawa-neraca-sumber-daya-laut-indonesia-ke-panggung-global',
     '/event',
-    '/event/cerita-laut-nusantara',
+    '/event/side-event-icmmbt-2025',
     '/program/forest',
     '/program/ocean',
     '/merch',

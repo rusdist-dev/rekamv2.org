@@ -10,7 +10,7 @@ import { AppLink, useLocale } from '@/components/ui/AppLink';
 import { LOCALE_COOKIE, LOCALES, LOCALE_LABEL } from '@/i18n/config';
 import { t as dict } from '@/i18n/dictionary';
 import { alternatePath } from '@/i18n/routing';
-import { EXPLORE, PROGRAMMES, type NavItem, type NavKey } from '@/lib/nav';
+import { EXPLORE, PROGRAMMES, type NavChild, type NavItem, type NavKey } from '@/lib/nav';
 
 /* Ported from nav-station.css — the only nav variant any page actually links.
  * (nav-bar, nav-card and nav-overlay were dead code: zero references across all
@@ -207,13 +207,26 @@ function LangSwitch({ className }: { className?: string }) {
   );
 }
 
-export function SiteHeader({ hero = false, current = null }: { hero?: boolean; current?: NavKey | null }) {
+export function SiteHeader({
+  hero = false,
+  current = null,
+  eventLinks,
+}: {
+  hero?: boolean;
+  current?: NavKey | null;
+  /** The Event submenu, read from the live collection by SiteShell — this is
+   *  a client component and can't fetch it itself. */
+  eventLinks?: NavChild[];
+}) {
   // Non-hero pages are revealed from the start; hero pages begin transparent.
   const [revealed, setRevealed] = useState(!hero);
   const [scrolled, setScrolled] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const T = dict(useLocale());
+  const explore = eventLinks?.length
+    ? EXPLORE.map((item) => (item.key === 'event' ? { ...item, children: eventLinks } : item))
+    : EXPLORE;
 
   /* The old rekam.js:13-34 read getBoundingClientRect().bottom on every scroll
      event. An IntersectionObserver on the hero does the same job without
@@ -344,7 +357,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
 
               <nav aria-label={T.nav.explore} className="hidden lg:block">
                 <ul className="m-0 flex list-none items-center gap-[clamp(0.85rem,1.8vw,1.6rem)] p-0">
-                  {EXPLORE.map((item) => (
+                  {explore.map((item) => (
                     <RailLink key={item.key} item={item} current={current} />
                   ))}
                 </ul>
@@ -375,7 +388,7 @@ export function SiteHeader({ hero = false, current = null }: { hero?: boolean; c
             {drawer && (
               <div id="nav-drawer" className="lg:hidden">
                 <NavGroup title={T.nav.programme} items={PROGRAMMES} current={current} onNavigate={() => setDrawer(false)} />
-                <NavGroup title={T.nav.explore} items={EXPLORE} current={current} onNavigate={() => setDrawer(false)} />
+                <NavGroup title={T.nav.explore} items={explore} current={current} onNavigate={() => setDrawer(false)} />
                 <SearchForm className="mt-2" />
                 <LangSwitch className="mt-4 text-[0.8rem]" />
               </div>
@@ -426,9 +439,9 @@ function NavGroup({
               <ul className="m-0 list-none pb-[0.6rem] pl-4">
                 {item.children.map((child) => (
                   <li key={child.href}>
-                    {/* Child labels are event titles — editorial content, kept
-                        bilingual on the data itself (events.json) so this
-                        still shows the right language per locale. */}
+                    {/* Child labels are event titles — editorial content, so
+                        SiteShell hands both locales down and the right one is
+                        picked here. */}
                     <AppLink href={child.href} onClick={onNavigate} className="block py-[0.45rem] text-[0.9rem] text-ink-soft no-underline">
                       {child.label[locale]}
                     </AppLink>

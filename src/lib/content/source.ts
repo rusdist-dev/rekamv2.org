@@ -130,3 +130,83 @@ export async function rawNewsDetail(slug: string, locale: Locale): Promise<unkno
 export async function rawEvents(): Promise<unknown[]> {
   return eventsJson;
 }
+
+/* ---- events ----
+ *
+ * Confirmed against a live /api/v1/events response (2026-09-14): a row carries
+ * id, slug, title, description (rich text), location, meta_title,
+ * meta_description, category, start_at, end_at, is_all_day, fee, fee_note,
+ * is_free, quota, registration_url, cover_url — and, on the detail endpoint
+ * only, `rundowns` when that module is enabled for the tenant.
+ *
+ * What the CMS has no field for: the `gains` cards, the curated
+ * `documentation` rail, and the `notice` strip that events.json carries. Those
+ * sections simply don't render for a CMS event; see toResolvedEvent in
+ * index.ts.
+ */
+
+export type CmsEventRow = {
+  id: number;
+  slug: string;
+  title: string;
+  description: string | null;
+  location: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  category: string | null;
+  start_at: string | null;
+  end_at: string | null;
+  is_all_day: boolean;
+  fee: number | string | null;
+  fee_note: string | null;
+  is_free: boolean;
+  quota: number | null;
+  registration_url: string | null;
+  cover_url: string | null;
+  /* Detail endpoint only, and only where the rundown module is on. The one
+   * live event answers `[]`, so the row shape below is unverified — every
+   * field is optional and a row without a title is dropped rather than
+   * rendered blank (see toAgenda in index.ts). */
+  rundowns?: CmsRundownRow[];
+};
+
+export type CmsRundownRow = {
+  time?: string | null;
+  start_at?: string | null;
+  start_time?: string | null;
+  title?: string | null;
+  detail?: string | null;
+  description?: string | null;
+};
+
+const EVENTS_PAGE_SIZE = 100;
+
+/** Every event for one locale, or `undefined` when the CMS isn't configured
+ *  or the module is off for this tenant — the caller then reads events.json. */
+export async function cmsEvents(locale: Locale): Promise<CmsEventRow[] | undefined> {
+  if (!cmsConfigured()) return undefined;
+
+  const rows: CmsEventRow[] = [];
+  for (let page = 1; ; page++) {
+    const result = await cmsList<CmsEventRow>('/events', {
+      tag: `events:${locale}`,
+      params: { lang: locale, per_page: EVENTS_PAGE_SIZE, page },
+    });
+    if (!result) return undefined;
+    rows.push(...result.data);
+    if (!result.meta || page >= result.meta.last_page) break;
+  }
+  return rows;
+}
+
+/** One event, through the CMS's own /events/{slug} — the list rows carry no
+ *  `rundowns`, so the detail page has to ask for the record itself.
+ *  `undefined` = fall back to events.json, `null` = the CMS has no such slug. */
+export async function cmsEventDetail(slug: string, locale: Locale): Promise<CmsEventRow | null | undefined> {
+  if (!cmsConfigured()) return undefined;
+
+  return await cmsGet<CmsEventRow>(`/events/${encodeURIComponent(slug)}`, {
+    tag: [`events:${locale}`, `events:${locale}:${slug}`],
+    params: { lang: locale },
+  });
+}

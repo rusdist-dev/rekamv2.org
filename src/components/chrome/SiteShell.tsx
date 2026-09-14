@@ -3,7 +3,9 @@ import { SiteHeader } from '@/components/chrome/SiteHeader';
 import { SkipLink } from '@/components/chrome/SkipLink';
 import { SvgSprite } from '@/components/chrome/SvgSprite';
 import type { IconId } from '@/icons';
-import type { NavKey } from '@/lib/nav';
+import { LOCALES } from '@/i18n/config';
+import { listEvents } from '@/lib/content';
+import type { NavChild, NavKey } from '@/lib/nav';
 
 /* The chrome every page wears: skip link, icon sprite, header, main, footer.
  * In the old build this was ~126 lines of byte-identical markup repeated on all
@@ -16,7 +18,26 @@ import type { NavKey } from '@/lib/nav';
  * DOM still reads the way the rest of the site expects, and there is no wrapper
  * div between them to invent one later. */
 
-export function SiteShell({
+/* The Event submenu. SiteHeader is a client component, so the collection is
+ * read here and handed down; and because a nav label has to exist in both
+ * languages at once (one header serves both), this asks for both. Each call is
+ * one tagged, cached fetch, shared across every page of a build. */
+async function eventLinks(): Promise<NavChild[]> {
+  const perLocale = await Promise.all(LOCALES.map((locale) => listEvents(locale)));
+  // Keyed by slug rather than zipped by position: the two locales come back
+  // from two separate requests, and nothing guarantees they arrive in the
+  // same order.
+  const titles = perLocale.map((events) => new Map(events.map((e) => [e.slug, e.title])));
+
+  return perLocale[0].map((event) => ({
+    href: `/event/${event.slug}`,
+    label: Object.fromEntries(
+      LOCALES.map((locale, l) => [locale, titles[l].get(event.slug) ?? event.title])
+    ) as NavChild['label'],
+  }));
+}
+
+export async function SiteShell({
   children,
   hero = false,
   current = null,
@@ -44,7 +65,7 @@ export function SiteShell({
     <div>
       <SkipLink />
       <SvgSprite icons={icons} />
-      <SiteHeader hero={hero} current={current} />
+      <SiteHeader hero={hero} current={current} eventLinks={await eventLinks()} />
 
       <main id="utama">{children}</main>
 

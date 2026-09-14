@@ -7,7 +7,7 @@ import { AppLink } from '@/components/ui/AppLink';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { eventContent } from '@/i18n/content/event';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
-import { listEvents } from '@/lib/content';
+import { listEvents, resolveCover } from '@/lib/content';
 
 /* A page the old site never had. Events existed only as two nav links that both
  * pointed at the same event-detail.html — so the second one showed you the
@@ -46,12 +46,15 @@ export default async function EventIndexPage({ params }: LocaleParams) {
             {events.map((event) => (
               <li key={event.slug}>
                 <AppLink href={`/event/${event.slug}`} className="group block no-underline">
-                  {/* Same event1.png the detail page's own hero uses (event/[slug]/page.tsx)
-                      rather than event.cover/COVERS — that map only holds berita photos,
-                      so a raw lookup was showing an unrelated news article's cover here. */}
+                  {/* The CMS sends a real cover per event; event1.png stands in
+                      for one that has none. (The old comment here warned against
+                      event.cover, because events.json pointed it at a berita
+                      filename that COVERS could only resolve to an unrelated
+                      article's photo — resolveCover returning undefined for such
+                      a name is what makes the fallback safe.) */}
                   <span className="block overflow-hidden rounded-sm">
                     <Image
-                      src={heroEvnt}
+                      src={resolveCover(event.cover) ?? heroEvnt}
                       alt={event.coverAlt}
                       width={1200}
                       height={675}
