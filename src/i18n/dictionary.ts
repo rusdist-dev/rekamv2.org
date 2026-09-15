@@ -77,6 +77,9 @@ type Dict = {
      *  pages — genuinely shared chrome, not page-specific content.
      *  heading1/heading2 are the two visual lines of the heading. */
     storyBand: { heading1: string; heading2: string; shopCta: string; alt: string };
+    /** The "Home" crumb and its <nav> accessible name, shared by every
+     *  page-level Breadcrumb — the rest of the trail is page-specific. */
+    breadcrumb: { ariaLabel: string; home: string };
   };
   /** Says which parts of the page are not translated yet. */
   partial: string;
@@ -148,6 +151,7 @@ const id: Dict = {
       shopCta: 'Belanja',
       alt: 'Empat relawan REKAM berjalan bersama membawa buku dan materi kampanye',
     },
+    breadcrumb: { ariaLabel: 'Remah roti', home: 'Beranda' },
   },
   partial: '',
 };
@@ -219,6 +223,7 @@ const en: Dict = {
       shopCta: 'Shop',
       alt: 'Four REKAM volunteers walking together carrying books and campaign materials',
     },
+    breadcrumb: { ariaLabel: 'Breadcrumb', home: 'Home' },
   },
   partial:
     'Some editorial copy on this page has not been translated yet and is shown in Indonesian.',

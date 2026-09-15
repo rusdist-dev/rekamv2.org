@@ -5,7 +5,7 @@ import iconTelepon from '@/assets/icon-telepon.svg';
 import safeguardingImg from '@/assets/save-guarding.png';
 import card2 from '@/assets/banner/card2.jpg';
 import { SiteShell } from '@/components/chrome/SiteShell';
-import { AppLink } from '@/components/ui/AppLink';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { safeguardingContent } from '@/i18n/content/safeguarding';
@@ -53,15 +53,10 @@ export default async function SafeguardingPage({ params }: LocaleParams) {
     <SiteShell>
       <section className="bg-cream page-top pb-[clamp(2rem,4vw,3rem)]">
         <Wrap>
-          <nav aria-label={copy.breadcrumb.aria} className="mb-6 text-[0.78rem] text-ink-soft">
-            <AppLink href="/" className="no-underline hover:text-green-900">
-              {copy.breadcrumb.home}
-            </AppLink>
-            <span aria-hidden="true" className="px-2">
-              /
-            </span>
-            <span aria-current="page">{copy.breadcrumb.current}</span>
-          </nav>
+          <Breadcrumb
+            ariaLabel={copy.breadcrumb.aria}
+            items={[{ label: copy.breadcrumb.home, href: '/' }, { label: copy.breadcrumb.current }]}
+          />
 
           <Eyebrow>{copy.hero.eyebrow}</Eyebrow>
           <Display

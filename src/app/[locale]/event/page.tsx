@@ -6,6 +6,7 @@ import { PageHero } from '@/components/layout/PageHero';
 import { AppLink } from '@/components/ui/AppLink';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { eventContent } from '@/i18n/content/event';
+import { t } from '@/i18n/dictionary';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { listEvents, resolveCover } from '@/lib/content';
 
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 export default async function EventIndexPage({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const copy = eventContent(locale);
+  const dict = t(locale);
   const events = await listEvents(locale);
 
   return (
@@ -35,6 +37,8 @@ export default async function EventIndexPage({ params }: LocaleParams) {
         image={heroEvnt}
         short
         dim
+        breadcrumb={[{ label: dict.common.breadcrumb.home, href: '/' }, { label: dict.nav_items.event }]}
+        breadcrumbLabel={dict.common.breadcrumb.ariaLabel}
       />
 
       <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">

@@ -1,4 +1,5 @@
 import Image, { type StaticImageData } from 'next/image';
+import { Breadcrumb, type BreadcrumbItem } from '@/components/ui/Breadcrumb';
 import { Eyebrow, Wrap } from '@/components/ui/primitives';
 import { cn } from '@/lib/cn';
 
@@ -29,6 +30,8 @@ export function PageHero({
   overlay,
   longTitle = false,
   fullImage = false,
+  breadcrumb,
+  breadcrumbLabel,
 }: {
   eyebrow: string;
   title: string;
@@ -44,6 +47,10 @@ export function PageHero({
   longTitle?: boolean;
   /** Sizes the banner to the image's own aspect ratio instead of a fixed viewport-height band, so object-cover never has to crop it. */
   fullImage?: boolean;
+  /** "Home / …" trail rendered above the eyebrow, light-styled to sit over the photo. Omitted entirely when not passed. */
+  breadcrumb?: BreadcrumbItem[];
+  /** The trail's accessible name; required alongside `breadcrumb`. */
+  breadcrumbLabel?: string;
 }) {
   return (
     <section
@@ -88,6 +95,9 @@ export function PageHero({
       />
 
       <Wrap className={cn('relative z-[2]', fullImage ? 'mt-8 md:mt-16' : 'pt-12')}>
+        {breadcrumb && breadcrumbLabel && (
+          <Breadcrumb items={breadcrumb} ariaLabel={breadcrumbLabel} light className="mb-4" />
+        )}
         <Eyebrow light>{eyebrow}</Eyebrow>
         <h1
           className={cn(

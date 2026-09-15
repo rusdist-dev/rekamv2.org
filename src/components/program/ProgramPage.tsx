@@ -54,14 +54,12 @@ const OVERVIEW_BANNER: Partial<Record<Program, { image: string; bgColor?: string
 
 /* Forest swaps the generic two-column "Be Part of the Story" CTA for a
    full-bleed photo band with the copy set directly over the image — urban
-   and ocean keep the shared version below. eyebrow/title are the "Bangga
-   Papua: Back to the roots" campaign name, left identical across locales
-   (see forest.ts); ctaLabel is real UI copy and comes from there instead. */
-const STORY_BANNER: Partial<Record<Program, { image: string; eyebrow: string; title: string; ctaHref: string }>> = {
+   and ocean keep the shared version below. eyebrow/title now come from
+   copy.storyBanner (see forest.ts) since "Back to the roots" is translated
+   there; only the image and link target are locale-independent. */
+const STORY_BANNER: Partial<Record<Program, { image: string; ctaHref: string }>> = {
   forest: {
     image: bgBanggaPapua.src,
-    eyebrow: 'Bangga Papua',
-    title: 'Back to the roots',
     ctaHref: '/initiative',
   },
 };
@@ -80,7 +78,7 @@ type ProgramCopy = {
   numbers: { title: string; lede: string; note: string; groups: ProgramCopyGroup[] };
   postsTitle: string;
   /** Only forest has a STORY_BANNER override — see forest.ts. */
-  storyBanner?: { ctaLabel: string };
+  storyBanner?: { eyebrow: string; title: string; ctaLabel: string };
 };
 type ProgramCopyGroup = { heading: string; when?: string; items: { label: string; chips?: string[] }[] };
 
@@ -255,9 +253,9 @@ export async function ProgramPage({
               <div className="absolute inset-0 flex items-center">
                 <Wrap>
                   <div className="max-w-[24rem]">
-                    <p className="m-0 font-display text-2xl leading-none text-white/95">{banner.eyebrow}</p>
+                    <p className="m-0 font-display text-2xl leading-none text-white/95">{copy.storyBanner?.eyebrow}</p>
                     <h2 className="mt-3 mb-0 font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.1] text-white">
-                      {banner.title}
+                      {copy.storyBanner?.title}
                     </h2>
                     <ButtonLink href={banner.ctaHref} variant="green" className="mt-8">
                       {(copy.storyBanner?.ctaLabel ?? dict.common.readMore).toUpperCase()} →

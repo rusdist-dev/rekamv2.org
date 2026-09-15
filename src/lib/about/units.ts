@@ -65,11 +65,21 @@ const OWN_HOSTS = new Set(
  *  row whose `logo_url` is null (one of the six today). */
 const LOCAL_LOGOS = new Map(ABOUT.units.map((unit) => [unit.name, UNIT_LOGOS[unit.logo]]));
 
-function fromCms(row: CmsUnitRow): UnitEntry {
+/* The CMS's `description` field is not locale-aware — a live row returns the
+ * same English text regardless of the `lang` query param (confirmed against
+ * /api/v1/units on 2026-09-16). For the six units this tenant already has a
+ * hand-translated Indonesian blurb for in about.json, use that instead of the
+ * CMS's row so /tentang isn't stuck in English under the id locale; a unit
+ * the CMS adds later with no bundled match still falls back to whatever text
+ * the CMS gives us. */
+const LOCAL_TEXT = new Map(ABOUT.units.map((unit) => [unit.name, unit.text]));
+
+function fromCms(row: CmsUnitRow, locale: Locale): UnitEntry {
   const linkHost = hostOf(row.url);
+  const localText = LOCAL_TEXT.get(row.name);
   return {
     name: row.name,
-    text: row.description ?? '',
+    text: localText ? pick(localText, locale) : row.description ?? '',
     href: row.url && linkHost && !OWN_HOSTS.has(linkHost) ? row.url : undefined,
     logo: row.logo_url ?? LOCAL_LOGOS.get(row.name),
   };
@@ -90,7 +100,7 @@ export async function listUnits(locale: Locale = DEFAULT_LOCALE): Promise<UnitEn
       rows.push(...result.data);
       if (!result.meta || page >= result.meta.last_page) break;
     }
-    if (rows.length) return rows.map(fromCms);
+    if (rows.length) return rows.map((row) => fromCms(row, locale));
   }
 
   return ABOUT.units.map((unit) => ({

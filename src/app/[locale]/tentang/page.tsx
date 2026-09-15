@@ -15,6 +15,7 @@ import { buttonClasses } from '@/components/ui/button-classes';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { ourStoryContent } from '@/i18n/content/our-story';
 import { publicationContent } from '@/i18n/content/publication';
+import { t } from '@/i18n/dictionary';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { ABOUT, pick, pickList } from '@/lib/about/types';
 import { listPartners } from '@/lib/about/partners';
@@ -42,6 +43,7 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 export default async function TentangPage({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const copy = ourStoryContent(locale);
+  const dict = t(locale);
   const { team } = ABOUT;
   const units = await listUnits(locale);
   const partners = await listPartners(locale);
@@ -58,6 +60,8 @@ export default async function TentangPage({ params }: LocaleParams) {
           overlay="rgba(10, 20, 16, 0.5)"
           longTitle
           fullImage
+          breadcrumb={[{ label: dict.common.breadcrumb.home, href: '/' }, { label: dict.nav_items.tentang }]}
+          breadcrumbLabel={dict.common.breadcrumb.ariaLabel}
         />
 
         <section id="visi-misi" className="grid md:grid-cols-2">

@@ -7,6 +7,7 @@ import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
 import catalogue from '@/data/products.json';
 import { merchContent } from '@/i18n/content/merch';
+import { t } from '@/i18n/dictionary';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import type { IconId } from '@/icons';
 import { CartProvider } from '@/lib/shop/cart';
@@ -22,6 +23,7 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 export default async function MerchPage({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const copy = merchContent(locale);
+  const dict = t(locale);
 
   // Only the glyphs this catalogue actually uses, derived from the data.
   const icons = [...new Set(catalogue.products.map((p) => p.glyph))] as IconId[];
@@ -36,6 +38,8 @@ export default async function MerchPage({ params }: LocaleParams) {
           image={heroImg}
           short
           dim
+          breadcrumb={[{ label: dict.common.breadcrumb.home, href: '/' }, { label: dict.nav_items.merch }]}
+          breadcrumbLabel={dict.common.breadcrumb.ariaLabel}
         />
 
         {/* The source shipped this strip and it stays: the catalogue is a

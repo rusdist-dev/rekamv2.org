@@ -62,6 +62,8 @@ export default async function BeritaPage({
         image={heroImg}
         overlay="rgba(10, 20, 16, 0.23)"
         short
+        breadcrumb={[{ label: dict.common.breadcrumb.home, href: '/' }, { label: dict.nav_items.berita }]}
+        breadcrumbLabel={dict.common.breadcrumb.ariaLabel}
       />
 
       {lead && (
@@ -109,7 +111,7 @@ export default async function BeritaPage({
 
       <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
-          <Eyebrow className="mt-4 mb-3 text-display">OUR STORY</Eyebrow>
+          <Eyebrow className="mt-4 mb-3 text-display">{copy.list.eyebrow}</Eyebrow>
           <div aria-hidden="true" className="mb-[clamp(2rem,4vw,3rem)] h-[1px] w-full bg-green-700" />
           {/* <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display">Semua berita</Display> */}
           <PostGrid posts={pageItems} />

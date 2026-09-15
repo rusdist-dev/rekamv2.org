@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import card2 from '@/assets/banner/card2.jpg';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PostGrid } from '@/components/news/PostCard';
-import { AppLink } from '@/components/ui/AppLink';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { pageMetadata, readLocale } from '@/i18n/metadata';
@@ -96,21 +96,14 @@ export default async function ArticlePage({
     <SiteShell current="berita">
       <article>
         <Wrap className="article-top pb-[clamp(2rem,4vw,3rem)]">
-          <nav aria-label={copy.detail.breadcrumb.ariaLabel} className="mb-6 text-[0.78rem] text-ink-soft">
-            <AppLink href="/" className="no-underline hover:text-green-900">
-              {copy.detail.breadcrumb.home}
-            </AppLink>
-            <span aria-hidden="true" className="px-2">
-              /
-            </span>
-            <AppLink href="/berita" className="no-underline hover:text-green-900">
-              {copy.detail.breadcrumb.berita}
-            </AppLink>
-            <span aria-hidden="true" className="px-2">
-              /
-            </span>
-            <span aria-current="page">{copy.detail.breadcrumb.article}</span>
-          </nav>
+          <Breadcrumb
+            ariaLabel={copy.detail.breadcrumb.ariaLabel}
+            items={[
+              { label: copy.detail.breadcrumb.home, href: '/' },
+              { label: copy.detail.breadcrumb.berita, href: '/berita' },
+              { label: copy.detail.breadcrumb.article },
+            ]}
+          />
 
           <p className="m-0 font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
             <time dateTime={post.date.toISOString()}>{dateFmt.format(post.date)}</time>

@@ -8,6 +8,7 @@ import { PdfReadButton } from '@/components/publication/PdfReadButton';
 import { buttonClasses } from '@/components/ui/button-classes';
 import { Eyebrow, Wrap } from '@/components/ui/primitives';
 import { publicationContent } from '@/i18n/content/publication';
+import { t } from '@/i18n/dictionary';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { cn } from '@/lib/cn';
 import { listPublications } from '@/lib/publication';
@@ -30,6 +31,7 @@ const achievementBtn = 'min-h-[2.5rem] px-5 text-[0.78rem]';
 export default async function PublicationPage({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const pubCopy = publicationContent(locale);
+  const dict = t(locale);
   const publications = await listPublications(locale);
   const lead = publications.find((p) => p.featured) ?? publications[0];
   const rest = publications.filter((p) => p !== lead);
@@ -43,6 +45,11 @@ export default async function PublicationPage({ params }: LocaleParams) {
         image={bgPublication}
         overlay="rgba(10, 20, 16, 0.35)"
         short
+        breadcrumb={[
+          { label: dict.common.breadcrumb.home, href: '/' },
+          { label: locale === 'id' ? 'Publikasi' : 'Publication' },
+        ]}
+        breadcrumbLabel={dict.common.breadcrumb.ariaLabel}
       />
 
       {/* Sorotan publikasi unggulan — sama seperti section di halaman /tentang. */}

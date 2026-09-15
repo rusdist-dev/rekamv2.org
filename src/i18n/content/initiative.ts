@@ -8,10 +8,15 @@ import type { Locale } from '@/i18n/config';
  *
  * The three HIGHLIGHTS captions are left identical across locales on
  * purpose — there is no matching article to translate them against yet (see
- * the HIGHLIGHTS comment in page.tsx). Real people's names, the YouTube video
- * titles in GalleryFilm, and the "Bangga Papua: Back to the roots" campaign
- * title are also left unchanged across locales — they are proper names, not
- * language-dependent copy.
+ * the HIGHLIGHTS comment in page.tsx). Real people's names and the YouTube
+ * video titles in GalleryFilm are also left unchanged across locales — they
+ * are proper names, not language-dependent copy. "Bangga Papua" is translated
+ * to "Papua Pride" in English — matching the existing news article slug
+ * "bangga-papua-..." whose English title is "Papua Pride: ..." (see
+ * src/data/news.json) — in hero.title and about.heading, same as "Back to
+ * the Roots" alongside it (also true of the same pairing on /program/forest
+ * — see forest.ts). metaDescription and hero.alt keep the Indonesian name
+ * since they're descriptive copy about the initiative, not the title itself.
  *
  * currentActivity IS translated despite page.tsx's note that its English
  * copy reads like it strayed in from the Ocean programme rather than Bangga
@@ -20,10 +25,14 @@ import type { Locale } from '@/i18n/config';
 
 type InitiativeContent = {
   metaDescription: string;
-  hero: { alt: string; lede: string };
+  /** title: ["Bangga Papua"/"Papua Pride", "Back to the Roots"] — the hero
+   * heading. Both words translate, same as about.heading's copy of it. */
+  hero: { alt: string; lede: string; title: [string, string] };
   about: { eyebrow: string; heading: string; paragraphs: [string, string] };
   currentActivity: { eyebrow: string; items: [string, string, string, string] };
   documentation: { eyebrow: string; heading: string };
+  /** Label under each hero stat figure (STATS in page.tsx). */
+  stats: { participants: string };
   gallery: {
     label: string;
     back: string;
@@ -40,10 +49,11 @@ const id: InitiativeContent = {
   hero: {
     alt: 'Warga Papua duduk memandang laut, mewakili semangat inisiatif Bangga Papua',
     lede: 'Diskusi dan pemutaran film tentang masa depan laut Indonesia, bersama generasi muda yang akan menjaganya.',
+    title: ['Bangga Papua', 'Kembali ke Akar'],
   },
   about: {
     eyebrow: 'Tentang acara',
-    heading: 'Bangga Papua: Back to the roots',
+    heading: 'Bangga Papua: Kembali ke Akar',
     paragraphs: [
       'Laut Indonesia menyimpan data yang belum banyak dibaca publik: stok perikanan, kondisi terumbu, dan kawasan konservasi yang terus berubah. Cerita Laut Nusantara mengambil temuan-temuan itu dan mengembalikannya dalam bentuk yang bisa dinikmati — film, percakapan, dan lokakarya.',
       'Rangkaian ini dirancang untuk pelajar dan mahasiswa, komunitas pesisir, serta siapa pun yang ingin memahami mengapa neraca sumber daya laut penting bagi keputusan sehari-hari.',
@@ -62,6 +72,7 @@ const id: InitiativeContent = {
     eyebrow: 'Dokumentasi',
     heading: 'Dari kegiatan sebelumnya',
   },
+  stats: { participants: 'Peserta' },
   gallery: {
     label: 'Galeri film',
     back: 'Kembali',
@@ -78,10 +89,11 @@ const en: InitiativeContent = {
   hero: {
     alt: 'A Papuan resident sitting and looking out at the sea, representing the spirit of the Bangga Papua initiative',
     lede: 'Discussions and film screenings on the future of Indonesia’s seas, with the young generation who will safeguard them.',
+    title: ['Papua Pride', 'Back to the Roots'],
   },
   about: {
     eyebrow: 'About the event',
-    heading: 'Bangga Papua: Back to the roots',
+    heading: 'Papua Pride: Back to the roots',
     paragraphs: [
       'Indonesia’s seas hold data the public rarely gets to read: fish stocks, reef condition, and conservation areas that keep changing. Cerita Laut Nusantara takes those findings and returns them in a form people can actually engage with — film, conversation, and workshops.',
       'The series is designed for students, coastal communities, and anyone who wants to understand why an ocean resource balance sheet matters for everyday decisions.',
@@ -100,6 +112,7 @@ const en: InitiativeContent = {
     eyebrow: 'Documentation',
     heading: 'From past activities',
   },
+  stats: { participants: 'Participants' },
   gallery: {
     label: 'Gallery film',
     back: 'Back',

@@ -42,9 +42,9 @@ const STATS = [
 ] as const;
 
 const CARDS = [
-  { href: '/program/forest', img: cardForest, kicker: 'Forest', body: 'Mapping what still stands, with the people who keep it standing.', altKey: 'forest' },
-  { href: '/program/urban', img: cardUrban, kicker: 'Urban and sustainability', body: 'Where the city makes room for what lives in it.', altKey: 'urban' },
-  { href: '/program/ocean', img: cardOcean, kicker: 'Ocean', body: 'Counting what the sea gives, and who it gives it to.', altKey: 'ocean' },
+  { href: '/program/forest', img: cardForest, altKey: 'forest' },
+  { href: '/program/urban', img: cardUrban, altKey: 'urban' },
+  { href: '/program/ocean', img: cardOcean, altKey: 'ocean' },
 ] as const;
 
 /* The home page's featured article is NOT the archive's lead post — the two are
@@ -171,10 +171,10 @@ export default async function Home({ params }: LocaleParams) {
                     />
                   </span>
                   <span className="mt-4 block font-label text-[0.9rem] font-semibold uppercase tracking-[0.14em] text-ink-soft">
-                    {card.kicker}
+                    {copy.cardKickers[card.altKey]}
                   </span>
                   <span className="mt-2 block text-title-xs leading-[1.3] text-green-900">
-                    {card.body}
+                    {copy.cardBodies[card.altKey]}
                   </span>
                   <span className="mt-3 block text-[0.8rem] uppercase text-green-900">
                     {copy.program.cardCta}
@@ -312,7 +312,7 @@ export default async function Home({ params }: LocaleParams) {
       <section aria-labelledby="ig-title" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
         <Wrap className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <Eyebrow>Lately</Eyebrow>
+            <Eyebrow>{copy.instagram.eyebrow}</Eyebrow>
             <Display id="ig-title" className="mt-3 text-display">
               @rekamnusantara
             </Display>

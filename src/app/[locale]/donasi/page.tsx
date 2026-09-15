@@ -7,6 +7,7 @@ import { PageHero } from '@/components/layout/PageHero';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
 import { donasiContent } from '@/i18n/content/donasi';
+import { t } from '@/i18n/dictionary';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
@@ -90,6 +91,7 @@ function Give({
 export default async function DonasiPage({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const copy = donasiContent(locale);
+  const dict = t(locale);
 
   return (
     <SiteShell current="donasi">
@@ -99,6 +101,8 @@ export default async function DonasiPage({ params }: LocaleParams) {
         lede={copy.hero.lede}
         image={cardForest}
         short
+        breadcrumb={[{ label: dict.common.breadcrumb.home, href: '/' }, { label: dict.nav_items.donasi }]}
+        breadcrumbLabel={dict.common.breadcrumb.ariaLabel}
       />
 
       <Give

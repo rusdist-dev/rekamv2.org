@@ -2,11 +2,13 @@
 
 import { useMemo, useState } from 'react';
 import { AppLink, useLocale } from '@/components/ui/AppLink';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { cn } from '@/lib/cn';
 import { rupiah, SHOP, unsetFields } from '@/lib/shop/config';
 import { useCart } from '@/lib/shop/cart';
 import { checkoutContent } from '@/i18n/content/checkout';
+import { t } from '@/i18n/dictionary';
 
 /* rekam.css:2138-2575.
  *
@@ -47,6 +49,12 @@ const inputCls =
 export function Checkout() {
   const locale = useLocale();
   const content = checkoutContent(locale);
+  const dict = t(locale);
+  const breadcrumbItems = [
+    { label: dict.common.breadcrumb.home, href: '/' },
+    { label: dict.nav_items.merch, href: '/merch' },
+    { label: content.eyebrow },
+  ];
   const { resolved, count, subtotal, hydrated, setQty, remove } = useCart();
   const [shipping, setShipping] = useState(SHOP.shipping[0].id);
   const [agreed, setAgreed] = useState(false);
@@ -62,6 +70,7 @@ export function Checkout() {
   if (!hydrated) {
     return (
       <Wrap className="page-top pb-24">
+        <Breadcrumb ariaLabel={dict.common.breadcrumb.ariaLabel} items={breadcrumbItems} />
         <p className="text-ink-soft">{content.loadingCart}</p>
       </Wrap>
     );
@@ -70,6 +79,7 @@ export function Checkout() {
   if (count === 0) {
     return (
       <Wrap className="page-top pb-24">
+        <Breadcrumb ariaLabel={dict.common.breadcrumb.ariaLabel} items={breadcrumbItems} />
         <Eyebrow>{content.eyebrow}</Eyebrow>
         <Display className="mt-4 text-display">{content.emptyCart.heading}</Display>
         <p className="mt-4 mb-8 max-w-[46ch] text-lede text-ink-soft">
@@ -87,6 +97,7 @@ export function Checkout() {
 
   return (
     <Wrap className="page-top pb-[clamp(3rem,7vw,6rem)]">
+      <Breadcrumb ariaLabel={dict.common.breadcrumb.ariaLabel} items={breadcrumbItems} />
       <Eyebrow>{content.eyebrow}</Eyebrow>
       <Display className="mt-4 text-display">{content.heading}</Display>
 

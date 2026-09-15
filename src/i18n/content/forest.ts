@@ -32,12 +32,12 @@ type ForestContent = {
     groups: NumberGroupContent[];
   };
   postsTitle: string;
-  /* The "Bangga Papua" closing banner. Its eyebrow and title are the
-   * campaign's own name — "Bangga Papua: Back to the roots" — and stay
-   * identical across locales for the same reason initiative.ts's copy of
-   * that same title does; only the button inviting a reader to the
-   * initiative page is actual UI copy. */
-  storyBanner: { ctaLabel: string };
+  /* The "Bangga Papua" closing banner. "Bangga Papua" is translated to
+   * "Papua Pride" in English — matching the existing news article slug
+   * "bangga-papua-..." whose English title is "Papua Pride: ..." (see
+   * src/data/news.json) — and so is "Back to the roots", here and in
+   * initiative.ts's matching heading, same as any other UI copy. */
+  storyBanner: { eyebrow: string; title: string; ctaLabel: string };
 };
 
 const id: ForestContent = {
@@ -101,7 +101,7 @@ const id: ForestContent = {
     ],
   },
   postsTitle: 'Dari Forest',
-  storyBanner: { ctaLabel: 'Pelajari selengkapnya' },
+  storyBanner: { eyebrow: 'Bangga Papua', title: 'Kembali ke Akar', ctaLabel: 'Pelajari selengkapnya' },
 };
 
 const en: ForestContent = {
@@ -165,7 +165,7 @@ const en: ForestContent = {
     ],
   },
   postsTitle: 'From Forest',
-  storyBanner: { ctaLabel: 'Learn more' },
+  storyBanner: { eyebrow: 'Papua Pride', title: 'Back to the roots', ctaLabel: 'Learn more' },
 };
 
 const CONTENT: Record<Locale, ForestContent> = { id, en };

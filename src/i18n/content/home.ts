@@ -13,19 +13,22 @@ import type { Locale } from '@/i18n/config';
  * file's `id` below reproduces THAT original text unchanged). Only the
  * missing half of each pair was written new.
  *
- * Left untouched, on purpose: the CARDS array's `kicker`/`body` copy, the
- * HIGHLIGHTS/IG_TILES/YT_VIDEOS data, and the "Forest / Urban / Ocean"
- * section heading — proper names and copy outside this pass's scope. */
+ * Left untouched, on purpose: the HIGHLIGHTS/IG_TILES/YT_VIDEOS data, and the
+ * "Forest / Urban / Ocean" section heading — proper names outside this
+ * pass's scope. The CARDS array's `kicker`/`body` copy was English-only on
+ * arrival; `cardKickers`/`cardBodies` below carry both languages now. */
 
 type HomeContent = {
   hero: { eyebrow: string; title: [string, string] };
   lanskap: { eyebrow: string; quote: string };
   program: { eyebrow: string; cardCta: string };
   cardAlts: { forest: string; urban: string; ocean: string };
+  cardKickers: { forest: string; urban: string; ocean: string };
+  cardBodies: { forest: string; urban: string; ocean: string };
   stats: { forest: string; urban: string; ocean: string };
   impact: { heading: [string, string]; paragraph: [string, string] };
   featuredVideo: { eyebrow: string };
-  instagram: { followCta: string; postAriaLabel: string };
+  instagram: { eyebrow: string; followCta: string; postAriaLabel: string };
   youtube: { channelCta: string; watchAriaLabel: (title: string) => string };
   gallery: { ariaLabel: string };
   closingQuote: string;
@@ -50,6 +53,16 @@ const id: HomeContent = {
     urban: 'Ilustrasi sketsa desa dan permukiman di lereng gunung',
     ocean: 'Ilustrasi sketsa terumbu karang dengan lumba-lumba, hiu, dan ikan',
   },
+  cardKickers: {
+    forest: 'Hutan',
+    urban: 'Kota dan keberlanjutan',
+    ocean: 'Laut',
+  },
+  cardBodies: {
+    forest: 'Memetakan yang masih berdiri, bersama masyarakat yang menjaganya.',
+    urban: 'Tempat kota memberi ruang bagi kehidupan di dalamnya.',
+    ocean: 'Menghitung apa yang diberikan laut, dan kepada siapa itu diberikan.',
+  },
   stats: {
     forest: 'Hutan Adat yang Ditetapkan',
     urban: 'Total sampah terkumpul',
@@ -64,6 +77,7 @@ const id: HomeContent = {
   },
   featuredVideo: { eyebrow: 'Video Pilihan' },
   instagram: {
+    eyebrow: 'Terkini',
     followCta: 'Ikuti kami',
     postAriaLabel: 'Buka postingan Instagram REKAM Nusantara',
   },
@@ -95,6 +109,16 @@ const en: HomeContent = {
     urban: 'Sketch illustration of a village and settlement on a mountainside',
     ocean: 'Sketch illustration of a coral reef with dolphins, sharks, and fish',
   },
+  cardKickers: {
+    forest: 'Forest',
+    urban: 'Urban and sustainability',
+    ocean: 'Ocean',
+  },
+  cardBodies: {
+    forest: 'Mapping what still stands, with the people who keep it standing.',
+    urban: 'Where the city makes room for what lives in it.',
+    ocean: 'Counting what the sea gives, and who it gives it to.',
+  },
   stats: {
     forest: 'Customary Forest Established',
     urban: 'Total waste collected',
@@ -109,6 +133,7 @@ const en: HomeContent = {
   },
   featuredVideo: { eyebrow: 'Featured Video' },
   instagram: {
+    eyebrow: 'Lately',
     followCta: 'Follow us',
     postAriaLabel: 'Open REKAM Nusantara’s Instagram post',
   },

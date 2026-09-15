@@ -10,6 +10,7 @@ import { Icon } from '@/components/chrome/SvgSprite';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { GalleryFilm } from '@/components/initiative/GalleryFilm';
 import { AppLink } from '@/components/ui/AppLink';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { initiativeContent } from '@/i18n/content/initiative';
@@ -31,12 +32,9 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
  * straight to the /berita article; now it lands here on a branded initiative
  * hero first, with a link through to the full story rather than duplicating
  * it. Numbers below are the placeholder set from the reference design; swap
- * them for the real participant count once it exists. */
-const STATS = [
-  { value: '166', label: 'Participants' },
-  { value: '166', label: 'Participants' },
-  { value: '166', label: 'Participants' },
-];
+ * them for the real participant count once it exists. Label comes from
+ * copy.stats.participants (see initiative.ts) since it's translated. */
+const STATS = ['166', '166', '166'];
 
 const ARTICLE_SLUG = 'bangga-papua-hutan-papua-yang-dibangun-oleh-burung';
 
@@ -75,23 +73,28 @@ export default async function InitiativePage({ params }: LocaleParams) {
         <div aria-hidden="true" className="absolute inset-0 z-[1]" style={{ backgroundColor: 'rgba(20, 40, 30, 0.72)' }} />
 
         <Wrap className="relative z-[2]">
+          <Breadcrumb
+            ariaLabel={dict.common.breadcrumb.ariaLabel}
+            light
+            items={[{ label: dict.common.breadcrumb.home, href: '/' }, { label: 'Initiative' }]}
+          />
           <Eyebrow light>Initiative</Eyebrow>
           <h1 className="mt-3 mb-0 font-display font-normal leading-[1.08] text-white">
-            <span className="block text-[clamp(1.9rem,4.5vw,2.6rem)]">Bangga Papua</span>
-            <span className="block text-[clamp(2.6rem,6.5vw,4rem)]">Back to the Roots</span>
+            <span className="block text-[clamp(1.9rem,4.5vw,2.6rem)]">{copy.hero.title[0]}</span>
+            <span className="block text-[clamp(2.6rem,6.5vw,4rem)]">{copy.hero.title[1]}</span>
           </h1>
           <p className="mt-5 mb-0 max-w-[44ch] text-lede leading-[1.6] text-white/88">{copy.hero.lede}</p>
 
           <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap items-center gap-8 border-t border-white/25 pt-6">
-            {STATS.map((s, i) => (
+            {STATS.map((value, i) => (
               <Fragment key={i}>
                 {i > 0 && <span aria-hidden="true" className="hidden h-12 w-[3px] bg-yellow sm:block" />}
                 <div>
                   <p className="m-0 font-display text-[clamp(2.2rem,5vw,3rem)] font-bold leading-none text-white">
-                    {s.value}
+                    {value}
                   </p>
                   <p className="mt-1.5 mb-0 font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/75">
-                    {s.label}
+                    {copy.stats.participants}
                   </p>
                 </div>
               </Fragment>

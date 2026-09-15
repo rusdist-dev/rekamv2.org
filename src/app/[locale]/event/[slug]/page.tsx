@@ -4,10 +4,12 @@ import { notFound } from 'next/navigation';
 import eventImg from '@/assets/banner/event1.png';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PostGrid } from '@/components/news/PostCard';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/button';
 import { NumberCard, NumberGrid } from '@/components/ui/NumberCard';
 import { Display, Eyebrow, Lede, Wrap } from '@/components/ui/primitives';
 import { eventContent } from '@/i18n/content/event';
+import { t } from '@/i18n/dictionary';
 import { pageMetadata, readLocale } from '@/i18n/metadata';
 import { eventDocumentation, getEvent, listEvents, resolveCover } from '@/lib/content';
 
@@ -44,6 +46,7 @@ export default async function EventPage({
   const { slug } = await params;
   const locale = await readLocale(params);
   const copy = eventContent(locale);
+  const dict = t(locale);
   const event = await getEvent(slug, locale);
   if (!event) notFound();
 
@@ -70,6 +73,15 @@ export default async function EventPage({
           style={{ background: 'rgba(20, 40, 30, 0.58)' }}
         />
         <Wrap className="relative z-[2]">
+          <Breadcrumb
+            ariaLabel={dict.common.breadcrumb.ariaLabel}
+            light
+            items={[
+              { label: dict.common.breadcrumb.home, href: '/' },
+              { label: dict.nav_items.event, href: '/event' },
+              { label: event.title },
+            ]}
+          />
           <Eyebrow light>Event</Eyebrow>
           <h1 className="mt-3 mb-0 max-w-[12ch] font-display text-hero font-normal leading-[1.04] tracking-[-0.02em] text-white">
             {event.title}
