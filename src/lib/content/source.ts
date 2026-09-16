@@ -93,9 +93,11 @@ function toNewsInput(row: CmsNewsRow, locale: Locale) {
  * rather than trusting one request to cover the whole list. */
 const NEWS_PAGE_SIZE = 100;
 
-/** Raw, unvalidated news records for one locale — every page of them. */
-export async function rawNews(locale: Locale): Promise<unknown[]> {
-  if (!cmsConfigured()) return newsJson;
+/** Every raw row for one locale, or `undefined` when the CMS isn't configured
+ *  — one fetch per page of results, which Next's fetch cache then shares
+ *  across every page of the build that asks for the same locale. */
+async function cmsNewsRows(locale: Locale): Promise<CmsNewsRow[] | undefined> {
+  if (!cmsConfigured()) return undefined;
 
   const rows: CmsNewsRow[] = [];
   for (let page = 1; ; page++) {
@@ -107,17 +109,46 @@ export async function rawNews(locale: Locale): Promise<unknown[]> {
     rows.push(...result.data);
     if (!result.meta || page >= result.meta.last_page) break;
   }
+  return rows;
+}
+
+/** Raw, unvalidated news records for one locale — every page of them. */
+export async function rawNews(locale: Locale): Promise<unknown[]> {
+  const rows = await cmsNewsRows(locale);
+  if (!rows) return newsJson;
   return rows.map((row) => toNewsInput(row, locale));
 }
 
-/** One article by slug, via the CMS's own /news/{slug} rather than a lookup
- *  in `rawNews`'s already-fetched list — docs/api-public.md treats list and
- *  detail as separate amplop, and today's list happens to carry the full
- *  `body` too, but that's not a contract worth relying on. Returns
- *  `undefined` to fall back to the local-JSON path (which has every field
- *  inline), `null` when the CMS itself has nothing for this slug. */
+/* One article by slug. Served out of the list above wherever that list
+ * already carries the slug, and only falling through to the CMS's own
+ * /news/{slug} when it doesn't.
+ *
+ * The list is the right source here because /news and /news/{slug} return the
+ * *same record*: verified against live data (2026-09-16) — all 162 articles
+ * in both locales, list row deep-equal to detail row, `body` populated on
+ * every one. Since docs/api-public.md specifies the envelope but not the
+ * fields, that equality is an observation rather than a contract, which is
+ * why the detail call stays as the fallback rather than being deleted.
+ *
+ * The reason to prefer the list is that the detail endpoint cannot survive a
+ * full build. `next build` prerenders ~370 article pages, and one detail
+ * request each is enough to make the CMS start answering 500 (and then 429)
+ * for requests that succeed fine on their own — that is what was failing the
+ * build. Reading from the list turns those ~370 requests into the 2 per
+ * locale the archive page already pays for, and Next's fetch cache means the
+ * article pages add no CMS traffic at all.
+ *
+ * The fallback still matters at runtime: docs/api-public.md notes "{slug}
+ * boleh slug bahasa Indonesia maupun Inggris", so a request can legitimately
+ * arrive with the other locale's slug, which this locale's list won't hold.
+ *
+ * Returns `undefined` to fall back to the local-JSON path (which has every
+ * field inline), `null` when the CMS itself has nothing for this slug. */
 export async function rawNewsDetail(slug: string, locale: Locale): Promise<unknown | null | undefined> {
   if (!cmsConfigured()) return undefined;
+
+  const listed = (await cmsNewsRows(locale))?.find((row) => row.slug === slug);
+  if (listed?.body) return toNewsInput(listed, locale);
 
   const row = await cmsGet<CmsNewsRow>(`/news/${encodeURIComponent(slug)}`, {
     tag: [`news:${locale}`, `news:${locale}:${slug}`],

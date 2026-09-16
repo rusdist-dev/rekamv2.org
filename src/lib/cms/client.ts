@@ -68,6 +68,51 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/* A hard ceiling on how many CMS requests this process has in flight at once.
+ * The retry above handles a 429/500 that has already happened; this is what
+ * stops most of them being provoked. The CMS answers fine one request at a
+ * time and starts returning 500 under concurrent load, so the ceiling is the
+ * real protection and the retry is the net under it.
+ *
+ * Per process, which is all that is needed: `next build` renders every static
+ * page from a single export worker here (staticGenerationMinPagesPerWorker in
+ * next.config.ts collapses the batch split to one), so this process is the
+ * only one talking to the CMS during a build.
+ *
+ * Kept well above 1 on purpose. Queueing happens inside a page render, and
+ * Next kills a static page that takes more than 60s, so a queue that is too
+ * tight trades a 500 for a timeout. */
+const MAX_IN_FLIGHT = 4;
+
+let inFlight = 0;
+const waiting: Array<() => void> = [];
+
+async function acquire(): Promise<void> {
+  if (inFlight < MAX_IN_FLIGHT) {
+    inFlight++;
+    return;
+  }
+  // The slot is handed over by release(), which leaves inFlight alone when it
+  // does — incrementing again here would let a caller that arrives between
+  // the handover and this resumption push the real count over the ceiling.
+  await new Promise<void>((resolve) => waiting.push(resolve));
+}
+
+function release(): void {
+  const next = waiting.shift();
+  if (next) next();
+  else inFlight--;
+}
+
+async function gated<T>(fn: () => Promise<T>): Promise<T> {
+  await acquire();
+  try {
+    return await fn();
+  } finally {
+    release();
+  }
+}
+
 async function request(path: string, opts: RequestOpts): Promise<unknown> {
   if (!BASE_URL) throw new Error('BASE_URL_CMS tidak diset');
   if (!API_KEY) throw new Error('X_API_KEY tidak diset');
@@ -79,10 +124,12 @@ async function request(path: string, opts: RequestOpts): Promise<unknown> {
   for (let attempt = 0; attempt <= RETRY_COUNT; attempt++) {
     let res: Response;
     try {
-      res = await fetch(url, {
-        headers: { Accept: 'application/json', 'X-Api-Key': API_KEY },
-        next: { tags, revalidate: opts.revalidate ?? 300 },
-      });
+      res = await gated(() =>
+        fetch(url, {
+          headers: { Accept: 'application/json', 'X-Api-Key': API_KEY },
+          next: { tags, revalidate: opts.revalidate ?? 300 },
+        })
+      );
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err));
       if (attempt < RETRY_COUNT) await sleep(RETRY_DELAY_MS * (attempt + 1));
