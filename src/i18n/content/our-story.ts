@@ -110,22 +110,22 @@ const id: OurStoryContent = {
       strengths: {
         label: 'Kekuatan inti',
         lead: 'Sains, teknologi, seni, media, dan komunikasi.',
-        rest: 'Pusat diagram — kekuatan inti yang digunakan untuk membaca isu sekaligus mengomunikasikannya, ditopang oleh strategi pada lingkar-lingkar luar.',
+        rest: 'Kekuatan inti yang digunakan untuk membaca isu sekaligus mengomunikasikannya, ditopang oleh strategi pada lingkar-lingkar luar.',
       },
       actions: {
         label: 'Aksi',
         lead: 'Konservasi di tapak dan kebijakan.',
-        rest: 'Lingkar tengah — inisiatif konservasi di lokasi-lokasi yang penting secara ekologis dan ekonomis, dijalankan bersamaan dengan penyusunan kebijakan dan reformasi pengelolaan sumber daya alam.',
+        rest: 'Inisiatif konservasi di lokasi-lokasi yang penting secara ekologis dan ekonomis, dijalankan bersamaan dengan penyusunan kebijakan dan reformasi pengelolaan sumber daya alam.',
       },
       strategies: {
         label: 'Strategi kunci',
         lead: 'Jejaring, kolaborasi, dan penguatan kapasitas.',
-        rest: 'Lingkar luar — tiga strategi kunci yang menopang seluruh kerja REKAM sejak 2013, dan menjadi alasan program-programnya dapat berjalan beriringan dengan pemerintah dan mitra.',
+        rest: 'Tiga strategi kunci yang menopang seluruh kerja REKAM sejak 2013, dan menjadi alasan program-programnya dapat berjalan beriringan dengan pemerintah dan mitra.',
       },
       outcomes: {
         label: 'Capaian',
         lead: 'Capaian konservasi dan dampak sosial-ekonomi.',
-        rest: 'Lingkar terluar — hasil yang ditopang oleh tiga lapisan di dalamnya, dilaporkan per program:',
+        rest: 'Hasil yang ditopang oleh tiga lapisan di dalamnya, dilaporkan per program:',
       },
     },
     and: 'dan',
@@ -207,22 +207,22 @@ const en: OurStoryContent = {
       strengths: {
         label: 'Core strengths',
         lead: 'Science, technology, arts, media, and communications.',
-        rest: 'Centre of the diagram — the core strengths used to read issues as well as communicate them, underpinned by the strategies in the outer rings.',
+        rest: 'The core strengths used to read issues as well as communicate them, underpinned by the strategies in the outer rings.',
       },
       actions: {
         label: 'Actions',
         lead: 'Conservation at sites and policy.',
-        rest: 'Middle ring — conservation initiatives in ecologically and economically important locations, carried out alongside policy-making and reform in the management of natural resources.',
+        rest: 'Conservation initiatives in ecologically and economically important locations, carried out alongside policy-making and reform in the management of natural resources.',
       },
       strategies: {
         label: 'Key strategies',
         lead: 'Networking, collaboration, and capacity building.',
-        rest: "Outer ring — the three key strategies underpinning all of REKAM's work since 2013, and the reason its programmes can run alongside government and partners.",
+        rest: "The three key strategies underpinning all of REKAM's work since 2013, and the reason its programmes can run alongside government and partners.",
       },
       outcomes: {
         label: 'Outcomes',
         lead: 'Conservation outcomes and socio-economic impacts.',
-        rest: 'Outermost ring — the results underpinned by the three layers within it, reported per programme:',
+        rest: 'The results underpinned by the three layers within it, reported per programme:',
       },
     },
     and: 'and',
