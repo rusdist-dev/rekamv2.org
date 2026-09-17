@@ -208,7 +208,12 @@ export default async function ArticlePage({
             {dict.common.storyBand.heading2}
           </h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <ButtonLink href="/merch" variant="ghostGreen">
+            <ButtonLink
+              href="https://tk.tokopedia.com/ZSqqyXM3x/"
+              variant="ghostGreen"
+              target="_blank"
+              rel="noreferrer"
+            >
               {dict.common.storyBand.shopCta}
             </ButtonLink>
           </div>
