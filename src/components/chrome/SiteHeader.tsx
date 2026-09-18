@@ -2,14 +2,14 @@
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Brand } from '@/components/chrome/Brand';
 import { cn } from '@/lib/cn';
 import { AppLink, useLocale } from '@/components/ui/AppLink';
 import { LOCALE_COOKIE, LOCALES, LOCALE_LABEL } from '@/i18n/config';
 import { t as dict } from '@/i18n/dictionary';
-import { alternatePath } from '@/i18n/routing';
+import { alternatePath, withLocale } from '@/i18n/routing';
 import { EXPLORE, PROGRAMMES, type NavChild, type NavItem, type NavKey } from '@/lib/nav';
 
 /* Ported from nav-station.css — the only nav variant any page actually links.
@@ -112,19 +112,68 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
   );
 }
 
-function SearchForm({ className }: { className?: string }) {
-  const T = dict(useLocale());
+type SearchEntry = { label: string; href: string };
+
+/** Flattens the rail (Programme + Explore, including any live Event
+ *  submenu) into the list SearchForm matches against. This is a menu
+ *  finder, not a content search — it only ever points at pages already
+ *  reachable from the nav, so there is no index to build or keep in sync. */
+function useMenuSearchIndex(explore: NavItem[]): SearchEntry[] {
+  const locale = useLocale();
+  const T = dict(locale);
+  return useMemo(() => {
+    const entries: SearchEntry[] = [];
+    for (const item of PROGRAMMES) entries.push({ label: T.nav_items[item.key], href: item.href });
+    for (const item of explore) {
+      entries.push({ label: T.nav_items[item.key], href: item.href });
+      for (const child of item.children ?? []) entries.push({ label: child.label[locale], href: child.href });
+    }
+    return entries;
+  }, [explore, locale, T]);
+}
+
+function SearchForm({ className, explore }: { className?: string; explore: NavItem[] }) {
+  const locale = useLocale();
+  const T = dict(locale);
+  const router = useRouter();
+  const index = useMenuSearchIndex(explore);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return index.filter((entry) => entry.label.toLowerCase().includes(q)).slice(0, 6);
+  }, [query, index]);
+
+  useEffect(() => setActiveIndex(0), [query]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onClick = (e: MouseEvent) => {
+      if (formRef.current && !formRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, [open]);
+
+  function go(entry: SearchEntry) {
+    router.push(withLocale(locale, entry.href));
+    setQuery('');
+    setOpen(false);
+  }
+
   return (
     <form
+      ref={formRef}
       role="search"
-      className={cn(
-        'flex items-center gap-[0.35rem] border-b border-green-ink/35 pb-1 focus-within:border-green-900',
-        className
-      )}
+      className={cn('relative flex items-center gap-[0.35rem] border-b border-green-ink/35 pb-1 focus-within:border-green-900', className)}
       onSubmit={(e) => {
         e.preventDefault();
-        // Wired to Pagefind in Fase 4. Until then this does nothing rather than
-        // pretending — same stance the old rekam.js:124-132 took with its alert.
+        const pick = results[activeIndex] ?? results[0];
+        if (pick) go(pick);
       }}
     >
       <label className="sr-only" htmlFor="nav-q">
@@ -134,8 +183,30 @@ function SearchForm({ className }: { className?: string }) {
         id="nav-q"
         name="q"
         type="search"
+        value={query}
         placeholder={T.search.placeholder}
         autoComplete="off"
+        role="combobox"
+        aria-expanded={open && query.trim().length > 0}
+        aria-controls="nav-q-results"
+        aria-activedescendant={open && results[activeIndex] ? `nav-q-option-${activeIndex}` : undefined}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setOpen(true);
+        }}
+        onFocus={() => query.trim() && setOpen(true)}
+        onKeyDown={(e) => {
+          if (!open || results.length === 0) return;
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setActiveIndex((i) => (i + 1) % results.length);
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setActiveIndex((i) => (i - 1 + results.length) % results.length);
+          } else if (e.key === 'Escape') {
+            setOpen(false);
+          }
+        }}
         className="min-w-0 flex-1 border-0 bg-transparent text-[0.8rem] text-green-900 outline-none placeholder:lowercase placeholder:text-ink-soft"
       />
       <button type="submit" aria-label={T.search.submit} className="grid size-[22px] flex-none cursor-pointer place-items-center border-0 bg-transparent p-0 text-green-900">
@@ -144,6 +215,34 @@ function SearchForm({ className }: { className?: string }) {
           <path d="M15.5 15.5 L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </button>
+
+      {open && query.trim().length > 0 && (
+        <ul
+          id="nav-q-results"
+          role="listbox"
+          className="absolute top-full left-0 z-[200] mt-2 min-w-[12rem] rounded-md bg-white py-[0.4rem] shadow-[0_18px_40px_rgba(9,40,26,0.16)]"
+        >
+          {results.length === 0 ? (
+            <li className="px-[1.1rem] py-2 text-[0.82rem] whitespace-nowrap text-ink-soft">{T.search.noResults}</li>
+          ) : (
+            results.map((entry, i) => (
+              <li key={entry.href} id={`nav-q-option-${i}`} role="option" aria-selected={i === activeIndex}>
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => go(entry)}
+                  className={cn(
+                    'block w-full cursor-pointer border-0 bg-transparent px-[1.1rem] py-2 text-left text-[0.82rem] whitespace-nowrap text-ink-soft outline-none',
+                    i === activeIndex && 'bg-band text-green-900'
+                  )}
+                >
+                  {entry.label}
+                </button>
+              </li>
+            ))
+          )}
+        </ul>
+      )}
     </form>
   );
 }
@@ -338,7 +437,7 @@ export function SiteHeader({
         <div className={cn(heroState && 'hidden')} aria-hidden={heroState}>
             {/* ---- Top utility strip, desktop only, right-aligned ---- */}
             <div className="hidden items-center justify-end lg:flex">
-              <SearchForm className="w-[clamp(4rem,6.5vw,5.75rem)]" />
+              <SearchForm className="w-[clamp(4rem,6.5vw,5.75rem)]" explore={explore} />
               <LangSwitch className="ml-[clamp(0.7rem,1.5vw,1.3rem)]" />
             </div>
             <div className="my-2 hidden border-t border-green-ink/10 lg:block" />
@@ -389,7 +488,7 @@ export function SiteHeader({
               <div id="nav-drawer" className="lg:hidden">
                 <NavGroup title={T.nav.programme} items={PROGRAMMES} current={current} onNavigate={() => setDrawer(false)} />
                 <NavGroup title={T.nav.explore} items={explore} current={current} onNavigate={() => setDrawer(false)} />
-                <SearchForm className="mt-2" />
+                <SearchForm className="mt-2" explore={explore} />
                 <LangSwitch className="mt-4 text-[0.8rem]" />
               </div>
             )}

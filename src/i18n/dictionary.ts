@@ -41,7 +41,7 @@ type Dict = {
   /** Accessible name of the brand mark, which is a link home in header and footer. */
   brandHome: string;
   nav: { programme: string; explore: string; open: string; close: string; submenu: (label: string) => string };
-  search: { label: string; placeholder: string; submit: string };
+  search: { label: string; placeholder: string; submit: string; noResults: string };
   lang: { group: string; switchTo: (label: string) => string };
   footer: { links: string; follow: string; channels: string; social: string; blurb: string; rights: string };
   nav_items: Record<'forest' | 'urban' | 'ocean' | 'tentang' | 'berita' | 'event' | 'donasi' | 'merch', string>;
@@ -95,7 +95,7 @@ const id: Dict = {
     close: 'Tutup menu',
     submenu: (label) => `Buka submenu ${label}`,
   },
-  search: { label: 'Cari di situs REKAM', placeholder: 'Cari', submit: 'Cari' },
+  search: { label: 'Cari di situs REKAM', placeholder: 'Cari', submit: 'Cari', noResults: 'Menu tidak ditemukan' },
   lang: { group: 'Pilih bahasa', switchTo: (label) => `Beralih ke ${label}` },
   footer: {
     links: 'Tautan',
@@ -166,7 +166,7 @@ const en: Dict = {
     close: 'Close menu',
     submenu: (label) => `Open ${label} submenu`,
   },
-  search: { label: 'Search the REKAM site', placeholder: 'Search', submit: 'Search' },
+  search: { label: 'Search the REKAM site', placeholder: 'Search', submit: 'Search', noResults: 'No menu found' },
   lang: { group: 'Choose language', switchTo: (label) => `Switch to ${label}` },
   footer: {
     links: 'Links',
