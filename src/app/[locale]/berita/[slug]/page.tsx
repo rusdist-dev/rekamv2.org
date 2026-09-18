@@ -94,7 +94,11 @@ export default async function ArticlePage({
 
   return (
     <SiteShell current="berita">
-      <article>
+      {/* Fades in in place of the smooth scroll-to-top the router used to
+          animate on every navigation (see globals.css's `html` rule) - this
+          is the page that jump was most noticeable on, coming from the
+          homepage carousel. Opacity-only, so nothing shifts while it runs. */}
+      <article className="animate-[fade-in_0.4s_ease-out_both]">
         <Wrap className="article-top pb-[clamp(2rem,4vw,3rem)]">
           <Breadcrumb
             ariaLabel={copy.detail.breadcrumb.ariaLabel}
@@ -184,7 +188,7 @@ export default async function ArticlePage({
       </article>
 
       {related.length > 0 && (
-        <section className="bg-band py-[clamp(3rem,7vw,6rem)]">
+        <section className="animate-[fade-in_0.4s_ease-out_both] bg-band py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
             <Eyebrow>{copy.detail.related.eyebrow}</Eyebrow>
             <Display className="mt-4 mb-[clamp(1.5rem,3vw,2.5rem)] text-display">{copy.detail.related.heading}</Display>
@@ -200,7 +204,7 @@ export default async function ArticlePage({
 
       {/* Same "Be Part of the Story" CTA as the about page, the home page,
           and the programme pages. */}
-      <section className="grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
+      <section className="animate-[fade-in_0.4s_ease-out_both] grid bg-white lg:min-h-[30rem] lg:grid-cols-2">
         <div className="self-center px-gutter py-[clamp(3rem,6vw,5rem)] text-center">
           <h2 className="mt-4 mb-0 font-display text-[clamp(2rem,6vw,5em)] leading-[1.15] text-green-900">
             {dict.common.storyBand.heading1}

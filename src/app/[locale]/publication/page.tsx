@@ -4,6 +4,7 @@ import bgPublication from '@/assets/banner/bg_rekamoke1.png';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PageHero } from '@/components/layout/PageHero';
+import { PdfDownloadGate } from '@/components/publication/PdfDownloadGate';
 import { PdfReadButton } from '@/components/publication/PdfReadButton';
 import { buttonClasses } from '@/components/ui/button-classes';
 import { Eyebrow, Wrap } from '@/components/ui/primitives';
@@ -77,10 +78,14 @@ export default async function PublicationPage({ params }: LocaleParams) {
               {lead.description}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href={lead.downloadUrl} download className={buttonClasses('green', false, 'uppercase')}>
+              <PdfDownloadGate
+                href={lead.downloadUrl}
+                title={lead.title}
+                className={buttonClasses('green', false, 'uppercase')}
+              >
                 Download
                 <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
-              </a>
+              </PdfDownloadGate>
               <PdfReadButton
                 href={lead.viewUrl}
                 title={lead.title}
@@ -122,14 +127,14 @@ export default async function PublicationPage({ params }: LocaleParams) {
                   </h3>
                   <p className="mt-3 mb-0 flex-1 text-[0.9rem] leading-[1.6] text-ink-soft">{card.description}</p>
                   <div className="mt-5 grid w-full grid-cols-2 gap-2">
-                    <a
+                    <PdfDownloadGate
                       href={card.downloadUrl}
-                      download
+                      title={card.title}
                       className={buttonClasses('green', true, cn('uppercase', achievementBtn))}
                     >
                       Download
                       <Icon id="i-arrow" className="ml-2 size-3.5 fill-none stroke-current" />
-                    </a>
+                    </PdfDownloadGate>
                     <PdfReadButton
                       href={card.viewUrl}
                       title={card.title}

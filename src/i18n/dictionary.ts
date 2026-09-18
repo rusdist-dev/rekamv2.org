@@ -98,7 +98,7 @@ const id: Dict = {
   search: { label: 'Cari di situs REKAM', placeholder: 'Cari', submit: 'Cari', noResults: 'Menu tidak ditemukan' },
   lang: { group: 'Pilih bahasa', switchTo: (label) => `Beralih ke ${label}` },
   footer: {
-    links: 'Tautan',
+    links: 'Unit Kami',
     follow: 'Ikuti Kami',
     channels: 'Unit dan kanal REKAM',
     social: 'Media sosial',
@@ -169,7 +169,7 @@ const en: Dict = {
   search: { label: 'Search the REKAM site', placeholder: 'Search', submit: 'Search', noResults: 'No menu found' },
   lang: { group: 'Choose language', switchTo: (label) => `Switch to ${label}` },
   footer: {
-    links: 'Links',
+    links: 'Our Units',
     follow: 'Follow Us',
     channels: 'REKAM units and channels',
     social: 'Social media',

@@ -138,7 +138,7 @@ const en: OceanContent = {
   overview: {
     body: [
       'Indonesia has more sea than land. Almost none of it is properly counted. The catch is enormous and the fishers see the least of it. Stocks are thinning, habitats are breaking down, and the policies meant to manage all of it are written from estimates, assumptions, and numbers nobody checked.',
-      'Fisheries Resource Center of Indonesia (FRCI) is our ocean program, started by scientists and organisers who kept arriving at the same conclusion: the sea is not failing for lack of rules, but for lack of records. FRCI builds the data — catch, stock, habitat, livelihood — and puts it in front of the people who decide. We work toward two things that have to arrive together: sustainability, so there is a sea left to fish, and justice, so the people who fish it are not the last to benefit from it.',
+      'Fisheries Resource Center of Indonesia (FRCI) is our ocean program, started by scientists and organisers who kept arriving at the same conclusion: the sea is not failing because it is unregulated, but because it is undocumented. FRCI builds the data — catch, stock, habitat, livelihood — and puts it in front of the people who decide. We work toward two things that have to arrive together: sustainability, so there is a sea left to fish, and justice, so the people who fish it are not the last to benefit from it.',
     ],
     artAlt: 'Engraved illustration of a school of fish in the sea',
   },

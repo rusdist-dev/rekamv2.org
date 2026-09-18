@@ -29,7 +29,7 @@ type HomeContent = {
   impact: { heading: [string, string]; paragraph: [string, string] };
   featuredVideo: { eyebrow: string };
   instagram: { eyebrow: string; followCta: string; postAriaLabel: string };
-  youtube: { channelCta: string; watchAriaLabel: (title: string) => string };
+  youtube: { channelCta: string; watchAriaLabel: (title: string) => string; watchOnYoutube: string };
   gallery: { ariaLabel: string };
   closingQuote: string;
 };
@@ -84,6 +84,7 @@ const id: HomeContent = {
   youtube: {
     channelCta: 'Kunjungi channel',
     watchAriaLabel: (title) => `Tonton "${title}" di YouTube`,
+    watchOnYoutube: 'Tonton di YouTube',
   },
   gallery: { ariaLabel: 'Galeri kegiatan' },
   closingQuote:
@@ -128,7 +129,7 @@ const en: HomeContent = {
     heading: ['Our', 'Impact'],
     paragraph: [
       'We count because decisions are made from counts. Every number below came from someone standing in a place, writing it down.',
-      'This is where the record stands today.',
+      'This is what we\'ve documented so far.',
     ],
   },
   featuredVideo: { eyebrow: 'Featured Video' },
@@ -140,6 +141,7 @@ const en: HomeContent = {
   youtube: {
     channelCta: 'Visit channel',
     watchAriaLabel: (title) => `Watch "${title}" on YouTube`,
+    watchOnYoutube: 'Watch on YouTube',
   },
   gallery: { ariaLabel: 'Activity gallery' },
   closingQuote:

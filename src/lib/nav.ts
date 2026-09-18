@@ -72,7 +72,9 @@ export const FOOTER_LINKS: FooterLink[] = [
  *  "Links" heading — site policy pages rather than sister projects. */
 export const FOOTER_LEGAL: FooterLink[] = [
   { href: '/faq', label: { id: 'FAQ', en: 'FAQ' } },
-  { href: '/brand-guideline', label: { id: 'Panduan Merek', en: 'Brand Guideline' } },
+  // No standalone /brand-guideline page exists; this label now opens the
+  // complaint-submission section on /safeguarding instead of 404ing.
+  { href: '/safeguarding#lapor', label: { id: 'Panduan Merek', en: 'Brand Guideline' } },
   { href: '/privacy-policy', label: { id: 'Kebijakan Privasi', en: 'Privacy Policy' } },
   { href: '/terms-of-service', label: { id: 'Syarat & Ketentuan', en: 'Term Of Service' } },
 ];

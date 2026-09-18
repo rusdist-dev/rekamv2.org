@@ -10,6 +10,7 @@ import { TeamGrid, TeamProvider } from '@/components/about/Team';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { PageHero } from '@/components/layout/PageHero';
+import { PdfDownloadGate } from '@/components/publication/PdfDownloadGate';
 import { PdfReadButton } from '@/components/publication/PdfReadButton';
 import { buttonClasses } from '@/components/ui/button-classes';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
@@ -225,14 +226,14 @@ export default async function TentangPage({ params }: LocaleParams) {
                 {publication.description}
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
-                <a
+                <PdfDownloadGate
                   href={publication.downloadUrl}
-                  download
+                  title={publication.title}
                   className={buttonClasses('green', false, 'uppercase')}
                 >
                   {copy.impactReport.download}
                   <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
-                </a>
+                </PdfDownloadGate>
                 <PdfReadButton
                   href={publication.viewUrl}
                   title={publication.title}

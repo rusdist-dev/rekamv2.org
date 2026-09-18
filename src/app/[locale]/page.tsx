@@ -21,6 +21,7 @@ import { Hero360 } from '@/components/hero/Hero360';
 import { AppLink } from '@/components/ui/AppLink';
 import { ButtonLink } from '@/components/ui/button';
 import { Slider } from '@/components/ui/Slider';
+import { YoutubeWatchModal } from '@/components/home/YoutubeWatchModal';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { featuredNews, getNews, listNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
@@ -392,34 +393,34 @@ export default async function Home({ params }: LocaleParams) {
           <ul className="m-0 grid list-none grid-cols-2 gap-2 p-0 sm:grid-cols-3 lg:grid-cols-5">
             {YT_VIDEOS.map((video) => (
               <li key={video.id}>
-                <a
-                  href={`https://www.youtube.com/watch?v=${video.id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={copy.youtube.watchAriaLabel(video.title)}
-                  className="group relative block overflow-hidden rounded-sm"
-                >
-                  {/* Plain <img>, not next/image: the host (img.youtube.com)
-                      isn't in next.config's remote patterns, and adding one
-                      just for this thumbnail isn't worth it. */}
-                  <img
-                    src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-                    alt=""
-                    width={480}
-                    height={360}
-                    loading="lazy"
-                    className="block aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-0 flex items-center justify-center bg-black/25 transition-colors duration-300 group-hover:bg-black/35"
+                <YoutubeWatchModal videoId={video.id} title={video.title} watchOnYoutubeLabel={copy.youtube.watchOnYoutube}>
+                  <button
+                    type="button"
+                    aria-label={copy.youtube.watchAriaLabel(video.title)}
+                    className="group relative block w-full cursor-pointer overflow-hidden rounded-sm border-0 p-0"
                   >
-                    <svg viewBox="0 0 24 24" className="size-10 drop-shadow-md">
-                      <circle cx="12" cy="12" r="12" fill="rgba(255,255,255,0.9)" />
-                      <path d="M10 8.5v7l6-3.5z" fill="#0d2a1a" />
-                    </svg>
-                  </span>
-                </a>
+                    {/* Plain <img>, not next/image: the host (img.youtube.com)
+                        isn't in next.config's remote patterns, and adding one
+                        just for this thumbnail isn't worth it. */}
+                    <img
+                      src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                      alt=""
+                      width={480}
+                      height={360}
+                      loading="lazy"
+                      className="block aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 flex items-center justify-center bg-black/25 transition-colors duration-300 group-hover:bg-black/35"
+                    >
+                      <svg viewBox="0 0 24 24" className="size-10 drop-shadow-md">
+                        <circle cx="12" cy="12" r="12" fill="rgba(255,255,255,0.9)" />
+                        <path d="M10 8.5v7l6-3.5z" fill="#0d2a1a" />
+                      </svg>
+                    </span>
+                  </button>
+                </YoutubeWatchModal>
               </li>
             ))}
           </ul>

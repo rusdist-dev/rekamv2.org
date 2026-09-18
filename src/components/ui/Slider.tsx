@@ -1,12 +1,17 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Children, cloneElement, isValidElement, useEffect, useLayoutEffect, useRef } from 'react';
 import { cn } from '@/lib/cn';
 
-/* Snap-scrolling shelf, navigated with left/right buttons instead of a bare
-   overflow-x scrollbar. Buttons step by one card's width (measured off the
-   first <li>, not guessed) and fade out at whichever end has nothing left to
-   reveal, so the affordance never dead-ends on an inert control. */
+/* Snap-scrolling shelf, navigated with left/right buttons (or native swipe)
+   instead of a bare overflow-x scrollbar. For an infinite loop, the track
+   renders the items three times back to back (clone / original / clone) and
+   starts scrolled into the middle (original) copy. Swiping or stepping past
+   either end therefore glides straight into an identical-looking clone; once
+   scrolling settles at the very start or end of the tripled track, we snap
+   the position back by exactly one copy's width with scroll-behavior
+   temporarily forced to "auto", so the reset is instant and invisible - the
+   copies are pixel-identical, so nothing appears to move. */
 export function Slider({
   children,
   className,
@@ -17,27 +22,48 @@ export function Slider({
   trackClassName?: string;
 }) {
   const trackRef = useRef<HTMLUListElement>(null);
-  const [atStart, setAtStart] = useState(true);
-  const [atEnd, setAtEnd] = useState(true);
+  const items = Children.toArray(children);
 
-  const updateEdges = useCallback(() => {
+  const recenter = (delta: number) => {
     const el = trackRef.current;
     if (!el) return;
-    setAtStart(el.scrollLeft <= 1);
-    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1);
-  }, []);
+    el.style.scrollBehavior = 'auto';
+    el.scrollLeft += delta;
+    el.style.scrollBehavior = '';
+  };
+
+  useLayoutEffect(() => {
+    const el = trackRef.current;
+    if (!el || items.length === 0) return;
+    el.style.scrollBehavior = 'auto';
+    el.scrollLeft = el.scrollWidth / 3;
+    el.style.scrollBehavior = '';
+  }, [items.length]);
 
   useEffect(() => {
-    updateEdges();
     const el = trackRef.current;
     if (!el) return;
-    el.addEventListener('scroll', updateEdges, { passive: true });
-    window.addEventListener('resize', updateEdges);
-    return () => {
-      el.removeEventListener('scroll', updateEdges);
-      window.removeEventListener('resize', updateEdges);
+
+    let settleTimer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        const third = el.scrollWidth / 3;
+        if (third <= 0) return;
+        if (el.scrollLeft <= 1) {
+          recenter(third);
+        } else if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 1) {
+          recenter(-third);
+        }
+      }, 120);
     };
-  }, [updateEdges]);
+
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      clearTimeout(settleTimer);
+      el.removeEventListener('scroll', onScroll);
+    };
+  }, []);
 
   const go = (dir: 1 | -1) => {
     const el = trackRef.current;
@@ -59,27 +85,27 @@ export function Slider({
           trackClassName
         )}
       >
-        {children}
+        {[0, 1, 2].flatMap((copy) =>
+          items.map((item, i) => (isValidElement(item) ? cloneElement(item, { key: `c${copy}-${item.key ?? i}` }) : item))
+        )}
       </ul>
 
-      <SliderButton dir={-1} disabled={atStart} onClick={() => go(-1)} />
-      <SliderButton dir={1} disabled={atEnd} onClick={() => go(1)} />
+      <SliderButton dir={-1} onClick={() => go(-1)} />
+      <SliderButton dir={1} onClick={() => go(1)} />
     </div>
   );
 }
 
-function SliderButton({ dir, disabled, onClick }: { dir: -1 | 1; disabled: boolean; onClick: () => void }) {
+function SliderButton({ dir, onClick }: { dir: -1 | 1; onClick: () => void }) {
   return (
     <button
       type="button"
       aria-label={dir === -1 ? 'Sebelumnya' : 'Berikutnya'}
       onClick={onClick}
-      disabled={disabled}
       className={cn(
         'absolute top-[100px] z-10 flex size-10 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full',
         'border-0 bg-white text-green-900 shadow-lg ring-1 ring-black/5 transition-all duration-200',
         'hover:-translate-y-[calc(50%+2px)] hover:bg-green-700 hover:text-white',
-        'disabled:pointer-events-none disabled:opacity-0',
         'motion-reduce:transition-none motion-reduce:hover:translate-y-[-50%]',
         dir === -1 ? 'left-2 sm:left-4' : 'right-2 sm:right-4'
       )}

@@ -128,6 +128,18 @@
   }
 }
 
+/* Article page entrance, replacing the smooth scroll-to-top jump (see the
+   `html` rule below) on the one route where that jump was most noticeable.
+   Opacity-only, so it never shifts layout. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* ==========================================================================
    Clearance under the fixed header
    The three offsets nav-station.css:355-357 defined, named so no page has to
@@ -165,7 +177,14 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* Not scroll-behavior: smooth. The App Router resets scroll position on
+       every navigation via scrollIntoView (SiteShell.tsx's comment on its
+       single root element), and with smooth scrolling that reset animated as
+       a visible scroll-up sweep on every route change - most jarring on the
+       long article pages linked from the homepage carousel. Anchor jumps
+       within a page (`#form-donasi` and friends) land instantly now too;
+       that trade-off is deliberate rather than a smooth scroll this rule
+       cannot selectively withhold from the router. */
     scroll-padding-top: 1.5rem;
     -webkit-text-size-adjust: 100%;
   }
@@ -200,10 +219,6 @@
   /* The source honoured this in four CSS blocks and again in cursor.js:16.
      Kept global so no component has to remember it. */
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-
     *,
     *::before,
     *::after {
