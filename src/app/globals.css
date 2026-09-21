@@ -140,6 +140,37 @@
   }
 }
 
+/* Nav dropdown (SiteHeader's "Event" submenu). Real @keyframes rather than a
+   plain `transition-opacity`: Radix's Presence only holds a closing
+   DropdownMenu.Content in the DOM for a running CSS *animation* — a
+   transition doesn't set `animationName`, so Presence would unmount the node
+   the instant `open` goes false and the fade-out would never be seen. */
+@keyframes dropdown-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dropdown-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@utility animate-dropdown-in {
+  animation: dropdown-fade-in 180ms ease-out;
+}
+
+@utility animate-dropdown-out {
+  animation: dropdown-fade-out 150ms ease-in forwards;
+}
+
 /* ==========================================================================
    Clearance under the fixed header
    The three offsets nav-station.css:355-357 defined, named so no page has to

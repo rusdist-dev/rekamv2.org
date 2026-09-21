@@ -47,6 +47,30 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
   const T = dict(locale);
   const label = T.nav_items[item.key];
 
+  // Hover opens/closes the submenu; a short close delay is the bridge that
+  // lets the cursor cross the gap to the portalled Content (which sits
+  // outside the <li> in the DOM, so it needs the same handlers) without the
+  // menu flickering shut. Click still works underneath, for touch and for
+  // the trigger's own toggle behaviour.
+  const [open, setOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearCloseTimer = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+  const openNow = () => {
+    clearCloseTimer();
+    setOpen(true);
+  };
+  const closeSoon = () => {
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => setOpen(false), 180);
+  };
+  useEffect(() => clearCloseTimer, []);
+
   const link = (
     <AppLink
       href={item.href}
@@ -64,13 +88,15 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
      in the original and is preserved; Radix supplies the focus management,
      Escape and outside-click that were hand-rolled before. */
   return (
-    <li className="relative flex items-center gap-1">
+    <li className="relative flex items-center gap-1" onMouseEnter={openNow} onMouseLeave={closeSoon}>
       {link}
       {/* modal={false} matters: the default marks everything outside the menu
           aria-hidden and locks body scroll, which is right for a dialog and
           wrong for a nav dropdown — it would hide the rest of the rail from
-          assistive tech while the submenu is open. */}
-      <DropdownMenu.Root modal={false}>
+          assistive tech while the submenu is open. Controlled `open` lets
+          hover drive it while the trigger's own click-to-toggle keeps
+          working for touch, where there is no hover to fire. */}
+      <DropdownMenu.Root open={open} onOpenChange={setOpen} modal={false}>
         <DropdownMenu.Trigger
           aria-label={T.nav.submenu(label)}
           className="group size-4 shrink-0 cursor-pointer border-0 bg-transparent p-0 text-ink-soft hover:text-green-900"
@@ -89,10 +115,11 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
             align="start"
             sideOffset={10}
             alignOffset={-14}
+            onMouseEnter={openNow}
+            onMouseLeave={closeSoon}
             className={
               'z-[200] min-w-[13rem] rounded-md bg-white py-[0.6rem] shadow-[0_18px_40px_rgba(9,40,26,0.16)] ' +
-              'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in ' +
-              'data-[state=closed]:fade-out'
+              'data-[state=open]:animate-dropdown-in data-[state=closed]:animate-dropdown-out'
             }
           >
             {item.children.map((child) => (
