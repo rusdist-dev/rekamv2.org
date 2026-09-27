@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
-import { STREETVIEW, type Place } from '@/lib/about/streetview';
 import { cn } from '@/lib/cn';
 
 /* Peta wilayah kerja — pengganti ilustrasi peta-kerja.svg.
@@ -48,28 +47,27 @@ const FIT_PAD = 0.12;
  *  zona lain tetap perlu terlihat supaya yang disorot punya pembanding. */
 const HIGHLIGHT = ['572', '573', '712', '713', '718'];
 
-/** Titik yang ditandai di peta, dalam urutan ini.
- *
- * Koordinatnya TIDAK ditulis ulang di sini — diambil dari STREETVIEW.places
- * supaya lat/lng hanya hidup di satu tempat. Yang ditentukan di sini hanya
- * pilihan dan urutannya, karena panel Street View memakai daftar yang sama:
- * memangkasnya di sana akan diam-diam mengubah pilihan lokasi panel itu ketika
- * ia diaktifkan kembali.
- *
- * Pati tidak masuk daftar ini. */
-const PIN_IDS = ['bogor', 'semarang', 'denpasar', 'surabaya', 'mataram', 'makassar'];
+/** Satu titik bertanda di peta, dengan isi popupnya sendiri. Formatnya per
+ *  baris karena satu lokasi bisa menaungi lebih dari satu program (Bogor
+ *  menaungi dua) — setiap baris sudah diformat penuh, bukan disusun dari
+ *  field generik seperti nama/wilayah. */
+export type MarkerPin = { lat: number; lng: number; lines: string[] };
 
-const PINS: Place[] = PIN_IDS.map((id) => {
-  const found = STREETVIEW.places.find((p) => p.id === id);
-  // Dilempar, bukan dilewati. Id yang salah tulis adalah bug, dan pin yang
-  // hilang diam-diam tidak akan disadari siapa pun; modul ini dievaluasi saat
-  // prerender, jadi kegagalannya muncul di `next build`, bukan di peramban
-  // pengunjung.
-  if (!found) throw new Error(`PIN_IDS: tidak ada tempat berid "${id}" di STREETVIEW.places`);
-  return found;
-});
+/** Bogor: kantor pusat, menaungi dua program dengan tahun mulai berbeda. Satu
+ *  pin, dua baris — bukan dua pin bertumpuk di koordinat yang sama. */
+const PINS: MarkerPin[] = [
+  {
+    lat: -6.5971,
+    lng: 106.806,
+    lines: [
+      'Bogor - Urban & Sustainability, Starting Program 2013',
+      'Bogor - Story Telling, Starting Program 2012',
+    ],
+  },
+];
 
-/** Kelompok provinsi yang disorot, masing-masing dengan warnanya sendiri.
+/** Kelompok provinsi yang disorot, masing-masing dengan warna dan tahun
+ *  mulainya sendiri.
  *
  * Dijadikan array kelompok, bukan dua pasang prop terpisah, supaya kelompok
  * ketiga tidak menuntut perubahan struktur lagi — penggambarannya ikut jumlah
@@ -80,15 +78,17 @@ const PINS: Place[] = PIN_IDS.map((id) => {
  * geoBoundaries (34, data 2017), maupun dataset komunitas yang diperiksa.
  * Poligon "Papua Barat" di sumber 2017 masih ekstent PRA-pemekaran, jadi
  * wilayah yang kini Papua Barat Daya tetap ikut tersorot. */
-export type ProvinceGroup = { color: string; names: string[] };
+export type ProvinceGroup = { color: string; year: number; names: string[] };
 
 const PROVINCE_GROUPS: ProvinceGroup[] = [
   {
-    color: 'var(--color-yellow-600)',
+    color: 'var(--color-rust)',
+    year: 2017,
     names: ['Kalimantan Timur', 'Kalimantan Barat', 'Papua Barat'],
   },
   {
-    color: 'var(--color-blue-900)',
+    color: 'var(--color-blue-deep)',
+    year: 2020,
     names: ['Banten', 'Jawa Tengah', 'Nusa Tenggara Barat', 'Sulawesi Selatan', 'Maluku'],
   },
 ];
@@ -121,9 +121,9 @@ type Props = {
    *  huruf besar/kecil. Sorotan ini di DARATAN, jadi warnanya harus terbaca
    *  beda dari zona WPP yang biru di laut. */
   provinceGroups?: ProvinceGroup[];
-  /** Warna penanda lokasi. */
+  /** Warna isian penanda lokasi. */
   marker?: string;
-  places?: Place[];
+  pins?: MarkerPin[];
   className?: string;
 };
 
@@ -133,13 +133,13 @@ export function IndonesiaMap({
   outline = 'var(--color-green-700)',
   neighbour = 'var(--color-gray-300)',
   wpp = 'var(--color-blue)',
-  wppHighlight = 'var(--color-blue-400)',
+  wppHighlight = 'var(--color-blue-deep)',
   highlight = HIGHLIGHT,
   fullBleed = false,
   provinceUrl,
   provinceGroups = PROVINCE_GROUPS,
-  marker = 'var(--color-yellow)',
-  places = PINS,
+  marker = 'var(--color-green-700)',
+  pins = PINS,
   className,
 }: Props) {
   const host = useRef<HTMLDivElement | null>(null);
@@ -153,7 +153,7 @@ export function IndonesiaMap({
   /* Satu string yang mewakili seluruh kelompok — warna DAN nama. Array sebagai
      dependensi effect akan membangun ulang peta tiap render kalau pemanggilnya
      menuliskannya inline. */
-  const groupsKey = provinceGroups.map((g) => `${g.color}:${g.names.join('|')}`).join(';');
+  const groupsKey = provinceGroups.map((g) => `${g.color}:${g.year}:${g.names.join('|')}`).join(';');
 
   useEffect(() => {
     const el = host.current;
@@ -166,11 +166,12 @@ export function IndonesiaMap({
     let detach: (() => void) | null = null;
     let cancelled = false;
     const hot = new Set(highlightKey.split(','));
-    /* Nama -> warna. Kalau satu provinsi muncul di dua kelompok, yang terakhir
-       menang; itu bug di konfigurasi, bukan keadaan yang perlu didukung. */
-    const colourOf = new Map<string, string>();
+    /* Nama -> kelompok (warna dan tahun mulai). Kalau satu provinsi muncul di
+       dua kelompok, yang terakhir menang; itu bug di konfigurasi, bukan
+       keadaan yang perlu didukung. */
+    const groupOf = new Map<string, ProvinceGroup>();
     for (const g of provinceGroups) {
-      for (const n of g.names) colourOf.set(n.trim().toLowerCase(), g.color);
+      for (const n of g.names) groupOf.set(n.trim().toLowerCase(), g);
     }
 
     (async () => {
@@ -246,9 +247,12 @@ export function IndonesiaMap({
               // hue pada 0.18 nyaris tidak terbaca di atas sage.
               { fillColor: wppHighlight, fillOpacity: 0.42, color: wppHighlight, weight: 1.4 }
             : { fillColor: wpp, fillOpacity: 0.14, color: wpp, weight: 0.8 },
+        // Hanya zona yang disorot yang dapat popup: sisanya ada untuk
+        // pembanding visual, bukan untuk dibaca satu per satu.
         onEachFeature: (feature, layer) => {
-          const p = (feature as Feat).properties ?? {};
-          layer.bindTooltip(`WPP ${p.wpp} — ${p.name}`, { sticky: true });
+          const f = feature as Feat;
+          if (!isHot(f)) return;
+          layer.bindTooltip(`WPP ${f.properties?.wpp} - FRCI, Starting Program 2020`, { sticky: true });
         },
       }).addTo(map);
 
@@ -280,11 +284,11 @@ export function IndonesiaMap({
           return '';
         };
         L.geoJSON(provGeo, {
-          filter: (f) => colourOf.has(nameOf(f as never).toLowerCase()),
+          filter: (f) => groupOf.has(nameOf(f as never).toLowerCase()),
           style: (f) => ({
             // Warna per fitur: satu layer, dua kelompok. Memisahkannya menjadi
             // dua L.geoJSON hanya menduplikasi filter dan tooltip.
-            fillColor: colourOf.get(nameOf(f as never).toLowerCase()),
+            fillColor: groupOf.get(nameOf(f as never).toLowerCase())?.color,
             fillOpacity: 1,
             color: outline,
             /* Garis tepi sedikit lebih tebal daripada poligon lain di peta ini:
@@ -293,7 +297,11 @@ export function IndonesiaMap({
                daratan di sekitarnya. */
             weight: 1.2,
           }),
-          onEachFeature: (f, l) => l.bindTooltip(nameOf(f as never), { sticky: true }),
+          onEachFeature: (f, l) => {
+            const name = nameOf(f as never);
+            const year = groupOf.get(name.toLowerCase())?.year;
+            l.bindTooltip(`${name} - FRCI, Starting Program ${year}`, { sticky: true });
+          },
         }).addTo(map);
       }
 
@@ -341,16 +349,16 @@ export function IndonesiaMap({
          tertarik balik begitu digeser sedikit pun. */
       map.setMaxBounds(frame.pad(FIT_PAD + 0.08));
 
-      for (const p of places) {
-        L.circleMarker([p.lat, p.lng], {
+      for (const pin of pins) {
+        L.circleMarker([pin.lat, pin.lng], {
           radius: 5,
-          color: 'var(--color-red-900)',
+          color: 'var(--color-green-ink)',
           weight: 3,
           fillColor: marker,
           fillOpacity: 1,
         })
           .addTo(map)
-          .bindTooltip(`${p.label} — ${p.region}`, { direction: 'top' });
+          .bindTooltip(pin.lines.join('<br>'), { direction: 'top' });
       }
     })().catch(() => {
       // Diberitahukan, bukan dibiarkan jadi kotak kosong yang terbaca seperti
@@ -366,7 +374,7 @@ export function IndonesiaMap({
     // Warna ikut dependensi: mengubahnya membangun ulang peta, yang lebih
     // sederhana daripada menelusuri setiap layer untuk setStyle.
     // eslint-disable-next-line react-hooks/exhaustive-deps -- groupsKey mewakili provinceGroups
-  }, [land, outline, neighbour, wpp, wppHighlight, highlightKey, provinceUrl, groupsKey, marker, places]);
+  }, [land, outline, neighbour, wpp, wppHighlight, highlightKey, provinceUrl, groupsKey, marker, pins]);
 
   return (
     <figure className={cn('m-0', className)}>
@@ -422,7 +430,7 @@ export function IndonesiaMap({
           kotak peta yang isinya digambar Leaflet tetap butuh sesuatu yang
           menerangkan dirinya di pohon aksesibilitas. */}
       <figcaption id={captionId} className="sr-only">
-        Peta wilayah kerja REKAM di Indonesia: {places.length} lokasi ditandai, di atas 11 Wilayah
+        Peta wilayah kerja REKAM di Indonesia: {pins.length} lokasi ditandai, di atas 11 Wilayah
         Pengelolaan Perikanan (WPPNRI 571–718). {highlight.length} zona diberi warna lebih pekat;
         sisanya ditampilkan lebih samar sebagai pembanding. Arahkan kursor ke sebuah zona atau
         provinsi untuk melihat namanya. Rincian cakupan per unit ada pada tabel di bawah.

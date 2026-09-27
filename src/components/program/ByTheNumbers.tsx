@@ -1,4 +1,5 @@
 import { cn } from '@/lib/cn';
+import type { Locale } from '@/i18n/config';
 
 /* rekam.css:2852-3040.
  *
@@ -14,7 +15,18 @@ import { cn } from '@/lib/cn';
  * row is handed back to that row's groups so no gap survives. See
  * layoutGroups below. */
 
-export type StatItem = { icon?: string; value: string; label: string; chips?: string[] };
+export type StatItem = {
+  icon?: string;
+  /** Raw magnitude — kept as a plain number so it can be reformatted per locale
+      rather than baked into a pre-punctuated string. */
+  value: number;
+  /** e.g. "IDR" — goes before the formatted number. */
+  prefix?: string;
+  /** e.g. "km", "ha", "ton", "Billion" — goes after the formatted number. */
+  unit?: string;
+  label: string;
+  chips?: string[];
+};
 export type StatTable = { caption?: string; head: string[]; rows: string[][] };
 export type PolicyItem = { status: string; title: string; ref: string };
 export type StatGroup = {
@@ -25,22 +37,24 @@ export type StatGroup = {
   items: StatItem[];
   table?: StatTable;
   policy?: PolicyItem[];
+  /** Forces the card grid to exactly this many columns, overriding the
+      track-count-based default (capped at MAX_CARD_COLUMNS) — for a group
+      that wants a specific shape, e.g. a 16-figure block laid out 4x4. */
+  columns?: number;
 };
 
 type Variant = 'default' | 'urban' | 'ocean';
 
-// "20 km" -> a leading number with a trailing unit; "Rp 1.210.000.000" -> a
-// leading currency prefix with the number after it. Told apart by whether the
-// first token starts with a digit — the number itself always keeps its own
-// span so its size can scale independently of whichever side the word sits on.
-function splitValue(value: string) {
-  const spaceAt = value.indexOf(' ');
-  if (spaceAt === -1) return { prefix: undefined, number: value, suffix: undefined };
-  const first = value.slice(0, spaceAt);
-  const rest = value.slice(spaceAt + 1);
-  return /^[0-9]/.test(first)
-    ? { prefix: undefined, number: first, suffix: rest }
-    : { prefix: first, number: rest, suffix: undefined };
+// en groups thousands with a comma and marks decimals with a period; id does
+// the reverse. The decimal place count comes from the raw number itself
+// (2.05 stringifies to two decimals, 1.2 to one) so nothing is hand-tracked
+// in the data beyond the number.
+function formatValue(value: number, locale: Locale) {
+  const decimals = Number.isInteger(value) ? 0 : String(value).split('.')[1].length;
+  return new Intl.NumberFormat(locale === 'id' ? 'id-ID' : 'en-GB', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  }).format(value);
 }
 
 // Long numbers (currency totals run to 13+ digits) would otherwise overflow a
@@ -82,14 +96,17 @@ function itemTracks(item: StatItem, variant: Variant) {
 // with the number beside the label rather than above it.
 function Figure({
   item,
+  locale,
   variant = 'default',
   band = false,
 }: {
   item: StatItem;
+  locale: Locale;
   variant?: Variant;
   band?: boolean;
 }) {
-  const { prefix, number, suffix } = splitValue(item.value);
+  const { prefix, unit: suffix } = item;
+  const number = formatValue(item.value, locale);
   const wide = !band && itemTracks(item, variant) === 2;
   const isUrban = variant === 'urban';
   const isOcean = variant === 'ocean';
@@ -210,7 +227,7 @@ function layoutGroups(unsorted: StatGroup[], variant: Variant) {
   return groups.map((group, i) => ({
     group,
     span: spans[i],
-    columns: Math.max(1, Math.min(tracks[i], MAX_CARD_COLUMNS)),
+    columns: group.columns ?? Math.max(1, Math.min(tracks[i], MAX_CARD_COLUMNS)),
     // One figure holding down two thirds of a row or more reads as a gap; it
     // is drawn as a band across that width instead.
     band: group.items.length === 1 && spans[i] >= 8,
@@ -233,9 +250,11 @@ const SPAN_CLASS: Record<number, string> = {
 
 export function ByTheNumbers({
   groups,
+  locale,
   variant = 'default',
 }: {
   groups: StatGroup[];
+  locale: Locale;
   variant?: Variant;
 }) {
   const pillWhen = variant === 'urban' || variant === 'ocean';
@@ -280,7 +299,7 @@ export function ByTheNumbers({
               }
             >
               {group.items.map((item) => (
-                <Figure key={item.label || item.value} item={item} variant={variant} band={band} />
+                <Figure key={item.label || item.value} item={item} locale={locale} variant={variant} band={band} />
               ))}
             </div>
           )}

@@ -25,12 +25,12 @@
           "items": [
             {
               "icon": "i-people",
-              "value": "242",
+              "value": 242,
               "label": "Members involved"
             },
             {
               "icon": "i-map",
-              "value": "5",
+              "value": 5,
               "label": "Sites zonation maps"
             }
           ]
@@ -41,22 +41,24 @@
           "items": [
             {
               "icon": "i-post",
-              "value": "20 km",
+              "value": 20,
+              "unit": "km",
               "label": "Boundary markers installed"
             },
             {
               "icon": "i-route",
-              "value": "35 km",
+              "value": 35,
+              "unit": "km",
               "label": "Boundary delineated"
             },
             {
               "icon": "i-people",
-              "value": "18",
+              "value": 18,
               "label": "Community Involved"
             },
             {
               "icon": "i-helmet",
-              "value": "11",
+              "value": 11,
               "label": "Technical team members involved"
             }
           ]
@@ -67,22 +69,22 @@
           "items": [
             {
               "icon": "i-board",
-              "value": "166",
+              "value": 166,
               "label": "Participants"
             },
             {
               "icon": "i-station",
-              "value": "4",
+              "value": 4,
               "label": "Biodiversity monitoring stations"
             },
             {
               "icon": "i-book",
-              "value": "1",
+              "value": 1,
               "label": "Customary law revised"
             },
             {
               "icon": "i-binocs",
-              "value": "1",
+              "value": 1,
               "label": "Women-led hornbill monitoring group"
             }
           ]
@@ -93,12 +95,12 @@
           "items": [
             {
               "icon": "i-bird",
-              "value": "52",
+              "value": 52,
               "label": "Bird species documented"
             },
             {
               "icon": "i-paw",
-              "value": "3",
+              "value": 3,
               "label": "Other key species"
             }
           ]
@@ -109,17 +111,17 @@
           "items": [
             {
               "icon": "i-nest",
-              "value": "27",
+              "value": 27,
               "label": "Hornbill nests monitored"
             },
             {
               "icon": "i-nest",
-              "value": "13",
+              "value": 13,
               "label": "Active nests identified"
             },
             {
               "icon": "i-tree",
-              "value": "1",
+              "value": 1,
               "label": "Nest tree adopted"
             }
           ]
@@ -156,17 +158,20 @@
           "items": [
             {
               "icon": "i-bin",
-              "value": "512.2 ton",
+              "value": 512.2,
+              "unit": "ton",
               "label": "Total waste collected"
             },
             {
               "icon": "i-recycle",
-              "value": "53.3 ton",
+              "value": 53.3,
+              "unit": "ton",
               "label": "Plastic processed"
             },
             {
               "icon": "i-brick",
-              "value": "220 unit",
+              "value": 220,
+              "unit": "unit",
               "label": "Product produced"
             }
           ]
@@ -177,17 +182,20 @@
           "items": [
             {
               "icon": "i-building",
-              "value": "205 unit",
+              "value": 205,
+              "unit": "unit",
               "label": "EIGER Adventure Land"
             },
             {
               "icon": "i-building",
-              "value": "13 unit",
+              "value": 13,
+              "unit": "unit",
               "label": "Aqua Mekarsari"
             },
             {
               "icon": "i-building",
-              "value": "2 unit",
+              "value": 2,
+              "unit": "unit",
               "label": "Cafe Aranya"
             }
           ]
@@ -198,7 +206,9 @@
           "items": [
             {
               "icon": "i-coins",
-              "value": "IDR 1,2 Billion",
+              "prefix": "IDR",
+              "value": 1.2,
+              "unit": "Billion",
               "label": "Upcycled products value"
             }
           ]
@@ -224,191 +234,96 @@
     },
     "numbers": {
       "title": "By the numbers",
-      "lede": "Marine conservation areas, community empowerment, and knowledge production — 2025 achievements, with cumulative coverage since 2022.",
+      "lede": "Marine conservation areas, community empowerment, and knowledge production — cumulative achievements, 2022–2026.",
       "note": "Source: REKAM by the Numbers — Impact Highlights 2025.",
       "groups": [
         {
-          "heading": "IKAN data collection",
-          "when": "2019 – 2025",
+          "heading": "Cumulative highlights",
+          "when": "2022 - 2026",
           "headline": false,
+          "columns": 4,
           "items": [
             {
-              "icon": "i-boat",
-              "value": "15,262",
-              "label": "Fishing trip data"
+              "icon": "i-megaphone",
+              "value": 13,
+              "label": "Ocean Accounts Pilot"
             },
             {
-              "icon": "i-ruler",
-              "value": "120,551",
-              "label": "Fish length data"
-            }
-          ]
-        },
-        {
-          "heading": "Coverage",
-          "when": "2022 – 2025",
-          "headline": false,
-          "items": [
-            {
               "icon": "i-shield",
-              "value": "23",
-              "label": "Marine Protected Areas"
+              "value": 32,
+              "label": "Marine Protected Area"
             },
             {
               "icon": "i-area",
-              "value": "6",
+              "value": 6,
               "label": "Area-Based Management"
             },
             {
               "icon": "i-map",
-              "value": "8",
-              "label": "Fisheries Management Areas"
-            }
-          ]
-        },
-        {
-          "heading": "Publications",
-          "when": "2022 - 2025",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-article",
-              "value": "38",
-              "label": "Journals"
+              "value": 8,
+              "label": "Fisheries Management Areas (FMAs)"
             },
-            {
-              "icon": "i-scroll",
-              "value": "12",
-              "label": "Policy briefs"
-            },
-            {
-              "icon": "i-bulb",
-              "value": "29",
-              "label": "Knowledge products"
-            },
-            {
-              "icon": "i-book",
-              "value": "3",
-              "label": "Books"
-            }
-          ]
-        },
-        {
-          "heading": "People involved",
-          "when": "2025",
-          "headline": false,
-          "items": [
             {
               "icon": "i-people",
-              "value": "72",
-              "label": "Community groups"
+              "value": 72,
+              "label": "Community Groups"
             },
             {
               "icon": "i-clipboard",
-              "value": "52",
+              "value": 52,
               "label": "Field Enumerators"
             },
             {
-              "icon": "i-heart",
-              "value": "195",
-              "label": "Volunteers"
-            },
-            {
-              "icon": "i-cap",
-              "value": "21",
-              "label": "Scholarship fellows"
-            },
-            {
-              "icon": "i-cap",
-              "value": "30",
-              "label": "Interns"
-            }
-          ]
-        },
-        {
-          "heading": "Coastal community groups",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-people",
-              "value": "6",
-              "label": "Central Java",
-              "chips": ["120 members", "15 trainings"]
-            },
-            {
-              "icon": "i-people",
-              "value": "9",
-              "label": "Liukang Tangaya",
-              "chips": ["107 members", "12 trainings"]
-            }
-          ]
-        },
-        {
-          "heading": "Species conservation – sharks & rays",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-people",
-              "value": "400",
-              "label": "People trained"
-            },
-            {
-              "icon": "i-book",
-              "value": "15",
-              "label": "Modules and guides"
-            },
-            {
-              "icon": "i-board",
-              "value": "5",
-              "label": "Workshop sessions"
-            }
-          ]
-        },
-        {
-          "heading": "Ocean Accounts",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-megaphone",
-              "value": "8",
-              "label": "Awareness-raising activities"
+              "icon": "i-article",
+              "value": 38,
+              "label": "Journal Publications"
             },
             {
               "icon": "i-bulb",
-              "value": "7",
-              "label": "Knowledge products"
-            }
-          ]
-        },
-        {
-          "heading": "Mangrove rehabilitation",
-          "headline": false,
-          "items": [
+              "value": 29,
+              "label": "Knowledge Production"
+            },
             {
-              "icon": "i-seedling",
-              "value": "159.000",
-              "label": "Seedlings planted"
+              "icon": "i-book",
+              "value": 3,
+              "label": "Books"
+            },
+            {
+              "icon": "i-scroll",
+              "value": 12,
+              "label": "Policy Publications"
+            },
+            {
+              "icon": "i-cap",
+              "value": 21,
+              "label": "Scholarship Awardees"
+            },
+            {
+              "icon": "i-cap",
+              "value": 30,
+              "label": "Student Internships"
+            },
+            {
+              "icon": "i-heart",
+              "value": 195,
+              "label": "Volunteers"
             },
             {
               "icon": "i-map",
-              "value": "20 ha",
-              "label": "Area rehabilitated"
-            }
-          ]
-        },
-        {
-          "heading": "Seagrass rehabilitation",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-seedling",
-              "value": "2.500",
-              "label": "Seedlings planted"
+              "value": 20,
+              "unit": "ha",
+              "label": "Mangrove Rehabilitation Area"
             },
             {
               "icon": "i-map",
-              "value": "2,05 ha",
-              "label": "Area rehabilitated"
+              "value": 2.05,
+              "unit": "ha",
+              "label": "Seagrass Rehabilitation Area"
+            },
+            {
+              "icon": "i-ruler",
+              "value": 120551,
+              "label": "Fish Length Data"
             }
           ]
         }

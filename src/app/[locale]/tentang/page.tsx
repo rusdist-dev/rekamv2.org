@@ -164,7 +164,6 @@ export default async function TentangPage({ params }: LocaleParams) {
               background="var(--color-band)"
               land="var(--color-sage)"
               outline="var(--color-green-700)"
-              marker="var(--color-red-600)"
             />
             {/* This is a table, drawn as a 1117x308 picture. Scaled to fit a
                 375px screen its row labels land at about 3px and stop being
@@ -176,7 +175,7 @@ export default async function TentangPage({ params }: LocaleParams) {
                 first and last columns are not cut off by the gutter, and
                 tabIndex makes the box focusable, which is what lets a keyboard
                 scroll it. */}
-            <div
+            {/* <div
               role="region"
               aria-label={copy.map.tableAriaLabel}
               tabIndex={0}
@@ -187,7 +186,7 @@ export default async function TentangPage({ params }: LocaleParams) {
                 alt={copy.map.tableAlt}
                 className="w-full min-w-[44rem] md:min-w-0"
               />
-            </div>
+            </div> */}
             {/* Sits under the illustrated map, not in place of it: the map shows
                 the fishery management areas, this shows what the ground looks
                 like. Nothing loads until the button is pressed. */}

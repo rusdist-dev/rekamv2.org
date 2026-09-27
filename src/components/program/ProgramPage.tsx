@@ -36,7 +36,7 @@ const HERO_OVERRIDES: Partial<Record<Program, { image: string; bgColor: string; 
   forest: { image: bgForestoke3.src, bgColor: '#c6e9f4', imageOverlay: 'rgba(10, 20, 16, 0.29)' },
   urban: { image: bgUrbanoke2.src, bgColor: '#c6e9f4', imageOverlay: 'rgba(10, 20, 16, 0.26)' },
   // Wider FOV pulls the camera back so the reef photo isn't cropped in tight.
-  ocean: { image: bgOceanoke5.src, bgColor: '#496aa2', imageOverlay: 'rgba(10, 20, 16, 0.18)', fov: 90 },
+  ocean: { image: bgOceanoke5.src, bgColor: '#496aa2', imageOverlay: 'rgba(10, 20, 16, 0.18)', fov: 100 },
 };
 
 /* Forest swaps the side-by-side prose+art overview for a full-bleed photo
@@ -88,10 +88,11 @@ const CONTENT: Record<Program, (locale: Locale) => ProgramCopy> = {
   ocean: oceanContent,
 };
 
-// Merges programs.json's per-group figures (icon, value, table, policy —
-// none of it language-dependent) with the localized heading/label/chips from
-// the matching content file, by index. The two arrays are always the same
-// shape for a given programme, since the content file mirrors programs.json
+// Merges programs.json's per-group figures (icon, value, prefix, unit, table,
+// policy — the magnitude itself doesn't change between languages, only how
+// ByTheNumbers punctuates it) with the localized heading/label/chips from the
+// matching content file, by index. The two arrays are always the same shape
+// for a given programme, since the content file mirrors programs.json
 // group-for-group.
 function localizeGroups(groups: StatGroup[], overrides: ProgramCopyGroup[]): StatGroup[] {
   return groups.map((group, gi) => {
@@ -211,6 +212,7 @@ export async function ProgramPage({
           <div/>
           <ByTheNumbers
             groups={localizeGroups(data.numbers.groups as StatGroup[], copy.numbers.groups)}
+            locale={locale}
             variant={program === 'urban' ? 'urban' : program === 'ocean' ? 'ocean' : 'default'}
           />
           {copy.numbers.note && (

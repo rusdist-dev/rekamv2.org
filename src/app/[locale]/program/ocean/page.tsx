@@ -17,7 +17,7 @@ export default function Page({ params }: LocaleParams) {
     <ProgramPage
       program="ocean"
       art={art}
-      icons={['i-shield', 'i-area', 'i-map', 'i-people', 'i-clipboard', 'i-heart', 'i-cap', 'i-article', 'i-scroll', 'i-bulb', 'i-book', 'i-boat', 'i-ruler', 'i-board', 'i-laptop', 'i-megaphone']}
+      icons={['i-shield', 'i-area', 'i-map', 'i-people', 'i-clipboard', 'i-heart', 'i-cap', 'i-article', 'i-scroll', 'i-bulb', 'i-book', 'i-ruler', 'i-laptop', 'i-megaphone']}
       params={params}
     />
   );

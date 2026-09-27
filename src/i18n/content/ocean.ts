@@ -51,77 +51,28 @@ const id: OceanContent = {
   },
   numbers: {
     title: 'Dalam angka',
-    lede: 'Kawasan konservasi laut, pemberdayaan masyarakat, dan produksi pengetahuan — capaian tahun 2025, dengan cakupan kumulatif sejak 2022.',
+    lede: 'Kawasan konservasi laut, pemberdayaan masyarakat, dan produksi pengetahuan — capaian kumulatif 2022–2026.',
     note: 'Sumber: REKAM by the Numbers — Impact Highlights 2025.',
     groups: [
       {
-        heading: 'Pengumpulan data IKAN',
+        heading: 'Capaian kumulatif',
         items: [
-          { label: 'Data trip penangkapan ikan' },
-          { label: 'Data panjang ikan' },
-        ],
-      },
-      {
-        heading: 'Cakupan',
-        items: [
+          { label: 'Percontohan Ocean Accounts' },
           { label: 'Kawasan Konservasi Perairan' },
           { label: 'Pengelolaan Berbasis Kawasan' },
-          { label: 'Wilayah Pengelolaan Perikanan' },
-        ],
-      },
-      {
-        heading: 'Publikasi',
-        items: [
-          { label: 'Jurnal' },
-          { label: 'Ringkasan kebijakan' },
-          { label: 'Produk pengetahuan' },
-          { label: 'Buku' },
-        ],
-      },
-      {
-        heading: 'Orang yang terlibat',
-        items: [
+          { label: 'Wilayah Pengelolaan Perikanan (WPP)' },
           { label: 'Kelompok masyarakat' },
           { label: 'Enumerator lapangan' },
-          { label: 'Relawan' },
+          { label: 'Publikasi jurnal' },
+          { label: 'Produk pengetahuan' },
+          { label: 'Buku' },
+          { label: 'Publikasi kebijakan' },
           { label: 'Penerima beasiswa' },
           { label: 'Peserta magang' },
-        ],
-      },
-      {
-        heading: 'Kelompok masyarakat pesisir',
-        items: [
-          { label: 'Jawa Tengah', chips: ['120 anggota', '15 pelatihan'] },
-          { label: 'Liukang Tangaya', chips: ['107 anggota', '12 pelatihan'] },
-        ],
-      },
-      {
-        heading: 'Konservasi spesies – hiu & pari',
-        items: [
-          { label: 'Orang yang dilatih' },
-          { label: 'Modul dan panduan' },
-          { label: 'Sesi lokakarya' },
-        ],
-      },
-      {
-        heading: 'Ocean Accounts',
-        items: [
-          { label: 'Kegiatan peningkatan kesadaran' },
-          { label: 'Produk pengetahuan' },
-        ],
-      },
-      {
-        heading: 'Rehabilitasi mangrove',
-        items: [
-          { label: 'Bibit ditanam' },
-          { label: 'Luas area yang direhabilitasi' },
-        ],
-      },
-      {
-        heading: 'Rehabilitasi lamun',
-        items: [
-          { label: 'Bibit ditanam' },
-          { label: 'Luas area yang direhabilitasi' },
+          { label: 'Relawan' },
+          { label: 'Luas area rehabilitasi mangrove' },
+          { label: 'Luas area rehabilitasi lamun' },
+          { label: 'Data panjang ikan' },
         ],
       },
     ],
@@ -144,77 +95,28 @@ const en: OceanContent = {
   },
   numbers: {
     title: 'By the numbers',
-    lede: 'Marine conservation areas, community empowerment, and knowledge production — 2025 achievements, with cumulative coverage since 2022.',
+    lede: 'Marine conservation areas, community empowerment, and knowledge production — cumulative achievements, 2022–2026.',
     note: 'Source: REKAM by the Numbers — Impact Highlights 2025.',
     groups: [
       {
-        heading: 'IKAN data collection',
+        heading: 'Cumulative highlights',
         items: [
-          { label: 'Fishing trip data' },
-          { label: 'Fish length data' },
-        ],
-      },
-      {
-        heading: 'Coverage',
-        items: [
-          { label: 'Marine Protected Areas' },
+          { label: 'Ocean Accounts Pilot' },
+          { label: 'Marine Protected Area' },
           { label: 'Area-Based Management' },
-          { label: 'Fisheries Management Areas' },
-        ],
-      },
-      {
-        heading: 'Publications',
-        items: [
-          { label: 'Journals' },
-          { label: 'Policy briefs' },
-          { label: 'Knowledge products' },
-          { label: 'Books' },
-        ],
-      },
-      {
-        heading: 'People involved',
-        items: [
-          { label: 'Community groups' },
+          { label: 'Fisheries Management Areas (FMAs)' },
+          { label: 'Community Groups' },
           { label: 'Field Enumerators' },
+          { label: 'Journal Publications' },
+          { label: 'Knowledge Production' },
+          { label: 'Books' },
+          { label: 'Policy Publications' },
+          { label: 'Scholarship Awardees' },
+          { label: 'Student Internships' },
           { label: 'Volunteers' },
-          { label: 'Scholarship fellows' },
-          { label: 'Interns' },
-        ],
-      },
-      {
-        heading: 'Coastal community groups',
-        items: [
-          { label: 'Central Java', chips: ['120 members', '15 trainings'] },
-          { label: 'Liukang Tangaya', chips: ['107 members', '12 trainings'] },
-        ],
-      },
-      {
-        heading: 'Species conservation – sharks & rays',
-        items: [
-          { label: 'People trained' },
-          { label: 'Modules and guides' },
-          { label: 'Workshop sessions' },
-        ],
-      },
-      {
-        heading: 'Ocean Accounts',
-        items: [
-          { label: 'Awareness-raising activities' },
-          { label: 'Knowledge products' },
-        ],
-      },
-      {
-        heading: 'Mangrove rehabilitation',
-        items: [
-          { label: 'Seedlings planted' },
-          { label: 'Area rehabilitated' },
-        ],
-      },
-      {
-        heading: 'Seagrass rehabilitation',
-        items: [
-          { label: 'Seedlings planted' },
-          { label: 'Area rehabilitated' },
+          { label: 'Mangrove Rehabilitation Area' },
+          { label: 'Seagrass Rehabilitation Area' },
+          { label: 'Fish Length Data' },
         ],
       },
     ],
