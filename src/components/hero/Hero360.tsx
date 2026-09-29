@@ -72,6 +72,7 @@ export function Hero360({
   sources = [],
   poster,
   image,
+  skyColor,
   fov,
   lightPano = false,
   bgColor,
@@ -87,6 +88,8 @@ export function Hero360({
   /** Static equirectangular image shown instead of the procedural scene
    *  whenever there is no usable video. */
   image?: string;
+  /** Colour shown through the transparent parts of `image`, e.g. a sky. */
+  skyColor?: string;
   /** Camera field of view in degrees. Wider pulls the view back so less of
    *  the source image fills the frame. Defaults to 74. */
   fov?: number;
@@ -125,6 +128,7 @@ export function Hero360({
         scene,
         video: videoRef.current,
         image,
+        skyColor,
         fov,
         strings: {
           loading: T.pano.loadingScene[scene],
@@ -147,7 +151,7 @@ export function Hero360({
       engine?.destroy();
       engineRef.current = null;
     };
-  }, [scene, image, fov]);
+  }, [scene, image, skyColor, fov]);
 
   // Autoplay only once footage is actually in use, and never under reduced motion.
   useEffect(() => {

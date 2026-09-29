@@ -62,6 +62,10 @@ export type Pano360Options = {
    *  scene whenever there is no usable video. Takes priority over `scene`'s
    *  canvas painter, but the scene's particle sprites still play over it. */
   image?: string;
+  /** Optional: a CSS colour shown through the transparent parts of `image`.
+   *  Without it the image is drawn opaque, so whatever RGB the transparent
+   *  pixels happen to hold shows instead. */
+  skyColor?: string;
   /** Camera field of view in degrees. Wider pulls the view back so less of the
    *  source image fills the frame. Defaults to 74. */
   fov?: number;
@@ -233,11 +237,28 @@ export class Pano360 {
         texture.colorSpace = THREE.SRGBColorSpace;
         texture.wrapS = THREE.RepeatWrapping;
         texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+        // Exported panoramas often carry a stray transparent or off-colour
+        // column at the left/right edge, which shows as a thin line where the
+        // sphere wraps. Trim a couple of pixels off each side so the seam
+        // joins on real image content.
+        const width = (texture.image as { width?: number } | undefined)?.width;
+        if (width) {
+          const trim = 2 / width;
+          texture.offset.x = trim;
+          texture.repeat.x = 1 - trim * 2;
+        }
         this.disposables.push(texture);
 
         this.material.map = texture;
-        this.material.transparent = false;
-        this.material.depthWrite = true;
+        if (this.opts.skyColor) {
+          // The image's sky is cut out; the clear colour fills it.
+          this.renderer.setClearColor(this.opts.skyColor);
+          this.material.transparent = true;
+          this.material.depthWrite = false;
+        } else {
+          this.material.transparent = false;
+          this.material.depthWrite = true;
+        }
         this.material.needsUpdate = true;
 
         this.addParticles();

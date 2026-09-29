@@ -8,7 +8,7 @@ import instagram3 from '@/assets/instagram-3.png';
 import instagram4 from '@/assets/instagram-4.png';
 import instagram5 from '@/assets/instagram-5.png';
 import card4 from '@/assets/banner/card4.png';
-import bgRekamoke3 from '@/assets/banner/bg_rekamoke3.jpeg';
+import berandaPano from '@/assets/banner/beranda_new.png';
 import borderRekamoke1 from '@/assets/banner/border_rekamoke1.png';
 import borderRekamoke2 from '@/assets/banner/border_rekamoke2.png';
 import card1 from '@/assets/banner/card1.jpg';
@@ -97,7 +97,9 @@ export default async function Home({ params }: LocaleParams) {
     <SiteShell hero>
       <Hero360
         scene="coast"
-        image={bgRekamoke3.src}
+        image={berandaPano.src}
+        fov={90}
+        skyColor="#9fd3ec"
         eyebrow={copy.hero.eyebrow}
         title={
           <>
@@ -107,7 +109,7 @@ export default async function Home({ params }: LocaleParams) {
           </>
         }
         lightPano
-        bgColor="#b7ccc7"
+        bgColor="#9fd3ec"
         imageOverlay="rgba(10, 20, 16, 0.12)"
         scrollTo="#lanskap"
       />

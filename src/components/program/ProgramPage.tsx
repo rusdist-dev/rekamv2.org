@@ -15,11 +15,11 @@ import { t } from '@/i18n/dictionary';
 import { forestContent } from '@/i18n/content/forest';
 import { urbanContent } from '@/i18n/content/urban';
 import { oceanContent } from '@/i18n/content/ocean';
-import bgForestoke3 from '@/assets/banner/bg_forestoke3.jpeg';
+import forestPano from '@/assets/banner/forest_new.png';
 import bgForestoke1Overview from '@/assets/banner/bg_forestoke1_overview.png';
-import bgUrbanoke2 from '@/assets/banner/bg_urbanoke2.jpeg';
+import urbanPano from '@/assets/banner/urban_new.png';
 import bgUrbanoke1Overview from '@/assets/banner/bg_urbanoke1_overview.png';
-import bgOceanoke5 from '@/assets/banner/bg_oceanoke5.png';
+import oceanPano from '@/assets/banner/ocean_new.png';
 import bgOceanoke1Overview from '@/assets/banner/bg_oceanoke1_overview.png';
 import card2 from '@/assets/banner/card2.jpg';
 import bgBanggaPapua from '@/assets/banner/bangga_papua.png';
@@ -32,11 +32,11 @@ import bgBanggaPapua from '@/assets/banner/bangga_papua.png';
 /* All three programmes ship real photography in place of the procedural
  * scene — a static equirectangular image standing in for footage, same as
  * the homepage hero. */
-const HERO_OVERRIDES: Partial<Record<Program, { image: string; bgColor: string; imageOverlay: string; fov?: number }>> = {
-  forest: { image: bgForestoke3.src, bgColor: '#c6e9f4', imageOverlay: 'rgba(10, 20, 16, 0.29)' },
-  urban: { image: bgUrbanoke2.src, bgColor: '#c6e9f4', imageOverlay: 'rgba(10, 20, 16, 0.26)' },
-  // Wider FOV pulls the camera back so the reef photo isn't cropped in tight.
-  ocean: { image: bgOceanoke5.src, bgColor: '#496aa2', imageOverlay: 'rgba(10, 20, 16, 0.18)', fov: 100 },
+const HERO_OVERRIDES: Partial<Record<Program, { image: string; skyColor?: string; bgColor: string; imageOverlay: string; fov?: number }>> = {
+  forest: { image: forestPano.src, skyColor: '#9fd3ec', bgColor: '#9fd3ec', imageOverlay: 'rgba(10, 20, 16, 0.29)', fov: 110 },
+  urban: { image: urbanPano.src, skyColor: '#9fd3ec', bgColor: '#9fd3ec', imageOverlay: 'rgba(10, 20, 16, 0.26)', fov: 110 },
+  // Wider FOV pulls the camera back so the panorama isn't cropped in tight.
+  ocean: { image: oceanPano.src, skyColor: '#1f6fa3', bgColor: '#1f6fa3', imageOverlay: 'rgba(10, 20, 16, 0.18)', fov: 110 },
 };
 
 /* Forest swaps the side-by-side prose+art overview for a full-bleed photo
@@ -137,6 +137,7 @@ export async function ProgramPage({
         title={copy.hero.title}
         sources={data.hero.sources}
         image={HERO_OVERRIDES[program]?.image}
+        skyColor={HERO_OVERRIDES[program]?.skyColor}
         fov={HERO_OVERRIDES[program]?.fov}
         bgColor={HERO_OVERRIDES[program]?.bgColor}
         imageOverlay={HERO_OVERRIDES[program]?.imageOverlay}

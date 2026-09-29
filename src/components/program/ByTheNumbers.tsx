@@ -131,7 +131,7 @@ function Figure({
               'font-bold [overflow-wrap:anywhere]',
               // A band has room across, so the length-based step-down that
               // keeps a narrow card from overflowing does not apply.
-              band ? 'text-3xl' : numberSizeClass(number)
+              band ? 'text-4xl' : numberSizeClass(number)
             )}
           >
             {number}
