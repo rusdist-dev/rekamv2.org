@@ -58,6 +58,13 @@ type SafeguardingContent = {
       phoneLabel: string;
       messageLabel: string;
       submit: string;
+      /** Fixed `subject` sent to POST /api/v1/contact — there's no subject
+       *  field in the UI, every submission from this page is a safeguarding
+       *  complaint by definition. */
+      subjectValue: string;
+      submitting: string;
+      success: string;
+      error: string;
     };
   };
   cta: {
@@ -158,6 +165,10 @@ const id: SafeguardingContent = {
       phoneLabel: 'Nomor Kontak',
       messageLabel: 'Ceritakan keluhanmu?',
       submit: 'Lanjutkan Pengaduan',
+      subjectValue: 'Pengaduan Safeguarding',
+      submitting: 'Mengirim...',
+      success: 'Terima kasih, pengaduan Anda telah kami terima dan akan segera kami tindak lanjuti.',
+      error: 'Pengaduan gagal dikirim. Silakan coba lagi, atau hubungi kami lewat email/telepon di atas.',
     },
   },
   cta: {
@@ -258,6 +269,10 @@ const en: SafeguardingContent = {
       phoneLabel: 'Contact number',
       messageLabel: 'Tell us about your complaint',
       submit: 'Submit Complaint',
+      subjectValue: 'Safeguarding Complaint',
+      submitting: 'Sending...',
+      success: 'Thank you, your complaint has been received and will be followed up shortly.',
+      error: 'Failed to send your complaint. Please try again, or reach us via the email/phone above.',
     },
   },
   cta: {

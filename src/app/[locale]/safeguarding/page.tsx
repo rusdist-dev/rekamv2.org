@@ -5,6 +5,7 @@ import iconTelepon from '@/assets/icon-telepon.svg';
 import safeguardingImg from '@/assets/save-guarding.png';
 import card2 from '@/assets/banner/card2.jpg';
 import { SiteShell } from '@/components/chrome/SiteShell';
+import { ComplaintForm } from '@/components/safeguarding/ComplaintForm';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
@@ -17,27 +18,6 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
     title: 'Safeguarding',
     description: safeguardingContent(locale).metaDescription,
   });
-}
-
-const inputCls =
-  'mt-2 w-full rounded-lg border border-green-ink/25 bg-white px-3 py-[0.65rem] text-[0.92rem] text-ink outline-none focus:border-green-700';
-
-/** Label + control pair for the complaint form. Not `Field` from Checkout.tsx
- *  — that one lives in a client component and isn't exported — but the same
- *  uppercase-label-over-input shape, kept local since this form is a server
- *  component with no state of its own. */
-function ComplaintField({ id, label, children }: { id: string; label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="block font-label text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-ink-soft"
-      >
-        {label}
-      </label>
-      {children}
-    </div>
-  );
 }
 
 /* Baru: halaman ini belum ada pada situs sumber. Hero-nya sengaja bukan
@@ -185,49 +165,7 @@ export default async function SafeguardingPage({ params }: LocaleParams) {
               </ul>
             </div>
 
-            <form className="rounded-[14px] border border-green-ink/12 bg-white p-6">
-              <fieldset className="m-0 border-0 p-0">
-                <legend className="mb-3 block font-label text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-green-900">
-                  {copy.lapor.form.anonymityLegend}
-                </legend>
-                <div className="grid gap-2">
-                  {copy.lapor.form.anonymityOptions.map((opt) => (
-                    <label
-                      key={opt}
-                      className="flex cursor-pointer items-center gap-3 rounded-lg bg-sage/30 px-4 py-3 text-[0.92rem] text-ink"
-                    >
-                      <input type="radio" name="anonim" value={opt} className="accent-green-700" />
-                      {opt}
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-
-              <div className="mt-5 grid gap-4">
-                <ComplaintField id="nama" label={copy.lapor.form.nameLabel}>
-                  <input id="nama" name="nama" type="text" className={inputCls} />
-                </ComplaintField>
-                <ComplaintField id="email-pengadu" label={copy.lapor.form.emailLabel}>
-                  <input id="email-pengadu" name="email" type="email" className={inputCls} />
-                </ComplaintField>
-                <ComplaintField id="alamat" label={copy.lapor.form.addressLabel}>
-                  <input id="alamat" name="alamat" type="text" className={inputCls} />
-                </ComplaintField>
-                <ComplaintField id="nomor" label={copy.lapor.form.phoneLabel}>
-                  <input id="nomor" name="nomor" type="tel" className={inputCls} />
-                </ComplaintField>
-                <ComplaintField id="keluhan" label={copy.lapor.form.messageLabel}>
-                  <textarea id="keluhan" name="keluhan" rows={4} className={inputCls} />
-                </ComplaintField>
-              </div>
-
-              <button
-                type="submit"
-                className="mt-6 min-h-[3rem] w-full rounded-lg bg-green-700 text-[0.95rem] font-bold text-white hover:bg-green-800"
-              >
-                {copy.lapor.form.submit}
-              </button>
-            </form>
+            <ComplaintForm form={copy.lapor.form} />
           </div>
         </Wrap>
       </section>

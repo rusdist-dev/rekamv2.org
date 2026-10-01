@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { buttonClasses } from '@/components/ui/button-classes';
+import { cn } from '@/lib/cn';
 
 const inputCls =
   'mt-2 w-full rounded-lg border border-green-ink/25 bg-white px-3 py-[0.65rem] text-[0.92rem] text-ink outline-none focus:border-green-700';
@@ -11,13 +12,14 @@ const inputCls =
  * PdfReadButton: a trigger that opens a Radix dialog instead of acting
  * directly. The actual file download still happens through a real <a
  * download> — browsers only honour that attribute from a genuine anchor
- * click — so submitting the form here just fires a synthetic click on a
- * hidden one and closes the dialog.
+ * click — so a successful submit fires a synthetic click on a hidden one and
+ * closes the dialog.
  *
- * The CMS endpoint to record who downloaded what doesn't exist yet, so this
- * is the display only: name/email are validated (both required, email by
- * type) but not read, sent, or stored anywhere. Wire that up where the
- * comment below says to, once there's an endpoint to call. */
+ * Who downloaded what is recorded via the same CMS write endpoint the
+ * safeguarding complaint form uses (POST /api/v1/contact, proxied through
+ * /api/contact — see src/app/api/contact/route.ts). There's no dedicated
+ * "download log" endpoint, so this reuses contact with a fixed subject/
+ * message identifying it as a download rather than a message. */
 export function PdfDownloadGate({
   href,
   title,
@@ -30,14 +32,36 @@ export function PdfDownloadGate({
   children: React.ReactNode;
 }) {
   const [open, setOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
   const downloadRef = useRef<HTMLAnchorElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: once the CMS endpoint exists, read the form's name/email fields
-    // and send them there before triggering the download below.
-    downloadRef.current?.click();
-    setOpen(false);
+    const data = new FormData(e.currentTarget);
+    setSubmitting(true);
+    setError(false);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.get('nama'),
+          email: data.get('email'),
+          subject: `Unduhan Publikasi: ${title}`,
+          message: `Pengunjung situs mengunduh publikasi "${title}".`,
+        }),
+      });
+      if (!res.ok) throw new Error();
+
+      downloadRef.current?.click();
+      setOpen(false);
+    } catch {
+      setError(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -84,8 +108,18 @@ export function PdfDownloadGate({
               <input type="email" name="email" required autoComplete="email" className={inputCls} />
             </label>
 
-            <button type="submit" className={buttonClasses('green', true, 'uppercase')}>
-              Download
+            {error && (
+              <p role="alert" className="m-0 text-[0.8rem] text-rust">
+                Gagal mengirim data. Silakan coba lagi.
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className={buttonClasses('green', true, cn('uppercase', submitting && 'cursor-not-allowed opacity-70'))}
+            >
+              {submitting ? 'Mengirim...' : 'Download'}
             </button>
           </form>
 
