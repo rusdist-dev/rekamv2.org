@@ -19,7 +19,7 @@ import { publicationContent } from '@/i18n/content/publication';
 import { t } from '@/i18n/dictionary';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { ABOUT, pick, pickList } from '@/lib/about/types';
-import { listPartners } from '@/lib/about/partners';
+import { listPartnerGroups } from '@/lib/about/partners';
 import { listUnits } from '@/lib/about/units';
 import { featuredPublication } from '@/lib/publication';
 
@@ -47,7 +47,7 @@ export default async function TentangPage({ params }: LocaleParams) {
   const dict = t(locale);
   const { team } = ABOUT;
   const units = await listUnits(locale);
-  const partners = await listPartners(locale);
+  const partnerGroups = await listPartnerGroups(locale);
   const publication = await featuredPublication(locale);
   const pubCopy = publicationContent(locale);
 
@@ -254,22 +254,45 @@ export default async function TentangPage({ params }: LocaleParams) {
               {copy.collaboration.intro}
             </p>
 
-            {/* 3 straight to 10 left the whole 640-1000px range rendering
-                ten columns into a ~600px column — roughly 40px per logo, which
-                is below the point where the wordmarks in these files can be
-                read at all. The ladder steps instead. */}
-            <ul className="m-0 grid grid-cols-3 xs:grid-cols-4 md:grid-cols-6 lg:grid-cols-10 gap-x-6 gap-y-8 p-0">
-              {/* The CMS marks are full-size PNGs — 350KB on average, and one
-                  of them 1.2MB — for a 56px-tall cell, so they go through
-                  next/image rather than being served raw. `fill` needs no
-                  intrinsic dimensions, which is what makes a remote logo of
-                  unknown proportions work here at all. */}
-              {partners.map(({ name, logo }, i) => (
-                <li key={`${name}-${i}`} className="relative h-14 w-full list-none">
-                  <Image src={logo} alt={name} fill sizes="120px" className="object-contain" />
-                </li>
+            {/* One grid per CMS category, in PARTNER_CATEGORIES order. The
+                category names are not shown — the gap between grids is the
+                only divider. Within a grid, 3 straight to 10 left the whole
+                640-1000px range at roughly 40px per logo, below the point
+                where these wordmarks can be read — the ladder steps instead. */}
+            <div className="flex flex-col gap-y-[clamp(2.5rem,5vw,4rem)]">
+              {partnerGroups.map(({ category, partners }) => (
+                <ul
+                  key={category ?? 'all'}
+                  className="m-0 grid grid-cols-3 xs:grid-cols-4 md:grid-cols-6 lg:grid-cols-10 gap-x-6 gap-y-8 p-0"
+                >
+                  {/* The CMS marks are full-size PNGs — 350KB on average, and one
+                      of them 1.2MB — for a 56px-tall cell, so they go through
+                      next/image rather than being served raw. `fill` needs no
+                      intrinsic dimensions, which is what makes a remote logo of
+                      unknown proportions work here at all. */}
+                  {partners.map(({ name, logo, url }, i) => {
+                    const mark = <Image src={logo} alt={name} fill sizes="120px" className="object-contain" />;
+                    return (
+                      <li key={`${name}-${i}`} className="relative h-14 w-full list-none">
+                        {url ? (
+                          <a
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title={name}
+                            className="absolute inset-0 block transition-opacity hover:opacity-75"
+                          >
+                            {mark}
+                          </a>
+                        ) : (
+                          mark
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
               ))}
-            </ul>
+            </div>
           </Wrap>
         </section>
 

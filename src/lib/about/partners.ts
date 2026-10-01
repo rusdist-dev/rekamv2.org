@@ -13,9 +13,9 @@ import { cmsConfigured, cmsList } from '@/lib/cms/client';
  * against the 47 logos that were hand-imported here — that gap is the reason
  * this section is worth moving to the CMS at all.
  *
- * `url` is deliberately unused: two thirds of the rows point at
- * rekam.org/kolaborasi (this very section) rather than the partner's own
- * site, and the wall has never been a set of links.
+ * The endpoint takes a `category` query (2026-10-01). The wall is grouped by
+ * it, one request per category in PARTNER_CATEGORIES order; the group names
+ * themselves are never shown — only the gap between groups marks them.
  */
 
 type CmsPartnerRow = {
@@ -31,32 +31,55 @@ type CmsPartnerRow = {
 export type PartnerEntry = {
   name: string;
   logo: StaticImageData | string;
+  url?: string;
+};
+
+/** Display order of the groups on the wall. */
+export const PARTNER_CATEGORIES = ['Pemerintahan', 'Universitas', 'Swasta', 'NGO', 'Donor'] as const;
+export type PartnerCategory = (typeof PARTNER_CATEGORIES)[number];
+
+export type PartnerGroup = {
+  category: PartnerCategory | null;
+  partners: PartnerEntry[];
 };
 
 const PARTNERS_PAGE_SIZE = 100;
 
-export async function listPartners(locale: Locale = DEFAULT_LOCALE): Promise<PartnerEntry[]> {
-  if (cmsConfigured()) {
-    const rows: CmsPartnerRow[] = [];
-    for (let page = 1; ; page++) {
-      const result = await cmsList<CmsPartnerRow>('/partners', {
-        tag: `partners:${locale}`,
-        params: { lang: locale, per_page: PARTNERS_PAGE_SIZE, page },
-      });
-      // null = module disabled for this tenant; fall through to the bundled set.
-      if (!result) break;
-      rows.push(...result.data);
-      if (!result.meta || page >= result.meta.last_page) break;
-    }
+async function listCategory(locale: Locale, category: PartnerCategory): Promise<PartnerEntry[] | null> {
+  const rows: CmsPartnerRow[] = [];
+  for (let page = 1; ; page++) {
+    const result = await cmsList<CmsPartnerRow>('/partners', {
+      tag: `partners:${locale}`,
+      params: { lang: locale, category, per_page: PARTNERS_PAGE_SIZE, page },
+    });
+    // null = module disabled for this tenant.
+    if (!result) return page === 1 ? null : rows.map(toEntry).filter(isEntry);
+    rows.push(...result.data);
+    if (!result.meta || page >= result.meta.last_page) break;
+  }
+  return rows.map(toEntry).filter(isEntry);
+}
 
-    /* A row is only worth a cell if it has a mark: the wall is logos, and a
-     * partner with no logo_url would render as an empty 56px gap in the
-     * grid. Every one of today's 92 rows has one. */
-    const entries = rows
-      .filter((row): row is CmsPartnerRow & { logo_url: string } => Boolean(row.logo_url))
-      .map((row) => ({ name: row.name, logo: row.logo_url }));
-    if (entries.length) return entries;
+/* A row is only worth a cell if it has a mark: the wall is logos, and a
+ * partner with no logo_url would render as an empty 56px gap in the grid. */
+function toEntry(row: CmsPartnerRow): PartnerEntry | null {
+  if (!row.logo_url) return null;
+  return { name: row.name, logo: row.logo_url, url: row.url || undefined };
+}
+
+function isEntry(entry: PartnerEntry | null): entry is PartnerEntry {
+  return entry !== null;
+}
+
+export async function listPartnerGroups(locale: Locale = DEFAULT_LOCALE): Promise<PartnerGroup[]> {
+  if (cmsConfigured()) {
+    const results = await Promise.all(PARTNER_CATEGORIES.map((category) => listCategory(locale, category)));
+    const groups = PARTNER_CATEGORIES.map((category, i) => ({ category, partners: results[i] ?? [] })).filter(
+      (group) => group.partners.length > 0,
+    );
+    if (groups.length) return groups;
   }
 
-  return PARTNER_LOGOS;
+  // The bundled set carries no categories or links: one ungrouped wall.
+  return [{ category: null, partners: PARTNER_LOGOS }];
 }
