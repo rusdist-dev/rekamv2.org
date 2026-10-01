@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
+import type { Locale } from '@/i18n/config';
 import { cn } from '@/lib/cn';
 
 /* Peta wilayah kerja — pengganti ilustrasi peta-kerja.svg.
@@ -43,15 +44,47 @@ const MAX_ZOOM = 8;
    kanvas. Naikkan untuk mengecilkan tampilan awal, turunkan untuk memenuhi. */
 const FIT_PAD = 0.12;
 
-/** WPP yang disorot. Dibedakan lewat warna, bukan lewat menyembunyikan sisanya:
- *  zona lain tetap perlu terlihat supaya yang disorot punya pembanding. */
-const HIGHLIGHT = ['572', '573', '712', '713', '718'];
+/* Bilingual tooltip copy. Bukan diimpor dari '@/lib/about/types': helper itu
+ * menyeret seluruh about.json ke bundel ini hanya untuk satu tipe dan satu
+ * fungsi kecil, jadi disalin di sini — sejalan dengan semangat berkas ini
+ * yang menjaga bundelnya tetap kecil (lihat catatan GeoJSON di atas). */
+type Localized = { en: string; id: string };
+const pick = (v: Localized, locale: Locale) => v[locale];
+
+/** Nama program kecuali Bogor, yang punya namanya sendiri (lihat PINS). Dua
+ *  kata ini sengaja TIDAK diterjemahkan di versi id — sama seperti eyebrow
+ *  "Program Forest"/"Program Ocean" di /program/forest dan /program/ocean,
+ *  keduanya nama brand, bukan kata benda biasa. */
+type Program = 'Forest' | 'Ocean';
+
+function programSince(program: Program, year: number, locale: Locale): string {
+  return locale === 'id' ? `Program ${program} sejak ${year}` : `Program ${program} since ${year}`;
+}
+
+/** "WPP" (Wilayah Pengelolaan Perikanan) adalah istilah Indonesia; padanan
+ *  Inggrisnya bukan WPP melainkan FMA (Fisheries Management Area). */
+function wppLabel(locale: Locale): string {
+  return locale === 'en' ? 'FMA' : 'WPP';
+}
+
+/** WPP yang disorot, masing-masing dengan tahun mulainya sendiri. Dibedakan
+ *  lewat warna, bukan lewat menyembunyikan sisanya: zona lain tetap perlu
+ *  terlihat supaya yang disorot punya pembanding. */
+type WppHighlight = { code: string; year: number };
+
+const HIGHLIGHT: WppHighlight[] = [
+  { code: '572', year: 2024 },
+  { code: '573', year: 2019 },
+  { code: '712', year: 2019 },
+  { code: '713', year: 2019 },
+  { code: '718', year: 2024 },
+];
 
 /** Satu titik bertanda di peta, dengan isi popupnya sendiri. Formatnya per
  *  baris karena satu lokasi bisa menaungi lebih dari satu program (Bogor
  *  menaungi dua) — setiap baris sudah diformat penuh, bukan disusun dari
  *  field generik seperti nama/wilayah. */
-export type MarkerPin = { lat: number; lng: number; lines: string[] };
+export type MarkerPin = { lat: number; lng: number; lines: Localized[] };
 
 /** Bogor: kantor pusat, menaungi dua program dengan tahun mulai berbeda. Satu
  *  pin, dua baris — bukan dua pin bertumpuk di koordinat yang sama. */
@@ -60,36 +93,52 @@ const PINS: MarkerPin[] = [
     lat: -6.5971,
     lng: 106.806,
     lines: [
-      'Bogor - Urban & Sustainability, Starting Program 2013',
-      'Bogor - Story Telling, Starting Program 2012',
+      { en: 'Bogor - Urban & Sustainability since 2013', id: 'Bogor - Urban & Sustainability sejak 2013' },
+      { en: 'Bogor - Story Telling since 2012', id: 'Bogor - Story Telling sejak 2012' },
     ],
   },
 ];
 
-/** Kelompok provinsi yang disorot, masing-masing dengan warna dan tahun
- *  mulainya sendiri.
+/** Kelompok provinsi yang disorot, masing-masing dengan warna, program, dan
+ *  tahun mulainya sendiri.
  *
  * Dijadikan array kelompok, bukan dua pasang prop terpisah, supaya kelompok
  * ketiga tidak menuntut perubahan struktur lagi — penggambarannya ikut jumlah
- * kelompok.
+ * kelompok. Beberapa kelompok berbagi warna yang sama (program Ocean) tapi
+ * tahun mulai berbeda per provinsi, jadi dipecah per tahun, bukan dipaksa
+ * satu tahun untuk semuanya.
  *
  * CATATAN DATA (kelompok 1): Papua Barat Daya dimekarkan dari Papua Barat pada
  * Desember 2022 dan tidak ada di Natural Earth (33 provinsi, pra-2012),
  * geoBoundaries (34, data 2017), maupun dataset komunitas yang diperiksa.
  * Poligon "Papua Barat" di sumber 2017 masih ekstent PRA-pemekaran, jadi
  * wilayah yang kini Papua Barat Daya tetap ikut tersorot. */
-export type ProvinceGroup = { color: string; year: number; names: string[] };
+export type ProvinceGroup = { color: string; year: number; program: Program; names: string[] };
 
 const PROVINCE_GROUPS: ProvinceGroup[] = [
   {
     color: 'var(--color-rust)',
     year: 2017,
+    program: 'Forest',
     names: ['Kalimantan Timur', 'Kalimantan Barat', 'Papua Barat'],
   },
   {
     color: 'var(--color-blue-deep)',
+    year: 2019,
+    program: 'Ocean',
+    names: ['Jawa Tengah', 'Sulawesi Selatan'],
+  },
+  {
+    color: 'var(--color-blue-deep)',
     year: 2020,
-    names: ['Banten', 'Jawa Tengah', 'Nusa Tenggara Barat', 'Sulawesi Selatan', 'Maluku'],
+    program: 'Ocean',
+    names: ['Banten', 'Nusa Tenggara Barat'],
+  },
+  {
+    color: 'var(--color-blue-deep)',
+    year: 2026,
+    program: 'Ocean',
+    names: ['Maluku'],
   },
 ];
 
@@ -111,8 +160,8 @@ type Props = {
   wpp?: string;
   /** Warna zona WPPNRI yang disorot — biru yang lebih gelap. */
   wppHighlight?: string;
-  /** Nomor WPP yang disorot. */
-  highlight?: string[];
+  /** Zona WPP yang disorot, dengan tahun mulainya masing-masing. */
+  highlight?: WppHighlight[];
   /** Bentangkan kanvas peta selebar layar, menembus <Wrap> di sekelilingnya. */
   fullBleed?: boolean;
   /** Sumber batas provinsi. Dibiarkan kosong = lapisannya mati. */
@@ -124,6 +173,8 @@ type Props = {
   /** Warna isian penanda lokasi. */
   marker?: string;
   pins?: MarkerPin[];
+  /** Bahasa teks tooltip (nama zona/provinsi tetap, "since"/"sejak" ikut ini). */
+  locale: Locale;
   className?: string;
 };
 
@@ -140,6 +191,7 @@ export function IndonesiaMap({
   provinceGroups = PROVINCE_GROUPS,
   marker = 'var(--color-green-700)',
   pins = PINS,
+  locale,
   className,
 }: Props) {
   const host = useRef<HTMLDivElement | null>(null);
@@ -149,11 +201,13 @@ export function IndonesiaMap({
   /* Array sebagai dependensi effect akan membangun ulang peta tiap render kalau
      pemanggilnya menuliskannya inline. Yang dibandingkan isinya, bukan
      identitasnya. */
-  const highlightKey = highlight.join(',');
-  /* Satu string yang mewakili seluruh kelompok — warna DAN nama. Array sebagai
-     dependensi effect akan membangun ulang peta tiap render kalau pemanggilnya
-     menuliskannya inline. */
-  const groupsKey = provinceGroups.map((g) => `${g.color}:${g.year}:${g.names.join('|')}`).join(';');
+  const highlightKey = highlight.map((h) => `${h.code}:${h.year}`).join(',');
+  /* Satu string yang mewakili seluruh kelompok — warna, program, DAN nama.
+     Array sebagai dependensi effect akan membangun ulang peta tiap render
+     kalau pemanggilnya menuliskannya inline. */
+  const groupsKey = provinceGroups
+    .map((g) => `${g.color}:${g.year}:${g.program}:${g.names.join('|')}`)
+    .join(';');
 
   useEffect(() => {
     const el = host.current;
@@ -165,7 +219,7 @@ export function IndonesiaMap({
        hanya melepas yang dipasang Leaflet. */
     let detach: (() => void) | null = null;
     let cancelled = false;
-    const hot = new Set(highlightKey.split(','));
+    const hot = new Map(highlight.map((h) => [h.code, h.year]));
     /* Nama -> kelompok (warna dan tahun mulai). Kalau satu provinsi muncul di
        dua kelompok, yang terakhir menang; itu bug di konfigurasi, bukan
        keadaan yang perlu didukung. */
@@ -252,7 +306,10 @@ export function IndonesiaMap({
         onEachFeature: (feature, layer) => {
           const f = feature as Feat;
           if (!isHot(f)) return;
-          layer.bindTooltip(`WPP ${f.properties?.wpp} - FRCI, Starting Program 2020`, { sticky: true });
+          const year = hot.get(f.properties!.wpp!)!;
+          layer.bindTooltip(`${wppLabel(locale)} ${f.properties?.wpp} - ${programSince('Ocean', year, locale)}`, {
+            sticky: true,
+          });
         },
       }).addTo(map);
 
@@ -299,8 +356,9 @@ export function IndonesiaMap({
           }),
           onEachFeature: (f, l) => {
             const name = nameOf(f as never);
-            const year = groupOf.get(name.toLowerCase())?.year;
-            l.bindTooltip(`${name} - FRCI, Starting Program ${year}`, { sticky: true });
+            const group = groupOf.get(name.toLowerCase());
+            if (!group) return;
+            l.bindTooltip(`${name} - ${programSince(group.program, group.year, locale)}`, { sticky: true });
           },
         }).addTo(map);
       }
@@ -358,7 +416,7 @@ export function IndonesiaMap({
           fillOpacity: 1,
         })
           .addTo(map)
-          .bindTooltip(pin.lines.join('<br>'), { direction: 'top' });
+          .bindTooltip(pin.lines.map((l) => pick(l, locale)).join('<br>'), { direction: 'top' });
       }
     })().catch(() => {
       // Diberitahukan, bukan dibiarkan jadi kotak kosong yang terbaca seperti
@@ -374,7 +432,7 @@ export function IndonesiaMap({
     // Warna ikut dependensi: mengubahnya membangun ulang peta, yang lebih
     // sederhana daripada menelusuri setiap layer untuk setStyle.
     // eslint-disable-next-line react-hooks/exhaustive-deps -- groupsKey mewakili provinceGroups
-  }, [land, outline, neighbour, wpp, wppHighlight, highlightKey, provinceUrl, groupsKey, marker, pins]);
+  }, [land, outline, neighbour, wpp, wppHighlight, highlightKey, provinceUrl, groupsKey, marker, pins, locale]);
 
   return (
     <figure className={cn('m-0', className)}>

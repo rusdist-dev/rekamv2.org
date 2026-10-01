@@ -127,7 +127,7 @@ export async function ProgramPage({
   const copy = CONTENT[program](locale);
   const dict = t(locale);
   const data = programs[program];
-  const posts = await listNews({ program, limit: 3 });
+  const posts = await listNews({ program, limit: 3, locale });
 
   return (
     <SiteShell hero current={program} icons={icons}>

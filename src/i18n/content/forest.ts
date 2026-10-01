@@ -59,24 +59,12 @@ const id: ForestContent = {
     note: 'Sumber: REKAM by the Numbers — Impact Highlights 2025. Nama-nama spesies burung dan satwa liar ditulis sebagaimana tercantum dalam dokumen aslinya.',
     groups: [
       {
-        heading: 'Pengakuan hak masyarakat adat',
-        items: [
-          { label: 'Anggota yang terlibat' },
-          { label: 'Peta zonasi kawasan' },
-        ],
-      },
-      {
-        heading: 'Pemasangan tanda batas',
+        heading: 'Pengelolaan hutan adat',
         items: [
           { label: 'Tanda batas terpasang' },
           { label: 'Batas wilayah yang dipetakan' },
           { label: 'Komunitas yang terlibat' },
           { label: 'Anggota tim teknis yang terlibat' },
-        ],
-      },
-      {
-        heading: 'Pengelolaan hutan adat',
-        items: [
           { label: 'Peserta' },
           { label: 'Stasiun pemantauan keanekaragaman hayati' },
           { label: 'Hukum adat yang direvisi' },
@@ -88,6 +76,13 @@ const id: ForestContent = {
         items: [
           { label: 'Spesies burung terdokumentasi' },
           { label: 'Spesies kunci lainnya' },
+        ],
+      },
+      {
+        heading: 'Pengakuan hak masyarakat adat',
+        items: [
+          { label: 'Anggota yang terlibat' },
+          { label: 'Peta zonasi kawasan' },
         ],
       },
       {
@@ -123,24 +118,12 @@ const en: ForestContent = {
     note: 'Source: REKAM by the Numbers — Impact Highlights 2025. Bird and wildlife species names are written as they appear in the original document.',
     groups: [
       {
-        heading: 'Recognition of indigenous community rights',
-        items: [
-          { label: 'Members involved' },
-          { label: 'Sites zonation maps' },
-        ],
-      },
-      {
-        heading: 'Boundary marker installation',
+        heading: 'Customary forest management',
         items: [
           { label: 'Boundary markers installed' },
           { label: 'Boundary delineated' },
-          { label: 'Community Involved' },
+          { label: 'Community involved' },
           { label: 'Technical team members involved' },
-        ],
-      },
-      {
-        heading: 'Customary forest management',
-        items: [
           { label: 'Participants' },
           { label: 'Biodiversity monitoring stations' },
           { label: 'Customary law revised' },
@@ -152,6 +135,13 @@ const en: ForestContent = {
         items: [
           { label: 'Bird species documented' },
           { label: 'Other key species' },
+        ],
+      },
+      {
+        heading: 'Recognition of indigenous community rights',
+        items: [
+          { label: 'Members involved' },
+          { label: 'Sites zonation maps' },
         ],
       },
       {

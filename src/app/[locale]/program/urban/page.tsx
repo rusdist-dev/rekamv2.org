@@ -17,7 +17,7 @@ export default function Page({ params }: LocaleParams) {
     <ProgramPage
       program="urban"
       art={art}
-      icons={['i-bin', 'i-recycle', 'i-brick', 'i-building', 'i-coins']}
+      icons={['i-bin', 'i-recycle', 'i-brick', 'i-map', 'i-building', 'i-coins']}
       params={params}
     />
   );

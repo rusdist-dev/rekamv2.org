@@ -8,8 +8,8 @@ import type { Locale } from '@/i18n/config';
  * `en` is the existing English copy from programs.json, unchanged. `id` is a
  * new Indonesian translation. Brand/place names — "Program Urban &
  * Sustainability" (matches nav_items.urban, never translated) and the
- * distributor names in the "Products distributed to" group (EIGER Adventure
- * Land, Aqua Mekarsari, Cafe Aranya) — are kept identical across locales. */
+ * distributor names in the "Outcome" group (EIGER Adventure Land, Aqua
+ * Mekarsari, Cafe Aranya) — are kept identical across locales. */
 
 type NumberGroupContent = {
   heading: string;
@@ -51,25 +51,20 @@ const id: UrbanContent = {
     groups: [
       {
         heading: 'Pengelolaan sampah plastik & upcycling',
-        when: '35 Unit Lingkungan',
         items: [
           { label: 'Total sampah terkumpul' },
           { label: 'Plastik terolah' },
           { label: 'Produk dihasilkan' },
+          { label: 'Lingkungan' },
         ],
       },
       {
-        heading: 'Produk didistribusikan ke',
+        heading: 'Hasil',
         items: [
           { label: 'EIGER Adventure Land' },
           { label: 'Aqua Mekarsari' },
           { label: 'Cafe Aranya' },
-        ],
-      },
-      {
-        heading: 'Capaian',
-        items: [
-          { label: 'Nilai produk upcycling' },
+          { label: 'Nilai Produk' },
         ],
       },
     ],
@@ -98,25 +93,20 @@ const en: UrbanContent = {
     groups: [
       {
         heading: 'Plastic waste management & upcycling',
-        when: '35 Neighborhood units',
         items: [
           { label: 'Total waste collected' },
           { label: 'Plastic processed' },
           { label: 'Product produced' },
+          { label: 'Neighborhoods' },
         ],
       },
       {
-        heading: 'Products distributed to',
+        heading: 'Outcome',
         items: [
           { label: 'EIGER Adventure Land' },
           { label: 'Aqua Mekarsari' },
           { label: 'Cafe Aranya' },
-        ],
-      },
-      {
-        heading: 'Achievements',
-        items: [
-          { label: 'Upcycled products value' },
+          { label: 'Product Value' },
         ],
       },
     ],

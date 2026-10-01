@@ -81,7 +81,7 @@ export default async function Home({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const copy = homeContent(locale);
   const dict = t(locale);
-  const feature = (await getNews(FEATURE_SLUG)) ?? (await featuredNews());
+  const feature = (await getNews(FEATURE_SLUG, locale)) ?? (await featuredNews(locale));
   const featureCover = resolveCover(feature?.cover);
   // null when IG_ACCESS_TOKEN isn't configured — every tile then falls back
   // to its screenshot cover below.
@@ -91,7 +91,7 @@ export default async function Home({ params }: LocaleParams) {
     media: igMedia?.find((m) => igShortcode(m.permalink) === igShortcode(tile.href)) ?? null,
   }));
   // Excludes the feature post so its headline doesn't also show up here.
-  const galleryPosts = await listNews({ exclude: feature?.slug, limit: 6 });
+  const galleryPosts = await listNews({ exclude: feature?.slug, limit: 6, locale });
 
   return (
     <SiteShell hero>

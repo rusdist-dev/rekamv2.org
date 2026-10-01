@@ -164,6 +164,7 @@ export default async function TentangPage({ params }: LocaleParams) {
               background="var(--color-band)"
               land="var(--color-sage)"
               outline="var(--color-green-700)"
+              locale={locale}
             />
             {/* This is a table, drawn as a 1117x308 picture. Scaled to fit a
                 375px screen its row labels land at about 3px and stop being

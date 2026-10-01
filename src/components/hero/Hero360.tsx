@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocale } from '@/components/ui/AppLink';
+import { AppLink, useLocale } from '@/components/ui/AppLink';
 import { t as dict } from '@/i18n/dictionary';
 import { Pano360 } from '@/lib/pano/Pano360';
 import type { SceneName } from '@/lib/pano/pano-scenes';
@@ -25,7 +25,7 @@ const CTRL =
 /* The source drew these with CSS pseudo-elements so the hero shipped with no
    icon requests. Inline SVG costs no requests either and is far less fragile
    than reproducing clip-path triangles in utility classes. */
-function CtrlIcon({ name }: { name: 'play' | 'pause' | 'sound' | 'muted' | 'recenter' }) {
+function CtrlIcon({ name }: { name: 'play' | 'pause' | 'sound' | 'muted' | 'recenter' | 'arrow' }) {
   const common = { width: 12, height: 12, viewBox: '0 0 12 12', 'aria-hidden': true as const, className: 'flex-none' };
   switch (name) {
     case 'pause':
@@ -60,6 +60,12 @@ function CtrlIcon({ name }: { name: 'play' | 'pause' | 'sound' | 'muted' | 'rece
         <svg {...common} fill="none" stroke="currentColor" strokeWidth="1.6">
           <circle cx="6" cy="6" r="5" />
           <circle cx="6" cy="6" r="1.2" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case 'arrow':
+      return (
+        <svg {...common} fill="none" stroke="currentColor" strokeWidth="1.6">
+          <path d="M1 1 L6 6 L1 11" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       );
   }
@@ -229,7 +235,7 @@ export function Hero360({
         style={{ background: lightPano ? SCRIM_LIGHT : SCRIM_DARK }}
       />
 
-      <div className="pointer-events-none relative z-[2] flex h-full flex-col items-center justify-center gap-4 px-gutter pb-24 pt-24 text-center sm:gap-6 sm:pb-0">
+      <div className="pointer-events-none relative z-[2] flex h-full flex-col items-center justify-center gap-4 px-gutter pb-44 pt-24 text-center sm:gap-6 sm:pb-0">
         {/* 1.4rem at 0.32em tracking runs a 17-character eyebrow past a
             375px gutter box; the clamp caps at the same size from ~640px up so
             wider screens are unchanged. */}
@@ -254,10 +260,17 @@ export function Hero360({
         )}
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-[max(1.5rem,env(safe-area-inset-bottom))] z-[3] flex flex-wrap items-center justify-between gap-4 px-gutter">
+      {/* HUD bawah: hint drag, CTA About, dan kontrol pemutaran.
+          Ditumpuk vertikal & dipusatkan di ponsel (muat lebih sedikit lebar
+          daripada tiga item sejajar), lalu jadi grid 3 kolom dari `sm:` ke
+          atas. Kolom tengah LEBAR AUTO diapit dua kolom 1fr yang sama lebar
+          — itu yang membuat CTA-nya benar-benar di tengah kanvas, bukan
+          sekadar di tengah ruang sisa seperti pada `justify-between`, yang
+          bergeser begitu hint dan grup kontrol punya lebar berbeda. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-[max(1.5rem,env(safe-area-inset-bottom))] z-[3] flex flex-col items-center gap-3 px-gutter sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-4">
         <p
           className={cn(
-            'm-0 flex items-center gap-[0.6rem] font-label text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/80 transition-opacity duration-500',
+            'm-0 flex items-center gap-[0.6rem] font-label text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-white/80 transition-opacity duration-500 sm:justify-self-start',
             hintGone && 'opacity-0'
           )}
         >
@@ -268,7 +281,11 @@ export function Hero360({
           {T.hero.drag}
         </p>
 
-        <div className="flex gap-2">
+        <AppLink href="/tentang" className={cn(CTRL, 'sm:justify-self-center')}>
+          <span>{T.nav_items.tentang}</span>
+        </AppLink>
+
+        <div className="flex flex-wrap justify-center gap-2 sm:flex-nowrap sm:justify-self-end">
           {videoUsable && (
             <>
               <button type="button" onClick={togglePlay} aria-pressed={playing} className={CTRL}>

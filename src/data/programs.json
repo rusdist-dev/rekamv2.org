@@ -20,24 +20,9 @@
       "note": "Source: REKAM by the Numbers — Impact Highlights 2025. Bird and wildlife species names are written as they appear in the original document.",
       "groups": [
         {
-          "heading": "Recognition of indigenous community rights",
+          "heading": "Customary forest management",
           "headline": false,
-          "items": [
-            {
-              "icon": "i-people",
-              "value": 242,
-              "label": "Members involved"
-            },
-            {
-              "icon": "i-map",
-              "value": 5,
-              "label": "Sites zonation maps"
-            }
-          ]
-        },
-        {
-          "heading": "Boundary marker installation",
-          "headline": false,
+          "columns": 4,
           "items": [
             {
               "icon": "i-post",
@@ -54,19 +39,13 @@
             {
               "icon": "i-people",
               "value": 18,
-              "label": "Community Involved"
+              "label": "Community involved"
             },
             {
               "icon": "i-helmet",
               "value": 11,
               "label": "Technical team members involved"
-            }
-          ]
-        },
-        {
-          "heading": "Customary forest management",
-          "headline": false,
-          "items": [
+            },
             {
               "icon": "i-board",
               "value": 166,
@@ -102,6 +81,22 @@
               "icon": "i-paw",
               "value": 3,
               "label": "Other key species"
+            }
+          ]
+        },
+        {
+          "heading": "Recognition of indigenous community rights",
+          "headline": false,
+          "items": [
+            {
+              "icon": "i-people",
+              "value": 242,
+              "label": "Members involved"
+            },
+            {
+              "icon": "i-map",
+              "value": 5,
+              "label": "Sites zonation maps"
             }
           ]
         },
@@ -153,8 +148,8 @@
       "groups": [
         {
           "heading": "Plastic waste management & upcycling",
-          "when": "35 Neighborhood units",
           "headline": false,
+          "columns": 4,
           "items": [
             {
               "icon": "i-bin",
@@ -173,12 +168,18 @@
               "value": 220,
               "unit": "unit",
               "label": "Product produced"
+            },
+            {
+              "icon": "i-map",
+              "value": 23,
+              "label": "Neighborhoods"
             }
           ]
         },
         {
-          "heading": "Products distributed to",
+          "heading": "Outcome",
           "headline": false,
+          "columns": 4,
           "items": [
             {
               "icon": "i-building",
@@ -197,19 +198,13 @@
               "value": 2,
               "unit": "unit",
               "label": "Cafe Aranya"
-            }
-          ]
-        },
-        {
-          "heading": "Achievements",
-          "headline": true,
-          "items": [
+            },
             {
               "icon": "i-coins",
               "prefix": "IDR",
               "value": 1.2,
               "unit": "Billion",
-              "label": "Upcycled products value"
+              "label": "Product Value"
             }
           ]
         }
