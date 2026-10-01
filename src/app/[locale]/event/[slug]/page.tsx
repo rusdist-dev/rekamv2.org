@@ -166,10 +166,10 @@ export default async function EventPage({
                   className={cnRow(i === event.agenda.length - 1)}
                 >
                   <span className="font-display text-[1.3rem] text-green-900">{row.time}</span>
-                  <span className="leading-[1.65] text-ink-soft">
-                    <strong className="mb-[0.2rem] block text-[1.05rem] font-normal text-green-900">
-                      {row.title}
-                    </strong>
+                  <strong className="text-[1.05rem] leading-[1.65] font-normal text-green-900">
+                    {row.title}
+                  </strong>
+                  <span className="col-start-2 leading-[1.65] text-ink-soft lg:col-start-3">
                     {row.detail}
                   </span>
                 </li>
@@ -248,5 +248,5 @@ export default async function EventPage({
 /* rekam.css:1787-1794 — a rule above every row and one below the last, so the
    list reads as a closed block rather than a trailing edge. */
 const cnRow = (last: boolean) =>
-  'grid grid-cols-[4.5rem_1fr] gap-[clamp(1rem,3vw,2rem)] border-t border-green-ink/15 py-5 lg:grid-cols-[6rem_1fr]' +
+  'grid grid-cols-[4.5rem_1fr] gap-x-[clamp(1rem,3vw,2rem)] gap-y-[0.2rem] border-t border-green-ink/15 py-5 lg:grid-cols-[6rem_minmax(0,1fr)_minmax(0,1.5fr)] lg:gap-y-0' +
   (last ? ' border-b' : '');
