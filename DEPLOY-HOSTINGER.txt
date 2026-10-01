@@ -47,6 +47,16 @@ Rekening/QRIS/WhatsApp donasi dan kunci Google Maps untuk Street View sengaja
 dibiarkan kosong; halaman akan menyatakan dirinya kosong, bukan gagal diam-diam.
 Lihat README.md.
 
+Kenapa build pakai --webpack
+----------------------------
+Turbopack (default `next build` di Next 16) menjalankan PostCSS/Tailwind di
+child process Node terpisah. Di builder Hostinger proses itu mati sebelum
+sempat terhubung, dan build gagal dengan:
+  TurbopackInternalError: [project]/src/app/globals.css ...
+  node process exited before we could connect to it with exit status: 0
+Webpack menjalankan PostCSS di proses yang sama, jadi masalah itu tidak
+muncul. Karena itu script "build" di package.json = `next build --webpack`.
+
 Kalau build kehabisan memori
 ----------------------------
 Shared hosting kadang kurang RAM untuk `next build`. Coba:
