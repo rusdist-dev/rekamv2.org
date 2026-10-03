@@ -41,3 +41,7 @@ yarn-error.log*
 
 # archives — bundel rilis/serah-terima dibuat ulang dari build, jangan dilacak
 *.zip
+
+# compiled from src/app/globals.css by `npm run css` (runs automatically
+# before dev and build); edit globals.css, never this file
+src/app/tailwind.css

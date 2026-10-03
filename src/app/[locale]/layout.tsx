@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { DEFAULT_LOCALE, LOCALES, OG_LOCALE, isLocale, type Locale } from '@/i18n/config';
 import { withLocale } from '@/i18n/routing';
 import { SITE, SITE_URL } from '@/lib/site';
-import '../globals.css';
+import '../tailwind.css';
 
 /* This is the root layout, deliberately inside the [locale] segment rather than
  * at app/. A root layout must own <html>, and <html lang> has to follow the

@@ -260,7 +260,7 @@ export function ByTheNumbers({
   const pillWhen = variant === 'urban' || variant === 'ocean';
   const laidOut = layoutGroups(groups, variant);
   return (
-    <div className="grid gap-x-8 gap-y-[clamp(1.5rem,3vw,2.25rem)] lg:grid-cols-12">
+    <div className="grid gap-x-3 gap-y-[clamp(1.5rem,3vw,2.25rem)] lg:grid-cols-12">
       {laidOut.map(({ group, span, columns, band }) => (
         <section
           key={group.heading}
