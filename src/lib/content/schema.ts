@@ -114,10 +114,12 @@ export const eventSchema = z.object({
     .array(z.object({ time: z.string(), title: localized, detail: localized }))
     .default([]),
 
-  /* Rendered as the 01/02/03 cards. Capped at three because the source styles
-     colour them by position — .numbers__grid .numcard:nth-child(1|2|3) — so a
-     fourth would render unstyled. */
-  gains: z.array(localized).max(3).default([]),
+  /* Rendered as the 01/02/03 items. The source capped this at three because
+     it coloured them by position — .numbers__grid .numcard:nth-child(1|2|3)
+     — and a fourth would have rendered unstyled. The band is a flat green
+     now and nothing is tinted by position, so the cap is gone: the CMS lets
+     an editor add a fourth benefit, and this collection should not disagree. */
+  gains: z.array(localized).default([]),
 
   /* Explicit article slugs, not a derived query. The source's rail mixed two
      ocean-tagged articles with the event's own namesake piece, which no simple
@@ -154,6 +156,9 @@ export type ResolvedEvent = {
   agenda: { time: string; title: string; detail: string }[];
   gains: string[];
   documentation: string[];
+  /* CMS only, and only used to pick the documentation rail's posts when
+     `documentation` is empty — see eventDocumentation in index.ts. */
+  category?: string;
   cta?: { title: string; lede: string; note?: string };
   /* CMS only: `registration_url`. Absent means this event takes no sign-ups,
      and both the hero's register button and the CTA band stay hidden rather
