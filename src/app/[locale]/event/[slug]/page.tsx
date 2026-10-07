@@ -50,7 +50,10 @@ export default async function EventPage({
   const event = await getEvent(slug, locale);
   if (!event) notFound();
 
-  const docs = await eventDocumentation(event.documentation);
+  /* `locale` matters here: the rail is news, and the news collection carries
+     its own language split, so an English page asking for the default locale
+     would fill the rail with Indonesian articles. */
+  const docs = await eventDocumentation(event, locale);
 
   return (
     <SiteShell current="event">
@@ -102,10 +105,9 @@ export default async function EventPage({
           )}
 
           <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
-            {/* Only shown when sign-ups exist: events.json's event has its own
-                CTA band at #daftar, a CMS event has one only when it carries a
-                registration_url, and a button scrolling to a section that
-                isn't on the page is worse than no button. */}
+            {/* Only shown when sign-ups exist. The #daftar band itself is on
+                every event now, but "Daftar sekarang" scrolling to a band
+                with no registration link to offer is worse than no button. */}
             {(event.cta || event.registerUrl) && (
               <ButtonLink href="#daftar">{copy.detail.registerNow}</ButtonLink>
             )}
@@ -179,68 +181,90 @@ export default async function EventPage({
         </section>
       )}
 
+      {/* The CMS's `benefits`, straight under the rundown: a reader who has
+          just read the schedule is deciding whether to come, and this is the
+          answer. A solid green band rather than the tinted cards the source
+          used — see NumberCard. */}
       {event.gains.length > 0 && (
-        <section className="bg-cream py-[clamp(3rem,7vw,6rem)]">
+        <section className="bg-green-900 py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
-            <Eyebrow>{copy.detail.gains.eyebrow}</Eyebrow>
-            <Display className="mt-4 mb-10 text-display">{copy.detail.gains.heading}</Display>
+            <Eyebrow light>{copy.detail.gains.eyebrow}</Eyebrow>
+            <Display className="mt-4 mb-[clamp(2rem,4vw,3rem)] text-display text-white">
+              {copy.detail.gains.heading}
+            </Display>
             <NumberGrid>
               {event.gains.map((g, i) => (
-                <NumberCard key={g} index={i} value={String(i + 1).padStart(2, '0')} label={g} />
+                <NumberCard key={g} value={String(i + 1).padStart(2, '0')} label={g} />
               ))}
             </NumberGrid>
           </Wrap>
         </section>
       )}
 
-      {docs.length > 0 && (
-        <section className="bg-paper py-[clamp(3rem,7vw,6rem)]">
+      {/* Closes the page's middle: what the event is, then what you get, then
+          what it looked like last time. events.json curates these by slug; a
+          CMS event has no documentation field to fill, so the rail falls back
+          to its category's news and says "liputan terkait" rather than
+          claiming they are past editions. */}
+      {docs.posts.length > 0 && (
+        <section className="bg-cream py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
             <Eyebrow>{copy.detail.documentation.eyebrow}</Eyebrow>
             <Display className="mt-4 mb-[clamp(1.5rem,3vw,2.5rem)] text-display">
-              {copy.detail.documentation.heading}
+              {docs.curated
+                ? copy.detail.documentation.heading
+                : copy.detail.documentation.relatedHeading}
             </Display>
-            <PostGrid posts={docs} showExcerpt={false} />
+            <PostGrid posts={docs.posts} showExcerpt={false} />
           </Wrap>
         </section>
       )}
 
-      {event.cta && (
-        <section id="daftar" className="grid bg-[#f4f3f1] lg:grid-cols-2">
-          <div className="self-stretch px-gutter py-[clamp(1.5rem,4vw,2.5rem)]">
-            <Display className="text-display-lg">{event.cta.title}</Display>
-            <Lede className="text-black">{event.cta.lede}</Lede>
-            {event.cta.note && (
-              <p className="mt-6 mb-0 max-w-[34ch] text-[0.85rem] leading-[1.6] text-ink-soft italic">
-                {event.cta.note}
-              </p>
+
+      {/* The closing band, on every event rather than only the ones carrying
+          their own `cta` prose: the heading is the event's own name, the
+          poster beside it is the event's own cover (event1.png when it has
+          none), and events.json's `cta` is left as an optional override for
+          the lede and the note. Two columns from lg up, stacked below.
+          The bottom padding sits on the section rather than on the text
+          column, so the poster clears the footer too — it is the taller of
+          the two and would otherwise end flush against it. */}
+      <section id="daftar" className="grid bg-[#f4f3f1] pb-[clamp(2.5rem,6vw,4rem)] lg:grid-cols-2">
+        <div className="self-stretch px-gutter pt-[clamp(2rem,5vw,3.5rem)]">
+          <Display className="text-display-lg">{copy.detail.join.title(event.title)}</Display>
+          <Lede className="text-black">{event.cta?.lede ?? copy.detail.join.lede}</Lede>
+          {event.cta?.note && (
+            <p className="mt-6 mb-0 max-w-[34ch] text-[0.85rem] leading-[1.6] text-ink-soft italic">
+              {event.cta.note}
+            </p>
+          )}
+          <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
+            {event.registerUrl && (
+              <ButtonLink href={event.registerUrl} target="_blank" rel="noreferrer">
+                {copy.detail.registerNow}
+              </ButtonLink>
             )}
-            <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
-              {event.registerUrl && (
-                <ButtonLink href={event.registerUrl} target="_blank" rel="noreferrer">
-                  {copy.detail.registerNow}
-                </ButtonLink>
-              )}
-              <ButtonLink href="/donasi" variant={event.registerUrl ? 'ghostGreen' : 'green'}>
-                {copy.detail.cta.support}
-              </ButtonLink>
-              <ButtonLink href="/#kontak" variant="ghostGreen">
-                {copy.detail.cta.contact}
-              </ButtonLink>
-            </div>
+            <ButtonLink href="/donasi" variant={event.registerUrl ? 'ghostGreen' : 'green'}>
+              {copy.detail.cta.support}
+            </ButtonLink>
+            <ButtonLink href="/#kontak" variant="ghostGreen">
+              {copy.detail.cta.contact}
+            </ButtonLink>
           </div>
-          <div className="flex items-end justify-center self-stretch">
-            <Image
-              src={resolveCover(event.cover) ?? eventImg}
-              alt=""
-              width={1200}
-              height={800}
-              sizes="(max-width: 1000px) 100vw, 50vw"
-              className="block h-auto w-full object-contain"
-            />
-          </div>
-        </section>
-      )}
+        </div>
+        {/* `object-contain` because these are posters, not photographs — a
+            portrait flyer cropped to a landscape frame loses its own title. */}
+        <div className="flex items-center justify-center self-stretch">
+          <Image
+            src={resolveCover(event.cover) ?? eventImg}
+            alt={event.coverAlt || event.title}
+            width={1200}
+            height={800}
+            sizes="(max-width: 1023px) 100vw, 50vw"
+            className="block h-auto max-h-[32rem] w-full object-contain lg:max-h-none lg:self-end"
+          />
+        </div>
+      </section>
     </SiteShell>
   );
 }

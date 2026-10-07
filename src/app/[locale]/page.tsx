@@ -36,10 +36,15 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
    much ground the work actually covered. Each links to that programme's full
    set of figures. Tints use the deep variants — white on --blue and --olive
    fails AA, same finding as the number cards. */
+/* The figure itself lives in the locale copy (`statValues`) — ID and EN
+   write the separators and the scale word differently. */
 const STATS = [
-  { href: '/program/forest', icon: oiForest, value: '19.000', unit: 'Ha', labelKey: 'forest', when: 'Forest · 2025', tint: 'bg-olive-deep' },
-  { href: '/program/urban', icon: oiUrban, value: '512,2', unit: 'Ton', labelKey: 'urban', when: 'Urban · 2025', tint: 'bg-rust' },
-  { href: '/program/ocean', icon: oiFrci, value: '1,115 Mio', unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep' },
+  { href: '/program/forest', icon: oiForest, unit: 'Ha', labelKey: 'forest', when: 'Forest · 2025', tint: 'bg-olive-deep' },
+  { href: '/program/urban', icon: oiUrban, unit: 'Ton', labelKey: 'urban', when: 'Urban · 2025', tint: 'bg-rust' },
+  // Ocean's figure carries a scale word ('1,115 Juta' / '1.115 Mio'), about
+  // twice the width the other two need, so it takes a smaller step of the
+  // type scale to stay on one line inside the card.
+  { href: '/program/ocean', icon: oiFrci, unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep', valueClass: 'text-[clamp(1.8rem,3.9vw,3rem)]' },
 ] as const;
 
 const CARDS = [
@@ -234,8 +239,13 @@ export default async function Home({ params }: LocaleParams) {
                     axe to resolve a background against, so it reported the
                     white unit as sitting on the page ground at 1.09:1 when it
                     is in fact inside a tinted card. */}
-                <p className="m-0 flex items-start gap-1 text-stat-lg font-bold leading-none tracking-[-0.02em]">
-                  <span>{stat.value}</span>
+                <p
+                  className={cn(
+                    'm-0 flex items-start gap-1 whitespace-nowrap text-stat-lg font-bold leading-none tracking-[-0.02em]',
+                    'valueClass' in stat && stat.valueClass
+                  )}
+                >
+                  <span>{copy.statValues[stat.labelKey]}</span>
                   {'unit' in stat && stat.unit && (
                     <span className="mt-[0.15em] text-[0.3em] font-bold leading-none">{stat.unit}</span>
                   )}

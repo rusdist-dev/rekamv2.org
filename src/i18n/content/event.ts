@@ -26,12 +26,21 @@ type EventContent = {
     aboutEvent: string;
     rundown: { heading: string };
     gains: { eyebrow: string; heading: string };
-    documentation: { eyebrow: string; heading: string };
+    /* `heading` is for the curated rail — events.json's explicit slugs, which
+       really are earlier editions. `relatedHeading` replaces it when the rail
+       falls back to the event's category, where the posts are related
+       coverage and calling them past editions would be untrue. */
+    documentation: { eyebrow: string; heading: string; relatedHeading: string };
     cta: { support: string; contact: string };
     /* The CTA band for a CMS event. events.json writes its own `cta` prose;
        the API has no such field, only a registration_url, so the band's copy
        is UI chrome here and the event's name is interpolated into it. */
     register: { title: (event: string) => string; lede: string };
+    /* The closing band every event detail page ends on. Its heading is
+       always the event's own name, so it reads the same whether the event
+       comes from events.json or the CMS; events.json may still override the
+       lede and add a note through its own `cta`. */
+    join: { title: (event: string) => string; lede: string };
   };
   /* Labels for the facts strip. events.json stores label and value together
      as typed-out copy; a CMS row stores start_at / location / is_free / quota
@@ -60,11 +69,19 @@ const id: EventContent = {
     aboutEvent: 'Tentang acara',
     rundown: { heading: 'Susunan acara' },
     gains: { eyebrow: 'Yang Anda dapatkan', heading: 'Tiga hal yang dibawa pulang' },
-    documentation: { eyebrow: 'Dokumentasi', heading: 'Dari rangkaian sebelumnya' },
+    documentation: {
+      eyebrow: 'Dokumentasi',
+      heading: 'Dari rangkaian sebelumnya',
+      relatedHeading: 'Liputan terkait',
+    },
     cta: { support: 'Dukung acara ini', contact: 'Hubungi kami' },
     register: {
       title: (event) => `Daftar untuk ${event}`,
       lede: 'Pendaftaran acara ini dibuka lewat tautan resminya.',
+    },
+    join: {
+      title: (event) => `Ikut serta di ${event}`,
+      lede: 'Ikut ambil bagian dalam acara ini — dukung penyelenggaraannya, atau hubungi kami untuk informasi lebih lanjut.',
     },
   },
   facts: {
@@ -91,11 +108,19 @@ const en: EventContent = {
     aboutEvent: 'About the event',
     rundown: { heading: 'Event schedule' },
     gains: { eyebrow: "What you'll gain", heading: "Three things you'll take home" },
-    documentation: { eyebrow: 'Documentation', heading: 'From previous editions' },
+    documentation: {
+      eyebrow: 'Documentation',
+      heading: 'From previous editions',
+      relatedHeading: 'Related coverage',
+    },
     cta: { support: 'Support this event', contact: 'Contact us' },
     register: {
       title: (event) => `Register for ${event}`,
       lede: "Sign-ups for this event are handled through its official link.",
+    },
+    join: {
+      title: (event) => `Join ${event}`,
+      lede: 'Take part in this event — support how it runs, or get in touch for more detail.',
     },
   },
   facts: {

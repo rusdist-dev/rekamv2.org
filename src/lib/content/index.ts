@@ -3,7 +3,7 @@ import { COVERS } from '@/assets/berita/covers';
 import { DEFAULT_LOCALE, type Locale } from '@/i18n/config';
 import { eventContent } from '@/i18n/content/event';
 import { eventSchema, newsSchema, type EventRecord, type Localized, type News, type Program, type ResolvedEvent } from './schema';
-import { cmsEventDetail, cmsEvents, rawEvents, rawNews, rawNewsDetail, type CmsEventRow, type CmsRundownRow } from './source';
+import { cmsEventDetail, cmsEvents, rawEvents, rawNews, rawNewsDetail, type CmsBenefitRow, type CmsEventRow, type CmsRundownRow } from './source';
 
 /* The data facade. Pages import from here and never touch source.ts or a
  * schema directly, so swapping local JSON for the CMS — or later promoting one
@@ -296,16 +296,22 @@ function toResolvedEvent(row: CmsEventRow, locale: Locale): ResolvedEvent {
       ? { eyebrow: row.category ?? 'Event', title: copy.aboutEvent, body: [], html: description }
       : undefined,
     agenda: toAgenda(row.rundowns, locale),
-    /* No CMS field answers either of these: the numbered takeaway cards and
-       the curated documentation rail are events.json's alone, so both
-       sections stay closed for a CMS event. */
-    gains: [],
+    gains: toGains(row.benefits),
+    /* The CMS has no documentation field and no way to add one, so the rail
+       is filled from the news collection instead — see eventDocumentation. */
     documentation: [],
+    category: row.category ?? undefined,
     registerUrl: row.registration_url ?? undefined,
     cta: row.registration_url
       ? { title: copy.register.title(row.title), lede: copy.register.lede }
       : undefined,
   };
+}
+
+/** `benefits` -> the numbered takeaways. A row without a title is dropped
+ *  rather than rendered as an empty card, the same rule toAgenda applies. */
+function toGains(benefits: CmsBenefitRow[] | undefined): string[] {
+  return (benefits ?? []).map((b) => b.title?.trim()).filter((t): t is string => Boolean(t));
 }
 
 /* Upcoming first, soonest to furthest, then everything past, most recent
@@ -324,10 +330,31 @@ function sortRows(rows: CmsEventRow[]): CmsEventRow[] {
   });
 }
 
-/** Resolve an event's curated documentation list to real articles, in order. */
-export async function eventDocumentation(slugs: string[], locale: Locale = DEFAULT_LOCALE): Promise<News[]> {
-  const posts = await all(locale);
-  return slugs.map((s) => posts.find((p) => p.slug === s)).filter((p): p is News => Boolean(p));
+/** The rail under the rundown, and whether its posts were chosen by hand.
+ *
+ *  events.json curates it: explicit slugs, genuinely earlier editions of
+ *  the same event, so the section can say "dari rangkaian sebelumnya". The
+ *  CMS has no documentation field at all and no way to add one, so a CMS
+ *  event falls back to the news its own category carries, then to the newest
+ *  overall — the same "keep the rail full rather than empty" rule listNews
+ *  already applies to the programme pages. Those posts are related coverage,
+ *  not past editions, which is why `curated` comes back with them: the page
+ *  changes the heading rather than claiming a history the posts don't have. */
+export async function eventDocumentation(
+  event: Pick<ResolvedEvent, 'documentation' | 'category'>,
+  locale: Locale = DEFAULT_LOCALE,
+  limit = 3
+): Promise<{ posts: News[]; curated: boolean }> {
+  const posts = (await all(locale)).filter((p) => p.lang === locale);
+
+  const curated = event.documentation
+    .map((slug) => posts.find((p) => p.slug === slug))
+    .filter((p): p is News => Boolean(p));
+  if (curated.length > 0) return { posts: curated, curated: true };
+
+  const category = event.category?.trim().toLowerCase();
+  const tagged = category ? posts.filter((p) => p.category?.trim().toLowerCase() === category) : [];
+  return { posts: (tagged.length > 0 ? tagged : posts).slice(0, limit), curated: false };
 }
 
 export type { News, Program, EventRecord, ResolvedEvent };

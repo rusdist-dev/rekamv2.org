@@ -199,6 +199,14 @@ export type CmsEventRow = {
    * field is optional and a row without a title is dropped rather than
    * rendered blank (see toAgenda in index.ts). */
   rundowns?: CmsRundownRow[];
+  /* Detail endpoint only, same as `rundowns`. One of the three live events
+   * fills it; the other two answer `[]`, so an absent or empty array is the
+   * normal case and simply closes the takeaways section. */
+  benefits?: CmsBenefitRow[];
+};
+
+export type CmsBenefitRow = {
+  title?: string | null;
 };
 
 export type CmsRundownRow = {
