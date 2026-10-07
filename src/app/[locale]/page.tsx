@@ -43,7 +43,7 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
    the copy file instead (`copyValue`), because the separators it carries run
    the other way round. */
 const STATS = [
-  { href: '/program/forest', icon: oiForest, copyValue: 'forest', unit: 'Ha', labelKey: 'forest', when: 'Forest · 2025', tint: 'bg-olive-deep' },
+  { href: '/program/forest', icon: oiForest, unit: 'Ha', value: 19000, labelKey: 'forest', when: 'Forest · 2025', tint: 'bg-olive-deep' },
   { href: '/program/urban', icon: oiUrban, value: 512.2, unit: 'Ton', labelKey: 'urban', when: 'Urban · 2025', tint: 'bg-rust' },
   // Ocean's figure carries a scale word ('1,115 Juta' / '1.115 Mio'), about
   // twice the width the other two need, so it takes a smaller step of the
@@ -250,9 +250,7 @@ export default async function Home({ params }: LocaleParams) {
                   )}
                 >
                   <span>
-                    {'copyValue' in stat
-                      ? copy.statValues[stat.copyValue]
-                      : formatNumber(stat.value, locale)}
+                    {formatNumber(stat.value, locale)}
                     {'scale' in stat && ` ${copy.statScale[stat.scale]}`}
                   </span>
                   {'unit' in stat && stat.unit && (
