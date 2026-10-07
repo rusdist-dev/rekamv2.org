@@ -25,6 +25,7 @@ import { YoutubeWatchModal } from '@/components/home/YoutubeWatchModal';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { featuredNews, getNews, listNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
+import { formatNumber } from '@/lib/number';
 import { fetchInstagramMedia, igShortcode } from '@/lib/instagram';
 import { homeContent } from '@/i18n/content/home';
 import { t } from '@/i18n/dictionary';
@@ -36,15 +37,18 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
    much ground the work actually covered. Each links to that programme's full
    set of figures. Tints use the deep variants — white on --blue and --olive
    fails AA, same finding as the number cards. */
-/* The figure itself lives in the locale copy (`statValues`) — ID and EN
-   write the separators and the scale word differently. */
+/* Values stay raw numbers: `formatNumber` punctuates them per locale — id
+   writes 512,2, en writes 512.2 — the same rule the programme pages' figures
+   already follow. Forest is the exception: its figure is set per language in
+   the copy file instead (`copyValue`), because the separators it carries run
+   the other way round. */
 const STATS = [
-  { href: '/program/forest', icon: oiForest, unit: 'Ha', labelKey: 'forest', when: 'Forest · 2025', tint: 'bg-olive-deep' },
-  { href: '/program/urban', icon: oiUrban, unit: 'Ton', labelKey: 'urban', when: 'Urban · 2025', tint: 'bg-rust' },
+  { href: '/program/forest', icon: oiForest, copyValue: 'forest', unit: 'Ha', labelKey: 'forest', when: 'Forest · 2025', tint: 'bg-olive-deep' },
+  { href: '/program/urban', icon: oiUrban, value: 512.2, unit: 'Ton', labelKey: 'urban', when: 'Urban · 2025', tint: 'bg-rust' },
   // Ocean's figure carries a scale word ('1,115 Juta' / '1.115 Mio'), about
   // twice the width the other two need, so it takes a smaller step of the
   // type scale to stay on one line inside the card.
-  { href: '/program/ocean', icon: oiFrci, unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep', valueClass: 'text-[clamp(1.8rem,3.9vw,3rem)]' },
+  { href: '/program/ocean', icon: oiFrci, value: 1.115, scale: 'million', unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep', valueClass: 'text-[clamp(1.8rem,3.9vw,3rem)]' },
 ] as const;
 
 const CARDS = [
@@ -245,7 +249,12 @@ export default async function Home({ params }: LocaleParams) {
                     'valueClass' in stat && stat.valueClass
                   )}
                 >
-                  <span>{copy.statValues[stat.labelKey]}</span>
+                  <span>
+                    {'copyValue' in stat
+                      ? copy.statValues[stat.copyValue]
+                      : formatNumber(stat.value, locale)}
+                    {'scale' in stat && ` ${copy.statScale[stat.scale]}`}
+                  </span>
                   {'unit' in stat && stat.unit && (
                     <span className="mt-[0.15em] text-[0.3em] font-bold leading-none">{stat.unit}</span>
                   )}

@@ -26,10 +26,13 @@ type HomeContent = {
   cardKickers: { forest: string; urban: string; ocean: string };
   cardBodies: { forest: string; urban: string; ocean: string };
   stats: { forest: string; urban: string; ocean: string };
-  /* The headline figures are written out per locale rather than formatted
-     from a number: the separators differ by language (ID '1,115 Juta',
-     EN '1.115 Mio') and the scale word is part of the figure. */
-  statValues: { forest: string; urban: string; ocean: string };
+  /* Most figures are plain numbers in the page, punctuated per locale there;
+     this covers the two parts that aren't: the scale word next to one of
+     them, and Forest's figure, which is written out per language because the
+     separators it uses are the ones the programme asked for, not the ones
+     id/en punctuation rules would produce. */
+  statScale: { million: string };
+  statValues: { forest: string };
   impact: { heading: [string, string]; paragraph: [string, string] };
   featuredVideo: { eyebrow: string };
   instagram: { eyebrow: string; followCta: string; postAriaLabel: string };
@@ -72,11 +75,8 @@ const id: HomeContent = {
     urban: 'Total sampah terkumpul',
     ocean: 'Kawasan Konservasi Laut',
   },
-  statValues: {
-    forest: '19,000',
-    urban: '512,2',
-    ocean: '1,115 Juta',
-  },
+  statScale: { million: 'Juta' },
+  statValues: { forest: '19,000' },
   impact: {
     heading: ['Dampak', 'Kami'],
     paragraph: [
@@ -134,11 +134,8 @@ const en: HomeContent = {
     urban: 'Total waste collected',
     ocean: 'Marine Protected Area',
   },
-  statValues: {
-    forest: '19,000',
-    urban: '512,2',
-    ocean: '1.115 Mio',
-  },
+  statScale: { million: 'Mio' },
+  statValues: { forest: '19.000' },
   impact: {
     heading: ['Our', 'Impact'],
     paragraph: [
