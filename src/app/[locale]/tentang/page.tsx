@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 }
 
 /* The largest page in the site, and the only one carrying all four of its
- * hardest pieces: eighteen bios, the org chart with its cross-referenced
+ * hardest pieces: sixteen bios, the org chart with its cross-referenced
  * names, the strategy tablist, and the click-to-load Street View.
  *
  * Bios are rendered here as server components — real text in the HTML — so the

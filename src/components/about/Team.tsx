@@ -43,7 +43,7 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-/** Six of the eighteen portraits are not on disk; initials stand in. */
+/** Two of the sixteen portraits are not on disk; initials stand in. */
 function Portrait({ person, className }: { person: Person; className?: string }) {
   const src = person.photo ? PORTRAITS[person.photo] : undefined;
   if (!src) {
@@ -112,15 +112,28 @@ export function TeamProvider({ children, locale }: { children: React.ReactNode; 
                 step(1);
               }
             }}
-            className="fixed left-1/2 top-1/2 z-[310] grid max-h-[88vh] w-[min(52rem,92vw)] -translate-x-1/2 -translate-y-1/2 grid-cols-1 overflow-hidden rounded-[16px] bg-paper sm:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)]"
+            /* The panel has a DEFINITE height from `sm` up, which is what lets
+               the portrait fill its half edge to edge. Height had been
+               max-h-[88vh], i.e. driven by the bio: let the portrait fill that
+               and a long bio stretches it while a short one squashes it, which
+               is the resizing this dialog started out doing. Pinning the height
+               satisfies both at once — the portrait fills the panel AND is the
+               same size for everyone. Below `sm` the portrait is not rendered,
+               so the panel goes back to hugging its text. */
+            className="fixed left-1/2 top-1/2 z-[310] grid max-h-[88vh] w-[min(52rem,92vw)] -translate-x-1/2 -translate-y-1/2 grid-cols-1 overflow-hidden rounded-[16px] bg-paper sm:h-[min(88vh,34rem)] sm:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)]"
           >
             {person && (
               <>
-                <div className="hidden sm:block">
-                  <Portrait person={person} className="h-full" />
+                {/* Fills its half of the panel: `aspect-auto` drops Portrait's
+                    own 4:5 box (cn merges it away) so h-full governs, and
+                    object-cover crops to the column instead of leaving the
+                    paper showing above and below the image. The panel's fixed
+                    height is what keeps that crop identical for everyone. */}
+                <div className="hidden h-full sm:block">
+                  <Portrait person={person} className="aspect-auto h-full w-full object-cover" />
                 </div>
 
-                <div className="max-h-[88vh] overflow-y-auto p-[clamp(1.5rem,3vw,2.5rem)]">
+                <div className="max-h-[88vh] overflow-y-auto p-[clamp(1.5rem,3vw,2.5rem)] sm:h-full sm:max-h-none">
                   <p className="m-0 font-label text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">
                     {pick(person.role, locale)}
                   </p>
@@ -196,7 +209,7 @@ export function TeamGrid({ locale }: { locale: Locale }) {
             {person.bio[locale].length > 0 && (
               <button
                 type="button"
-                // The visible label repeats eighteen times; the accessible name
+                // The visible label repeats for every member; the accessible name
                 // says whose profile it opens.
                 aria-label={copy.readProfileAria(person.name)}
                 onClick={() => open(person.id)}
