@@ -37,7 +37,7 @@ export type TeamMember = {
   id: string;
   name: string;
   role: Localized;
-  /** Six of eighteen portraits are not on disk; initials stand in. */
+  /** Two of sixteen portraits are not on disk; initials stand in. */
   photo?: string;
   bio: LocalizedList;
 };
