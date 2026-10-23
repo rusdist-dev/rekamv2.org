@@ -39,13 +39,13 @@ type OceanContent = {
 const id: OceanContent = {
   metaDescription: 'Menghitung apa yang diberikan laut, dan kepada siapa ia memberikannya.',
   hero: {
-    eyebrow: 'Program Ocean',
+    eyebrow: 'Ocean',
     title: 'Kehidupan di bawah sana, dan kehidupan yang bergantung padanya.',
   },
   overview: {
     body: [
-      'Wilayah laut Indonesia lebih luas daripada daratannya. Nyaris tak ada yang benar-benar terhitung dengan baik. Hasil tangkapannya sangat besar, namun para nelayanlah yang menerima bagian paling kecil darinya. Stok ikan kian menipis, habitat kian rusak, dan kebijakan yang seharusnya mengelola semua itu disusun dari perkiraan, asumsi, dan angka yang tak pernah diperiksa.',
-      'Fisheries Resource Center of Indonesia (FRCI) adalah program laut kami, digagas oleh para ilmuwan dan penggerak yang berulang kali sampai pada kesimpulan yang sama: laut tidak sedang gagal karena kekurangan aturan, melainkan karena kekurangan data. FRCI membangun data itu — tangkapan, stok, habitat, penghidupan — dan menghadirkannya di depan para pengambil keputusan. Kami bekerja menuju dua hal yang harus hadir bersamaan: keberlanjutan, agar laut masih tersisa untuk ditangkap, dan keadilan, agar mereka yang menangkapnya tidak menjadi pihak terakhir yang menikmati manfaatnya.',
+      'Indonesia adalah negara kepulauan yang dibentuk oleh laut, tetapi sebagian besar kehidupan lautnya, perikanannya, dan mata pencaharian pesisirnya masih belum terdokumentasi dengan baik. Ketika stok ikan menurun dan habitat menghadapi tekanan yang kian besar, keputusan terlalu sering diambil tanpa data yang andal.',
+      'Melalui Fisheries Resource Center of Indonesia (FRCI), Rekam Nusantara mengubah riset lapangan menjadi bukti untuk keputusan yang lebih baik. Kami mendokumentasikan perikanan, ekosistem laut, dan mata pencaharian pesisir demi mewujudkan dua tujuan: laut yang sehat yang menopang kehidupan, dan perikanan yang lebih adil yang menopang masyarakat yang bergantung padanya.',
     ],
     artAlt: 'Ilustrasi ukir gerombolan ikan di laut',
   },
@@ -83,13 +83,13 @@ const id: OceanContent = {
 const en: OceanContent = {
   metaDescription: 'Counting what the sea gives, and to whom it gives it.',
   hero: {
-    eyebrow: 'Program Ocean',
-    title: 'The life below, and the lives that depend on it.',
+    eyebrow: 'Ocean',
+    title: 'The Life Beneath. The Lives It Sustains.',
   },
   overview: {
     body: [
-      'Indonesia has more sea than land. Almost none of it is properly counted. The catch is enormous and the fishers see the least of it. Stocks are thinning, habitats are breaking down, and the policies meant to manage all of it are written from estimates, assumptions, and numbers nobody checked.',
-      'Fisheries Resource Center of Indonesia (FRCI) is our ocean program, started by scientists and organisers who kept arriving at the same conclusion: the sea is not failing because it is unregulated, but because it is undocumented. FRCI builds the data — catch, stock, habitat, livelihood — and puts it in front of the people who decide. We work toward two things that have to arrive together: sustainability, so there is a sea left to fish, and justice, so the people who fish it are not the last to benefit from it.',
+      'Indonesia is an archipelago shaped by the sea, yet much of its marine life, fisheries, and coastal livelihoods remain poorly documented. As fish stocks decline and habitats face growing pressure, decisions are too often made without reliable data.',
+      'Through the Fisheries Resource Center of Indonesia (FRCI), Rekam Nusantara turns field research into evidence for better decisions. We document fisheries, marine ecosystems, and coastal livelihoods to advance two goals: healthy seas that sustain life, and fairer fisheries that sustain the people who depend on them.',
     ],
     artAlt: 'Engraved illustration of a school of fish in the sea',
   },
@@ -121,7 +121,7 @@ const en: OceanContent = {
       },
     ],
   },
-  postsTitle: 'From Ocean',
+  postsTitle: 'From the Sea',
 };
 
 const CONTENT: Record<Locale, OceanContent> = { id, en };

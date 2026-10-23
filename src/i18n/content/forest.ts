@@ -43,13 +43,13 @@ type ForestContent = {
 const id: ForestContent = {
   metaDescription: 'Memetakan apa yang masih berdiri, bersama orang-orang yang menjaganya tetap berdiri.',
   hero: {
-    eyebrow: 'Program Forest',
+    eyebrow: 'Forest',
     title: 'Yang masih berdiri, dan yang belum punya nama.',
   },
   overview: {
     body: [
-      'Sebagai rumah bagi sebagian hutan tropis terluas di dunia, Indonesia mengemban tanggung jawab besar bagi konservasi keanekaragaman hayati global. Pengelolaan hutan yang efektif di sini tak terpisahkan dari dinamika budaya masyarakat lokal dan adat. Namun, ekosistem vital ini terus-menerus menghadapi tekanan eksploitasi jangka pendek. Persoalan ini diperparah oleh minimnya pengetahuan tentang flora, fauna, dan interaksi di antara keduanya. Sementara spesies populer mendapat banyak perhatian, kesenjangan pengetahuan yang kritis masih tersisa bagi ribuan takson yang terabaikan namun sama pentingnya bagi kesehatan hutan.',
-      'Program Kehutanan Rekam Nusantara Foundation hadir untuk menjawab tantangan sistemik ini. Melalui penerapan teknologi konservasi modern, penguatan kepemimpinan generasi muda, advokasi bagi spesies yang belum banyak diteliti, serta dinamika komunitas yang inklusif, kami berupaya mengalihkan arah dari eksploitasi jangka pendek menuju keberlanjutan ekologis jangka panjang.',
+      'Hutan tropis Indonesia menopang keanekaragaman hayati yang luar biasa, tetapi banyak spesies dan peran ekologisnya masih belum terdokumentasi. Ketika hutan menghadapi tekanan yang kian besar akibat eksploitasi jangka pendek, ilmu pengetahuan dan pengetahuan masyarakat adat menjadi kunci untuk memahami dan melindungi apa yang masih tersisa.',
+      'Program Hutan Rekam Nusantara mendokumentasikan spesies yang kurang mendapat perhatian, menerapkan teknologi konservasi, memberdayakan peneliti muda, serta bekerja bersama masyarakat lokal dan masyarakat adat untuk mendukung konservasi hutan yang berkelanjutan.',
     ],
     artAlt: 'Ilustrasi ukir lembah hutan dengan sungai berkelok',
   },
@@ -102,13 +102,13 @@ const id: ForestContent = {
 const en: ForestContent = {
   metaDescription: 'Mapping what is still standing, together with the people keeping it that way.',
   hero: {
-    eyebrow: 'Program Forest',
-    title: 'What is still standing, and what still has no name.',
+    eyebrow: 'Forest',
+    title: 'Protecting What Remains. Discovering What Lies Beyond.',
   },
   overview: {
     body: [
-      "As home to some of the world's most extensive tropical forests, Indonesia carries a profound responsibility for global biodiversity conservation. Effective forest management here is deeply intertwined with the cultural dynamics of local and indigenous communities. However, these vital ecosystems face continuous pressure from short-term exploitation. Compounding this challenge is lack of knowledge flora, fauna, and their interactions. While popular species receive attention, critical knowledge gaps remain for thousand of neglected taxa that are equally vital to forest health.",
-      "The Rekam Nusantara Foundation's Forestry Program addresses these systemic challenges. By deploying modern conservation technology, empowering youth leadership, championing understudied species, and fostering inclusive community dynamics, we work to shift from immediate exploitation to long-term ecological sustainability.",
+      'Indonesia’s tropical forests sustain extraordinary biodiversity, yet many species and their ecological roles remain undocumented. As forests face growing pressure from short-term exploitation, science and Indigenous knowledge are essential to understanding and protecting what remains.',
+      'Rekam Nusantara’s Forest Program documents overlooked species, applies conservation technology, empowers young researchers, and works alongside local and Indigenous communities to support lasting forest conservation.',
     ],
     artAlt: 'Engraved illustration of a forest valley with a winding river',
   },
@@ -154,7 +154,7 @@ const en: ForestContent = {
       },
     ],
   },
-  postsTitle: 'From Forest',
+  postsTitle: 'From the Forest',
   storyBanner: { eyebrow: 'Papua Pride', title: 'Back to the roots', ctaLabel: 'Learn more' },
 };
 

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(node -e \"const a=require\\('./src/data/about.json'\\);const p=a.team.find\\(x=>x.id==='dini-aristya-wulandari'\\);console.log\\(p.name,'|photo:',p.photo,'|bio en/id paras:',p.bio.en.length,p.bio.id.length\\)\")",
+      "Bash(npx next *)",
+      "Bash(npm run *)",
+      "Bash(rtk grep *)",
+      "Bash(grep -n 'grid-cols-\\\\\\\\\\\\[minmax\\(0,2fr\\)\\\\|52rem,92vw\\)\\\\/2\\\\|52rem\\\\\\\\,92vw' src/app/tailwind.css)",
+      "Bash(grep -n 'sm\\\\\\\\:h-\\\\\\\\\\\\[\\\\|sm\\\\\\\\:grid-cols-\\\\\\\\\\\\[' src/app/tailwind.css)"
+    ]
+  }
+}

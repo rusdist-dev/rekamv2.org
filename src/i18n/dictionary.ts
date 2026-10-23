@@ -103,7 +103,7 @@ const id: Dict = {
     channels: 'Unit dan kanal REKAM',
     social: 'Media sosial',
     blurb: 'Mendokumentasikan pengetahuan. Melestarikan kehidupan.',
-    rights: '© 2022 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.',
+    rights: '© 2026 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.',
   },
   nav_items: {
     forest: 'Forest',
@@ -174,7 +174,7 @@ const en: Dict = {
     channels: 'REKAM units and channels',
     social: 'Social media',
     blurb: 'Documenting knowledge. Preserving life.',
-    rights: '© 2022 Rekam Nusantara Foundation. All rights reserved.',
+    rights: '© 2026 Rekam Nusantara Foundation. All rights reserved.',
   },
   /* The labels index.html actually used, recovered rather than reinvented. */
   nav_items: {

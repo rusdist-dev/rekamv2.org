@@ -33,12 +33,12 @@ type HomeContent = {
      id/en punctuation rules would produce. */
   statScale: { million: string };
   statValues: { forest: string };
-  impact: { heading: [string, string]; paragraph: [string, string] };
+  impact: { heading: string[]; paragraph: [string, string] };
   featuredVideo: { eyebrow: string };
   instagram: { eyebrow: string; followCta: string; postAriaLabel: string };
   youtube: { channelCta: string; watchAriaLabel: (title: string) => string; watchOnYoutube: string };
   gallery: { ariaLabel: string };
-  closingQuote: string;
+  closingQuote: string[];
 };
 
 const id: HomeContent = {
@@ -49,7 +49,7 @@ const id: HomeContent = {
   lanskap: {
     eyebrow: 'Siapa kami',
     quote:
-      'Mendokumentasikan Indonesia yang hidup: di hutan, di laut, di kota. Apa yang kami himpun menjadi konservasi yang bertahan lama.',
+      'Merekam kehidupan Indonesia: di hutan, di laut, di kota. Setiap kisah menjadi alasan untuk menjaganya, hari ini dan selamanya.',
   },
   program: {
     eyebrow: 'Program kami',
@@ -66,9 +66,9 @@ const id: HomeContent = {
     ocean: 'Laut',
   },
   cardBodies: {
-    forest: 'Memetakan yang masih berdiri, bersama masyarakat yang menjaganya.',
-    urban: 'Tempat kota memberi ruang bagi kehidupan di dalamnya.',
-    ocean: 'Menghitung apa yang diberikan laut, dan kepada siapa itu diberikan.',
+    forest: 'Memetakan yang tersisa, berdiri bersama mereka yang menjaganya.',
+    urban: 'Menata kota, memulihkan kehidupan.',
+    ocean: 'Menghitung kekayaan yang diberikan laut, dan kehidupan yang ditopangnya.',
   },
   stats: {
     forest: 'Hutan Adat yang Ditetapkan',
@@ -78,15 +78,15 @@ const id: HomeContent = {
   statScale: { million: 'Juta' },
   statValues: { forest: '19,000' },
   impact: {
-    heading: ['Dampak', 'Kami'],
+    heading: ['Dampak'],
     paragraph: [
-      'Kami menghitung karena keputusan dibuat berdasarkan hitungan. Setiap angka di bawah ini berasal dari seseorang yang berdiri di suatu tempat dan mencatatnya.',
-      'Inilah catatan yang berlaku hari ini.',
+      'Setiap angka menyimpan cerita. Setiap catatan membangun bukti.',
+      'Bersama, keduanya menjadi pijakan untuk mengambil keputusan dan mengubah pengetahuan menjadi aksi konservasi yang berkelanjutan.',
     ],
   },
   featuredVideo: { eyebrow: 'Video Pilihan' },
   instagram: {
-    eyebrow: 'Terkini',
+    eyebrow: 'Cerita Terkini',
     followCta: 'Ikuti kami',
     postAriaLabel: 'Buka postingan Instagram REKAM Nusantara',
   },
@@ -96,8 +96,11 @@ const id: HomeContent = {
     watchOnYoutube: 'Tonton di YouTube',
   },
   gallery: { ariaLabel: 'Galeri kegiatan' },
-  closingQuote:
-    'Hutan mengingat, laut mengenang, dan setiap komunitas membawa cerita yang lebih tua dari kita semua. Sains membantu kita memahami, bertutur membantu kita peduli, teknologi membantu kita menjangkau, dan tradisi mengingatkan kita akan alasannya. Sebab pengetahuan yang tak terjaga adalah masa depan yang tak terwujud; dokumentasikan dengan tujuan hari ini, agar kehidupan dapat terus berlanjut.',
+  closingQuote: [
+    'Hutan menyimpan ingatannya, laut menyimpan kisahnya, dan setiap masyarakat mewarisi kearifan yang jauh lebih tua dari kita.',
+    'Sains memperdalam pemahaman. Cerita menumbuhkan kepedulian. Teknologi memperluas jangkauan. Tradisi mengingatkan kita akan apa yang patut dijaga.',
+    'Apa yang gagal kita rawat hari ini, bisa jadi hilang esok hari. Rekamlah dengan tujuan, agar kisah kehidupan terus lestari.',
+  ],
 };
 
 const en: HomeContent = {
@@ -108,7 +111,7 @@ const en: HomeContent = {
   lanskap: {
     eyebrow: 'Who we are',
     quote:
-      'Documenting living Indonesia: in forests, in seas, in cities. What we gather becomes conservation that lasts.',
+      'Documenting Indonesia’s living stories — where life grows, flows, and unfolds: in its forests, across its seas, and within its cities. Every story we gather plants a seed for conservation and a living future.',
   },
   program: {
     eyebrow: 'Our program',
@@ -125,9 +128,9 @@ const en: HomeContent = {
     ocean: 'Ocean',
   },
   cardBodies: {
-    forest: 'Mapping what still stands, with the people who keep it standing.',
-    urban: 'Where the city makes room for what lives in it.',
-    ocean: 'Counting what the sea gives, and who it gives it to.',
+    forest:'Mapping what remains. Standing with those who protect it.',
+    urban: 'Building a city that gives back.',
+    ocean: 'Counting what the sea gives, sustaining the lives that depend on it.',
   },
   stats: {
     forest: 'Customary Forest Established',
@@ -139,13 +142,13 @@ const en: HomeContent = {
   impact: {
     heading: ['Our', 'Impact'],
     paragraph: [
-      'We count because decisions are made from counts. Every number below came from someone standing in a place, writing it down.',
-      'This is what we\'ve documented so far.',
+      'Every number tells a story. Every record builds evidence.',
+      'Together, they help guide decisions and turn knowledge into lasting conservation.',
     ],
   },
   featuredVideo: { eyebrow: 'Featured Video' },
   instagram: {
-    eyebrow: 'Lately',
+    eyebrow: 'Latest Stories',
     followCta: 'Follow us',
     postAriaLabel: 'Open REKAM Nusantara’s Instagram post',
   },
@@ -155,8 +158,11 @@ const en: HomeContent = {
     watchOnYoutube: 'Watch on YouTube',
   },
   gallery: { ariaLabel: 'Activity gallery' },
-  closingQuote:
-    'The forest remembers, the ocean recalls, and every community carries stories older than us all. Science helps us understand, storytelling helps us care, technology helps us reach, and tradition reminds us why. For knowledge left unkept is a future undone; document with purpose today, so life may carry on.',
+  closingQuote: [
+    'The forest holds its memories, the ocean its stories, and every community carries wisdom older than us.',
+    'Science deepens our understanding. Storytelling awakens our care. Technology carries our reach further. Tradition reminds us what is worth protecting.',
+    'For what we fail to preserve today, we may lose tomorrow. Document with purpose, so the stories of life may endure.',
+  ],
 };
 
 const CONTENT: Record<Locale, HomeContent> = { id, en };

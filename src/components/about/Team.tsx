@@ -64,9 +64,16 @@ function Portrait({ person, className }: { person: Person; className?: string })
     <Image
       src={src}
       alt=""
-      width={600}
-      height={750}
       sizes="(max-width: 720px) 50vw, 20vw"
+      /* The sources are now all 4:5 themselves, so a 4:5 tile holds each photo
+         whole at its own shape: cover has nothing left to crop, and contain
+         would have nothing left to pad. Cover is still the one to use —
+         it guarantees the tile is filled edge to edge even where a file is a
+         hair off the ratio (jessica.jpg is 574×717, 0.8006), where contain
+         would leave a hairline gap instead.
+         No width/height here: the static imports carry their own intrinsic
+         size, so there is nothing to restate and nothing to get wrong when a
+         photo is re-uploaded at a different resolution. */
       className={cn('block aspect-[4/5] w-full object-cover', className)}
     />
   );
@@ -119,16 +126,26 @@ export function TeamProvider({ children, locale }: { children: React.ReactNode; 
                is the resizing this dialog started out doing. Pinning the height
                satisfies both at once — the portrait fills the panel AND is the
                same size for everyone. Below `sm` the portrait is not rendered,
-               so the panel goes back to hugging its text. */
-            className="fixed left-1/2 top-1/2 z-[310] grid max-h-[88vh] w-[min(52rem,92vw)] -translate-x-1/2 -translate-y-1/2 grid-cols-1 overflow-hidden rounded-[16px] bg-paper sm:h-[min(88vh,34rem)] sm:grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)]"
+               so the panel goes back to hugging its text.
+
+               That height is no longer a round 34rem but derived, so the
+               portrait column comes out at exactly 4:5 — the shape the source
+               files are — and the photo fills it without being cropped or
+               letterboxed. The columns are 2fr/3fr, so the column is 2/5 of the
+               panel width W; 4:5 of that is W·(2/5)/0.8 = W/2. Both halves read
+               from the same `min(52rem,92vw)` the width uses, so the ratio
+               holds at every width. `max-h-[88vh]` still wins on a short
+               viewport — a 4:5 portrait taller than the screen has to give
+               somewhere — and there cover trims the top and bottom. */
+            className="fixed left-1/2 top-1/2 z-[310] grid max-h-[88vh] w-[min(52rem,92vw)] -translate-x-1/2 -translate-y-1/2 grid-cols-1 overflow-hidden rounded-[16px] bg-paper sm:h-[calc(min(52rem,92vw)/2)] sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]"
           >
             {person && (
               <>
-                {/* Fills its half of the panel: `aspect-auto` drops Portrait's
-                    own 4:5 box (cn merges it away) so h-full governs, and
-                    object-cover crops to the column instead of leaving the
-                    paper showing above and below the image. The panel's fixed
-                    height is what keeps that crop identical for everyone. */}
+                {/* Fills its column: `aspect-auto` drops Portrait's own 4:5 box
+                    (cn merges it away) so h-full governs instead. The column is
+                    itself 4:5 now — see the height on Dialog.Content — so cover
+                    has nothing to crop here either, and the panel's definite
+                    height keeps the column the same size for everyone. */}
                 <div className="hidden h-full sm:block">
                   <Portrait person={person} className="aspect-auto h-full w-full object-cover" />
                 </div>

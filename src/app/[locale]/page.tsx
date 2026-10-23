@@ -202,7 +202,9 @@ export default async function Home({ params }: LocaleParams) {
         <Wrap className="grid items-start gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div className="py-[clamp(1rem,5vw,4rem)]">
             <h2 className="text-left font-display text-[clamp(2.5rem,11vw,3.75rem)] leading-[1.05] text-green-900">
-              {copy.impact.heading[0]}<br />{copy.impact.heading[1]}
+              {copy.impact.heading.map((line) => (
+                <span key={line} className="block">{line}</span>
+              ))}
             </h2>
             <p className="mt-5 mb-0 max-w-[42ch] text-title-sm leading-[1.5] text-green-900 sm:mt-6">
               {copy.impact.paragraph[0]}
@@ -480,8 +482,12 @@ export default async function Home({ params }: LocaleParams) {
       </section>
 
       {/* Same as #lanskap: the artwork's ratio from lg up, content-driven
-          height below it — this passage is ~330 characters and never fitted a
-          phone-width band. */}
+          height below it — the passage never fitted a phone-width band. The
+          ratio makes the band short for its width, so from lg the type steps
+          down with the viewport instead of sitting at the 2.25rem cap: at the
+          cap these three paragraphs overflow the band everywhere below
+          ~1500px. 2.2vw is the largest step that clears it at every width.
+          Re-check the fit here if the passage grows again. */}
       <section className="relative isolate overflow-hidden bg-[#f9f1e6] py-[clamp(2.5rem,8vw,4rem)] lg:aspect-[994/278] lg:min-h-[16rem] lg:py-0">
         <Image
           src={borderRekamoke2}
@@ -496,9 +502,11 @@ export default async function Home({ params }: LocaleParams) {
             {/* text-center and text-justify both set text-align; the pair left
                 which one applied down to stylesheet order. Ragged-right on a
                 phone, justified only where the measure is wide enough for it. */}
-            <p className="m-0 text-left font-display text-[clamp(1.05rem,3.8vw,2.25rem)] leading-[1.5] text-white lg:text-justify">
-              {copy.closingQuote}
-            </p>
+            <div className="text-left font-display text-[clamp(1.05rem,3.8vw,2.25rem)] leading-[1.5] lg:text-[min(2.25rem,2.2vw)] text-white lg:text-justify">
+              {copy.closingQuote.map((para) => (
+                <p key={para} className="m-0 mt-[0.6em] first:mt-0">{para}</p>
+              ))}
+            </div>
           </Wrap>
         </div>
       </section>
