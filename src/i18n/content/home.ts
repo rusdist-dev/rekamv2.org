@@ -21,7 +21,10 @@ import type { Locale } from '@/i18n/config';
 type HomeContent = {
   hero: { eyebrow: string; title: [string, string] };
   lanskap: { eyebrow: string; quote: string };
-  program: { eyebrow: string; cardCta: string };
+  /* `names` is the programme row in the section heading, written per language:
+     Indonesian reads them as Kehutanan / Kota / Laut, English keeps the
+     Forest / Urban / Ocean names. */
+  program: { eyebrow: string; cardCta: string; names: { forest: string; urban: string; ocean: string } };
   cardAlts: { forest: string; urban: string; ocean: string };
   cardKickers: { forest: string; urban: string; ocean: string };
   cardBodies: { forest: string; urban: string; ocean: string };
@@ -54,6 +57,7 @@ const id: HomeContent = {
   program: {
     eyebrow: 'Program kami',
     cardCta: 'Pelajari selengkapnya',
+    names: { forest: 'Kehutanan', urban: 'Kota', ocean: 'Laut' },
   },
   cardAlts: {
     forest: 'Ilustrasi sketsa lembah hutan dengan sungai berkelok',
@@ -116,6 +120,7 @@ const en: HomeContent = {
   program: {
     eyebrow: 'Our program',
     cardCta: 'Learn more',
+    names: { forest: 'Forest', urban: 'Urban', ocean: 'Ocean' },
   },
   cardAlts: {
     forest: 'Sketch illustration of a forest valley with a winding river',

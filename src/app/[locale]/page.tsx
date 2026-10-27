@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Image from 'next/image';
 import oiForest from '@/assets/oi-forest.svg';
 import oiUrban from '@/assets/oi-urban.svg';
@@ -50,6 +51,8 @@ const STATS = [
   // type scale to stay on one line inside the card.
   { href: '/program/ocean', icon: oiFrci, value: 1.115, scale: 'million', unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep', valueClass: 'text-[clamp(1.8rem,3.9vw,3rem)]' },
 ] as const;
+
+const PROGRAM_KEYS = ['forest', 'urban', 'ocean'] as const;
 
 const CARDS = [
   { href: '/program/forest', img: cardForest, altKey: 'forest' },
@@ -156,10 +159,15 @@ export default async function Home({ params }: LocaleParams) {
       <section id="program" className="bg-band py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
           <Eyebrow className="text-center">{copy.program.eyebrow}</Eyebrow>
+          {/* The row reads in the page's own language — Kehutanan / Kota / Laut
+              on id, Forest / Urban / Ocean on en (`program.names`). */}
           <h2 className="mt-4 mb-[clamp(2rem,4vw,3rem)] flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center font-display text-[clamp(1.75rem,7vw,2.25rem)] font-normal text-green-900 sm:gap-x-8">
-            Forest <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
-            Urban <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
-            Ocean
+            {PROGRAM_KEYS.map((key, i) => (
+              <Fragment key={key}>
+                {i > 0 && <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />}
+                {copy.program.names[key]}
+              </Fragment>
+            ))}
           </h2>
 
           <ul className="m-0 grid list-none gap-6 p-0 md:grid-cols-3">
