@@ -24,7 +24,7 @@ import { ButtonLink } from '@/components/ui/button';
 import { Slider } from '@/components/ui/Slider';
 import { YoutubeWatchModal } from '@/components/home/YoutubeWatchModal';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
-import { featuredNews, getNews, listNews, resolveCover } from '@/lib/content';
+import { featuredNews, listNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
 import { formatNumber } from '@/lib/number';
 import { fetchInstagramMedia, igShortcode } from '@/lib/instagram';
@@ -60,10 +60,12 @@ const CARDS = [
   { href: '/program/ocean', img: cardOcean, altKey: 'ocean' },
 ] as const;
 
-/* The home page's featured article is NOT the archive's lead post — the two are
-   picked independently, so this is named rather than derived. Deriving it would
-   silently change which story the front page leads with. */
-const FEATURE_SLUG = 'leuser-ekosistem-terakhir-yang-masih-menyimpan-harapan';
+/* The home page's featured article is the archive's lead post — the same
+   `featuredNews` call /berita makes, so the two can't disagree about which
+   story the site is leading with. It used to be one named slug, which meant
+   publishing an article left the front page showing last season's headline
+   until someone edited this file. The CMS's own `featured` flag decides, and
+   falls back to the newest post when nothing is flagged. */
 
 /* Screenshots of the actual posts (supplied directly, not scraped — Instagram
    walls off bot requests and its rendered image URLs are signed and expire
@@ -93,8 +95,11 @@ export default async function Home({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const copy = homeContent(locale);
   const dict = t(locale);
-  const feature = (await getNews(FEATURE_SLUG, locale)) ?? (await featuredNews(locale));
-  const featureCover = resolveCover(feature?.cover);
+  const feature = await featuredNews(locale);
+  /* The article's own cover, same as the archive's lead band. `card4` stays as
+     the fallback for the posts that carry no cover image — five of eighteen in
+     the local set — rather than leaving half the band empty. */
+  const featureCover = resolveCover(feature?.cover) ?? card4;
   // null when IG_ACCESS_TOKEN isn't configured — every tile then falls back
   // to its screenshot cover below.
   const igMedia = await fetchInstagramMedia();
@@ -122,7 +127,7 @@ export default async function Home({ params }: LocaleParams) {
         }
         lightPano
         bgColor="#9fd3ec"
-        imageOverlay="rgba(10, 20, 16, 0.12)"
+        imageOverlay="rgba(10, 20, 16, 0.28)"
         scrollTo="#lanskap"
       />
 
@@ -297,11 +302,12 @@ export default async function Home({ params }: LocaleParams) {
             </ButtonLink>
           </div>
           <Image
-            src={card4}
-            alt=""
+            src={featureCover}
+            alt={feature.coverAlt}
             width={1302}
             height={744}
             sizes="(max-width: 1000px) 100vw, 50vw"
+            unoptimized={typeof featureCover === 'string'}
             className="order-1 h-full w-full object-cover lg:order-2"
           />
         </section>

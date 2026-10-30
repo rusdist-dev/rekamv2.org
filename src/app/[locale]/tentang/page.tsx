@@ -11,7 +11,6 @@ import { SiteShell } from '@/components/chrome/SiteShell';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { PageHero } from '@/components/layout/PageHero';
 import { PdfDownloadGate } from '@/components/publication/PdfDownloadGate';
-import { PdfReadButton } from '@/components/publication/PdfReadButton';
 import { buttonClasses } from '@/components/ui/button-classes';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { ourStoryContent } from '@/i18n/content/our-story';
@@ -89,57 +88,6 @@ export default async function TentangPage({ params }: LocaleParams) {
           </Wrap>
         </section>
 
-        <section id="unit" className="bg-band py-[clamp(3rem,7vw,6rem)]">
-          <Wrap>
-            <Eyebrow>{copy.units.eyebrow}</Eyebrow>
-            <Display className="mt-4 text-display text-black">{copy.units.heading}</Display>
-            <p className="mt-5 mb-[clamp(2.5rem,5vw,3.5rem)] max-w-[58ch] text-lede leading-[1.7] text-ink-soft">
-              {copy.units.intro}
-            </p>
-
-            <ul className="m-0 grid list-none gap-x-[clamp(2rem,5vw,4rem)] gap-y-[clamp(2rem,4vw,3rem)] p-0 md:grid-cols-3">
-              {units.map((unit) => (
-                <li key={unit.name} className="flex flex-col items-start">
-                  {/* A CMS logo is an absolute URL of unknown proportions, so
-                      it goes through a plain <img>: next/image would need a
-                      width/height pair here, and with `h-11 w-auto` a guessed
-                      ratio decides the box width and pads the logo. Bundled
-                      art keeps next/image, which reads its own dimensions. */}
-                  {typeof unit.logo === 'string' ? (
-                    <img
-                      src={unit.logo}
-                      alt={`${unit.name} logo`}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-11 w-auto object-contain object-left"
-                    />
-                  ) : (
-                    unit.logo && (
-                      <Image
-                        src={unit.logo}
-                        alt={`${unit.name} logo`}
-                        className="h-11 w-auto object-contain object-left"
-                      />
-                    )
-                  )}
-
-                  <h3 className="mt-4 mb-0 text-[1.05rem] font-semibold leading-[1.3] text-ink">
-                    {unit.name}
-                  </h3>
-                  <p className="mt-2 mb-0 text-[0.9rem] leading-[1.6] text-ink-soft">{unit.text}</p>
-                  {unit.href && (
-                    <a
-                      href={unit.href}
-                      className="mt-3 inline-block text-[0.85rem] font-semibold text-green-900"
-                    >
-                      {unit.href.replace(/^https?:\/\//, '')}
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </Wrap>
-        </section>
 
         <section id="struktur" className="bg-paper py-[clamp(3rem,7vw,6rem)]">
           <Wrap>
@@ -195,6 +143,57 @@ export default async function TentangPage({ params }: LocaleParams) {
           </Wrap>
         </section>
 
+        <section id="unit" className="bg-band py-[clamp(3rem,7vw,6rem)]">
+          <Wrap>
+            <Display className="text-display text-black">{copy.units.eyebrow}</Display>
+            <p className="mt-5 mb-[clamp(2.5rem,5vw,3.5rem)] max-w-[58ch] text-lede leading-[1.7] text-ink-soft">
+              {copy.units.intro}
+            </p>
+
+            <ul className="m-0 grid list-none gap-x-[clamp(2rem,5vw,4rem)] gap-y-[clamp(2rem,4vw,3rem)] p-0 md:grid-cols-3">
+              {units.map((unit) => (
+                <li key={unit.name} className="flex flex-col items-start">
+                  {/* A CMS logo is an absolute URL of unknown proportions, so
+                      it goes through a plain <img>: next/image would need a
+                      width/height pair here, and with `h-11 w-auto` a guessed
+                      ratio decides the box width and pads the logo. Bundled
+                      art keeps next/image, which reads its own dimensions. */}
+                  {typeof unit.logo === 'string' ? (
+                    <img
+                      src={unit.logo}
+                      alt={`${unit.name} logo`}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-11 w-auto object-contain object-left"
+                    />
+                  ) : (
+                    unit.logo && (
+                      <Image
+                        src={unit.logo}
+                        alt={`${unit.name} logo`}
+                        className="h-11 w-auto object-contain object-left"
+                      />
+                    )
+                  )}
+
+                  <h3 className="mt-4 mb-0 text-[1.05rem] font-semibold leading-[1.3] text-ink">
+                    {unit.name}
+                  </h3>
+                  <p className="mt-2 mb-0 text-[0.9rem] leading-[1.6] text-ink-soft">{unit.text}</p>
+                  {unit.href && (
+                    <a
+                      href={unit.href}
+                      className="mt-3 inline-block text-[0.85rem] font-semibold text-green-900"
+                    >
+                      {unit.href.replace(/^https?:\/\//, '')}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </Wrap>
+        </section>
+
         {/* Publication: sorotan publikasi unggulan dari CMS, menggantikan CTA
             "Be Part of the Story" yang dipakai halaman lain. Datanya sama
             persis dengan band teratas di /publication. */}
@@ -234,14 +233,6 @@ export default async function TentangPage({ params }: LocaleParams) {
                   {copy.impactReport.download}
                   <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
                 </PdfDownloadGate>
-                <PdfReadButton
-                  href={publication.viewUrl}
-                  title={publication.title}
-                  className={buttonClasses('ghostGreen', false, 'uppercase')}
-                >
-                  {copy.impactReport.readOnline}
-                  <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
-                </PdfReadButton>
               </div>
             </div>
           </section>

@@ -11,6 +11,7 @@ import { LOCALE_COOKIE, LOCALES, LOCALE_LABEL } from '@/i18n/config';
 import { t as dict } from '@/i18n/dictionary';
 import { alternatePath, withLocale } from '@/i18n/routing';
 import { EXPLORE, PROGRAMMES, type NavChild, type NavItem, type NavKey } from '@/lib/nav';
+import type { SearchKind } from '@/lib/search';
 
 /* Ported from nav-station.css — the only nav variant any page actually links.
  * (nav-bar, nav-card and nav-overlay were dead code: zero references across all
@@ -139,24 +140,71 @@ function RailLink({ item, current }: { item: NavItem; current?: NavKey | null })
   );
 }
 
-type SearchEntry = { label: string; href: string };
+type SearchEntry = { label: string; href: string; kind: SearchKind; snippet?: string };
 
 /** Flattens the rail (Programme + Explore, including any live Event
- *  submenu) into the list SearchForm matches against. This is a menu
- *  finder, not a content search — it only ever points at pages already
- *  reachable from the nav, so there is no index to build or keep in sync. */
+ *  submenu) into a list matched locally. This is only the menu half of
+ *  search: it answers on the first keystroke with no round trip, and the
+ *  content half — pages' own copy, berita, event, publikasi — arrives from
+ *  /api/search a moment later and is merged in below. */
 function useMenuSearchIndex(explore: NavItem[]): SearchEntry[] {
   const locale = useLocale();
   const T = dict(locale);
   return useMemo(() => {
     const entries: SearchEntry[] = [];
-    for (const item of PROGRAMMES) entries.push({ label: T.nav_items[item.key], href: item.href });
+    for (const item of PROGRAMMES) entries.push({ label: T.nav_items[item.key], href: item.href, kind: 'page' });
     for (const item of explore) {
-      entries.push({ label: T.nav_items[item.key], href: item.href });
-      for (const child of item.children ?? []) entries.push({ label: child.label[locale], href: child.href });
+      entries.push({ label: T.nav_items[item.key], href: item.href, kind: 'page' });
+      for (const child of item.children ?? []) entries.push({ label: child.label[locale], href: child.href, kind: 'event' });
     }
     return entries;
   }, [explore, locale, T]);
+}
+
+/** Below this the server index isn't queried — one letter matches most of the
+ *  site and the list would be noise. Mirrors MIN_QUERY in the route. */
+const MIN_REMOTE_QUERY = 2;
+const DEBOUNCE_MS = 180;
+const MAX_RESULTS = 8;
+
+/** Content results for `query`, from /api/search. Menu matches are not waited
+ *  on — they render from the local index while this resolves. */
+function useContentResults(query: string, locale: string): { hits: SearchEntry[]; loading: boolean } {
+  const [hits, setHits] = useState<SearchEntry[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const q = query.trim();
+    if (q.length < MIN_REMOTE_QUERY) {
+      setHits([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(q)}&locale=${locale}`, {
+          signal: controller.signal,
+        });
+        const data = (await res.json()) as { results?: { kind: SearchKind; title: string; href: string; snippet?: string }[] };
+        setHits((data.results ?? []).map((r) => ({ label: r.title, href: r.href, kind: r.kind, snippet: r.snippet })));
+      } catch {
+        // An aborted or failed lookup leaves the menu matches standing rather
+        // than blanking a list the visitor is reading.
+      } finally {
+        setLoading(false);
+      }
+    }, DEBOUNCE_MS);
+
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
+  }, [query, locale]);
+
+  return { hits, loading };
 }
 
 function SearchForm({ className, explore }: { className?: string; explore: NavItem[] }) {
@@ -168,12 +216,18 @@ function SearchForm({ className, explore }: { className?: string; explore: NavIt
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const { hits: contentHits, loading } = useContentResults(query, locale);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-    return index.filter((entry) => entry.label.toLowerCase().includes(q)).slice(0, 6);
-  }, [query, index]);
+    const menu = index.filter((entry) => entry.label.toLowerCase().includes(q));
+    // Menu matches lead — someone typing "event" wants the section, not an
+    // article that mentions one — then content, with hrefs deduped so a page
+    // the server also returned doesn't appear twice.
+    const seen = new Set(menu.map((entry) => entry.href));
+    return [...menu, ...contentHits.filter((hit) => !seen.has(hit.href))].slice(0, MAX_RESULTS);
+  }, [query, index, contentHits]);
 
   useEffect(() => setActiveIndex(0), [query]);
 
@@ -247,23 +301,37 @@ function SearchForm({ className, explore }: { className?: string; explore: NavIt
         <ul
           id="nav-q-results"
           role="listbox"
-          className="absolute top-full left-0 z-[200] mt-2 min-w-[12rem] rounded-md bg-white py-[0.4rem] shadow-[0_18px_40px_rgba(9,40,26,0.16)]"
+          className="absolute top-full left-0 z-[200] mt-2 max-h-[22rem] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-md bg-white py-[0.4rem] shadow-[0_18px_40px_rgba(9,40,26,0.16)]"
         >
           {results.length === 0 ? (
-            <li className="px-[1.1rem] py-2 text-[0.82rem] whitespace-nowrap text-ink-soft">{T.search.noResults}</li>
+            <li className="px-[1.1rem] py-2 text-[0.82rem] text-ink-soft">
+              {loading ? T.search.loading : T.search.noResults}
+            </li>
           ) : (
             results.map((entry, i) => (
-              <li key={entry.href} id={`nav-q-option-${i}`} role="option" aria-selected={i === activeIndex}>
+              <li key={`${entry.kind}:${entry.href}`} id={`nav-q-option-${i}`} role="option" aria-selected={i === activeIndex}>
                 <button
                   type="button"
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => go(entry)}
                   className={cn(
-                    'block w-full cursor-pointer border-0 bg-transparent px-[1.1rem] py-2 text-left text-[0.82rem] whitespace-nowrap text-ink-soft outline-none',
+                    'block w-full cursor-pointer border-0 bg-transparent px-[1.1rem] py-2 text-left text-[0.82rem] text-ink-soft outline-none',
                     i === activeIndex && 'bg-band text-green-900'
                   )}
                 >
-                  {entry.label}
+                  <span className="flex items-baseline gap-2">
+                    <span className="min-w-0 flex-1 font-medium">{entry.label}</span>
+                    {/* Which collection a hit came from. Without it an article
+                        title and a page name read as the same kind of thing. */}
+                    <span className="flex-none text-[0.68rem] tracking-[0.08em] text-ink-soft/70 uppercase">
+                      {T.search.kinds[entry.kind]}
+                    </span>
+                  </span>
+                  {entry.snippet && (
+                    <span className="mt-0.5 block line-clamp-2 text-[0.75rem] leading-snug text-ink-soft/80">
+                      {entry.snippet}
+                    </span>
+                  )}
                 </button>
               </li>
             ))

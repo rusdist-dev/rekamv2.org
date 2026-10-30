@@ -5,7 +5,6 @@ import { Icon } from '@/components/chrome/SvgSprite';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PageHero } from '@/components/layout/PageHero';
 import { PdfDownloadGate } from '@/components/publication/PdfDownloadGate';
-import { PdfReadButton } from '@/components/publication/PdfReadButton';
 import { buttonClasses } from '@/components/ui/button-classes';
 import { Eyebrow, Wrap } from '@/components/ui/primitives';
 import { publicationContent } from '@/i18n/content/publication';
@@ -77,6 +76,9 @@ export default async function PublicationPage({ params }: LocaleParams) {
             <p className="mt-4 mb-0 max-w-[46ch] text-lede leading-[1.65] text-ink-soft">
               {lead.description}
             </p>
+            {/* Download only. The "Read online" button that sat beside it —
+                the in-page PDF dialog — was dropped on request; the document
+                is handed over as a file instead of being read in the browser. */}
             <div className="mt-7 flex flex-wrap gap-3">
               <PdfDownloadGate
                 href={lead.downloadUrl}
@@ -86,14 +88,6 @@ export default async function PublicationPage({ params }: LocaleParams) {
                 Download
                 <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
               </PdfDownloadGate>
-              <PdfReadButton
-                href={lead.viewUrl}
-                title={lead.title}
-                className={buttonClasses('ghostGreen', false, 'uppercase')}
-              >
-                Read online
-                <Icon id="i-arrow" className="ml-2 size-4 fill-none stroke-current" />
-              </PdfReadButton>
             </div>
           </div>
         </section>
@@ -126,7 +120,9 @@ export default async function PublicationPage({ params }: LocaleParams) {
                     {card.title}
                   </h3>
                   <p className="mt-3 mb-0 flex-1 text-[0.9rem] leading-[1.6] text-ink-soft">{card.description}</p>
-                  <div className="mt-5 grid w-full grid-cols-2 gap-2">
+                  {/* One button where there were two, so it no longer sits in
+                      a half-width grid cell that would leave the row lopsided. */}
+                  <div className="mt-5 w-full">
                     <PdfDownloadGate
                       href={card.downloadUrl}
                       title={card.title}
@@ -135,14 +131,6 @@ export default async function PublicationPage({ params }: LocaleParams) {
                       Download
                       <Icon id="i-arrow" className="ml-2 size-3.5 fill-none stroke-current" />
                     </PdfDownloadGate>
-                    <PdfReadButton
-                      href={card.viewUrl}
-                      title={card.title}
-                      className={buttonClasses('ghostGreen', true, cn('uppercase', achievementBtn))}
-                    >
-                      Read online
-                      <Icon id="i-arrow" className="ml-2 size-3.5 fill-none stroke-current" />
-                    </PdfReadButton>
                   </div>
                 </li>
               ))}

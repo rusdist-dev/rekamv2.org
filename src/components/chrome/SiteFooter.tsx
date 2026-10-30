@@ -3,7 +3,7 @@
 import { Brand } from '@/components/chrome/Brand';
 import { AppLink, useLocale } from '@/components/ui/AppLink';
 import { t as dict } from '@/i18n/dictionary';
-import { FOOTER_EXTRA, FOOTER_LEGAL, FOOTER_LINKS, FOOTER_SOCIAL } from '@/lib/nav';
+import { FOOTER_EXTRA, FOOTER_LEGAL, FOOTER_SOCIAL } from '@/lib/nav';
 import type { Locale } from '@/i18n/config';
 
 /* rekam.css:943-992 and :1250-1271.
@@ -27,39 +27,49 @@ import type { Locale } from '@/i18n/config';
  * would have touched fourteen pages. usePathname resolves during SSR, so the
  * translated strings are in the server-rendered HTML either way. */
 
-/** `columns` is an array of link lists rendered side by side under one
- *  shared heading — the "Links" nav splits into two this way rather than
- *  getting a second, unlabelled heading of its own. */
+/** One list of footer links, and one column of the footer row.
+ *
+ *  It used to take an array OF lists so the policy links and the extras could
+ *  sit side by side under a single heading. They are separate columns now:
+ *  nested inside one flex item they kept their own tight gap while
+ *  space-between widened the gaps on either side of that item, so the row read
+ *  as two columns crammed together between two wide gaps. As siblings they get
+ *  the same spacing as every other column.
+ *
+ *  `heading` is optional: the two link columns lost theirs when the unit links
+ *  they used to sit beside were removed, and a heading still naming those
+ *  units was worse than no heading at all. Each nav keeps its aria-label
+ *  either way, so a screen reader still has a name for every landmark. */
 function LinkColumn({
   heading,
-  columns,
+  links,
   label,
   locale,
 }: {
-  heading: string;
-  columns: { href: string; label: Record<Locale, string> }[][];
+  heading?: string;
+  links: { href: string; label: Record<Locale, string> }[];
   label: string;
   locale: Locale;
 }) {
   return (
     <nav aria-label={label}>
-      <p className="m-0 font-label text-[0.75rem] font-semibold uppercase tracking-[0.2em] opacity-70">{heading}</p>
-      <div className="mt-2 flex flex-wrap gap-x-8 gap-y-4">
-        {columns.map((links, i) => (
-          <ul className="m-0 list-none p-0 leading-[1.8]" key={i}>
-            {links.map((l) => (
-              <li key={l.href} className="flex items-baseline gap-2">
-                <span aria-hidden="true" className="text-[1rem] opacity-70">
-                  &bull;
-                </span>
-                <AppLink href={l.href} className="border-b border-transparent no-underline hover:border-current">
-                  {l.label[locale]}
-                </AppLink>
-              </li>
-            ))}
-          </ul>
+      {heading && (
+        <p className="m-0 font-label text-[0.75rem] font-semibold uppercase tracking-[0.2em] opacity-70">
+          {heading}
+        </p>
+      )}
+      <ul className={(heading ? 'mt-2 ' : '') + 'm-0 list-none p-0 leading-[1.8]'}>
+        {links.map((l) => (
+          <li key={l.href} className="flex items-baseline gap-2">
+            <span aria-hidden="true" className="text-[1rem] opacity-70">
+              &bull;
+            </span>
+            <AppLink href={l.href} className="border-b border-transparent no-underline hover:border-current">
+              {l.label[locale]}
+            </AppLink>
+          </li>
         ))}
-      </div>
+      </ul>
     </nav>
   );
 }
@@ -70,14 +80,17 @@ export function SiteFooter() {
 
   return (
     <footer id="kontak" className="bg-green-800 py-[clamp(2rem,4vw,3rem)] text-white">
-      <div
-        className={
-          'mx-auto grid w-full max-w-wrap items-start gap-x-[clamp(2rem,5vw,4.5rem)] gap-y-[clamp(1.5rem,4vw,3rem)] px-gutter ' +
-          // The brand column absorbs the free space so the two link columns sit
-          // together on the right instead of being pushed apart by it.
-          'grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto_auto]'
-        }
-      >
+      {/* Flex rather than grid, and deliberately so: each column should be as
+          wide as its own content with the leftover width shared out evenly
+          between them. A grid cannot express that here — the brand column used
+          to hold the surplus as a 1fr track while its text is capped at 26rem,
+          which pooled the slack into one gap mid-row once the unit links were
+          removed, and `grid-cols-[auto_auto_auto]` is not a track list
+          Tailwind v4 emits (verified against 4.3.3; it produces no rule at
+          all, so the row silently falls back to one column). space-between on
+          a flex row does it with core utilities — which is also why every
+          column below is a direct child here rather than nested. */}
+      <div className="mx-auto flex w-full max-w-wrap flex-col items-start gap-x-[clamp(2rem,5vw,4.5rem)] gap-y-[clamp(1.5rem,4vw,3rem)] px-gutter md:flex-row md:justify-between">
         <div className="max-w-[26rem]">
           <Brand width={182} flat className="mb-[1.1rem] text-cream" />
           <p className="m-0 max-w-[34ch] text-[0.92rem] leading-[1.65] text-cream/78">
@@ -88,13 +101,9 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <LinkColumn
-          heading={T.footer.links}
-          columns={[FOOTER_LINKS, FOOTER_LEGAL, FOOTER_EXTRA]}
-          label={T.footer.channels}
-          locale={locale}
-        />
-        <LinkColumn heading={T.footer.follow} columns={[FOOTER_SOCIAL]} label={T.footer.social} locale={locale} />
+        <LinkColumn links={FOOTER_LEGAL} label={T.footer.channels} locale={locale} />
+        <LinkColumn links={FOOTER_EXTRA} label={T.footer.resources} locale={locale} />
+        <LinkColumn heading={T.footer.follow} links={FOOTER_SOCIAL} label={T.footer.social} locale={locale} />
       </div>
     </footer>
   );
