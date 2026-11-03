@@ -56,11 +56,10 @@ const id: FaqContent = {
       {
         question: 'Apa Saja Unit di Bawah Rekam Nusantara Foundation?',
         paragraphs: [
-          'Rekam Nusantara Foundation dibangun di atas konservasi dan komunikasi kreatif untuk mendorong perubahan dalam upaya konservasi alam dan budaya Indonesia. Saat ini kami memiliki empat unit, masing-masing dengan fokus dan keahlian khusus sebagai berikut.',
-          '1. Rangkong Indonesia',
-          '2. Fisheries Resource Centre of Indonesia (FRCI)',
-          '3. Natural Resource Crime Unit (NRCU)',
-          '4. Indonesia Nature Film Society (INFIS)',
+          'Rekam Nusantara Foundation dibangun di atas konservasi dan komunikasi kreatif untuk mendorong perubahan dalam upaya konservasi alam dan budaya Indonesia. Saat ini kami memiliki tiga unit, masing-masing dengan fokus dan keahlian khusus sebagai berikut.',
+          '1. Forest',
+          '2. Urban',
+          '3. Ocean',
         ],
       },
       {
@@ -122,11 +121,10 @@ const en: FaqContent = {
       {
         question: 'What Are The Units Of Rekam Nusantara Foundation?',
         paragraphs: [
-          "Rekam Nusantara Foundation is built on conservation and creative communication to drive change in Indonesia's natural and cultural conservation efforts. We presently have four units, each with specific focus and skillsets as follows.",
-          '1. Rangkong Indonesia',
-          '2. Fisheries Resource Centre of Indonesia (FRCI)',
-          '3. Natural Resource Crime Unit (NRCU)',
-          '4. Indonesia Nature Film Society (INFIS)',
+          "Rekam Nusantara Foundation is built on conservation and creative communication to drive change in Indonesia's natural and cultural conservation efforts. We presently have three units, each with specific focus and skillsets as follows.",
+          '1. Forest',
+          '2. Urban',
+          '3. Ocean',
         ],
       },
       {

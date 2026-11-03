@@ -52,24 +52,18 @@ export const EXPLORE: NavItem[] = [
      directly; they're just no longer in the header or its mobile drawer. */
 ];
 
-/** Every footer link's label, per locale. FOOTER_LINKS and FOOTER_SOCIAL
- *  carry proper names (sister sites, social platforms) so id and en repeat
- *  the same string; FOOTER_LEGAL and FOOTER_EXTRA are real UI copy. Kept as
- *  one shape across all four arrays — rather than plain strings for the
- *  untranslated ones — so SiteFooter's LinkColumn has a single way to read a
- *  label regardless of which column it's rendering. */
+/** Every footer link's label, per locale. FOOTER_SOCIAL carries proper names
+ *  (social platforms) so id and en repeat the same string; FOOTER_LEGAL and
+ *  FOOTER_EXTRA are real UI copy. Kept as one shape across all three arrays
+ *  — rather than plain strings for the untranslated ones — so SiteFooter's
+ *  LinkColumn has a single way to read a label regardless of which column
+ *  it's rendering. */
 type FooterLink = { href: string; label: Record<Locale, string> };
 
-/** Footer, from the block that was byte-identical across all eleven pages. */
-export const FOOTER_LINKS: FooterLink[] = [
-  { href: 'https://rangkong.org', label: { id: 'rangkong.org', en: 'rangkong.org' } },
-  { href: 'https://inaturefilms.org', label: { id: 'inaturefilms.org', en: 'inaturefilms.org' } },
-  { href: 'https://perikanan.org', label: { id: 'perikanan.org', en: 'perikanan.org' } },
-  { href: 'https://rekamdiveacademy.id', label: { id: 'rekamdiveacademy.id', en: 'rekamdiveacademy.id' } },
-];
-
-/** Second, unlabelled column sitting beside FOOTER_LINKS under the same
- *  "Links" heading — site policy pages rather than sister projects. */
+/** Footer, from the block that was byte-identical across all eleven pages.
+ *  The sister-site list that opened it (rangkong.org, inaturefilms.org,
+ *  perikanan.org, rekamdiveacademy.id) is gone along with its "Our Units"
+ *  heading — those units are listed on /tentang instead. */
 export const FOOTER_LEGAL: FooterLink[] = [
   { href: '/faq', label: { id: 'FAQ', en: 'FAQ' } },
   // No standalone /brand-guideline page exists; this label now opens the
@@ -79,9 +73,9 @@ export const FOOTER_LEGAL: FooterLink[] = [
   { href: '/terms-of-service', label: { id: 'Syarat & Ketentuan', en: 'Term Of Service' } },
 ];
 
-/** Third, unlabelled column sitting beside FOOTER_LEGAL under the same
- *  "Links" heading. "Safeguarding" stays English in both locales on
- *  purpose — see the standing note on that term's spelling. */
+/** Second column, sitting beside FOOTER_LEGAL. "Safeguarding" stays English
+ *  in both locales on purpose — see the standing note on that term's
+ *  spelling. */
 export const FOOTER_EXTRA: FooterLink[] = [
   { href: '/safeguarding', label: { id: 'Safeguarding', en: 'Safeguarding' } },
   { href: '/publication', label: { id: 'Publikasi', en: 'Publication' } },

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import card2 from '@/assets/banner/card2.jpg';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { PostGrid } from '@/components/news/PostCard';
+import { ShareDialog } from '@/components/news/ShareDialog';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/button';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
@@ -12,6 +13,8 @@ import { beritaContent } from '@/i18n/content/berita';
 import { t } from '@/i18n/dictionary';
 import { DEFAULT_LOCALE, isLocale } from '@/i18n/config';
 import { getNews, listNews, resolveCover } from '@/lib/content';
+import { withLocale } from '@/i18n/routing';
+import { SITE_URL } from '@/lib/site';
 
 /* Replaces berita-detail.html, which was a single hardcoded article that all 34
  * news links on the site pointed at. Every article now has its own URL. */
@@ -61,13 +64,6 @@ export async function generateMetadata({
   });
 }
 
-/* The three channels berita-detail.html linked. Not the full footer set: the
-   source deliberately omitted YouTube here. */
-const SHARE = [
-  { href: 'https://www.instagram.com/rekamnusantara/', label: 'Instagram' },
-  { href: 'https://www.facebook.com/RekamNusantara', label: 'Facebook' },
-  { href: 'https://www.linkedin.com/company/rekamnusantarafoundation/', label: 'LinkedIn' },
-];
 
 const dateFmt = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -171,18 +167,14 @@ export default async function ArticlePage({
             <p className="m-0 font-label text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-ink-soft">
               {copy.detail.share}
             </p>
-            <ul className="mt-3 mb-0 flex list-none flex-wrap gap-5 p-0">
-              {SHARE.map((s) => (
-                <li key={s.href}>
-                  <a
-                    href={s.href}
-                    className="border-b border-transparent text-[0.9rem] no-underline hover:border-current"
-                  >
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {/* The absolute URL, not the path: every destination below is
+                another origin, and a relative href would be resolved
+                against theirs. */}
+            <ShareDialog
+              locale={locale}
+              url={`${SITE_URL}${withLocale(locale, `/berita/${slug}`)}`}
+              title={post.title}
+            />
           </div>
         </Wrap>
       </article>

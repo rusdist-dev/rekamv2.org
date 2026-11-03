@@ -41,9 +41,18 @@ type Dict = {
   /** Accessible name of the brand mark, which is a link home in header and footer. */
   brandHome: string;
   nav: { programme: string; explore: string; open: string; close: string; submenu: (label: string) => string };
-  search: { label: string; placeholder: string; submit: string; noResults: string };
+  /** `kinds` labels which collection a result came from — the field searches
+   *  pages, articles, events and publications, not just menu labels. */
+  search: {
+    label: string;
+    placeholder: string;
+    submit: string;
+    noResults: string;
+    loading: string;
+    kinds: Record<'page' | 'news' | 'event' | 'publication', string>;
+  };
   lang: { group: string; switchTo: (label: string) => string };
-  footer: { links: string; follow: string; channels: string; social: string; blurb: string; rights: string };
+  footer: { follow: string; channels: string; resources: string; social: string; blurb: string; rights: string };
   nav_items: Record<'forest' | 'urban' | 'ocean' | 'tentang' | 'berita' | 'event' | 'donasi' | 'merch', string>;
   hero: { drag: string; play: string; pause: string; sound: string; recenter: string; loading: string; scroll: string };
   /* The panorama engine's own copy. It lives here rather than in Pano360.ts
@@ -95,12 +104,19 @@ const id: Dict = {
     close: 'Tutup menu',
     submenu: (label) => `Buka submenu ${label}`,
   },
-  search: { label: 'Cari di situs REKAM', placeholder: 'Cari', submit: 'Cari', noResults: 'Menu tidak ditemukan' },
+  search: {
+    label: 'Cari di situs REKAM',
+    placeholder: 'Cari',
+    submit: 'Cari',
+    noResults: 'Tidak ada hasil',
+    loading: 'Mencari…',
+    kinds: { page: 'Halaman', news: 'Berita', event: 'Event', publication: 'Publikasi' },
+  },
   lang: { group: 'Pilih bahasa', switchTo: (label) => `Beralih ke ${label}` },
   footer: {
-    links: 'Unit Kami',
     follow: 'Ikuti Kami',
-    channels: 'Unit dan kanal REKAM',
+    channels: 'Tautan footer',
+    resources: 'Sumber daya',
     social: 'Media sosial',
     blurb: 'Mendokumentasikan pengetahuan. Melestarikan kehidupan.',
     rights: '© 2026 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.',
@@ -166,12 +182,19 @@ const en: Dict = {
     close: 'Close menu',
     submenu: (label) => `Open ${label} submenu`,
   },
-  search: { label: 'Search the REKAM site', placeholder: 'Search', submit: 'Search', noResults: 'No menu found' },
+  search: {
+    label: 'Search the REKAM site',
+    placeholder: 'Search',
+    submit: 'Search',
+    noResults: 'No results',
+    loading: 'Searching…',
+    kinds: { page: 'Page', news: 'Field note', event: 'Event', publication: 'Publication' },
+  },
   lang: { group: 'Choose language', switchTo: (label) => `Switch to ${label}` },
   footer: {
-    links: 'Our Units',
     follow: 'Follow Us',
-    channels: 'REKAM units and channels',
+    channels: 'Footer links',
+    resources: 'Resources',
     social: 'Social media',
     blurb: 'Documenting knowledge. Preserving life.',
     rights: '© 2026 Rekam Nusantara Foundation. All rights reserved.',
@@ -181,7 +204,7 @@ const en: Dict = {
     forest: 'Forest',
     urban: 'Urban',
     ocean: 'Ocean',
-    tentang: 'Our Story',
+    tentang: 'Who We Are',
     berita: 'Field Notes',
     event: 'Event',
     donasi: 'Take Part',

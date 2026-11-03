@@ -27,6 +27,18 @@ type BeritaContent = {
   detail: {
     breadcrumb: { ariaLabel: string; home: string; berita: string; article: string };
     share: string;
+    /** The share dialog the label opens — see components/news/ShareDialog.tsx. */
+    shareDialog: {
+      trigger: string;
+      title: string;
+      lede: string;
+      /** Prefix of each icon’s aria-label, e.g. "Share to Facebook". */
+      shareTo: string;
+      linkLabel: string;
+      copy: string;
+      copied: string;
+      close: string;
+    };
     noBody: string;
     related: { eyebrow: string; heading: string; viewAll: string };
   };
@@ -51,6 +63,16 @@ const id: BeritaContent = {
       article: 'Artikel',
     },
     share: 'Bagikan',
+    shareDialog: {
+      trigger: 'Bagikan artikel',
+      title: 'Bagikan tulisan ini',
+      lede: 'Jika tulisan ini bermanfaat, bagikan ke orang lain.',
+      shareTo: 'Bagikan ke',
+      linkLabel: 'Tautan halaman',
+      copy: 'Salin',
+      copied: 'Tersalin',
+      close: 'Tutup',
+    },
     noBody:
       'Naskah lengkap tulisan ini belum tersedia di situs. Isinya menyusul begitu arsip redaksi tersambung ke CMS.',
     related: {
@@ -80,6 +102,16 @@ const en: BeritaContent = {
       article: 'Article',
     },
     share: 'Share',
+    shareDialog: {
+      trigger: 'Share article',
+      title: 'Share this article',
+      lede: 'If you liked this story, share it with other people.',
+      shareTo: 'Share to',
+      linkLabel: 'Page link',
+      copy: 'Copy',
+      copied: 'Copied',
+      close: 'Close',
+    },
     noBody:
       'The full text of this article is not yet available on the site. It will follow once the editorial archive connects to the CMS.',
     related: {

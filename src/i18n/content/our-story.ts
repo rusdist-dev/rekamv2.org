@@ -1,6 +1,6 @@
 import type { Locale } from '@/i18n/config';
 
-/* Page-level copy for /tentang ("Our Story" in the nav — the route itself is
+/* Page-level copy for /tentang ("Who We Are" in the nav — the route itself is
  * unchanged). Chrome-wide strings stay in `dictionary.ts`; this is the body
  * content specific to this one page and the client components it renders
  * (Strategy, OrgChart, Team), split out per src/i18n/content/initiative.ts's
@@ -45,7 +45,7 @@ type OurStoryContent = {
     };
     and: string;
   };
-  units: { eyebrow: string; heading: string; intro: string };
+  units: { eyebrow: string; intro: string };
   org: {
     eyebrow: string;
     heading: string;
@@ -65,7 +65,6 @@ type OurStoryContent = {
     heading: string;
     paragraph: string;
     download: string;
-    readOnline: string;
   };
   collaboration: { eyebrow: string; intro: string };
   team: {
@@ -131,9 +130,8 @@ const id: OurStoryContent = {
     and: 'dan',
   },
   units: {
-    eyebrow: 'Unit kami',
-    heading: 'Unit program',
-    intro: 'Enam unit menjalankan kerja REKAM di lapangan — mulai dari riset rangkong dan perikanan, penceritaan (storytelling), komunikasi, penegakan hukum sumber daya alam, hingga kota berkelanjutan.',
+    eyebrow: 'Ekosistem kami',
+    intro: 'Tiga unit menjalankan kerja REKAM di lapangan — mulai dari riset rangkong dan perikanan, penceritaan (storytelling), komunikasi, penegakan hukum sumber daya alam, hingga kota berkelanjutan.',
   },
   org: {
     eyebrow: 'Struktur organisasi',
@@ -159,7 +157,6 @@ const id: OurStoryContent = {
     paragraph:
       'Dunia terus menghadapi berbagai tantangan lingkungan. Perubahan iklim, degradasi sumber daya alam, dan kesenjangan sosial-ekonomi merupakan isu mendesak yang membutuhkan solusi yang inovatif dan berkelanjutan.',
     download: 'Unduh',
-    readOnline: 'Baca daring',
   },
   collaboration: {
     eyebrow: 'Kolaborasi',
@@ -228,9 +225,8 @@ const en: OurStoryContent = {
     and: 'and',
   },
   units: {
-    eyebrow: 'Our units',
-    heading: 'Unit program',
-    intro: "Six units carry out REKAM's work on the ground — from hornbill and fisheries research to storytelling, communications, natural-resource law enforcement, and sustainable cities.",
+    eyebrow: 'Our ecosystems',
+    intro: "Three units carry out REKAM's work on the ground — from hornbill and fisheries research to storytelling, communications, natural-resource law enforcement, and sustainable cities.",
   },
   org: {
     eyebrow: 'Organization structure',
@@ -256,7 +252,6 @@ const en: OurStoryContent = {
     paragraph:
       'The world continues to face various environmental challenges. Climate change, natural resource degradation, and socio-economic disparities are urgent issues that require innovative and sustainable solutions.',
     download: 'Download',
-    readOnline: 'Read online',
   },
   collaboration: {
     eyebrow: 'Collaboration',

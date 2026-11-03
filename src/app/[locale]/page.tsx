@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Image from 'next/image';
 import oiForest from '@/assets/oi-forest.svg';
 import oiUrban from '@/assets/oi-urban.svg';
@@ -23,7 +24,7 @@ import { ButtonLink } from '@/components/ui/button';
 import { Slider } from '@/components/ui/Slider';
 import { YoutubeWatchModal } from '@/components/home/YoutubeWatchModal';
 import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
-import { featuredNews, getNews, listNews, resolveCover } from '@/lib/content';
+import { featuredNews, listNews, resolveCover } from '@/lib/content';
 import { cn } from '@/lib/cn';
 import { formatNumber } from '@/lib/number';
 import { fetchInstagramMedia, igShortcode } from '@/lib/instagram';
@@ -51,16 +52,20 @@ const STATS = [
   { href: '/program/ocean', icon: oiFrci, value: 1.115, scale: 'million', unit: 'Ha', labelKey: 'ocean', when: 'Ocean · 2022–2025', tint: 'bg-blue-deep', valueClass: 'text-[clamp(1.8rem,3.9vw,3rem)]' },
 ] as const;
 
+const PROGRAM_KEYS = ['forest', 'urban', 'ocean'] as const;
+
 const CARDS = [
   { href: '/program/forest', img: cardForest, altKey: 'forest' },
   { href: '/program/urban', img: cardUrban, altKey: 'urban' },
   { href: '/program/ocean', img: cardOcean, altKey: 'ocean' },
 ] as const;
 
-/* The home page's featured article is NOT the archive's lead post — the two are
-   picked independently, so this is named rather than derived. Deriving it would
-   silently change which story the front page leads with. */
-const FEATURE_SLUG = 'leuser-ekosistem-terakhir-yang-masih-menyimpan-harapan';
+/* The home page's featured article is the archive's lead post — the same
+   `featuredNews` call /berita makes, so the two can't disagree about which
+   story the site is leading with. It used to be one named slug, which meant
+   publishing an article left the front page showing last season's headline
+   until someone edited this file. The CMS's own `featured` flag decides, and
+   falls back to the newest post when nothing is flagged. */
 
 /* Screenshots of the actual posts (supplied directly, not scraped — Instagram
    walls off bot requests and its rendered image URLs are signed and expire
@@ -90,8 +95,11 @@ export default async function Home({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const copy = homeContent(locale);
   const dict = t(locale);
-  const feature = (await getNews(FEATURE_SLUG, locale)) ?? (await featuredNews(locale));
-  const featureCover = resolveCover(feature?.cover);
+  const feature = await featuredNews(locale);
+  /* The article's own cover, same as the archive's lead band. `card4` stays as
+     the fallback for the posts that carry no cover image — five of eighteen in
+     the local set — rather than leaving half the band empty. */
+  const featureCover = resolveCover(feature?.cover) ?? card4;
   // null when IG_ACCESS_TOKEN isn't configured — every tile then falls back
   // to its screenshot cover below.
   const igMedia = await fetchInstagramMedia();
@@ -119,7 +127,7 @@ export default async function Home({ params }: LocaleParams) {
         }
         lightPano
         bgColor="#9fd3ec"
-        imageOverlay="rgba(10, 20, 16, 0.12)"
+        imageOverlay="rgba(10, 20, 16, 0.28)"
         scrollTo="#lanskap"
       />
 
@@ -156,10 +164,15 @@ export default async function Home({ params }: LocaleParams) {
       <section id="program" className="bg-band py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
           <Eyebrow className="text-center">{copy.program.eyebrow}</Eyebrow>
+          {/* The row reads in the page's own language — Kehutanan / Kota / Laut
+              on id, Forest / Urban / Ocean on en (`program.names`). */}
           <h2 className="mt-4 mb-[clamp(2rem,4vw,3rem)] flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center font-display text-[clamp(1.75rem,7vw,2.25rem)] font-normal text-green-900 sm:gap-x-8">
-            Forest <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
-            Urban <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />
-            Ocean
+            {PROGRAM_KEYS.map((key, i) => (
+              <Fragment key={key}>
+                {i > 0 && <span aria-hidden="true" className="inline-block h-8 w-px bg-green-900/40" />}
+                {copy.program.names[key]}
+              </Fragment>
+            ))}
           </h2>
 
           <ul className="m-0 grid list-none gap-6 p-0 md:grid-cols-3">
@@ -289,11 +302,12 @@ export default async function Home({ params }: LocaleParams) {
             </ButtonLink>
           </div>
           <Image
-            src={card4}
-            alt=""
+            src={featureCover}
+            alt={feature.coverAlt}
             width={1302}
             height={744}
             sizes="(max-width: 1000px) 100vw, 50vw"
+            unoptimized={typeof featureCover === 'string'}
             className="order-1 h-full w-full object-cover lg:order-2"
           />
         </section>

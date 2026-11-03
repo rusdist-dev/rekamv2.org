@@ -127,8 +127,8 @@ export default async function EventPage({
 
       {event.about && (
         <section id="tentang-event" className="bg-cream py-[clamp(3rem,7vw,6rem)]">
-          <Wrap className="grid gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
-            <div>
+          <Wrap>
+            <div className="mb-[clamp(2rem,4vw,3rem)]">
               <Eyebrow>{event.about.eyebrow}</Eyebrow>
               <Display className="mt-4 text-display">{event.about.title}</Display>
             </div>
@@ -239,16 +239,23 @@ export default async function EventPage({
             </p>
           )}
           <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap gap-3">
-            {event.registerUrl && (
-              <ButtonLink href={event.registerUrl} target="_blank" rel="noreferrer">
-                {copy.detail.registerNow}
-              </ButtonLink>
-            )}
             <ButtonLink href="/donasi" variant={event.registerUrl ? 'ghostGreen' : 'green'}>
               {copy.detail.cta.support}
             </ButtonLink>
             <ButtonLink href="/#kontak" variant="ghostGreen">
               {copy.detail.cta.contact}
+            </ButtonLink>
+            {/* Shown on every event, with or without a destination: the CMS is
+                to supply `registerUrl` per event and until it does the button
+                stands as a placeholder. "#" rather than "" so a press stays on
+                the page, and the new tab is opened only once there is somewhere
+                to open — target="_blank" on "#" would clone this page. */}
+            <ButtonLink
+              href={event.registerUrl ?? '#'}
+              variant={event.registerUrl ? 'green' : 'ghostGreen'}
+              {...(event.registerUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
+            >
+              {copy.detail.registerNow}
             </ButtonLink>
           </div>
         </div>

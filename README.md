@@ -39,8 +39,14 @@ halaman, bukan diam-diam gagal:
 - **`src/lib/about/streetview.ts`** — kunci Google Maps API. Batasi ke domain
   REKAM: kunci tanpa pembatasan di sisi klien bersifat publik. Street View
   ditagih per pemuatan panorama, karena itu panelnya klik-untuk-memuat.
-- **`NEXT_PUBLIC_SITE_URL`** — dipakai canonical, OG, dan sitemap. Fallback-nya
-  `https://rekam.or.id` dan tidak pernah benar di produksi tanpa disetel.
+- **`NEXT_PUBLIC_SITE_URL`** — domain publik build ini, dan satu-satunya tempat
+  domain situs ditulis: dipakai canonical, OG, sitemap, robots, serta tautan
+  yang dibagikan tombol share di halaman berita. Isi dengan domain tempat build
+  ini benar-benar dilayani, bukan domain tujuan — selama situs ada di
+  `v2.rekam.org`, tautan yang dibagikan harus menunjuk ke sana, bukan ke situs
+  lama di `rekam.org`. Fallback-nya `https://rekam.org` dan tidak pernah benar
+  di produksi tanpa disetel. `NEXT_PUBLIC_*` di-inline saat build, jadi
+  menggantinya perlu build ulang dan deploy ulang, bukan sekadar restart.
 
 ## Aset yang belum ada
 
