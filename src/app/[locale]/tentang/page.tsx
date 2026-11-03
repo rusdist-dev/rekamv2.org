@@ -227,7 +227,8 @@ export default async function TentangPage({ params }: LocaleParams) {
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <PdfDownloadGate
-                  href={publication.downloadUrl}
+                  publicationId={publication.cmsId}
+                  href={publication.viewUrl}
                   title={publication.title}
                   className={buttonClasses('green', false, 'uppercase')}
                 >

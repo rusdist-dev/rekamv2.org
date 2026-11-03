@@ -79,7 +79,8 @@ export default async function PublicationPage({ params }: LocaleParams) {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <PdfDownloadGate
-                href={lead.downloadUrl}
+                publicationId={lead.cmsId}
+                href={lead.viewUrl}
                 title={lead.title}
                 className={buttonClasses('green', false, 'uppercase')}
               >
@@ -128,7 +129,8 @@ export default async function PublicationPage({ params }: LocaleParams) {
                   <p className="mt-3 mb-0 flex-1 text-[0.9rem] leading-[1.6] text-ink-soft">{card.description}</p>
                   <div className="mt-5 grid w-full grid-cols-2 gap-2">
                     <PdfDownloadGate
-                      href={card.downloadUrl}
+                      publicationId={card.cmsId}
+                      href={card.viewUrl}
                       title={card.title}
                       className={buttonClasses('green', true, cn('uppercase', achievementBtn))}
                     >

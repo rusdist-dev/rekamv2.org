@@ -49,9 +49,10 @@ export type Publication = {
   cover?: StaticImageData | string;
   /** Opened inline — the dialog's iframe and "buka di tab baru". */
   viewUrl: string;
-  /** Always same-origin, so `download` is actually honoured. See
-   *  src/app/api/publication/download/route.ts. */
-  downloadUrl: string;
+  /** The CMS's publication id, which the download gate sends to
+   *  POST /api/v1/publications/download (the file goes out by email). Absent
+   *  on the bundled offline fallback, which downloads viewUrl directly. */
+  cmsId?: number;
   /** Already formatted, e.g. "9.4 MB". Absent when the CMS reported no size. */
   size?: string;
   featured: boolean;
@@ -61,16 +62,6 @@ function formatSize(bytes: number | null): string | undefined {
   if (!bytes || bytes <= 0) return undefined;
   const mb = bytes / 1024 / 1024;
   return mb >= 1 ? `${mb.toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`;
-}
-
-/* The browser ignores the `download` attribute on a cross-origin href, and the
- * CMS serves its media without Content-Disposition, so a direct link to
- * file_url turns "Unduh" into "open the PDF in this tab". Routing the download
- * through our own origin is what keeps the button doing what it says. */
-function downloadUrlFor(fileUrl: string, fileName: string | null): string {
-  const params = new URLSearchParams({ url: fileUrl });
-  if (fileName) params.set('name', fileName);
-  return `/api/publication/download?${params}`;
 }
 
 function fromCms(row: CmsPublicationRow): Publication | undefined {
@@ -85,7 +76,7 @@ function fromCms(row: CmsPublicationRow): Publication | undefined {
     category: row.category ?? undefined,
     cover: row.cover_url ?? undefined,
     viewUrl: row.file_url,
-    downloadUrl: downloadUrlFor(row.file_url, row.file_name),
+    cmsId: row.id,
     size: formatSize(row.file_size),
     featured: row.is_featured,
   };
@@ -120,7 +111,6 @@ export async function listPublications(locale: Locale = DEFAULT_LOCALE): Promise
       category: copy.dateLabel,
       cover: impactReportCover,
       viewUrl: IMPACT_REPORT_PDF,
-      downloadUrl: IMPACT_REPORT_PDF,
       featured: true,
     },
   ];
