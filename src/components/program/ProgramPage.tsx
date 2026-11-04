@@ -88,6 +88,32 @@ const CONTENT: Record<Program, (locale: Locale) => ProgramCopy> = {
   ocean: oceanContent,
 };
 
+// Overview prose may carry inline links written as `[text](https://…)`;
+// everything else renders as plain text. External links open in a new tab.
+function renderInlineLinks(text: string): React.ReactNode[] {
+  const out: React.ReactNode[] = [];
+  const re = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+  let last = 0;
+  for (const m of text.matchAll(re)) {
+    const i = m.index ?? 0;
+    if (i > last) out.push(text.slice(last, i));
+    const external = /^https?:\/\//.test(m[2]);
+    out.push(
+      <a
+        key={i}
+        href={m[2]}
+        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        className="font-medium text-ink underline decoration-1 underline-offset-[3px] transition-opacity hover:opacity-70"
+      >
+        {m[1]}
+      </a>,
+    );
+    last = i + m[0].length;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+
 // Merges programs.json's per-group figures (icon, value, prefix, unit, table,
 // policy — the magnitude itself doesn't change between languages, only how
 // ByTheNumbers punctuates it) with the localized heading/label/chips from the
@@ -155,7 +181,7 @@ export async function ProgramPage({
                 : 'mt-0 mb-6 text-justify text-lede-lg leading-[1.7] text-ink-soft'
             }
           >
-            {p}
+            {renderInlineLinks(p)}
           </p>
         ));
 

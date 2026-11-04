@@ -26,6 +26,7 @@ type NumberGroupContent = {
 type OceanContent = {
   metaDescription: string;
   hero: { eyebrow: string; title: string };
+  /** Overview paragraphs may contain inline links as `[text](https://…)`. */
   overview: { body: string[]; artAlt: string };
   numbers: {
     title: string;
@@ -46,7 +47,7 @@ const id: OceanContent = {
     body: [
       'Sebagai negara kepulauan, Indonesia memiliki hubungan yang sangat erat dengan laut. Laut menjadi sumber kehidupan, mata pencaharian, dan identitas bagi jutaan masyarakat pesisir. Namun, hingga saat ini banyak informasi mengenai keanekaragaman hayati laut, sumber daya perikanan, dan kehidupan masyarakat pesisir yang masih terbatas. Di tengah menurunnya stok ikan, meningkatnya tekanan terhadap ekosistem laut, dan berbagai tantangan yang dihadapi masyarakat pesisir, pengambilan keputusan sering kali belum didukung oleh data dan informasi yang memadai.',
       'Melalui Fisheries Resource Center of Indonesia (FRCI), Yayasan Rekam Nusantara menghasilkan pengetahuan dan bukti ilmiah yang diperlukan untuk mendukung pengelolaan laut yang lebih baik. Kami menghubungkan penelitian lapangan, pemantauan, serta inovasi dengan kebutuhan kebijakan dan praktik pengelolaan, sehingga keputusan yang diambil dapat lebih efektif, berkelanjutan, dan memberikan manfaat nyata bagi masyarakat maupun lingkungan.',
-      'Program Kelautan REKAM Nusantara berfokus pada enam bidang utama: Ocean Accounts, Perikanan Berkelanjutan (Sustainable Fisheries), Konservasi Ekosistem, Konservasi Spesies, Blue Carbon, serta Riset dan Inovasi (Research and Innovation). Melalui bidang-bidang tersebut, kami berupaya memperkuat dasar ilmiah untuk pengelolaan sumber daya laut, melindungi keanekaragaman hayati, mendukung ketahanan masyarakat pesisir, serta mendorong terwujudnya laut yang sehat dan produktif bagi generasi sekarang dan mendatang.',
+      '[Program Kelautan](https://perikanan.org/) REKAM Nusantara berfokus pada enam bidang utama: [Ocean Accounts](https://perikanan.org/program/ocean-accounts), [Perikanan Berkelanjutan](https://perikanan.org/program/sustainable-fisheries) (Sustainable Fisheries), [Konservasi Ekosistem](https://perikanan.org/program/marine-conservation), [Konservasi Spesies](https://perikanan.org/program/species-conservation), [Blue Carbon](https://perikanan.org/program/blue-carbon), serta [Riset dan Inovasi](https://perikanan.org/program/ikan) (Research and Innovation). Melalui bidang-bidang tersebut, kami berupaya memperkuat dasar ilmiah untuk pengelolaan sumber daya laut, melindungi keanekaragaman hayati, mendukung ketahanan masyarakat pesisir, serta mendorong terwujudnya laut yang sehat dan produktif bagi generasi sekarang dan mendatang.',
       'Kami percaya bahwa masa depan laut Indonesia bergantung pada data yang baik, ilmu pengetahuan yang kuat, dan kolaborasi yang efektif. Ketiga hal tersebut menjadi fondasi untuk mewujudkan laut yang sehat, perikanan yang berkelanjutan, dan masyarakat pesisir yang sejahtera.'
     ],
     artAlt: 'Ilustrasi ukir gerombolan ikan di laut',
@@ -92,14 +93,14 @@ const en: OceanContent = {
     body: [
       'As an archipelagic nation, Indonesia shares a deep connection with the ocean. The ocean provides livelihoods, food security, and cultural identity for millions of people across the country. Yet much of Indonesia\'s marine biodiversity, fisheries resources, and coastal livelihoods remain insufficiently documented. As fish stocks decline, ecosystems face increasing pressure, and coastal communities confront growing challenges, critical decisions are often made without adequate data and evidence.',
       'Through the Fisheries Resource Center of Indonesia (FRCI), REKAM Nusantara Foundation generates the knowledge and evidence needed to support better ocean governance. We connect field research, monitoring, and innovation with policy and management needs, helping ensure that decisions are informed, effective, and beneficial for both people and nature.',
-      'Our Ocean Program focuses on six key areas: Ocean Accounts, Sustainable Fisheries, Ecosystem Conservation, Species Conservation, Blue Carbon, and Research & Innovation. Through these interconnected areas, we strengthen the scientific foundation for managing marine resources, protecting biodiversity, supporting the resilience of coastal communities, and promoting healthy and productive oceans for present and future generations.',
+      '[Our Ocean Program](https://perikanan.org/) focuses on six key areas: [Ocean Accounts](https://perikanan.org/program/ocean-accounts), [Sustainable Fisheries](https://perikanan.org/program/sustainable-fisheries), [Ecosystem Conservation](https://perikanan.org/program/marine-conservation), [Species Conservation](https://perikanan.org/program/species-conservation), [Blue Carbon](https://perikanan.org/program/blue-carbon), and [Research & Innovation](https://perikanan.org/program/ikan). Through these interconnected areas, we strengthen the scientific foundation for managing marine resources, protecting biodiversity, supporting the resilience of coastal communities, and promoting healthy and productive oceans for present and future generations.',
       'We believe that the future of Indonesia\'s oceans depends on reliable data, strong science, and meaningful collaboration. By turning knowledge into action, we aim to help create healthy oceans, sustainable fisheries, and prosperous coastal communities for generations to come.'
     ],
     artAlt: 'Engraved illustration of a school of fish in the sea',
   },
   numbers: {
     title: 'By the numbers',
-    lede: 'Marine conservation areas, community empowerment, and knowledge production — cumulative achievements, 2022–2026.',
+    lede: 'Marine conservation areas, community empowerment, and knowledge production — cumulative achievements, 2022-2026.',
     note: 'Source: REKAM by the Numbers — Impact Highlights 2025.',
     groups: [
       {
