@@ -26,7 +26,7 @@ type NumberGroupContent = {
 type OceanContent = {
   metaDescription: string;
   hero: { eyebrow: string; title: string };
-  overview: { body: [string, string]; artAlt: string };
+  overview: { body: string[]; artAlt: string };
   numbers: {
     title: string;
     lede: string;
@@ -44,8 +44,10 @@ const id: OceanContent = {
   },
   overview: {
     body: [
-      'Indonesia adalah negara kepulauan yang dibentuk oleh laut, tetapi sebagian besar kehidupan lautnya, perikanannya, dan mata pencaharian pesisirnya masih belum terdokumentasi dengan baik. Ketika stok ikan menurun dan habitat menghadapi tekanan yang kian besar, keputusan terlalu sering diambil tanpa data yang andal.',
-      'Melalui Fisheries Resource Center of Indonesia (FRCI), Rekam Nusantara mengubah riset lapangan menjadi bukti untuk keputusan yang lebih baik. Kami mendokumentasikan perikanan, ekosistem laut, dan mata pencaharian pesisir demi mewujudkan dua tujuan: laut yang sehat yang menopang kehidupan, dan perikanan yang lebih adil yang menopang masyarakat yang bergantung padanya.',
+      'Sebagai negara kepulauan, Indonesia memiliki hubungan yang sangat erat dengan laut. Laut menjadi sumber kehidupan, mata pencaharian, dan identitas bagi jutaan masyarakat pesisir. Namun, hingga saat ini banyak informasi mengenai keanekaragaman hayati laut, sumber daya perikanan, dan kehidupan masyarakat pesisir yang masih terbatas. Di tengah menurunnya stok ikan, meningkatnya tekanan terhadap ekosistem laut, dan berbagai tantangan yang dihadapi masyarakat pesisir, pengambilan keputusan sering kali belum didukung oleh data dan informasi yang memadai.',
+      'Melalui Fisheries Resource Center of Indonesia (FRCI), Yayasan Rekam Nusantara menghasilkan pengetahuan dan bukti ilmiah yang diperlukan untuk mendukung pengelolaan laut yang lebih baik. Kami menghubungkan penelitian lapangan, pemantauan, serta inovasi dengan kebutuhan kebijakan dan praktik pengelolaan, sehingga keputusan yang diambil dapat lebih efektif, berkelanjutan, dan memberikan manfaat nyata bagi masyarakat maupun lingkungan.',
+      'Program Kelautan REKAM Nusantara berfokus pada enam bidang utama: Ocean Accounts, Perikanan Berkelanjutan (Sustainable Fisheries), Konservasi Ekosistem, Konservasi Spesies, Blue Carbon, serta Riset dan Inovasi (Research and Innovation). Melalui bidang-bidang tersebut, kami berupaya memperkuat dasar ilmiah untuk pengelolaan sumber daya laut, melindungi keanekaragaman hayati, mendukung ketahanan masyarakat pesisir, serta mendorong terwujudnya laut yang sehat dan produktif bagi generasi sekarang dan mendatang.',
+      'Kami percaya bahwa masa depan laut Indonesia bergantung pada data yang baik, ilmu pengetahuan yang kuat, dan kolaborasi yang efektif. Ketiga hal tersebut menjadi fondasi untuk mewujudkan laut yang sehat, perikanan yang berkelanjutan, dan masyarakat pesisir yang sejahtera.'
     ],
     artAlt: 'Ilustrasi ukir gerombolan ikan di laut',
   },
@@ -88,8 +90,10 @@ const en: OceanContent = {
   },
   overview: {
     body: [
-      'Indonesia is an archipelago shaped by the sea, yet much of its marine life, fisheries, and coastal livelihoods remain poorly documented. As fish stocks decline and habitats face growing pressure, decisions are too often made without reliable data.',
-      'Through the Fisheries Resource Center of Indonesia (FRCI), Rekam Nusantara turns field research into evidence for better decisions. We document fisheries, marine ecosystems, and coastal livelihoods to advance two goals: healthy seas that sustain life, and fairer fisheries that sustain the people who depend on them.',
+      'As an archipelagic nation, Indonesia shares a deep connection with the ocean. The ocean provides livelihoods, food security, and cultural identity for millions of people across the country. Yet much of Indonesia\'s marine biodiversity, fisheries resources, and coastal livelihoods remain insufficiently documented. As fish stocks decline, ecosystems face increasing pressure, and coastal communities confront growing challenges, critical decisions are often made without adequate data and evidence.',
+      'Through the Fisheries Resource Center of Indonesia (FRCI), REKAM Nusantara Foundation generates the knowledge and evidence needed to support better ocean governance. We connect field research, monitoring, and innovation with policy and management needs, helping ensure that decisions are informed, effective, and beneficial for both people and nature.',
+      'Our Ocean Program focuses on six key areas: Ocean Accounts, Sustainable Fisheries, Ecosystem Conservation, Species Conservation, Blue Carbon, and Research & Innovation. Through these interconnected areas, we strengthen the scientific foundation for managing marine resources, protecting biodiversity, supporting the resilience of coastal communities, and promoting healthy and productive oceans for present and future generations.',
+      'We believe that the future of Indonesia\'s oceans depends on reliable data, strong science, and meaningful collaboration. By turning knowledge into action, we aim to help create healthy oceans, sustainable fisheries, and prosperous coastal communities for generations to come.'
     ],
     artAlt: 'Engraved illustration of a school of fish in the sea',
   },
