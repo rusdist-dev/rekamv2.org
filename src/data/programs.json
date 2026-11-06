@@ -20,104 +20,151 @@
       "note": "Source: REKAM by the Numbers — Impact Highlights 2025. Bird and wildlife species names are written as they appear in the original document.",
       "groups": [
         {
-          "heading": "Customary forest management",
+          "heading": "Hornbill Conservation",
+          "headline": false,
+          "columns": 3,
+          "items": [
+            {
+              "value": 9,
+              "unit": "Km",
+              "label": "Patrol route"
+            },
+            {
+              "value": 7000,
+              "label": "Hornbill encounters in Kalimantan"
+            },
+            {
+              "value": 78000,
+              "unit": "Ha",
+              "label": "Working area coverage"
+            },
+            {
+              "value": 5000,
+              "label": "Observation hours"
+            },
+            {
+              "value": 1000,
+              "label": "Observation days"
+            },
+            {
+              "value": 161,
+              "label": "Monitoring points"
+            },
+            {
+              "value": 2000,
+              "label": "Community members involved"
+            },
+            {
+              "value": 27,
+              "label": "Publications"
+            },
+            {
+              "value": 12,
+              "label": "Student scholarships"
+            }
+          ]
+        },
+        {
+          "heading": "Biodiversity",
           "headline": false,
           "columns": 4,
           "items": [
             {
-              "icon": "i-post",
-              "value": 20,
-              "unit": "km",
-              "label": "Boundary markers installed"
-            },
-            {
-              "icon": "i-route",
-              "value": 35,
-              "unit": "km",
-              "label": "Boundary delineated"
-            },
-            {
-              "icon": "i-people",
-              "value": 18,
-              "label": "Community involved"
-            },
-            {
-              "icon": "i-helmet",
-              "value": 11,
-              "label": "Technical team members involved"
-            },
-            {
-              "icon": "i-board",
-              "value": 166,
-              "label": "Participants"
-            },
-            {
-              "icon": "i-station",
-              "value": 4,
-              "label": "Biodiversity monitoring stations"
-            },
-            {
-              "icon": "i-book",
-              "value": 1,
-              "label": "Customary law revised"
-            },
-            {
-              "icon": "i-binocs",
-              "value": 1,
-              "label": "Women-led hornbill monitoring group"
-            }
-          ]
-        },
-        {
-          "heading": "Passive acoustic monitoring",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-bird",
-              "value": 52,
-              "label": "Bird species documented"
-            },
-            {
-              "icon": "i-paw",
               "value": 3,
-              "label": "Other key species"
+              "label": "Habitat types surveyed"
+            },
+            {
+              "value": 1400,
+              "unit": "Ha",
+              "label": "Forest surveyed"
+            },
+            {
+              "value": 30,
+              "label": "Indigenous community members involved"
+            },
+            {
+              "value": 12,
+              "label": "Young researchers"
+            },
+            {
+              "value": 630,
+              "unit": "Km",
+              "label": "Survey coverage"
+            },
+            {
+              "value": 800,
+              "label": "Observation hours"
+            },
+            {
+              "value": 636,
+              "label": "Species recorded"
             }
           ]
         },
         {
-          "heading": "Recognition of indigenous community rights",
+          "heading": "Customary Forest Management",
           "headline": false,
           "items": [
             {
-              "icon": "i-people",
-              "value": 242,
-              "label": "Members involved"
+              "value": 17000,
+              "unit": "Ha",
+              "label": "Customary forest"
             },
             {
-              "icon": "i-map",
+              "value": 18000,
+              "unit": "Ha",
+              "label": "Proposed customary forest"
+            }
+          ]
+        },
+        {
+          "heading": "Hornbill Bioecology Training",
+          "headline": false,
+          "items": [
+            {
+              "value": 4,
+              "label": "KSDAE technical units"
+            },
+            {
+              "value": 56,
+              "label": "Community members involved"
+            }
+          ]
+        },
+        {
+          "heading": "PAM Recording (Bioacoustic)",
+          "headline": false,
+          "items": [
+            {
+              "value": 316,
+              "label": "Monitoring days"
+            },
+            {
+              "value": 890,
+              "unit": "Gb",
+              "label": "Recordings"
+            },
+            {
+              "value": 52,
+              "label": "Birds identified"
+            }
+          ]
+        },
+        {
+          "heading": "Camera Trap Monitoring",
+          "headline": false,
+          "items": [
+            {
+              "value": 924,
+              "label": "Observation days"
+            },
+            {
               "value": 5,
-              "label": "Sites zonation maps"
-            }
-          ]
-        },
-        {
-          "heading": "Nest monitoring & tree adoption",
-          "headline": false,
-          "items": [
-            {
-              "icon": "i-nest",
-              "value": 27,
-              "label": "Hornbill nests monitored"
+              "label": "Observation sites"
             },
             {
-              "icon": "i-nest",
-              "value": 13,
-              "label": "Active nests identified"
-            },
-            {
-              "icon": "i-tree",
-              "value": 1,
-              "label": "Nest tree adopted"
+              "value": 21,
+              "label": "Wildlife species documented"
             }
           ]
         }

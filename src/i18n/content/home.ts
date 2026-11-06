@@ -47,7 +47,7 @@ type HomeContent = {
 const id: HomeContent = {
   hero: {
     eyebrow: 'Apa yang kami lestarikan?',
-    title: ['Mendokumentasikan pengetahuan', 'Menjaga kehidupan'],
+    title: ['Merekam pengetahuan', 'Menjaga kehidupan'],
   },
   lanskap: {
     eyebrow: 'Siapa kami',
@@ -80,7 +80,7 @@ const id: HomeContent = {
     ocean: 'Kawasan Konservasi Laut',
   },
   statScale: { million: 'Juta' },
-  statValues: { forest: '19,000' },
+  statValues: { forest: '22,000' },
   impact: {
     heading: ['Dampak'],
     paragraph: [
@@ -143,7 +143,7 @@ const en: HomeContent = {
     ocean: 'Marine Protected Area',
   },
   statScale: { million: 'Mio' },
-  statValues: { forest: '19.000' },
+  statValues: { forest: '22.000' },
   impact: {
     heading: ['Our', 'Impact'],
     paragraph: [

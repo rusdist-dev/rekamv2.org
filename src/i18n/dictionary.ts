@@ -118,7 +118,7 @@ const id: Dict = {
     channels: 'Tautan footer',
     resources: 'Sumber daya',
     social: 'Media sosial',
-    blurb: 'Mendokumentasikan pengetahuan. Melestarikan kehidupan.',
+    blurb: 'Merekam pengetahuan. Melestarikan kehidupan.',
     rights: '© 2026 Rekam Nusantara Foundation. Seluruh hak cipta dilindungi.',
   },
   nav_items: {

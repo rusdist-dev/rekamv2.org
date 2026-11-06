@@ -275,6 +275,15 @@ export function ByTheNumbers({
             // cards fill it. The max-width only bites when a couple of cards
             // inherit a whole row; a lone figure is a band across the full
             // width instead and takes no cap at all.
+            //
+            // A group whose cards wrap to a second row takes no cap either: it
+            // has enough figures to earn the width, and capping it left the
+            // block short of the row's right edge while the full-width groups
+            // above and below reached it — forest's nine-figure group at three
+            // columns stopped 84px early. Of the three groups that wrap, only
+            // that one was actually clipped; the other two (forest
+            // Biodiversity, ocean Cumulative highlights) sit at four columns,
+            // whose cap already exceeds the widest column this grid offers.
             <div
               className={cn(
                 'mt-3 grid gap-3 sm:[grid-template-columns:var(--cards)]',
@@ -283,7 +292,10 @@ export function ByTheNumbers({
               style={
                 {
                   '--cards': `repeat(${columns}, minmax(0,1fr))`,
-                  maxWidth: band ? undefined : columns * CARD_MAX_WIDTH + (columns - 1) * CARD_GAP,
+                  maxWidth:
+                    band || group.items.length > columns
+                      ? undefined
+                      : columns * CARD_MAX_WIDTH + (columns - 1) * CARD_GAP,
                 } as React.CSSProperties
               }
             >

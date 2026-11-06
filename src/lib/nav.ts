@@ -68,16 +68,17 @@ export const FOOTER_LEGAL: FooterLink[] = [
   { href: '/faq', label: { id: 'FAQ', en: 'FAQ' } },
   // No standalone /brand-guideline page exists; this label now opens the
   // complaint-submission section on /safeguarding instead of 404ing.
-  { href: '/safeguarding#lapor', label: { id: 'Panduan Merek', en: 'Brand Guideline' } },
+  { href: '/safeguarding#lapor', label: { id: 'Panduan Citra REKAM', en: 'Brand Guideline' } },
   { href: '/privacy-policy', label: { id: 'Kebijakan Privasi', en: 'Privacy Policy' } },
   { href: '/terms-of-service', label: { id: 'Syarat & Ketentuan', en: 'Term Of Service' } },
 ];
 
-/** Second column, sitting beside FOOTER_LEGAL. "Safeguarding" stays English
- *  in both locales on purpose — see the standing note on that term's
- *  spelling. */
+/** Second column, sitting beside FOOTER_LEGAL. The en label stays
+ *  "Safeguarding" — that spelling is deliberate, see the standing note on
+ *  the term. id now carries the Indonesian wording the programme asked for;
+ *  the route and the page's own copy are unchanged. */
 export const FOOTER_EXTRA: FooterLink[] = [
-  { href: '/safeguarding', label: { id: 'Safeguarding', en: 'Safeguarding' } },
+  { href: '/safeguarding', label: { id: 'Kebijakan Ruang Aman', en: 'Safeguarding' } },
   { href: '/publication', label: { id: 'Publikasi', en: 'Publication' } },
 ];
 

@@ -44,7 +44,7 @@ const id: ForestContent = {
   metaDescription: 'Memetakan apa yang masih berdiri, bersama orang-orang yang menjaganya tetap berdiri.',
   hero: {
     eyebrow: 'Forest',
-    title: 'Yang masih berdiri, dan yang belum punya nama.',
+    title: 'Memetakan yang tersisa, berdiri bersama mereka yang menjaganya',
   },
   overview: {
     body: [
@@ -59,38 +59,59 @@ const id: ForestContent = {
     note: 'Sumber: REKAM by the Numbers — Impact Highlights 2025. Nama-nama spesies burung dan satwa liar ditulis sebagaimana tercantum dalam dokumen aslinya.',
     groups: [
       {
-        heading: 'Pengelolaan hutan adat',
+        heading: 'Konservasi Rangkong',
         items: [
-          { label: 'Tanda batas terpasang' },
-          { label: 'Batas wilayah yang dipetakan' },
-          { label: 'Komunitas yang terlibat' },
-          { label: 'Anggota tim teknis yang terlibat' },
-          { label: 'Peserta' },
-          { label: 'Stasiun pemantauan keanekaragaman hayati' },
-          { label: 'Hukum adat yang direvisi' },
-          { label: 'Kelompok pemantau rangkong yang dipimpin perempuan' },
+          { label: 'Patroli' },
+          { label: 'Perjumpaan dengan rangkong di Kalimantan' },
+          { label: 'Cakupan area kerja' },
+          { label: 'Jam pengamatan' },
+          { label: 'Hari pengamatan' },
+          { label: 'Titik pemantauan' },
+          { label: 'Masyarakat yang terlibat' },
+          { label: 'Publikasi' },
+          { label: 'Beasiswa mahasiswa' },
         ],
       },
       {
-        heading: 'Pemantauan akustik pasif',
+        heading: 'Pengelolaan Hutan Adat',
         items: [
-          { label: 'Spesies burung terdokumentasi' },
-          { label: 'Spesies kunci lainnya' },
+          { label: 'Hutan adat' },
+          { label: 'Usulan hutan adat' },
         ],
       },
       {
-        heading: 'Pengakuan hak masyarakat adat',
+        heading: 'Pelatihan Bioekologi Rangkong',
         items: [
-          { label: 'Anggota yang terlibat' },
-          { label: 'Peta zonasi kawasan' },
+          { label: 'UPT KSDAE' },
+          { label: 'Masyarakat terlibat' },
         ],
       },
       {
-        heading: 'Pemantauan sarang & adopsi pohon',
+        heading: 'Keanekaragaman Hayati',
         items: [
-          { label: 'Sarang rangkong yang dipantau' },
-          { label: 'Sarang aktif teridentifikasi' },
-          { label: 'Pohon sarang yang diadopsi' },
+          { label: 'Tipe habitat survei' },
+          { label: 'Hutan yang disurvei' },
+          { label: 'Masyarakat adat yang terlibat' },
+          { label: 'Peneliti muda' },
+          { label: 'Wilayah survei' },
+          { label: 'Jam pengamatan' },
+          { label: 'Spesies yang tercatat' },
+        ],
+      },
+      {
+        heading: 'Perekaman PAM (Bioacoustic)',
+        items: [
+          { label: 'Hari pemantauan' },
+          { label: 'Rekaman' },
+          { label: 'Burung teridentifikasi' },
+        ],
+      },
+      {
+        heading: 'Pemantauan Kamera Jebak',
+        items: [
+          { label: 'Hari pengamatan' },
+          { label: 'Lokasi pengamatan' },
+          { label: 'Jenis satwa liar terdokumentasi' },
         ],
       },
     ],
@@ -118,44 +139,65 @@ const en: ForestContent = {
     note: 'Source: REKAM by the Numbers — Impact Highlights 2025. Bird and wildlife species names are written as they appear in the original document.',
     groups: [
       {
-        heading: 'Customary forest management',
+        heading: 'Hornbill Conservation',
         items: [
-          { label: 'Boundary markers installed' },
-          { label: 'Boundary delineated' },
-          { label: 'Community involved' },
-          { label: 'Technical team members involved' },
-          { label: 'Participants' },
-          { label: 'Biodiversity monitoring stations' },
-          { label: 'Customary law revised' },
-          { label: 'Women-led hornbill monitoring group' },
+          { label: 'Patrol route' },
+          { label: 'Hornbill encounters in Kalimantan' },
+          { label: 'Working area coverage' },
+          { label: 'Observation hours' },
+          { label: 'Observation days' },
+          { label: 'Monitoring points' },
+          { label: 'Community members involved' },
+          { label: 'Publications' },
+          { label: 'Student scholarships' },
         ],
       },
       {
-        heading: 'Passive acoustic monitoring',
+        heading: 'Customary Forest Management',
         items: [
-          { label: 'Bird species documented' },
-          { label: 'Other key species' },
+          { label: 'Customary forest' },
+          { label: 'Proposed customary forest' },
         ],
       },
       {
-        heading: 'Recognition of indigenous community rights',
+        heading: 'Hornbill Bioecology Training',
         items: [
-          { label: 'Members involved' },
-          { label: 'Sites zonation maps' },
+          { label: 'KSDAE technical units' },
+          { label: 'Community members involved' },
         ],
       },
       {
-        heading: 'Nest monitoring & tree adoption',
+        heading: 'Biodiversity',
         items: [
-          { label: 'Hornbill nests monitored' },
-          { label: 'Active nests identified' },
-          { label: 'Nest tree adopted' },
+          { label: 'Habitat types surveyed' },
+          { label: 'Forest surveyed' },
+          { label: 'Indigenous community members involved' },
+          { label: 'Young researchers' },
+          { label: 'Survey coverage' },
+          { label: 'Observation hours' },
+          { label: 'Species recorded' },
+        ],
+      },
+      {
+        heading: 'PAM Recording (Bioacoustic)',
+        items: [
+          { label: 'Monitoring days' },
+          { label: 'Recordings' },
+          { label: 'Birds identified' },
+        ],
+      },
+      {
+        heading: 'Camera Trap Monitoring',
+        items: [
+          { label: 'Observation days' },
+          { label: 'Observation sites' },
+          { label: 'Wildlife species documented' },
         ],
       },
     ],
   },
   postsTitle: 'From the Forest',
-  storyBanner: { eyebrow: 'Papua Pride', title: 'Back to the roots', ctaLabel: 'Learn more' },
+  storyBanner: { eyebrow: 'Papua Pride', title: 'Back to Our Roots', ctaLabel: 'Learn more' },
 };
 
 const CONTENT: Record<Locale, ForestContent> = { id, en };

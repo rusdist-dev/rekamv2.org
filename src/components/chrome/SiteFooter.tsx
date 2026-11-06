@@ -52,7 +52,16 @@ function LinkColumn({
   locale: Locale;
 }) {
   return (
-    <nav aria-label={label}>
+    /* shrink-0 from lg up: these columns are sized by their own content, and
+       without it the flex row shaves a few pixels off each one — enough that
+       the longest id labels ("Panduan Citra REKAM", "Kebijakan Ruang Aman")
+       broke onto a second line at >=1440px, where the gutter hits its clamp
+       ceiling and leaves the row ~18px tighter than it is at 1180. The brand
+       column absorbs the slack instead; its text is capped at 34ch, so it has
+       width to give. Below lg (1000px here, not Tailwind's default) the columns
+       still shrink: the row turns horizontal at md=720px, where their natural
+       widths plus the logo's fixed 182px overflow the available ~662px. */
+    <nav aria-label={label} className="lg:shrink-0">
       {heading && (
         <p className="m-0 font-label text-[0.75rem] font-semibold uppercase tracking-[0.2em] opacity-70">
           {heading}
