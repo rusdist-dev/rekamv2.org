@@ -22,13 +22,20 @@ export function Eyebrow({
   className,
   light = false,
   children,
+  /* Defaults to <p>. /brand-guideline passes 'h2' because there the eyebrow
+     *is* the section's heading — there is no display line under it — and a
+     page whose only heading is its h1 gives a screen reader nothing to
+     navigate by. Everywhere else the eyebrow labels a heading that follows
+     it, which is not itself a heading. */
+  as: Tag = 'p',
 }: {
   className?: string;
   light?: boolean;
   children: React.ReactNode;
+  as?: 'p' | 'h2' | 'h3';
 }) {
   return (
-    <p
+    <Tag
       className={cn(
         /* Letterspacing is the reason this needs a step. At 1.2rem the
            0.22em tracking adds roughly a fifth of a character's width per
@@ -44,7 +51,7 @@ export function Eyebrow({
       )}
     >
       {children}
-    </p>
+    </Tag>
   );
 }
 

@@ -26,11 +26,13 @@ import type { Locale } from '@/i18n/config';
 type InitiativeContent = {
   metaDescription: string;
   /** title: ["Bangga Papua"/"Papua Pride", "Back to the Roots"] — the hero
-   * heading. Both words translate, same as about.heading's copy of it. */
+   * heading. Both words translate. */
   hero: { alt: string; lede: string; title: [string, string] };
-  about: { eyebrow: string; heading: string; paragraphs: [string, string] };
+  about: { heading: string; body: string };
   currentActivity: { eyebrow: string; items: [string, string, string, string] };
   documentation: { eyebrow: string; heading: string };
+  /** Plain strings only — passed to the NatureKeepers client component. */
+  natureKeepers: { eyebrow: string; readMore: string; readLess: string; loadMore: string };
   /** Label under each hero stat figure (STATS in page.tsx). */
   stats: { participants: string };
   gallery: {
@@ -52,12 +54,8 @@ const id: InitiativeContent = {
     title: ['Bangga Papua', 'Kembali ke Akar'],
   },
   about: {
-    eyebrow: 'Tentang acara',
-    heading: 'Bangga Papua: Kembali ke Akar',
-    paragraphs: [
-      'Laut Indonesia menyimpan data yang belum banyak dibaca publik: stok perikanan, kondisi terumbu, dan kawasan konservasi yang terus berubah. Cerita Laut Nusantara mengambil temuan-temuan itu dan mengembalikannya dalam bentuk yang bisa dinikmati — film, percakapan, dan lokakarya.',
-      'Rangkaian ini dirancang untuk pelajar dan mahasiswa, komunitas pesisir, serta siapa pun yang ingin memahami mengapa neraca sumber daya laut penting bagi keputusan sehari-hari.',
-    ],
+    heading: 'Merekam Mereka yang Menjaga Alam',
+    body: 'Di berbagai sudut hutan Indonesia, ada masyarakat yang hidup dan menjaganya. Bagi mereka, hutan bukan sekadar pemandangan, melainkan rumah, sumber pangan, dan warisan yang dirawat turun-temurun. Inisiatif seperti inilah yang kami rekam dan bagikan. Lewat halaman ini, Anda bisa mengenal cerita mereka, dari desa wisata, masyarakat adat, pegiat konservasi, hingga jasa wisata lokal, yang lewat ekowisata mampu memanfaatkan alam tanpa merusaknya.',
   },
   currentActivity: {
     eyebrow: 'Kegiatan terkini',
@@ -71,6 +69,12 @@ const id: InitiativeContent = {
   documentation: {
     eyebrow: 'Dokumentasi',
     heading: 'Dari kegiatan sebelumnya',
+  },
+  natureKeepers: {
+    eyebrow: 'Kenali Para Penjaga Alam',
+    readMore: 'Baca selengkapnya',
+    readLess: 'Tutup',
+    loadMore: 'Muat profil lainnya',
   },
   stats: { participants: 'Peserta' },
   gallery: {
@@ -92,12 +96,8 @@ const en: InitiativeContent = {
     title: ['Papua Pride', 'Back to the Roots'],
   },
   about: {
-    eyebrow: 'About the event',
-    heading: 'Papua Pride: Back to the roots',
-    paragraphs: [
-      'Indonesia’s seas hold data the public rarely gets to read: fish stocks, reef condition, and conservation areas that keep changing. Cerita Laut Nusantara takes those findings and returns them in a form people can actually engage with — film, conversation, and workshops.',
-      'The series is designed for students, coastal communities, and anyone who wants to understand why an ocean resource balance sheet matters for everyday decisions.',
-    ],
+    heading: 'Documenting Those Who Protect Nature',
+    body: "Across Indonesia's forests live communities who depend on them and protect them. To them, the forest is more than scenery: it is home, a source of food, and a heritage passed down through generations. These are the initiatives we document and share. On this page, you can get to know their stories, from tourism villages, Indigenous communities and conservationists to local tour operators, who use ecotourism to benefit from nature without harming it.",
   },
   currentActivity: {
     eyebrow: 'Current activity',
@@ -111,6 +111,12 @@ const en: InitiativeContent = {
   documentation: {
     eyebrow: 'Documentation',
     heading: 'From past activities',
+  },
+  natureKeepers: {
+    eyebrow: 'Meet the Nature Keepers',
+    readMore: 'Read more',
+    readLess: 'Read less',
+    loadMore: 'Load more profile',
   },
   stats: { participants: 'Participants' },
   gallery: {

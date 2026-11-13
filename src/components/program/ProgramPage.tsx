@@ -27,7 +27,7 @@ import bgBanggaPapua from '@/assets/banner/bangga_papua.png';
 /* The three programme pages share this skeleton — hero, overview, by the
  * numbers, news rail, closing — but stay three separate routes rather than one
  * dynamic one. Their content diverges enough to make that worth it: forest has
- * five stat groups, urban three, ocean eleven plus a table. */
+ * six stat groups, urban three, ocean eleven plus a table. */
 
 /* All three programmes ship real photography in place of the procedural
  * scene — a static equirectangular image standing in for footage, same as
@@ -117,13 +117,28 @@ function renderInlineLinks(text: string): React.ReactNode[] {
 // Merges programs.json's per-group figures (icon, value, prefix, unit, table,
 // policy — the magnitude itself doesn't change between languages, only how
 // ByTheNumbers punctuates it) with the localized heading/label/chips from the
-// matching content file, by index. The two arrays are always the same shape
+// matching content file, by index. The two arrays have to be the same shape
 // for a given programme, since the content file mirrors programs.json
 // group-for-group.
+//
+// Nothing enforces that at the type level, and when it drifts the page still
+// renders — it just prints one group's figures under another group's heading.
+// /program/forest shipped that way once: programs.json listed Biodiversity
+// second while the content files listed Customary Forest Management second, so
+// a two-figure heading appeared over seven figures, five of them still in
+// English. Hence the check below, loud in development and silent in
+// production, where half-labelled figures still beat no page at all.
 function localizeGroups(groups: StatGroup[], overrides: ProgramCopyGroup[]): StatGroup[] {
   return groups.map((group, gi) => {
     const override = overrides[gi];
     if (!override) return group;
+    if (process.env.NODE_ENV !== 'production' && override.items.length !== group.items.length) {
+      console.error(
+        `[ProgramPage] stat group ${gi} ("${override.heading}") has ${override.items.length} ` +
+          `labels for ${group.items.length} figures — programs.json and the content file ` +
+          'have drifted out of order.'
+      );
+    }
     return {
       ...group,
       heading: override.heading,

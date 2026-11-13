@@ -66,9 +66,7 @@ type FooterLink = { href: string; label: Record<Locale, string> };
  *  heading — those units are listed on /tentang instead. */
 export const FOOTER_LEGAL: FooterLink[] = [
   { href: '/faq', label: { id: 'FAQ', en: 'FAQ' } },
-  // No standalone /brand-guideline page exists; this label now opens the
-  // complaint-submission section on /safeguarding instead of 404ing.
-  { href: '/safeguarding#lapor', label: { id: 'Panduan Citra REKAM', en: 'Brand Guideline' } },
+  { href: '/brand-guideline', label: { id: 'Panduan Citra REKAM', en: 'Brand Guideline' } },
   { href: '/privacy-policy', label: { id: 'Kebijakan Privasi', en: 'Privacy Policy' } },
   { href: '/terms-of-service', label: { id: 'Syarat & Ketentuan', en: 'Term Of Service' } },
 ];

@@ -65,6 +65,36 @@
           ]
         },
         {
+          "heading": "Customary Forest Management",
+          "headline": false,
+          "items": [
+            {
+              "value": 17000,
+              "unit": "Ha",
+              "label": "Customary forest"
+            },
+            {
+              "value": 18000,
+              "unit": "Ha",
+              "label": "Proposed customary forest"
+            }
+          ]
+        },
+        {
+          "heading": "Hornbill Bioecology Training",
+          "headline": false,
+          "items": [
+            {
+              "value": 4,
+              "label": "KSDAE technical units"
+            },
+            {
+              "value": 56,
+              "label": "Community members involved"
+            }
+          ]
+        },
+        {
           "heading": "Biodiversity",
           "headline": false,
           "columns": 4,
@@ -98,36 +128,6 @@
             {
               "value": 636,
               "label": "Species recorded"
-            }
-          ]
-        },
-        {
-          "heading": "Customary Forest Management",
-          "headline": false,
-          "items": [
-            {
-              "value": 17000,
-              "unit": "Ha",
-              "label": "Customary forest"
-            },
-            {
-              "value": 18000,
-              "unit": "Ha",
-              "label": "Proposed customary forest"
-            }
-          ]
-        },
-        {
-          "heading": "Hornbill Bioecology Training",
-          "headline": false,
-          "items": [
-            {
-              "value": 4,
-              "label": "KSDAE technical units"
-            },
-            {
-              "value": 56,
-              "label": "Community members involved"
             }
           ]
         },

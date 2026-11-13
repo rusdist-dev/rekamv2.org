@@ -9,6 +9,7 @@ import dokumentasiForest1 from '@/assets/dokumentasi-forest1.png';
 import { Icon } from '@/components/chrome/SvgSprite';
 import { SiteShell } from '@/components/chrome/SiteShell';
 import { GalleryFilm } from '@/components/initiative/GalleryFilm';
+import { NatureKeepers } from '@/components/initiative/NatureKeepers';
 import { AppLink } from '@/components/ui/AppLink';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { ButtonLink } from '@/components/ui/button';
@@ -16,7 +17,7 @@ import { Display, Eyebrow, Wrap } from '@/components/ui/primitives';
 import { initiativeContent } from '@/i18n/content/initiative';
 import { pageMetadata, readLocale, type LocaleParams } from '@/i18n/metadata';
 import { t } from '@/i18n/dictionary';
-import { getNews } from '@/lib/content';
+import { getNews, listNews, resolveCover } from '@/lib/content';
 
 const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -48,16 +49,16 @@ const HIGHLIGHTS = [
   { image: initiative3, caption: 'Small Action, Big Impact: How REKAM and LPPOM MUI Are Rethinking Waste.' },
 ];
 
-const DOCUMENTATION_SLUG = 'mencari-sang-arsitek-hutan-papua-melalui-film-in-search-of-the-northern-cassowary';
-
 export default async function InitiativePage({ params }: LocaleParams) {
   const locale = await readLocale(params);
   const copy = initiativeContent(locale);
   const dict = t(locale);
   const article = await getNews(ARTICLE_SLUG);
-  // Real article, real date and excerpt — only the cover is swapped for the
-  // asset provided for this section, since it isn't in the /berita cover set.
-  const doc = await getNews(DOCUMENTATION_SLUG);
+  // Documentation always shows the newest article tagged "forest", so a new
+  // forest post on /berita lands here on its own. Filtered strictly rather
+  // than via listNews({ program }), which falls back to untagged posts.
+  const doc = (await listNews({ locale })).find((p) => p.programs.includes('forest'));
+  const docCover = resolveCover(doc?.cover) ?? dokumentasiForest1;
 
   return (
     <SiteShell>
@@ -106,14 +107,12 @@ export default async function InitiativePage({ params }: LocaleParams) {
       <section style={{ backgroundColor: '#f4f2eb' }} className="py-[clamp(3rem,7vw,6rem)]">
         <Wrap className="grid items-start gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div>
-            <Eyebrow>{copy.about.eyebrow}</Eyebrow>
-            <h2 className="mt-4 mb-0 max-w-[18ch] font-display text-display leading-[1.15] text-green-900">
+            <h2 className="m-0 max-w-[18ch] font-display text-display leading-[1.15] text-green-900">
               {copy.about.heading}
             </h2>
           </div>
           <div>
-            <p className="m-0 text-lede leading-[1.8] text-ink">{copy.about.paragraphs[0]}</p>
-            <p className="mt-6 mb-0 text-lede leading-[1.8] text-ink">{copy.about.paragraphs[1]}</p>
+            <p className="m-0 text-lede leading-[1.8] text-ink">{copy.about.body}</p>
           </div>
         </Wrap>
       </section>
@@ -132,6 +131,8 @@ export default async function InitiativePage({ params }: LocaleParams) {
           </ul>
         </Wrap>
       </section>
+
+      <NatureKeepers locale={locale} labels={copy.natureKeepers} />
 
       <section className="bg-green-700 p-3 sm:p-4">
         <div className="grid gap-3 sm:grid-cols-3 sm:gap-4">
@@ -174,8 +175,11 @@ export default async function InitiativePage({ params }: LocaleParams) {
               <AppLink href={`/berita/${doc.slug}`} className="block no-underline">
                 <span className="block overflow-hidden rounded-sm">
                   <Image
-                    src={dokumentasiForest1}
+                    src={docCover}
                     alt={doc.coverAlt}
+                    width={1200}
+                    height={675}
+                    unoptimized={typeof docCover === 'string'}
                     sizes="(max-width: 500px) 100vw, 26rem"
                     className="block aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                   />
