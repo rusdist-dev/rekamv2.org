@@ -29,6 +29,15 @@ const nextConfig: NextConfig = {
      assets, of which the old site has 16. */
   typedRoutes: false,
 
+  /* /initiative moved under /forest (donor requirement). Permanent redirect so
+     any link already shared keeps landing on the page. */
+  async redirects() {
+    return [
+      { source: '/initiative', destination: '/forest/initiative', permanent: true },
+      { source: '/en/initiative', destination: '/en/forest/initiative', permanent: true },
+    ];
+  },
+
   /* The CMS falls over under concurrent load (src/lib/cms/client.ts has the
      measurements: 100 concurrent detail requests -> 72 failures, mixing 429
      and plain 500). Real concurrent CMS load during `next build` is

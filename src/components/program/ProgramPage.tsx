@@ -60,7 +60,7 @@ const OVERVIEW_BANNER: Partial<Record<Program, { image: string; bgColor?: string
 const STORY_BANNER: Partial<Record<Program, { image: string; ctaHref: string }>> = {
   forest: {
     image: bgBanggaPapua.src,
-    ctaHref: '/initiative',
+    ctaHref: '/forest/initiative',
   },
 };
 

@@ -18,7 +18,10 @@ export const DEFAULT_LOCALE: Locale = 'id';
  * has actually picked a language — read there, and written here by the
  * switcher itself (see LangSwitch in SiteHeader.tsx) so the choice takes
  * effect on the very next request rather than the one after. */
-export const LOCALE_COOKIE = 'nu_locale';
+/* Renamed from `nu_locale`: middleware used to write `id` into that cookie on
+ * every unprefixed visit, so it no longer means "the visitor chose
+ * Indonesian". A fresh name discards those stale values for everyone at once. */
+export const LOCALE_COOKIE = 'rekam_locale';
 
 export const LOCALE_LABEL: Record<Locale, string> = { id: 'ID', en: 'EN' };
 

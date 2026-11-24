@@ -51,11 +51,14 @@ export function middleware(request: NextRequest) {
     return res;
   }
 
+  /* No cookie here. This used to stamp `id` on every unprefixed request, so
+     merely opening any Indonesian deep link (a shared /berita article, the
+     dev server at /forest/initiative) silently opted the visitor out of the
+     English front door from then on. Only a deliberate pick in the language
+     switcher (LangSwitch in SiteHeader.tsx) writes `id` now. */
   const url = request.nextUrl.clone();
   url.pathname = `/${DEFAULT_LOCALE}${pathname === '/' ? '' : pathname}`;
-  const res = NextResponse.rewrite(url);
-  res.cookies.set(LOCALE_COOKIE, DEFAULT_LOCALE, { path: '/', maxAge: COOKIE_MAX_AGE });
-  return res;
+  return NextResponse.rewrite(url);
 }
 
 export const config = {

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { Fragment } from 'react';
 import initiative1 from '@/assets/banner/initiative-1.png';
 import initiative2 from '@/assets/banner/initiative-2.png';
 import initiative3 from '@/assets/banner/initiative-3.png';
@@ -23,7 +22,7 @@ const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long'
 
 export async function generateMetadata({ params }: LocaleParams): Promise<Metadata> {
   const locale = await readLocale(params);
-  return pageMetadata(locale, '/initiative', {
+  return pageMetadata(locale, '/forest/initiative', {
     title: 'Bangga Papua — Back to the Roots',
     description: initiativeContent(locale).metaDescription,
   });
@@ -32,10 +31,13 @@ export async function generateMetadata({ params }: LocaleParams): Promise<Metada
 /* First stop for the forest programme page's "Learn more" — it used to jump
  * straight to the /berita article; now it lands here on a branded initiative
  * hero first, with a link through to the full story rather than duplicating
- * it. Numbers below are the placeholder set from the reference design; swap
- * them for the real participant count once it exists. Label comes from
- * copy.stats.participants (see initiative.ts) since it's translated. */
-const STATS = ['166', '166', '166'];
+ * it. The hero's participant stats (placeholder "166" x3) were removed until
+ * real figures exist; copy.stats.participants is still in initiative.ts. */
+
+/* "Current activity" is hidden, not deleted: its copy (ICRS 2026, Ocean
+ * Accounts) belongs to the Ocean programme, not Bangga Papua. Flip to true
+ * once the section has the right content. */
+const SHOW_CURRENT_ACTIVITY = false;
 
 const ARTICLE_SLUG = 'bangga-papua-hutan-papua-yang-dibangun-oleh-burung';
 
@@ -77,7 +79,7 @@ export default async function InitiativePage({ params }: LocaleParams) {
           <Breadcrumb
             ariaLabel={dict.common.breadcrumb.ariaLabel}
             light
-            items={[{ label: dict.common.breadcrumb.home, href: '/' }, { label: 'Initiative' }]}
+            items={[{ label: dict.common.breadcrumb.home, href: '/' }, { label: 'Forest', href: '/program/forest' }, { label: 'Initiative' }]}
           />
           <Eyebrow light>Initiative</Eyebrow>
           <h1 className="mt-3 mb-0 font-display font-normal leading-[1.08] text-white">
@@ -86,21 +88,6 @@ export default async function InitiativePage({ params }: LocaleParams) {
           </h1>
           <p className="mt-5 mb-0 max-w-[44ch] text-lede leading-[1.6] text-white/88">{copy.hero.lede}</p>
 
-          <div className="mt-[clamp(1.75rem,4vw,2.5rem)] flex flex-wrap items-center gap-8 border-t border-white/25 pt-6">
-            {STATS.map((value, i) => (
-              <Fragment key={i}>
-                {i > 0 && <span aria-hidden="true" className="hidden h-12 w-[3px] bg-yellow sm:block" />}
-                <div>
-                  <p className="m-0 font-display text-[clamp(2.2rem,5vw,3rem)] font-bold leading-none text-white">
-                    {value}
-                  </p>
-                  <p className="mt-1.5 mb-0 font-label text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-white/75">
-                    {copy.stats.participants}
-                  </p>
-                </div>
-              </Fragment>
-            ))}
-          </div>
         </Wrap>
       </section>
 
@@ -121,6 +108,7 @@ export default async function InitiativePage({ params }: LocaleParams) {
           programme (ICRS 2026, Ocean Accounts) rather than Bangga Papua —
           flagged for whoever owns the copy to review, but that's a content
           accuracy question, not a reason to leave the section untranslated. */}
+      {SHOW_CURRENT_ACTIVITY && (
       <section className="bg-white py-[clamp(3rem,7vw,6rem)]">
         <Wrap>
           <Eyebrow>{copy.currentActivity.eyebrow}</Eyebrow>
@@ -131,6 +119,7 @@ export default async function InitiativePage({ params }: LocaleParams) {
           </ul>
         </Wrap>
       </section>
+      )}
 
       <NatureKeepers locale={locale} labels={copy.natureKeepers} />
 

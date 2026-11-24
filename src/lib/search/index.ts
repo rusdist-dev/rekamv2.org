@@ -107,7 +107,7 @@ const PAGES: PageSource[] = [
   { href: '/event', label: (l) => dict(l).nav_items.event, content: eventContent },
   { href: '/donasi', label: (l) => dict(l).nav_items.donasi, content: donasiContent },
   { href: '/merch', label: (l) => dict(l).nav_items.merch, content: merchContent },
-  { href: '/initiative', label: (l) => initiativeContent(l).hero.title.join(' '), content: initiativeContent },
+  { href: '/forest/initiative', label: (l) => initiativeContent(l).hero.title.join(' '), content: initiativeContent },
   { href: '/publication', label: (l) => (l === 'en' ? 'Publication' : 'Publikasi'), content: publicationContent },
   { href: '/faq', label: () => 'FAQ', content: faqContent },
   /* "Safeguarding" stays English in both locales — the standing note on that
